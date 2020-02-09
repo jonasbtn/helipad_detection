@@ -1,0 +1,154 @@
+Dissertation requierement:
+Tensorflow-gpu==1.13.1
+keras==2.2.5
+scikit-image
+Mask_RCNN
+imgaug
+opencv==3.3.1
+
+install cuda and cudnn
+https://www.tensorflow.org/install/gpu
+
+IP 1080 :
+172.27.140.180
+IP 2080 :
+ssh aisg@172.17.139.11
+
+ ssh -N -f -L localhost:16006:localhost:6006 aisg@172.27.140.96
+
+  ssh -N -f -L localhost:16006:localhost:6006 aisg@172.17.139.115
+
+ tensorboard --logdir <path> --port 6006
+ http://localhost:16006/
+
+Documents/Jonas/Helipad/model/helipad_cfg20191126T0142/
+
+# What I did to install the drivers
+install linux with nomodeset on
+
+sudo vi /etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT=”quiet splash nomodeset”
+sudo update-grub2
+
+sudo vi /etc/gdm3/custom.conf
+WaylandEnable=false
+
+sudo apt install gcc
+sudo apt install build-essential
+gcc --version
+
+Download latest driver from nvidia
+
+chmod +x NVIDIA-Linux-x86_64–410.57.run
+sudo ./NVIDIA-Linux-x86_64–410.57.run --no-x-check
+
+Tried with 418.67
+https://www.nvidia.com/Download/driverResults.aspx/142958/en-us
+
+
+sudo nano /etc/default/grub
+nouveau.modeset=0
+
+sudo apt-get install nvidia-driver-435
+sudo apt-get install slim
+
+
+26T0142 / epoch 90 is best
+
+TODO
+
+Create RSA Key to rsync without public password
+
+Build bash script to synchronize local dataset with remote
+Build bash script to synchronize remote dataset with local
+Build bash script to synchronize local script with remote
+Build bash script to synchronize mrcnn library
+
+Get how many augmented image were generated:
+ls -lR ./Folder_aug* | grep ^- | wc -l
+
+
+rsync -r -av -P  -e "ssh -i ~/.ssh/id_gpu_enst" \
+jbitoun@gpu.enst.fr:Project/Dissertation/model/\
+helipad_cfg20191122T0344/mask_rcnn_helipad_cfg_0064.h5\
+ /mnt/c/Users/jonas/Desktop/Helipad/model/
+
+
+Create RSA Key
+
+ssh-keygen
+
+ssh-keygen -t rsa -C "jbitoun@gpu.enst.fr"
+
+ssh-copy-id -i /path/to/key destination
+
+ssh-copy-id -i ~/.ssh/id_gpu_enst jbitoun@gpu.enst.fr
+
+
+Setup Remote Machine :
+
+1. Create virtual environnement with python 3 and activate it
+pip3 install -U pip virtualenv
+virtualenv --system-site-packages -p python3 ./tensorflow-gpu_1.13
+source ./tensorflow-gpu/bin/activate
+
+2. Install tensorflow keras and everything with pip
+pip install --upgrade tensorflow
+  Verify Install
+python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"
+
+pip install keras, pandas
+
+3. Synchronize the files :
+cd /mnt/c/Users/jonas/Google\ Drive/NUS/
+rsync -r -av Dissertation/src/*.py jbitoun@gpu.enst.fr:Project/Dissertation/src/
+
+rsync -r -av -e "ssh -i ~/.ssh/id_gpu_enst" Dissertation/src/*.py jbitoun@gpu.enst.fr:Project/Dissertation/src/
+
+
+cd /mnt/c/Users/jonas/Desktop/Helipad/
+rsync -av -P Helipad_DataBase/* jbitoun@gpu.enst.fr:Project/Dissertation/Helipad_DataBase/
+rsync -av -P Helipad_DataBase_meta/* jbitoun@gpu.enst.fr:Project/Dissertation/Helipad_DataBase_meta/
+
+cd /mnt/c/Users/jonas/Desktop/
+rsync -av -P Mask_RCNN-master/* jbitoun@gpu.enst.fr:Project/Dissertation/Mask_RCNN-master/
+
+ssh-copy-id -i ~/.ssh/id_gpu_enst jbitoun@gpu.enst.fr
+
+
+
+
+Aug v1 :
+
+def policy_v3():
+  """"Additional policy that performs well on object detection."""
+  # Each tuple is an augmentation operation of the form
+  # (operation, probability, magnitude). Each element in policy is a
+  # sub-policy that will be applied sequentially on the image.
+  policy = [
+      # [('Posterize', 0.8, 2), ('TranslateX_BBox', 1.0, 8)],
+      [('Posterize', 0.8, 2)], # Added
+      # [('BBox_Cutout', 0.2, 10), ('Sharpness', 1.0, 8)],
+      [('Sharpness', 1.0, 8)], # Added
+      # [('Rotate_BBox', 0.6, 8), ('Rotate_BBox', 0.8, 10)],
+      [('Equalize', 0.8, 10), ('AutoContrast', 0.2, 10)],
+      # [('SolarizeAdd', 0.2, 2), ('TranslateY_BBox', 0.2, 8)],
+      [('SolarizeAdd', 0.2, 2)], # Added
+      [('Sharpness', 0.0, 2), ('Color', 0.4, 8)],
+      # [('Equalize', 1.0, 8), ('TranslateY_BBox', 1.0, 8)]
+      [('Equalize', 1.0, 8)], # Added
+      # [('Posterize', 0.6, 2), ('Rotate_BBox', 0.0, 10)],
+      [('Posterize', 0.6, 2)],
+      # [('AutoContrast', 0.6, 0), ('Rotate_BBox', 1.0, 6)],
+      [('AutoContrast', 0.6, 0)],
+      [('Equalize', 0.0, 4), ('Cutout', 0.8, 10)],
+      # [('Brightness', 1.0, 2), ('TranslateY_BBox', 1.0, 6)]
+      [('Brightness', 1.0, 2)], # Added
+      # [('Contrast', 0.0, 2), ('ShearY_BBox', 0.8, 0)],
+      [('Contrast', 0.0, 2)], # Added
+      [('AutoContrast', 0.8, 10), ('Contrast', 0.2, 10)],
+      # [('Rotate_BBox', 1.0, 10), ('Cutout', 1.0, 10)],
+      # [('Cutout', 1.0, 10)], # Added
+      [('SolarizeAdd', 0.8, 6), ('Equalize', 0.8, 8)],
+  ]
+  return policy

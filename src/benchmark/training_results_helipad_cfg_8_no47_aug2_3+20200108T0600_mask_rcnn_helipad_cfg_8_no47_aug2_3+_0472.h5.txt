@@ -1,0 +1,1 @@
+Train mAP: 0.942Test mAP: 0.954
