@@ -5,8 +5,8 @@ import json
 from tqdm import tqdm as tqdm
 from sklearn.externals import joblib
 
-from src.knn.knn_build_database import KNNBuildDatabase
-from src.knn.knn_training import KNNTraining
+from knn_build_database import KNNBuildDatabase
+from knn_training import KNNTraining
 
 
 class KNNPredict:
@@ -20,9 +20,11 @@ class KNNPredict:
         self.mode = mode
         self.knn = joblib.load(knn_weights_filename)
 
-        self.knn_build_database = KNNBuildDatabase(self.image_folder, self.meta_folder, self.model_number, train=False)
+        self.knn_build_database = KNNBuildDatabase(self.image_folder, self.meta_folder, self.model_number, train=False, TMS=True)
+        self.knn_build_database.run()
         self.image_id = self.knn_build_database.image_id
         self.X = self.knn_build_database.X
+        print(len(self.X))
 
         if mode == "raw_pixel":
             self.features = KNNTraining.dataset_to_matrix_features(self.X, size=size)
@@ -30,6 +32,8 @@ class KNNPredict:
             self.features = KNNTraining.dataset_to_matrix_histogram(self.X, bins=bins)
         else:
             raise ValueError("mode is \'raw_pixel\' or \'histogram\'")
+
+        print(self.features.shape)
 
     def predict(self):
         self.y_predict = self.knn.predict(self.features)
@@ -60,6 +64,18 @@ class KNNPredict:
 
             with open(meta_path, 'w') as f:
                 json.dump(meta, f, indent=4, sort_keys=True)
+
+
+if __name__ == "__main__":
+
+    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat"
+    model_number = 7
+    knn_weights_filename = "knn_histogram_2.pkl"
+
+    knn_predict = KNNPredict(image_folder, meta_folder, model_number, knn_weights_filename)
+
+    knn_predict.predict()
 
 
 

@@ -34,7 +34,6 @@ class KNNBuildDatabase:
 
         for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
             for file in files:
-
                 with open(os.path.join(subdir, file), 'r') as f:
                     meta = json.load(f)
 
