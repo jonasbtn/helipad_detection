@@ -78,7 +78,7 @@ if __name__ == "__main__":
     knn_predict.predict()
 
 
-
+# ip : 172.17.136.194
 
 
 
