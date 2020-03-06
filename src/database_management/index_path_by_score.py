@@ -56,4 +56,6 @@ if __name__ == "__main__":
 
     index_path_score.run()
 
+    index_path_score.write_output()
+
 
