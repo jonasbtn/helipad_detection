@@ -1,3 +1,5 @@
+##
+
 from src.knn.knn_build_database import KNNBuildDatabase
 
 image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
@@ -8,6 +10,7 @@ knn_build_database = KNNBuildDatabase(image_folder, meta_folder, model_number)
 
 knn_build_database.run()
 
+##
 
 from src.knn.knn_training import KNNTraining
 

@@ -4,6 +4,7 @@ import numpy as np
 from tqdm import tqdm as tqdm
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
 import joblib
 
 
@@ -13,7 +14,9 @@ class KNNTraining:
         self.nb_neighbors = nb_neighbors
         self.nb_jobs = nb_jobs
         self.test_size = test_size
-        self.knn = KNeighborsClassifier(n_neighbors=nb_neighbors, n_jobs=nb_jobs)
+
+        # self.model = KNeighborsClassifier(n_neighbors=nb_neighbors, n_jobs=nb_jobs)
+        self.model = RandomForestClassifier(n_estimators=100)
 
     @staticmethod
     def convert_label_to_binary(y):
@@ -92,14 +95,15 @@ class KNNTraining:
         (self.trainFeat, self.testFeat, self.trainLabels, self.testLabels) = train_test_split(
             features, y, test_size=self.test_size, random_state=42)
 
-        self.knn.fit(self.trainFeat, self.trainLabels)
+        self.model.fit(self.trainFeat, self.trainLabels)
 
     def score(self):
-        acc = self.knn.score(self.testFeat, self.testLabels)
+        acc = self.model.score(self.testFeat, self.testLabels)
         print("[INFO] histogram accuracy: {:.2f}%".format(acc * 100))
 
     def save(self):
-        _ = joblib.dump(self.knn, "knn_{}_{}.pkl".format(self.mode, self.nb_neighbors), compress=9)
+        # _ = joblib.dump(self.model, "knn_{}_{}.pkl".format(self.mode, self.nb_neighbors), compress=9)
+        _ = joblib.dump(self.model, "random_forest_e100.pkl".format(self.mode, self.nb_neighbors), compress=9)
 
 
 
