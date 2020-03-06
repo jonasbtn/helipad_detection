@@ -15,8 +15,8 @@ class KNNTraining:
         self.nb_jobs = nb_jobs
         self.test_size = test_size
 
-        # self.model = KNeighborsClassifier(n_neighbors=nb_neighbors, n_jobs=nb_jobs)
-        self.model = RandomForestClassifier(n_estimators=100)
+        self.model = KNeighborsClassifier(n_neighbors=nb_neighbors, n_jobs=nb_jobs)
+        # self.model = RandomForestClassifier(n_estimators=100)
 
     @staticmethod
     def convert_label_to_binary(y):
@@ -102,8 +102,8 @@ class KNNTraining:
         print("[INFO] histogram accuracy: {:.2f}%".format(acc * 100))
 
     def save(self):
-        # _ = joblib.dump(self.model, "knn_{}_{}.pkl".format(self.mode, self.nb_neighbors), compress=9)
-        _ = joblib.dump(self.model, "random_forest_e100.pkl".format(self.mode, self.nb_neighbors), compress=9)
+        _ = joblib.dump(self.model, "knn_{}_{}.pkl".format(self.mode, self.nb_neighbors), compress=9)
+        # _ = joblib.dump(self.model, "random_forest_e100.pkl".format(self.mode, self.nb_neighbors), compress=9)
 
 
 
