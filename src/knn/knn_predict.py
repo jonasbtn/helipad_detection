@@ -11,7 +11,8 @@ from src.knn.knn_training import KNNTraining
 
 class KNNPredict:
 
-    def __init__(self, image_folder, meta_folder, index_path_filename, model_number, knn_weights_filename,
+    def __init__(self, image_folder, meta_folder, index_path_filename,
+                 model_number, knn_weights_filename, model,
                  mode="histogram", size=(64, 64), bins=(8, 8, 8)):
 
         self.image_folder = image_folder
@@ -19,6 +20,7 @@ class KNNPredict:
         self.index_path_filename = index_path_filename
         self.model_number = model_number
         self.mode = mode
+        self.model_name = model
         self.model = joblib.load(knn_weights_filename)
 
         self.X = []
@@ -98,10 +100,10 @@ class KNNPredict:
             elif f'model_{self.model_number}' not in meta["predicted"]:
                 continue
             else:
-                if "random_forest" in meta["predicted"][f'model_{self.model_number}']:
-                    meta["predicted"][f'model_{self.model_number}']["random_forest"].append(int(y_pred))
+                if self.model_name in meta["predicted"][f'model_{self.model_number}']:
+                    meta["predicted"][f'model_{self.model_number}'][self.model_name].append(int(y_pred))
                 else:
-                    meta["predicted"][f'model_{self.model_number}']["random_forest"] = [int(y_pred)]
+                    meta["predicted"][f'model_{self.model_number}'][self.model_name] = [int(y_pred)]
 
             with open(meta_path, 'w') as f:
                 json.dump(meta, f, indent=4, sort_keys=True)
@@ -116,7 +118,14 @@ if __name__ == "__main__":
     knn_weights_filename = "knn_histogram_2.pkl"
     random_forest_weights_filename = "random_forest_e100.pkl"
 
-    knn_predict = KNNPredict(image_folder, meta_folder, index_path_score_filename, model_number, random_forest_weights_filename)
+    model = "knn"
+
+    knn_predict = KNNPredict(image_folder,
+                             meta_folder,
+                             index_path_score_filename,
+                             model_number,
+                             knn_weights_filename,
+                             model)
 
     knn_predict.predict()
 
