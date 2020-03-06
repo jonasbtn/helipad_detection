@@ -118,7 +118,7 @@ class KNNBuildDatabase:
                                 if "category" in groundtruth:
                                     target = self.convert_cat_str_to_int(groundtruth["category"])
 
-                        if target == -1:
+                        if target == -1 or target == 4 or target == 7:
                             continue
                         else:
                             self.y.append(target)
