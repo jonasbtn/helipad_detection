@@ -5,8 +5,8 @@ import json
 from tqdm import tqdm as tqdm
 import joblib
 
-from knn_build_database import KNNBuildDatabase
-from knn_training import KNNTraining
+from src.knn.knn_build_database import KNNBuildDatabase
+from src.knn.knn_training import KNNTraining
 
 
 class KNNPredict:
@@ -19,7 +19,7 @@ class KNNPredict:
         self.index_path_filename = index_path_filename
         self.model_number = model_number
         self.mode = mode
-        self.knn = joblib.load(knn_weights_filename)
+        self.model = joblib.load(knn_weights_filename)
 
         self.X = []
         self.image_id = []
@@ -41,18 +41,22 @@ class KNNPredict:
 
         print(self.features.shape)
 
+    @staticmethod
+    def get_meta_info_from_line(line):
+        if "\n" in line:
+            meta_filename = line[:len(line) - 1]
+        else:
+            meta_filename = line
+        meta_info = os.path.splitext(meta_filename)[0].split('_')
+        zoom = meta_info[1]
+        xtile = meta_info[2]
+        ytile = meta_info[3]
+        return zoom, xtile, ytile, meta_filename
+
     def load_image_to_predict(self):
         with open(self.index_path_filename, 'r') as f:
             for line in f:
-                print(line)
-                if "\n" in line:
-                    meta_filename = line[:len(line)-1]
-                else:
-                    meta_filename = line
-                meta_info = os.path.splitext(meta_filename)[0].split('_')
-                zoom = meta_info[1]
-                xtile = meta_info[2]
-                ytile = meta_info[3]
+                zoom, xtile, ytile, meta_filename = self.get_meta_info_from_line(line)
                 image_path = os.path.join(self.image_folder, zoom, xtile, str(ytile)+".jpg")
                 meta_path = os.path.join(self.meta_folder, zoom, xtile, meta_filename)
                 image = cv2.imread(image_path)
@@ -70,7 +74,7 @@ class KNNPredict:
                     self.image_id.append(os.path.splitext(meta_filename)[0])
 
     def predict(self):
-        self.y_predict = self.knn.predict(self.features)
+        self.y_predict = self.model.predict(self.features)
 
     def write_prediction_to_meta(self):
 
@@ -94,11 +98,11 @@ class KNNPredict:
             elif f'model_{self.model_number}' not in meta["predicted"]:
                 continue
             else:
-                if "knn" in meta["predicted"][f'model_{self.model_number}']:
-                    meta["predicted"][f'model_{self.model_number}']["knn"].append(y_pred)
+                if "random_forest" in meta["predicted"][f'model_{self.model_number}']:
+                    meta["predicted"][f'model_{self.model_number}']["random_forest"].append(int(y_pred))
                 else:
-                    meta["predicted"][f'model_{self.model_number}']["knn"] = [y_pred]
-            print(meta)
+                    meta["predicted"][f'model_{self.model_number}']["random_forest"] = [int(y_pred)]
+
             with open(meta_path, 'w') as f:
                 json.dump(meta, f, indent=4, sort_keys=True)
 
@@ -110,8 +114,9 @@ if __name__ == "__main__":
     index_path_score_filename = "C:\\Users\\AISG\\Documents\\Jonas\\helipad_detection\\src\\database_management\\helipad_path_over_0.999.txt"
     model_number = 7
     knn_weights_filename = "knn_histogram_2.pkl"
+    random_forest_weights_filename = "random_forest_e100.pkl"
 
-    knn_predict = KNNPredict(image_folder, meta_folder, index_path_score_filename, model_number, knn_weights_filename)
+    knn_predict = KNNPredict(image_folder, meta_folder, index_path_score_filename, model_number, random_forest_weights_filename)
 
     knn_predict.predict()
 

@@ -1,18 +1,40 @@
 import os
 import json
+from tqdm import tqdm as tqdm
+
+from src.knn.knn_predict import KNNPredict
 
 
 class BuildPlacemarks:
 
-    def __init__(self, meta_folder, model_number, threshold):
+    def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None):
 
         self.meta_folder = meta_folder
         self.model_number = model_number
         self.threshold = threshold
+        self.knn = knn
+        self.index_path = index_path
 
-        self.output_name = "placemarks_m{}_t{}.kml".format(model_number, threshold)
+        self.output_name = "placemarks_m{}_t{}_random_forest{}.kml".format(model_number, threshold, int(knn))
+
+    def build_target_file(self):
+        target = []
+        if self.index_path:
+            with open(self.index_path, 'r') as f:
+                for line in f:
+                    zoom, xtile, ytile, meta_filename = KNNPredict.get_meta_info_from_line(line)
+                    meta_path = os.path.join(self.meta_folder, zoom, xtile, meta_filename)
+                    target.append(meta_path)
+        else:
+            for subdirs, dirs, files in os.walk(self.meta_folder, topdown=True):
+                for file in files:
+                    filepath = os.path.join(subdirs, file)
+                    target.append(filepath)
+        return target
 
     def run(self):
+
+        target_path = self.build_target_file()
 
         with open(self.output_name, 'w') as f:
 
@@ -30,46 +52,53 @@ class BuildPlacemarks:
 
             i = 0
 
-            for subdirs, dirs, files in os.walk(self.meta_folder, topdown=True):
-                for file in files:
-                    filepath = os.path.join(subdirs, file)
-                    with open(filepath, 'r') as j:
-                        meta = json.load(j)
-                    if "predicted" not in meta:
-                        continue
-                    key = "model_{}".format(self.model_number)
-                    if key not in meta["predicted"]:
-                        continue
+            for i in tqdm(range(len(target_path))):
+                filepath = target_path[i]
 
-                    lat_long_centers = meta["predicted"][key]["coordinates"]["center"]
-                    scores = meta["predicted"][key]["score"]
+                with open(filepath, 'r') as j:
+                    meta = json.load(j)
+                if "predicted" not in meta:
+                    continue
+                key = "model_{}".format(self.model_number)
+                if key not in meta["predicted"]:
+                    continue
 
-                    for k in range(len(lat_long_centers)):
-                        lat_long = lat_long_centers[k]
-                        if scores[k] > self.threshold:
-                            f.write('\t\t\t<Placemark>\n')
-                            f.write('\t\t\t\t<name>Placemark {}</name>\n'.format(i))
-                            f.write('\t\t\t\t<description>1/7/2020 2:18:10 PM</description>\n')
-                            f.write('\t\t\t\t<Style>\n')
-                            f.write('\t\t\t\t\t<LabelStyle>\n')
-                            f.write('\t\t\t\t\t\t<color>A600FFFF</color>\n')
-                            f.write('\t\t\t\t\t\t<scale>1</scale>\n')
-                            f.write('\t\t\t\t\t</LabelStyle>\n')
-                            f.write('\t\t\t\t\t<IconStyle>\n')
-                            f.write('\t\t\t\t\t\t<scale>0.5</scale>\n')
-                            f.write('\t\t\t\t\t\t<Icon>\n')
-                            f.write('\t\t\t\t\t\t\t<href>files/1.png</href>\n')
-                            f.write('\t\t\t\t\t\t</Icon>\n')
-                            f.write('\t\t\t\t\t\t<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>\n')
-                            f.write('\t\t\t\t\t</IconStyle>\n')
-                            f.write('\t\t\t\t</Style>\n')
-                            f.write('\t\t\t\t<Point>\n')
-                            f.write('\t\t\t\t\t<extrude>1</extrude>\n')
-                            f.write('\t\t\t\t\t<coordinates>{},{},0 </coordinates>\n'.format(lat_long[1], lat_long[0]))
-                            f.write('\t\t\t\t</Point>\n')
-                            f.write('\t\t\t</Placemark>\n')
+                lat_long_centers = meta["predicted"][key]["coordinates"]["center"]
+                scores = meta["predicted"][key]["score"]
 
-                        i += 1
+                for k in range(len(lat_long_centers)):
+                    lat_long = lat_long_centers[k]
+                    if scores[k] > self.threshold:
+                        if self.knn:
+                            if "random_forest" in meta["predicted"][key]:
+                                knn = meta["predicted"][key]["random_forest"]
+                                if knn[k] == 0:
+                                    continue
+                            else:
+                                continue
+                        f.write('\t\t\t<Placemark>\n')
+                        f.write('\t\t\t\t<name>Placemark {}</name>\n'.format(i))
+                        f.write('\t\t\t\t<description>1/7/2020 2:18:10 PM</description>\n')
+                        f.write('\t\t\t\t<Style>\n')
+                        f.write('\t\t\t\t\t<LabelStyle>\n')
+                        f.write('\t\t\t\t\t\t<color>A600FFFF</color>\n')
+                        f.write('\t\t\t\t\t\t<scale>1</scale>\n')
+                        f.write('\t\t\t\t\t</LabelStyle>\n')
+                        f.write('\t\t\t\t\t<IconStyle>\n')
+                        f.write('\t\t\t\t\t\t<scale>0.5</scale>\n')
+                        f.write('\t\t\t\t\t\t<Icon>\n')
+                        f.write('\t\t\t\t\t\t\t<href>files/1.png</href>\n')
+                        f.write('\t\t\t\t\t\t</Icon>\n')
+                        f.write('\t\t\t\t\t\t<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>\n')
+                        f.write('\t\t\t\t\t</IconStyle>\n')
+                        f.write('\t\t\t\t</Style>\n')
+                        f.write('\t\t\t\t<Point>\n')
+                        f.write('\t\t\t\t\t<extrude>1</extrude>\n')
+                        f.write('\t\t\t\t\t<coordinates>{},{},0 </coordinates>\n'.format(lat_long[1], lat_long[0]))
+                        f.write('\t\t\t\t</Point>\n')
+                        f.write('\t\t\t</Placemark>\n')
+
+                    i += 1
 
             f.write('\t\t</Folder>\n')
             f.write('\t</Document>\n')
@@ -80,12 +109,15 @@ class BuildPlacemarks:
 
 if __name__ == "__main__":
 
-    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\"
     model_number = 7
-    threshold = 0.9999
+    threshold = 0.999
+    index_path = "../database_management/helipad_path_over_0.999.txt"
 
     build_placemarks = BuildPlacemarks(meta_folder,
                                        model_number,
-                                       threshold)
+                                       threshold,
+                                       knn=True,
+                                       index_path=index_path)
 
     build_placemarks.run()
