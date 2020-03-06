@@ -4,7 +4,7 @@ import numpy as np
 from tqdm import tqdm as tqdm
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.externals import joblib
+import joblib
 
 
 class KNNTraining:
@@ -99,7 +99,7 @@ class KNNTraining:
         print("[INFO] histogram accuracy: {:.2f}%".format(acc * 100))
 
     def save(self):
-        _ = joblib.dump(self.knn, "src/knn/knn_{}_{}.pkl".format(self.mode, self.nb_neighbors), compress=9)
+        _ = joblib.dump(self.knn, "knn_{}_{}.pkl".format(self.mode, self.nb_neighbors), compress=9)
 
 
 
