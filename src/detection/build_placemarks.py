@@ -7,15 +7,16 @@ from src.knn.knn_predict import KNNPredict
 
 class BuildPlacemarks:
 
-    def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None):
+    def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None):
 
         self.meta_folder = meta_folder
         self.model_number = model_number
         self.threshold = threshold
         self.knn = knn
+        self.model_name = model_name
         self.index_path = index_path
 
-        self.output_name = "placemarks_m{}_t{}_random_forest{}.kml".format(model_number, threshold, int(knn))
+        self.output_name = "placemarks_m{}_t{}_{}.kml".format(model_number, threshold, model_name)
 
     def build_target_file(self):
         target = []
@@ -70,8 +71,8 @@ class BuildPlacemarks:
                     lat_long = lat_long_centers[k]
                     if scores[k] > self.threshold:
                         if self.knn:
-                            if "random_forest" in meta["predicted"][key]:
-                                knn = meta["predicted"][key]["random_forest"]
+                            if self.model_name in meta["predicted"][key]:
+                                knn = meta["predicted"][key][self.model_name]
                                 if knn[k] == 0:
                                     continue
                             else:
@@ -118,6 +119,7 @@ if __name__ == "__main__":
                                        model_number,
                                        threshold,
                                        knn=True,
+                                       model_name="random_forest",
                                        index_path=index_path)
 
     build_placemarks.run()
