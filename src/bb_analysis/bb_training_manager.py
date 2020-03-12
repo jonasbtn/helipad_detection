@@ -1,5 +1,7 @@
 import os
 import numpy as np
+from matplotlib import pyplot
+import sys
 
 from keras.utils import to_categorical
 from keras.models import Sequential
@@ -20,9 +22,9 @@ class BBTrainingManager:
         self.datagen = ImageDataGenerator(rescale=1.0/255.0)
 
         self.train_it = self.datagen.flow_from_directory(os.path.join(self.image_folder, "train"),
-                                                    class_mode='binary', batch_size=64, target_size=(32,32))
+                                                    class_mode='binary', batch_size=128, target_size=(32,32))
         self.test_it = self.datagen.flow_from_directory(os.path.join(self.image_folder, "test"),
-                                                         class_mode='binary', batch_size=64, target_size=(32, 32))
+                                                         class_mode='binary', batch_size=128, target_size=(32, 32))
 
         self.model = self.define_model()
 
@@ -53,6 +55,28 @@ class BBTrainingManager:
         # evaluate model
         _, acc = self.model.evaluate_generator(self.test_it, steps=len(self.test_it), verbose=0)
         print('> %.3f' % (acc * 100.0))
+
+    def plot(self):
+        # plot diagnostic learning curves
+        def summarize_diagnostics(history):
+            # plot loss
+            pyplot.subplot(211)
+            pyplot.title('Cross Entropy Loss')
+            pyplot.plot(history.history['loss'], color='blue', label='train')
+            pyplot.plot(history.history['val_loss'], color='orange', label='test')
+            # plot accuracy
+            pyplot.subplot(212)
+            pyplot.title('Classification Accuracy')
+            pyplot.plot(history.history['accuracy'], color='blue', label='train')
+            pyplot.plot(history.history['val_accuracy'], color='orange', label='test')
+            # save plot to file
+            # filename = sys.argv[0].split('/')[-1]
+            pyplot.savefig('plot.png')
+            pyplot.close()
+
+    def save(self):
+        # save model
+        self.model.save('final_model.h5')
 
 
 if __name__ == "__main__":
