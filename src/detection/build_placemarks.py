@@ -119,7 +119,7 @@ if __name__ == "__main__":
                                        model_number,
                                        threshold,
                                        knn=True,
-                                       model_name="random_forest",
+                                       model_name="cnn_validation",
                                        index_path=index_path)
 
     build_placemarks.run()
