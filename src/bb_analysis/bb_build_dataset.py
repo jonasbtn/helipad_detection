@@ -41,7 +41,6 @@ class BBBuildDataset:
                     xtile = image_info[2]
                     ytile = image_info[3]
                     image_path = os.path.join(self.image_folder,
-                                              zoom,
                                               xtile,
                                               str(ytile)+".jpg")
                 target_files.append([image_path, meta_path])
@@ -93,10 +92,10 @@ class BBBuildDataset:
         :param box_id:
         :return:
         """
-        info = os.path.split(image_path)
         ytile = os.path.splitext(os.path.basename(image_path))[0]
-        xtile = info[len(info)-2]
-        zoom = info[len(info)-3]
+        xtile = os.path.basename(os.path.dirname(image_path))
+        zoom = os.path.basename(os.path.dirname(os.path.dirname(image_path)))
+
         if not os.path.isdir(self.output_folder):
             os.mkdir(self.output_folder)
         elif not os.path.isdir(os.path.join(self.output_folder,
@@ -182,6 +181,10 @@ class BBBuildDataset:
             f.close()
 
             image = cv2.imread(image_path)
+
+            if image is None:
+                print(image_path)
+                continue
 
             if not self.tms and self.groundtruth_bb and "groundtruth" not in meta:
                 continue
@@ -274,14 +277,36 @@ class BBBuildDataset:
 
 
 if __name__ == "__main__":
-    image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
-    meta_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
+    # image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
+    # meta_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
+    # model_number = 7
+    # score_threshold = 0.0
+    # iou_threshold = 0.5
+    # output_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Detected_Boxes"
+    # tms = False
+    # groundtruth_bb = True
+    #
+    # bb_build_dataset = BBBuildDataset(image_folder=image_folder,
+    #                                   meta_folder=meta_folder,
+    #                                   model_number=model_number,
+    #                                   score_threshold=score_threshold,
+    #                                   iou_threshold=iou_threshold,
+    #                                   output_folder=output_folder,
+    #                                   tms=tms,
+    #                                   groundtruth_bb=groundtruth_bb)
+    #
+    # bb_build_dataset.run()
+    #
+    # #TODO: Include Categories (skip 4 and 7 for example)
+
+    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\19"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\19"
     model_number = 7
     score_threshold = 0.0
     iou_threshold = 0.5
-    output_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Detected_Boxes"
-    tms = False
-    groundtruth_bb = True
+    output_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Detected_Boxes"
+    tms = True
+    groundtruth_bb = False
 
     bb_build_dataset = BBBuildDataset(image_folder=image_folder,
                                       meta_folder=meta_folder,
@@ -293,5 +318,3 @@ if __name__ == "__main__":
                                       groundtruth_bb=groundtruth_bb)
 
     bb_build_dataset.run()
-
-    #TODO: Include Categories (skip 4 and 7 for example)
