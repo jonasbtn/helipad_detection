@@ -49,7 +49,7 @@ class BBTrainingManager:
         # fit model
         self.history = self.model.fit_generator(self.train_it, steps_per_epoch=len(self.train_it),
                                       validation_data=self.test_it, validation_steps=len(self.test_it),
-                                      epochs=20, verbose=1)
+                                      epochs=300, verbose=1)
 
     def evaluate(self):
         # evaluate model
@@ -74,6 +74,8 @@ class BBTrainingManager:
             pyplot.savefig('plot.png')
             pyplot.close()
 
+        summarize_diagnostics(self.history)
+
     def save(self):
         # save model
         self.model.save('final_model.h5')
@@ -81,10 +83,16 @@ class BBTrainingManager:
 
 if __name__ == "__main__":
 
-    image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Detected_Boxes_2\\model_7_0.0"
+    # image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Detected_Boxes_2\\model_7_0.0"
+
+    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Detected_Boxes_2\\model_7_0.0"
 
     bbtraining_manager = BBTrainingManager(image_folder)
 
     bbtraining_manager.run()
 
     bbtraining_manager.evaluate()
+
+    bbtraining_manager.plot()
+
+    bbtraining_manager.save()
