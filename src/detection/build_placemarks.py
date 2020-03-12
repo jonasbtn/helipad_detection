@@ -7,7 +7,8 @@ from src.knn.knn_predict import KNNPredict
 
 class BuildPlacemarks:
 
-    def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None):
+    def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None,
+                 model_validation_threshold=None):
 
         self.meta_folder = meta_folder
         self.model_number = model_number
@@ -15,7 +16,7 @@ class BuildPlacemarks:
         self.knn = knn
         self.model_name = model_name
         self.index_path = index_path
-
+        self.model_validation_threshold = model_validation_threshold
         self.output_name = "placemarks_m{}_t{}_{}.kml".format(model_number, threshold, model_name)
 
     def build_target_file(self):
@@ -73,7 +74,10 @@ class BuildPlacemarks:
                         if self.knn:
                             if self.model_name in meta["predicted"][key]:
                                 knn = meta["predicted"][key][self.model_name]
-                                if knn[k] == 0:
+                                if self.model_validation_threshold:
+                                    if knn[k]<self.model_validation_threshold:
+                                        continue
+                                elif knn[k] == 0:
                                     continue
                             else:
                                 continue
@@ -120,6 +124,7 @@ if __name__ == "__main__":
                                        threshold,
                                        knn=True,
                                        model_name="cnn_validation",
+                                       model_validation_threshold=0.99,
                                        index_path=index_path)
 
     build_placemarks.run()

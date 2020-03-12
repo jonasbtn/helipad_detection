@@ -48,9 +48,9 @@ class IndexPathScore:
 
 if __name__ == "__main__":
 
-    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta_save_2\\Real_World_Dataset_TMS_meta\\sat"
     model_number = 7
-    score_threshold = 0.999
+    score_threshold = 0
 
     index_path_score = IndexPathScore(meta_folder, model_number, score_threshold)
 

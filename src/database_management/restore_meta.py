@@ -35,10 +35,9 @@ class RestoreMeta:
 
 
 if __name__ == "__main__":
-
-    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta_save_2\\Real_World_Dataset_TMS_meta\\sat"
     save_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta_copy\\sat"
-    index_filename = "helipad_path_over_0.999.txt"
+    index_filename = "helipad_path_over_0.txt"
 
     restore_meta = RestoreMeta(meta_folder, save_folder, index_filename)
 

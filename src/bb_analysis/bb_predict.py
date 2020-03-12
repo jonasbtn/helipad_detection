@@ -33,7 +33,7 @@ class BBPredict:
 
                 image = self.load_image(image_path)
 
-                result = self.model.predict(image)[0][0]
+                result = float(self.model.predict(image)[0][0])
                 print(result)
                 # if result <= 0.5:
                 #     result = 0
@@ -84,7 +84,7 @@ class BBPredict:
 if __name__ == "__main__":
 
     image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Detected_Boxes\\model_7_0.0\\tms"
-    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta_save_2\\Real_World_Dataset_TMS_meta\\sat"
     model_number = 7
     model_path = "final_model.h5"
     tms = True
