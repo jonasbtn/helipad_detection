@@ -81,7 +81,7 @@ class BBBuildDataset:
                                    f'model_{self.model_number}_{self.score_threshold}',
                                    classe,
                                    folder_name,
-                                   image_name+"_"+str(box_id)+"."+ext)
+                                   image_name+"_"+str(box_id)+ext)
         return output_path
 
     def get_output_file_name_tms(self, image_path, box_id):
@@ -124,6 +124,8 @@ class BBBuildDataset:
         return output_path
 
     def save_image(self, image_box, output_path):
+        # print(output_path)
+        # print(image_box)
         cv2.imwrite(output_path, image_box)
 
     def detect_false_postive(self, box_predicted, bboxes_groundtruth):
@@ -209,10 +211,10 @@ class BBBuildDataset:
                 if self.groundtruth_bb:
                     # keep the groundtruth for the true positives
                     for box_groundtruth in bboxes_groundtruth:
-                        x_min = box_groundtruth[0]
-                        y_min = box_groundtruth[1]
-                        x_max = box_groundtruth[2]
-                        y_max = box_groundtruth[3]
+                        x_min = min(box_groundtruth[0], box_groundtruth[2])
+                        y_min = min(box_groundtruth[1], box_groundtruth[3])
+                        x_max = max(box_groundtruth[2], box_groundtruth[0])
+                        y_max = max(box_groundtruth[3], box_groundtruth[1])
                         image_box = image[y_min:y_max, x_min:x_max, :]
 
                         # get the name of the output_file
@@ -277,36 +279,14 @@ class BBBuildDataset:
 
 
 if __name__ == "__main__":
-    # image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
-    # meta_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
-    # model_number = 7
-    # score_threshold = 0.0
-    # iou_threshold = 0.5
-    # output_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Detected_Boxes"
-    # tms = False
-    # groundtruth_bb = True
-    #
-    # bb_build_dataset = BBBuildDataset(image_folder=image_folder,
-    #                                   meta_folder=meta_folder,
-    #                                   model_number=model_number,
-    #                                   score_threshold=score_threshold,
-    #                                   iou_threshold=iou_threshold,
-    #                                   output_folder=output_folder,
-    #                                   tms=tms,
-    #                                   groundtruth_bb=groundtruth_bb)
-    #
-    # bb_build_dataset.run()
-    #
-    # #TODO: Include Categories (skip 4 and 7 for example)
-
-    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\19"
-    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\19"
+    image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
+    meta_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
     model_number = 7
     score_threshold = 0.0
     iou_threshold = 0.5
-    output_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Detected_Boxes"
-    tms = True
-    groundtruth_bb = False
+    output_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Detected_Boxes_2"
+    tms = False
+    groundtruth_bb = True
 
     bb_build_dataset = BBBuildDataset(image_folder=image_folder,
                                       meta_folder=meta_folder,
@@ -318,3 +298,25 @@ if __name__ == "__main__":
                                       groundtruth_bb=groundtruth_bb)
 
     bb_build_dataset.run()
+    #
+    # #TODO: Include Categories (skip 4 and 7 for example)
+
+    # image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\19"
+    # meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\19"
+    # model_number = 7
+    # score_threshold = 0.0
+    # iou_threshold = 0.5
+    # output_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Detected_Boxes"
+    # tms = True
+    # groundtruth_bb = False
+    #
+    # bb_build_dataset = BBBuildDataset(image_folder=image_folder,
+    #                                   meta_folder=meta_folder,
+    #                                   model_number=model_number,
+    #                                   score_threshold=score_threshold,
+    #                                   iou_threshold=iou_threshold,
+    #                                   output_folder=output_folder,
+    #                                   tms=tms,
+    #                                   groundtruth_bb=groundtruth_bb)
+    #
+    # bb_build_dataset.run()
