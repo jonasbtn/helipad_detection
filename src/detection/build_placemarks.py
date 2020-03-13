@@ -17,7 +17,7 @@ class BuildPlacemarks:
         self.model_name = model_name
         self.index_path = index_path
         self.model_validation_threshold = model_validation_threshold
-        self.output_name = "placemarks_m{}_t{}_{}.kml".format(model_number, threshold, model_name)
+        self.output_name = "placemarks_m{}_t{}_{}{}.kml".format(model_number, threshold, model_name, model_validation_threshold)
 
     def build_target_file(self):
         target = []
@@ -74,15 +74,19 @@ class BuildPlacemarks:
                         if self.knn:
                             if self.model_name in meta["predicted"][key]:
                                 knn = meta["predicted"][key][self.model_name]
+                                print(knn)
                                 if self.model_validation_threshold:
-                                    if knn[k]<self.model_validation_threshold:
+                                    if knn[k] < self.model_validation_threshold:
                                         continue
                                 elif knn[k] == 0:
                                     continue
                             else:
                                 continue
                         f.write('\t\t\t<Placemark>\n')
-                        f.write('\t\t\t\t<name>Placemark {}</name>\n'.format(i))
+                        if self.knn:
+                            f.write('\t\t\t\t<name>Placemark {}-{}-{}</name>\n'.format(i, str(scores[k])[:5], str(knn[k])[2:5]))
+                        else:
+                            f.write('\t\t\t\t<name>Placemark {}-{}</name>\n'.format(i, str(scores[k])[2:5]))
                         f.write('\t\t\t\t<description>1/7/2020 2:18:10 PM</description>\n')
                         f.write('\t\t\t\t<Style>\n')
                         f.write('\t\t\t\t\t<LabelStyle>\n')
@@ -114,17 +118,17 @@ class BuildPlacemarks:
 
 if __name__ == "__main__":
 
-    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta_save_2\\Real_World_Dataset_TMS_meta\\sat\\"
     model_number = 7
     threshold = 0.999
-    index_path = "../database_management/helipad_path_over_0.999.txt"
+    index_path = "../database_management/helipad_path_over_0.txt"
 
     build_placemarks = BuildPlacemarks(meta_folder,
                                        model_number,
                                        threshold,
                                        knn=True,
                                        model_name="cnn_validation",
-                                       model_validation_threshold=0.99,
+                                       model_validation_threshold=0.93,
                                        index_path=index_path)
 
     build_placemarks.run()

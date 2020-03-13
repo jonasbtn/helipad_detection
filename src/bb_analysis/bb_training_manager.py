@@ -9,7 +9,7 @@ from keras.layers import Conv2D
 from keras.layers import MaxPooling2D
 from keras.layers import Dense
 from keras.layers import Flatten
-from keras.optimizers import SGD
+from keras.optimizers import SGD, Adam
 from keras.preprocessing.image import ImageDataGenerator
 
 
@@ -41,6 +41,7 @@ class BBTrainingManager:
         model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
         model.add(Dense(1, activation='sigmoid'))
         # compile model
+        # opt = Adam(lr=0.001)
         opt = SGD(lr=0.001, momentum=0.9)
         model.compile(optimizer=opt, loss='binary_crossentropy', metrics=['accuracy'])
         return model
@@ -49,7 +50,7 @@ class BBTrainingManager:
         # fit model
         self.history = self.model.fit_generator(self.train_it, steps_per_epoch=len(self.train_it),
                                       validation_data=self.test_it, validation_steps=len(self.test_it),
-                                      epochs=300, verbose=1)
+                                      epochs=200, verbose=1)
 
     def evaluate(self):
         # evaluate model
@@ -67,25 +68,31 @@ class BBTrainingManager:
             # plot accuracy
             pyplot.subplot(212)
             pyplot.title('Classification Accuracy')
-            pyplot.plot(history.history['accuracy'], color='blue', label='train')
-            pyplot.plot(history.history['val_accuracy'], color='orange', label='test')
+            if "acc" in history.history:
+                pyplot.plot(history.history['acc'], color='blue', label='train')
+            elif "accuracy" in history.history:
+                pyplot.plot(history.history['accuracy'], color='blue', label='train')
+            if "val_acc" in history.history:
+                pyplot.plot(history.history['val_acc'], color='orange', label='test')
+            elif "val_accuracy" in history.history:
+                pyplot.plot(history.history['val_accuracy'], color='orange', label='test')
             # save plot to file
             # filename = sys.argv[0].split('/')[-1]
-            pyplot.savefig('plot.png')
+            pyplot.savefig('plot_sgd.png')
             pyplot.close()
 
         summarize_diagnostics(self.history)
 
     def save(self):
         # save model
-        self.model.save('final_model.h5')
+        self.model.save('final_model_sgd.h5')
 
 
 if __name__ == "__main__":
 
     # image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Detected_Boxes_2\\model_7_0.0"
 
-    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Detected_Boxes_2\\model_7_0.0"
+    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Detected_Boxes_3\\model_7_0.0"
 
     bbtraining_manager = BBTrainingManager(image_folder)
 
@@ -93,6 +100,6 @@ if __name__ == "__main__":
 
     bbtraining_manager.evaluate()
 
-    bbtraining_manager.plot()
-
     bbtraining_manager.save()
+
+    bbtraining_manager.plot()
