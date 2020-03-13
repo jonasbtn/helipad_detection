@@ -12,7 +12,8 @@ class BBBuildDataset:
     def __init__(self, image_folder, meta_folder, model_number,
                  score_threshold, iou_threshold,
                  output_folder, tms=False,
-                 groundtruth_bb = True):
+                 groundtruth_bb = True,
+                 filter_categories=None):
         self.image_folder = image_folder
         self.meta_folder = meta_folder
         self.model_number = model_number
@@ -25,6 +26,7 @@ class BBBuildDataset:
         # Sometime, the detection by the model is not centered in the helipad
         # hence it can add noise to the model
         self.groundtruth_bb = groundtruth_bb
+        self.filter_categories = filter_categories
 
     def build_target_files(self):
         target_files = []
@@ -57,6 +59,14 @@ class BBBuildDataset:
         """
         image_name, ext = os.path.splitext(os.path.basename(image_path))
         folder_name = os.path.basename(os.path.dirname(image_path))
+        folder_id = int(folder_name.split('_')[1])
+        dataset = "train"
+        if classe == "false_positive":
+            if folder_id > 44:
+                dataset = "test"
+        elif classe == "helipad":
+            if folder_id > 48:
+                dataset = "test"
         if not os.path.isdir(self.output_folder):
             os.mkdir(self.output_folder)
         elif not os.path.isdir(os.path.join(self.output_folder,
@@ -65,22 +75,38 @@ class BBBuildDataset:
                                             f'model_{self.model_number}_{self.score_threshold}'))
         elif not os.path.isdir(os.path.join(self.output_folder,
                                             f'model_{self.model_number}_{self.score_threshold}',
+                                            dataset)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            dataset))
+
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            dataset,
                                             classe)):
             os.mkdir(os.path.join(self.output_folder,
                                   f'model_{self.model_number}_{self.score_threshold}',
+                                  dataset,
                                   classe))
-        elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}',
-                                            classe,
-                                            folder_name)):
-            os.mkdir(os.path.join(self.output_folder,
-                                  f'model_{self.model_number}_{self.score_threshold}',
-                                  classe,
-                                  folder_name))
+        # elif not os.path.isdir(os.path.join(self.output_folder,
+        #                                     f'model_{self.model_number}_{self.score_threshold}',
+        #                                     dataset,
+        #                                     classe,
+        #                                     folder_name)):
+        #     os.mkdir(os.path.join(self.output_folder,
+        #                           f'model_{self.model_number}_{self.score_threshold}',
+        #                           dataset,
+        #                           classe,
+        #                           folder_name))
+        # output_path = os.path.join(self.output_folder,
+        #                            f'model_{self.model_number}_{self.score_threshold}',
+        #                            classe,
+        #                            folder_name,
+        #                            image_name+"_"+str(box_id)+ext)
         output_path = os.path.join(self.output_folder,
                                    f'model_{self.model_number}_{self.score_threshold}',
+                                   dataset,
                                    classe,
-                                   folder_name,
                                    image_name+"_"+str(box_id)+ext)
         return output_path
 
@@ -205,6 +231,7 @@ class BBBuildDataset:
                         bboxes_groundtruth = groundtruth["box"]
                     else:
                         bboxes_groundtruth = []
+
                 else:
                     bboxes_groundtruth = []
 
@@ -217,8 +244,16 @@ class BBBuildDataset:
                         y_max = max(box_groundtruth[3], box_groundtruth[1])
                         image_box = image[y_min:y_max, x_min:x_max, :]
 
+                        if self.filter_categories and "category" in groundtruth:
+                            if groundtruth["category"] in self.filter_categories:
+                                # put it as false positive
+                                output_classe = "false_positive"
+                            else:
+                                output_classe = "helipad"
+                        else:
+                            output_classe = "helipad"
                         # get the name of the output_file
-                        output_path = self.get_output_file_name("helipad",
+                        output_path = self.get_output_file_name(output_classe,
                                                                 image_path,
                                                                 box_id)
                         # save the file
@@ -280,13 +315,14 @@ class BBBuildDataset:
 
 if __name__ == "__main__":
     image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
-    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta_save_2\\Real_World_Dataset_TMS_meta\\sat"
+    meta_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
     model_number = 7
     score_threshold = 0.0
     iou_threshold = 0.5
-    output_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Detected_Boxes_2"
+    output_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Detected_Boxes_3"
     tms = False
     groundtruth_bb = True
+    filter_categories = ["4", "7", "d", "u"]
 
     bb_build_dataset = BBBuildDataset(image_folder=image_folder,
                                       meta_folder=meta_folder,
@@ -295,7 +331,8 @@ if __name__ == "__main__":
                                       iou_threshold=iou_threshold,
                                       output_folder=output_folder,
                                       tms=tms,
-                                      groundtruth_bb=groundtruth_bb)
+                                      groundtruth_bb=groundtruth_bb,
+                                      filter_categories=filter_categories)
 
     bb_build_dataset.run()
     #
