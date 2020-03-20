@@ -187,7 +187,7 @@ class FilterManager:
         return new_bboxes, new_class_ids, new_scores
 
     @staticmethod
-    def filter_by_scores(bboxes, class_ids, scores, threshold=0.995):
+    def filter_by_scores(bboxes, class_ids, scores, threshold=0.995, threshold_validation=None, scores_validation=None):
         """
         Filter all the predicted bounding boxes below a certain threshold
         :param bboxes:
@@ -200,7 +200,12 @@ class FilterManager:
         new_class_ids = []
         new_scores = []
         for i in range(len(scores)):
-            if scores[i] > threshold:
+            if scores[i] < threshold:
+                continue
+            else:
+                if threshold_validation:
+                    if scores_validation[i] < threshold_validation:
+                        continue
                 new_bboxes.append(bboxes[i])
                 new_class_ids.append(class_ids[i])
                 new_scores.append(scores[i])

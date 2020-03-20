@@ -134,12 +134,17 @@ class BenchmarkManager:
         return nb_TP
 
     @staticmethod
-    def filter_predicted(predicted, threshold_score, threshold_iou, threshold_area):
+    def filter_predicted(predicted, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
         if "box" not in predicted or len(predicted["box"]) == 0:
             return predicted
         bboxes = predicted["box"]
         class_ids = predicted["class_id"]
         scores = predicted["score"]
+
+        if threshold_validation:
+            scores_validation = predicted["cnn_validation"]
+        else:
+            scores_validation = None
 
         # Filter overlapping box (see FilterManager for default value of threshold_iou and threshold_area)
         # bboxes, class_ids, scores = FilterManager.filter_by_iou(bboxes,
@@ -152,7 +157,9 @@ class BenchmarkManager:
         bboxes, class_ids, scores = FilterManager.filter_by_scores(bboxes,
                                                                    class_ids,
                                                                    scores,
-                                                                   threshold=threshold_score)
+                                                                   threshold=threshold_score,
+                                                                   threshold_validation=threshold_validation,
+                                                                   scores_validation=scores_validation)
 
         predicted["box"] = bboxes
         predicted["class_id"] = class_ids
@@ -162,7 +169,7 @@ class BenchmarkManager:
 
         return predicted
 
-    def run(self, model_number, threshold_score, threshold_iou, threshold_area):
+    def run(self, model_number, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
 
         self.model_number = model_number
 
@@ -195,7 +202,8 @@ class BenchmarkManager:
             predicted = meta["predicted"][key].copy()
 
             # Apply filtering here
-            predicted_filtered = self.filter_predicted(predicted, threshold_score, threshold_iou, threshold_area)
+            predicted_filtered = self.filter_predicted(predicted, threshold_score, threshold_iou, threshold_area,
+                                                       threshold_validation=threshold_validation)
 
             # if not groundtruth["helipad"] and predicted["helipad"]:
             FP = self.check_false_positive(groundtruth, predicted_filtered, threshold_iou=0.5, threshold_area=0.8)

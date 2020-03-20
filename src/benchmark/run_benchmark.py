@@ -29,7 +29,7 @@ class RunBenchmark:
                                                   include_category=include_category,
                                                   city_lat=city_lat)
 
-    def run(self):
+    def run(self, threshold_validation=None):
         aucs = []
         for model_number in self.model_numbers:
 
@@ -52,7 +52,8 @@ class RunBenchmark:
                 res = self.benchmark_manager.run(model_number,
                                                  threshold_score,
                                                  threshold_iou,
-                                                 threshold_area)
+                                                 threshold_area,
+                                                 threshold_validation=threshold_validation)
                 results.append(res)
 
             df = pd.DataFrame(data=results,
@@ -72,7 +73,10 @@ class RunBenchmark:
                 else:
                     filename = "benchmark_model_{}_tms_z{}.csv".format(model_number, self.zoom_level)
             else:
-                filename = "benchmark_model_{}.csv".format(model_number)
+                if threshold_validation:
+                    filename = "benchmark_model_{}_{}.csv".format(model_number, str(threshold_validation))
+                else:
+                    filename = "benchmark_model_{}.csv".format(model_number)
             df.to_csv(filename)
 
         df_auc = pd.DataFrame(data=aucs, columns=["Model Number", "AUC"])
@@ -82,8 +86,8 @@ class RunBenchmark:
 
 if __name__ == "__main__":
 
-    # image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
-    # meta_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
+    image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
+    meta_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
 
     # image_folder = "C:\\Users\\jonas\\Desktop\\Real_World_Test_DataBase"
     # meta_folder = "C:\\Users\\jonas\\Desktop\\Real_World_Test_DataBase_meta"
@@ -96,33 +100,40 @@ if __name__ == "__main__":
     # tms_dataset = False
     # zoom_level = None
 
-    image_folder = "../../../Detection/Detection_Dataset/"
-    meta_folder = "../../../Detection/Detection_Dataset_meta/"
+    # image_folder = "../../../Detection/Detection_Dataset/"
+    # meta_folder = "../../../Detection/Detection_Dataset_meta/"
+    #
+    model_numbers = [7]
 
-    test_only = False
-    include_category = None
-    tms_dataset = True
-    zoom_level = 18
+    run_benchmark = RunBenchmark(image_folder,
+                                 meta_folder,
+                                 model_numbers)
 
-    model_numbers = [4]
+    run_benchmark.run(threshold_validation=0.93)
 
-    cities_lat = [['los_angeles', '44'],
-                ['paris', '13'],
-                ['manille', '21'],
-                ['tokyo', '23']]
 
-    for city_lat in cities_lat:
-        print(city_lat)
-        run_benchmark = RunBenchmark(image_folder,
-                                     meta_folder,
-                                     model_numbers,
-                                     test_only=test_only,
-                                     tms_dataset=tms_dataset,
-                                     zoom_level=zoom_level,
-                                     include_category=include_category,
-                                     city_lat=city_lat)
+    # test_only = False
+    # include_category = None
+    # tms_dataset = False
+    # zoom_level = None
 
-        run_benchmark.run()
+    # cities_lat = [['los_angeles', '44'],
+    #             ['paris', '13'],
+    #             ['manille', '21'],
+    #             ['tokyo', '23']]
+    #
+    # for city_lat in cities_lat:
+    #     print(city_lat)
+    #     run_benchmark = RunBenchmark(image_folder,
+    #                                  meta_folder,
+    #                                  model_numbers,
+    #                                  test_only=test_only,
+    #                                  tms_dataset=tms_dataset,
+    #                                  zoom_level=zoom_level,
+    #                                  include_category=include_category,
+    #                                  city_lat=city_lat)
+    #
+    #     run_benchmark.run()
 
 
 
