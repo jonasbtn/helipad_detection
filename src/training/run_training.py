@@ -7,6 +7,9 @@ from numpy import isnan
 
 from tqdm import tqdm
 
+import imgaug as ia
+from imgaug import augmenters as iaa
+
 from mrcnn.utils import compute_ap
 from mrcnn.model import load_image_gt
 from mrcnn.model import mold_image
@@ -89,17 +92,26 @@ class RunTraining:
         return mAP
 
     def run(self):
+        
+        policy = iaa.Sequential([
+                            iaa.Sometimes(0.2, iaa.Fliplr(1)),
+                            iaa.Sometimes(0.2, iaa.Flipud(1)),
+                            iaa.Sometimes(0.2, iaa.Affine(rotate=(-45, 45))),
+                            iaa.Sometimes(0.2, iaa.Affine(rotate=(-90, 90))),
+                            iaa.Sometimes(0.2, iaa.Affine(scale=(0.5, 1.5))),
+                            iaa.Sometimes(0.2, iaa.GaussianBlur(sigma=(0.0, 3.0))),
+                            iaa.Sometimes(0.1, iaa.AllChannelsHistogramEqualization()),
+                            iaa.Sometimes(0.2, iaa.ShearX((-20, 20))),
+                            iaa.Sometimes(0.2, iaa.ShearY((-20, 20)))
+                            ])
+        
         # train weights (output layers or 'heads')
         self.training_manager.model.train(self.training_manager.train_set,
                                           self.training_manager.test_set,
-                    learning_rate=self.training_manager.config.LEARNING_RATE,
-                    epochs=self.training_manager.config.EPOCHS,
-                    layers=self.training_manager.config.LAYERS) #,
-                    # augmentation=imgaug.augmenters.Sometimes(0.5, [
-                    #         imgaug.augmenters.Fliplr(0.5),
-                    #         imgaug.augmenters.GaussianBlur(sigma=(0.0, 5.0))])),
-                        #     imgaug.augmenters.Affine(rotate=(-25,25))
-                        # ]))
+                                          learning_rate=self.training_manager.config.LEARNING_RATE,
+                                          epochs=self.training_manager.config.EPOCHS,
+                                          layers=self.training_manager.config.LAYERS,
+                                          augmentation=policy)
 
     def run_predict(self):
 
@@ -125,14 +137,14 @@ if __name__ == "__main__":
     # root_meta_folder = os.path.join('C:\\', 'Users', 'jonas', 'Desktop', 'Helipad', 'Helipad_DataBase_meta')
     # model_folder = os.path.join('C:\\', 'Users', 'jonas', 'Desktop', 'Helipad', 'model')
 
-    root_folder = "../../Helipad_DataBase"
-    root_meta_folder = "../../Helipad_DataBase_meta"
-    model_folder = "../../model"
-    include_augmented = True
-    augmented_version = [2]
+    root_folder = "../../../Helipad/Helipad_DataBase"
+    root_meta_folder = "../../../Helipad/Helipad_DataBase_meta"
+    model_folder = "../../../Helipad/model"
+    include_augmented = False
+    augmented_version = []
 
-    train_categories = ["1", "2", "3", "5", "6", "8", "9", "d", "u"]
-    test_categories = ["4", "7"]
+    train_categories = ["1", "2", "3", "5", "6", "8", "9"]
+    test_categories = ["4", "7", "d", "u"]
 
     weights_filename = 'helipad_cfg_6_aug4_3+20200103T1225/mask_rcnn_helipad_cfg_6_aug4_3+_0288.h5'
     base_weights = 'mask_rcnn_coco.h5'

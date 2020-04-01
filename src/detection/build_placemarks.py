@@ -120,7 +120,7 @@ if __name__ == "__main__":
 
     meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta_save_2\\Real_World_Dataset_TMS_meta\\sat\\"
     model_number = 7
-    threshold = 0.999
+    threshold = 0
     index_path = "../database_management/helipad_path_over_0.txt"
 
     build_placemarks = BuildPlacemarks(meta_folder,
@@ -128,7 +128,7 @@ if __name__ == "__main__":
                                        threshold,
                                        knn=True,
                                        model_name="cnn_validation",
-                                       model_validation_threshold=0.93,
+                                       model_validation_threshold=0,
                                        index_path=index_path)
 
     build_placemarks.run()

@@ -86,8 +86,11 @@ class RunBenchmark:
 
 if __name__ == "__main__":
 
-    image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
-    meta_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
+    # image_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
+    # meta_folder = "C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
+
+    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
 
     # image_folder = "C:\\Users\\jonas\\Desktop\\Real_World_Test_DataBase"
     # meta_folder = "C:\\Users\\jonas\\Desktop\\Real_World_Test_DataBase_meta"
@@ -109,7 +112,7 @@ if __name__ == "__main__":
                                  meta_folder,
                                  model_numbers)
 
-    run_benchmark.run(threshold_validation=0.93)
+    run_benchmark.run(threshold_validation=0.99)
 
 
     # test_only = False
