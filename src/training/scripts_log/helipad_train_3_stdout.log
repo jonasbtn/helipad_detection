@@ -1,0 +1,56 @@
+
+C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call C:\Users\AISG\Anaconda3\Scripts\activate 
+
+(base) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call conda activate tf-gpu_1.13 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call cd C:\Users\AISG\Documents\Jonas\Helipad\Mask_RCNN-master\ 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\Helipad\Mask_RCNN-master>call python setup.py install 
+running install
+running bdist_egg
+running egg_info
+writing mask_rcnn.egg-info\PKG-INFO
+writing dependency_links to mask_rcnn.egg-info\dependency_links.txt
+writing top-level names to mask_rcnn.egg-info\top_level.txt
+reading manifest file 'mask_rcnn.egg-info\SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+writing manifest file 'mask_rcnn.egg-info\SOURCES.txt'
+installing library code to build\bdist.win-amd64\egg
+running install_lib
+running build_py
+creating build\bdist.win-amd64\egg
+creating build\bdist.win-amd64\egg\mrcnn
+copying build\lib\mrcnn\config.py -> build\bdist.win-amd64\egg\mrcnn
+copying build\lib\mrcnn\model.py -> build\bdist.win-amd64\egg\mrcnn
+copying build\lib\mrcnn\parallel_model.py -> build\bdist.win-amd64\egg\mrcnn
+copying build\lib\mrcnn\utils.py -> build\bdist.win-amd64\egg\mrcnn
+copying build\lib\mrcnn\visualize.py -> build\bdist.win-amd64\egg\mrcnn
+copying build\lib\mrcnn\__init__.py -> build\bdist.win-amd64\egg\mrcnn
+byte-compiling build\bdist.win-amd64\egg\mrcnn\config.py to config.cpython-37.pyc
+byte-compiling build\bdist.win-amd64\egg\mrcnn\model.py to model.cpython-37.pyc
+byte-compiling build\bdist.win-amd64\egg\mrcnn\parallel_model.py to parallel_model.cpython-37.pyc
+byte-compiling build\bdist.win-amd64\egg\mrcnn\utils.py to utils.cpython-37.pyc
+byte-compiling build\bdist.win-amd64\egg\mrcnn\visualize.py to visualize.cpython-37.pyc
+byte-compiling build\bdist.win-amd64\egg\mrcnn\__init__.py to __init__.cpython-37.pyc
+creating build\bdist.win-amd64\egg\EGG-INFO
+copying mask_rcnn.egg-info\PKG-INFO -> build\bdist.win-amd64\egg\EGG-INFO
+copying mask_rcnn.egg-info\SOURCES.txt -> build\bdist.win-amd64\egg\EGG-INFO
+copying mask_rcnn.egg-info\dependency_links.txt -> build\bdist.win-amd64\egg\EGG-INFO
+copying mask_rcnn.egg-info\top_level.txt -> build\bdist.win-amd64\egg\EGG-INFO
+creating 'dist\mask_rcnn-2.1-py3.7.egg' and adding 'build\bdist.win-amd64\egg' to it
+removing 'build\bdist.win-amd64\egg' (and everything under it)
+Processing mask_rcnn-2.1-py3.7.egg
+Removing c:\users\aisg\anaconda3\envs\tf-gpu_1.13\lib\site-packages\mask_rcnn-2.1-py3.7.egg
+Copying mask_rcnn-2.1-py3.7.egg to c:\users\aisg\anaconda3\envs\tf-gpu_1.13\lib\site-packages
+mask-rcnn 2.1 is already the active version in easy-install.pth
+
+Installed c:\users\aisg\anaconda3\envs\tf-gpu_1.13\lib\site-packages\mask_rcnn-2.1-py3.7.egg
+Processing dependencies for mask-rcnn==2.1
+Finished processing dependencies for mask-rcnn==2.1
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\Helipad\Mask_RCNN-master>call cd C:\Users\AISG\Documents\Jonas\helipad_detection\src\training\ 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call python run_training.py  1>>helipad_train_log_3+_2.log 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call C:\Users\AISG\nssm.exe stop helipad_train 
+Terminate batch job (Y/N)? 

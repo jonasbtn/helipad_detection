@@ -1,0 +1,663 @@
+Loading Train Set
+Train: 2809
+Loading Test Set
+Test: 846
+Loading Config
+Starting Training
+
+Starting at epoch 0. LR=0.001
+
+Checkpoint Path: ../../../Helipad/model\helipad_cfg_10_no47du_5+20200407T1319\mask_rcnn_helipad_cfg_10_no47du_5+_{epoch:04d}.h5
+Selecting layers to train
+res3a_branch2a         (Conv2D)
+bn3a_branch2a          (BatchNorm)
+res3a_branch2b         (Conv2D)
+bn3a_branch2b          (BatchNorm)
+res3a_branch2c         (Conv2D)
+res3a_branch1          (Conv2D)
+bn3a_branch2c          (BatchNorm)
+bn3a_branch1           (BatchNorm)
+res3b_branch2a         (Conv2D)
+bn3b_branch2a          (BatchNorm)
+res3b_branch2b         (Conv2D)
+bn3b_branch2b          (BatchNorm)
+res3b_branch2c         (Conv2D)
+bn3b_branch2c          (BatchNorm)
+res3c_branch2a         (Conv2D)
+bn3c_branch2a          (BatchNorm)
+res3c_branch2b         (Conv2D)
+bn3c_branch2b          (BatchNorm)
+res3c_branch2c         (Conv2D)
+bn3c_branch2c          (BatchNorm)
+res3d_branch2a         (Conv2D)
+bn3d_branch2a          (BatchNorm)
+res3d_branch2b         (Conv2D)
+bn3d_branch2b          (BatchNorm)
+res3d_branch2c         (Conv2D)
+bn3d_branch2c          (BatchNorm)
+res4a_branch2a         (Conv2D)
+bn4a_branch2a          (BatchNorm)
+res4a_branch2b         (Conv2D)
+bn4a_branch2b          (BatchNorm)
+res4a_branch2c         (Conv2D)
+res4a_branch1          (Conv2D)
+bn4a_branch2c          (BatchNorm)
+bn4a_branch1           (BatchNorm)
+res4b_branch2a         (Conv2D)
+bn4b_branch2a          (BatchNorm)
+res4b_branch2b         (Conv2D)
+bn4b_branch2b          (BatchNorm)
+res4b_branch2c         (Conv2D)
+bn4b_branch2c          (BatchNorm)
+res4c_branch2a         (Conv2D)
+bn4c_branch2a          (BatchNorm)
+res4c_branch2b         (Conv2D)
+bn4c_branch2b          (BatchNorm)
+res4c_branch2c         (Conv2D)
+bn4c_branch2c          (BatchNorm)
+res4d_branch2a         (Conv2D)
+bn4d_branch2a          (BatchNorm)
+res4d_branch2b         (Conv2D)
+bn4d_branch2b          (BatchNorm)
+res4d_branch2c         (Conv2D)
+bn4d_branch2c          (BatchNorm)
+res4e_branch2a         (Conv2D)
+bn4e_branch2a          (BatchNorm)
+res4e_branch2b         (Conv2D)
+bn4e_branch2b          (BatchNorm)
+res4e_branch2c         (Conv2D)
+bn4e_branch2c          (BatchNorm)
+res4f_branch2a         (Conv2D)
+bn4f_branch2a          (BatchNorm)
+res4f_branch2b         (Conv2D)
+bn4f_branch2b          (BatchNorm)
+res4f_branch2c         (Conv2D)
+bn4f_branch2c          (BatchNorm)
+res4g_branch2a         (Conv2D)
+bn4g_branch2a          (BatchNorm)
+res4g_branch2b         (Conv2D)
+bn4g_branch2b          (BatchNorm)
+res4g_branch2c         (Conv2D)
+bn4g_branch2c          (BatchNorm)
+res4h_branch2a         (Conv2D)
+bn4h_branch2a          (BatchNorm)
+res4h_branch2b         (Conv2D)
+bn4h_branch2b          (BatchNorm)
+res4h_branch2c         (Conv2D)
+bn4h_branch2c          (BatchNorm)
+res4i_branch2a         (Conv2D)
+bn4i_branch2a          (BatchNorm)
+res4i_branch2b         (Conv2D)
+bn4i_branch2b          (BatchNorm)
+res4i_branch2c         (Conv2D)
+bn4i_branch2c          (BatchNorm)
+res4j_branch2a         (Conv2D)
+bn4j_branch2a          (BatchNorm)
+res4j_branch2b         (Conv2D)
+bn4j_branch2b          (BatchNorm)
+res4j_branch2c         (Conv2D)
+bn4j_branch2c          (BatchNorm)
+res4k_branch2a         (Conv2D)
+bn4k_branch2a          (BatchNorm)
+res4k_branch2b         (Conv2D)
+bn4k_branch2b          (BatchNorm)
+res4k_branch2c         (Conv2D)
+bn4k_branch2c          (BatchNorm)
+res4l_branch2a         (Conv2D)
+bn4l_branch2a          (BatchNorm)
+res4l_branch2b         (Conv2D)
+bn4l_branch2b          (BatchNorm)
+res4l_branch2c         (Conv2D)
+bn4l_branch2c          (BatchNorm)
+res4m_branch2a         (Conv2D)
+bn4m_branch2a          (BatchNorm)
+res4m_branch2b         (Conv2D)
+bn4m_branch2b          (BatchNorm)
+res4m_branch2c         (Conv2D)
+bn4m_branch2c          (BatchNorm)
+res4n_branch2a         (Conv2D)
+bn4n_branch2a          (BatchNorm)
+res4n_branch2b         (Conv2D)
+bn4n_branch2b          (BatchNorm)
+res4n_branch2c         (Conv2D)
+bn4n_branch2c          (BatchNorm)
+res4o_branch2a         (Conv2D)
+bn4o_branch2a          (BatchNorm)
+res4o_branch2b         (Conv2D)
+bn4o_branch2b          (BatchNorm)
+res4o_branch2c         (Conv2D)
+bn4o_branch2c          (BatchNorm)
+res4p_branch2a         (Conv2D)
+bn4p_branch2a          (BatchNorm)
+res4p_branch2b         (Conv2D)
+bn4p_branch2b          (BatchNorm)
+res4p_branch2c         (Conv2D)
+bn4p_branch2c          (BatchNorm)
+res4q_branch2a         (Conv2D)
+bn4q_branch2a          (BatchNorm)
+res4q_branch2b         (Conv2D)
+bn4q_branch2b          (BatchNorm)
+res4q_branch2c         (Conv2D)
+bn4q_branch2c          (BatchNorm)
+res4r_branch2a         (Conv2D)
+bn4r_branch2a          (BatchNorm)
+res4r_branch2b         (Conv2D)
+bn4r_branch2b          (BatchNorm)
+res4r_branch2c         (Conv2D)
+bn4r_branch2c          (BatchNorm)
+res4s_branch2a         (Conv2D)
+bn4s_branch2a          (BatchNorm)
+res4s_branch2b         (Conv2D)
+bn4s_branch2b          (BatchNorm)
+res4s_branch2c         (Conv2D)
+bn4s_branch2c          (BatchNorm)
+res4t_branch2a         (Conv2D)
+bn4t_branch2a          (BatchNorm)
+res4t_branch2b         (Conv2D)
+bn4t_branch2b          (BatchNorm)
+res4t_branch2c         (Conv2D)
+bn4t_branch2c          (BatchNorm)
+res4u_branch2a         (Conv2D)
+bn4u_branch2a          (BatchNorm)
+res4u_branch2b         (Conv2D)
+bn4u_branch2b          (BatchNorm)
+res4u_branch2c         (Conv2D)
+bn4u_branch2c          (BatchNorm)
+res4v_branch2a         (Conv2D)
+bn4v_branch2a          (BatchNorm)
+res4v_branch2b         (Conv2D)
+bn4v_branch2b          (BatchNorm)
+res4v_branch2c         (Conv2D)
+bn4v_branch2c          (BatchNorm)
+res4w_branch2a         (Conv2D)
+bn4w_branch2a          (BatchNorm)
+res4w_branch2b         (Conv2D)
+bn4w_branch2b          (BatchNorm)
+res4w_branch2c         (Conv2D)
+bn4w_branch2c          (BatchNorm)
+res5a_branch2a         (Conv2D)
+bn5a_branch2a          (BatchNorm)
+res5a_branch2b         (Conv2D)
+bn5a_branch2b          (BatchNorm)
+res5a_branch2c         (Conv2D)
+res5a_branch1          (Conv2D)
+bn5a_branch2c          (BatchNorm)
+bn5a_branch1           (BatchNorm)
+res5b_branch2a         (Conv2D)
+bn5b_branch2a          (BatchNorm)
+res5b_branch2b         (Conv2D)
+bn5b_branch2b          (BatchNorm)
+res5b_branch2c         (Conv2D)
+bn5b_branch2c          (BatchNorm)
+res5c_branch2a         (Conv2D)
+bn5c_branch2a          (BatchNorm)
+res5c_branch2b         (Conv2D)
+bn5c_branch2b          (BatchNorm)
+res5c_branch2c         (Conv2D)
+bn5c_branch2c          (BatchNorm)
+fpn_c5p5               (Conv2D)
+fpn_c4p4               (Conv2D)
+fpn_c3p3               (Conv2D)
+fpn_c2p2               (Conv2D)
+fpn_p5                 (Conv2D)
+fpn_p2                 (Conv2D)
+fpn_p3                 (Conv2D)
+fpn_p4                 (Conv2D)
+In model:  rpn_model
+    rpn_conv_shared        (Conv2D)
+    rpn_class_raw          (Conv2D)
+    rpn_bbox_pred          (Conv2D)
+mrcnn_mask_conv1       (TimeDistributed)
+mrcnn_mask_bn1         (TimeDistributed)
+mrcnn_mask_conv2       (TimeDistributed)
+mrcnn_mask_bn2         (TimeDistributed)
+mrcnn_class_conv1      (TimeDistributed)
+mrcnn_class_bn1        (TimeDistributed)
+mrcnn_mask_conv3       (TimeDistributed)
+mrcnn_mask_bn3         (TimeDistributed)
+mrcnn_class_conv2      (TimeDistributed)
+mrcnn_class_bn2        (TimeDistributed)
+mrcnn_mask_conv4       (TimeDistributed)
+mrcnn_mask_bn4         (TimeDistributed)
+mrcnn_bbox_fc          (TimeDistributed)
+mrcnn_mask_deconv      (TimeDistributed)
+mrcnn_class_logits     (TimeDistributed)
+mrcnn_mask             (TimeDistributed)
+Epoch 1/700
+
+  1/256 [..............................] - ETA: 1:31:22 - loss: 3.4277 - rpn_class_loss: 0.0138 - rpn_bbox_loss: 0.6747 - mrcnn_class_loss: 0.8583 - mrcnn_bbox_loss: 1.5468 - mrcnn_mask_loss: 0.3342
+  2/256 [..............................] - ETA: 47:11 - loss: 3.1812 - rpn_class_loss: 0.0396 - rpn_bbox_loss: 0.5934 - mrcnn_class_loss: 0.6730 - mrcnn_bbox_loss: 1.3622 - mrcnn_mask_loss: 0.5130  
+  3/256 [..............................] - ETA: 32:22 - loss: 3.1849 - rpn_class_loss: 0.0276 - rpn_bbox_loss: 0.4343 - mrcnn_class_loss: 0.5362 - mrcnn_bbox_loss: 1.4765 - mrcnn_mask_loss: 0.7103
+  4/256 [..............................] - ETA: 25:03 - loss: 2.6982 - rpn_class_loss: 0.0209 - rpn_bbox_loss: 0.3448 - mrcnn_class_loss: 0.4293 - mrcnn_bbox_loss: 1.2899 - mrcnn_mask_loss: 0.6133
+  5/256 [..............................] - ETA: 20:35 - loss: 2.7778 - rpn_class_loss: 0.0180 - rpn_bbox_loss: 0.6060 - mrcnn_class_loss: 0.3609 - mrcnn_bbox_loss: 1.1882 - mrcnn_mask_loss: 0.6046
+  6/256 [..............................] - ETA: 17:36 - loss: 2.7283 - rpn_class_loss: 0.0182 - rpn_bbox_loss: 0.5808 - mrcnn_class_loss: 0.3341 - mrcnn_bbox_loss: 1.1888 - mrcnn_mask_loss: 0.6065
+  7/256 [..............................] - ETA: 15:27 - loss: 2.5505 - rpn_class_loss: 0.0159 - rpn_bbox_loss: 0.5249 - mrcnn_class_loss: 0.3034 - mrcnn_bbox_loss: 1.1237 - mrcnn_mask_loss: 0.5827
+  8/256 [..............................] - ETA: 13:50 - loss: 2.4664 - rpn_class_loss: 0.0186 - rpn_bbox_loss: 0.4681 - mrcnn_class_loss: 0.2677 - mrcnn_bbox_loss: 1.1509 - mrcnn_mask_loss: 0.5610
+  9/256 [>.............................] - ETA: 12:37 - loss: 2.4112 - rpn_class_loss: 0.0176 - rpn_bbox_loss: 0.4904 - mrcnn_class_loss: 0.2439 - mrcnn_bbox_loss: 1.1099 - mrcnn_mask_loss: 0.5494
+ 10/256 [>.............................] - ETA: 11:38 - loss: 2.3704 - rpn_class_loss: 0.0161 - rpn_bbox_loss: 0.5206 - mrcnn_class_loss: 0.2223 - mrcnn_bbox_loss: 1.0731 - mrcnn_mask_loss: 0.5383
+ 11/256 [>.............................] - ETA: 10:50 - loss: 2.3443 - rpn_class_loss: 0.0150 - rpn_bbox_loss: 0.5036 - mrcnn_class_loss: 0.2274 - mrcnn_bbox_loss: 1.0583 - mrcnn_mask_loss: 0.5400
+ 12/256 [>.............................] - ETA: 10:07 - loss: 2.3339 - rpn_class_loss: 0.0145 - rpn_bbox_loss: 0.5011 - mrcnn_class_loss: 0.2115 - mrcnn_bbox_loss: 1.0304 - mrcnn_mask_loss: 0.5764
+ 13/256 [>.............................] - ETA: 9:31 - loss: 2.2555 - rpn_class_loss: 0.0138 - rpn_bbox_loss: 0.4782 - mrcnn_class_loss: 0.2054 - mrcnn_bbox_loss: 0.9992 - mrcnn_mask_loss: 0.5589 
+ 14/256 [>.............................] - ETA: 9:01 - loss: 2.1722 - rpn_class_loss: 0.0140 - rpn_bbox_loss: 0.4545 - mrcnn_class_loss: 0.1963 - mrcnn_bbox_loss: 0.9671 - mrcnn_mask_loss: 0.5403
+ 15/256 [>.............................] - ETA: 8:34 - loss: 2.1083 - rpn_class_loss: 0.0133 - rpn_bbox_loss: 0.4310 - mrcnn_class_loss: 0.1900 - mrcnn_bbox_loss: 0.9427 - mrcnn_mask_loss: 0.5314
+ 16/256 [>.............................] - ETA: 8:12 - loss: 2.0584 - rpn_class_loss: 0.0146 - rpn_bbox_loss: 0.4273 - mrcnn_class_loss: 0.1795 - mrcnn_bbox_loss: 0.9197 - mrcnn_mask_loss: 0.5172
+ 17/256 [>.............................] - ETA: 7:51 - loss: 2.0946 - rpn_class_loss: 0.0149 - rpn_bbox_loss: 0.4572 - mrcnn_class_loss: 0.1754 - mrcnn_bbox_loss: 0.9270 - mrcnn_mask_loss: 0.5201
+ 18/256 [=>............................] - ETA: 7:33 - loss: 2.0459 - rpn_class_loss: 0.0148 - rpn_bbox_loss: 0.4451 - mrcnn_class_loss: 0.1683 - mrcnn_bbox_loss: 0.9042 - mrcnn_mask_loss: 0.5134
+ 19/256 [=>............................] - ETA: 7:17 - loss: 2.0611 - rpn_class_loss: 0.0145 - rpn_bbox_loss: 0.4562 - mrcnn_class_loss: 0.1677 - mrcnn_bbox_loss: 0.9134 - mrcnn_mask_loss: 0.5093
+ 20/256 [=>............................] - ETA: 7:03 - loss: 2.0331 - rpn_class_loss: 0.0145 - rpn_bbox_loss: 0.4422 - mrcnn_class_loss: 0.1620 - mrcnn_bbox_loss: 0.9010 - mrcnn_mask_loss: 0.5133
+ 21/256 [=>............................] - ETA: 6:49 - loss: 1.9914 - rpn_class_loss: 0.0148 - rpn_bbox_loss: 0.4304 - mrcnn_class_loss: 0.1606 - mrcnn_bbox_loss: 0.8783 - mrcnn_mask_loss: 0.5073
+ 22/256 [=>............................] - ETA: 6:36 - loss: 1.9445 - rpn_class_loss: 0.0144 - rpn_bbox_loss: 0.4142 - mrcnn_class_loss: 0.1550 - mrcnn_bbox_loss: 0.8605 - mrcnn_mask_loss: 0.5004
+ 23/256 [=>............................] - ETA: 6:24 - loss: 1.9484 - rpn_class_loss: 0.0140 - rpn_bbox_loss: 0.4223 - mrcnn_class_loss: 0.1530 - mrcnn_bbox_loss: 0.8638 - mrcnn_mask_loss: 0.4953
+ 24/256 [=>............................] - ETA: 6:14 - loss: 1.9205 - rpn_class_loss: 0.0135 - rpn_bbox_loss: 0.4070 - mrcnn_class_loss: 0.1493 - mrcnn_bbox_loss: 0.8624 - mrcnn_mask_loss: 0.4883
+ 25/256 [=>............................] - ETA: 6:04 - loss: 1.9004 - rpn_class_loss: 0.0132 - rpn_bbox_loss: 0.3949 - mrcnn_class_loss: 0.1445 - mrcnn_bbox_loss: 0.8628 - mrcnn_mask_loss: 0.4850
+ 26/256 [==>...........................] - ETA: 5:55 - loss: 1.9103 - rpn_class_loss: 0.0127 - rpn_bbox_loss: 0.3993 - mrcnn_class_loss: 0.1424 - mrcnn_bbox_loss: 0.8640 - mrcnn_mask_loss: 0.4919
+ 27/256 [==>...........................] - ETA: 5:47 - loss: 1.9207 - rpn_class_loss: 0.0128 - rpn_bbox_loss: 0.4103 - mrcnn_class_loss: 0.1416 - mrcnn_bbox_loss: 0.8667 - mrcnn_mask_loss: 0.4894
+ 28/256 [==>...........................] - ETA: 5:39 - loss: 1.9048 - rpn_class_loss: 0.0124 - rpn_bbox_loss: 0.3984 - mrcnn_class_loss: 0.1419 - mrcnn_bbox_loss: 0.8667 - mrcnn_mask_loss: 0.4854
+ 29/256 [==>...........................] - ETA: 5:31 - loss: 1.8771 - rpn_class_loss: 0.0123 - rpn_bbox_loss: 0.3876 - mrcnn_class_loss: 0.1389 - mrcnn_bbox_loss: 0.8507 - mrcnn_mask_loss: 0.4877
+ 30/256 [==>...........................] - ETA: 5:24 - loss: 1.8816 - rpn_class_loss: 0.0126 - rpn_bbox_loss: 0.3885 - mrcnn_class_loss: 0.1385 - mrcnn_bbox_loss: 0.8507 - mrcnn_mask_loss: 0.4913
+ 31/256 [==>...........................] - ETA: 5:18 - loss: 1.8809 - rpn_class_loss: 0.0130 - rpn_bbox_loss: 0.3954 - mrcnn_class_loss: 0.1375 - mrcnn_bbox_loss: 0.8457 - mrcnn_mask_loss: 0.4893
+ 32/256 [==>...........................] - ETA: 5:12 - loss: 1.8979 - rpn_class_loss: 0.0152 - rpn_bbox_loss: 0.4060 - mrcnn_class_loss: 0.1364 - mrcnn_bbox_loss: 0.8519 - mrcnn_mask_loss: 0.4883
+ 33/256 [==>...........................] - ETA: 5:06 - loss: 1.8661 - rpn_class_loss: 0.0148 - rpn_bbox_loss: 0.3999 - mrcnn_class_loss: 0.1327 - mrcnn_bbox_loss: 0.8392 - mrcnn_mask_loss: 0.4794
+ 34/256 [==>...........................] - ETA: 5:01 - loss: 1.8686 - rpn_class_loss: 0.0144 - rpn_bbox_loss: 0.4120 - mrcnn_class_loss: 0.1290 - mrcnn_bbox_loss: 0.8327 - mrcnn_mask_loss: 0.4805
+ 35/256 [===>..........................] - ETA: 4:56 - loss: 1.8636 - rpn_class_loss: 0.0144 - rpn_bbox_loss: 0.4130 - mrcnn_class_loss: 0.1294 - mrcnn_bbox_loss: 0.8272 - mrcnn_mask_loss: 0.4796
+ 36/256 [===>..........................] - ETA: 4:51 - loss: 1.8427 - rpn_class_loss: 0.0143 - rpn_bbox_loss: 0.4030 - mrcnn_class_loss: 0.1266 - mrcnn_bbox_loss: 0.8214 - mrcnn_mask_loss: 0.4775
+ 37/256 [===>..........................] - ETA: 4:47 - loss: 1.8293 - rpn_class_loss: 0.0144 - rpn_bbox_loss: 0.3972 - mrcnn_class_loss: 0.1254 - mrcnn_bbox_loss: 0.8173 - mrcnn_mask_loss: 0.4749Loading Train Set
+Train: 2809
+Loading Test Set
+Test: 846
+Loading Config
+Starting Training
+
+Starting at epoch 0. LR=0.001
+
+Checkpoint Path: ../../../Helipad/model\helipad_cfg_10_no47du_5+20200407T1321\mask_rcnn_helipad_cfg_10_no47du_5+_{epoch:04d}.h5
+Selecting layers to train
+res3a_branch2a         (Conv2D)
+bn3a_branch2a          (BatchNorm)
+res3a_branch2b         (Conv2D)
+bn3a_branch2b          (BatchNorm)
+res3a_branch2c         (Conv2D)
+res3a_branch1          (Conv2D)
+bn3a_branch2c          (BatchNorm)
+bn3a_branch1           (BatchNorm)
+res3b_branch2a         (Conv2D)
+bn3b_branch2a          (BatchNorm)
+res3b_branch2b         (Conv2D)
+bn3b_branch2b          (BatchNorm)
+res3b_branch2c         (Conv2D)
+bn3b_branch2c          (BatchNorm)
+res3c_branch2a         (Conv2D)
+bn3c_branch2a          (BatchNorm)
+res3c_branch2b         (Conv2D)
+bn3c_branch2b          (BatchNorm)
+res3c_branch2c         (Conv2D)
+bn3c_branch2c          (BatchNorm)
+res3d_branch2a         (Conv2D)
+bn3d_branch2a          (BatchNorm)
+res3d_branch2b         (Conv2D)
+bn3d_branch2b          (BatchNorm)
+res3d_branch2c         (Conv2D)
+bn3d_branch2c          (BatchNorm)
+res4a_branch2a         (Conv2D)
+bn4a_branch2a          (BatchNorm)
+res4a_branch2b         (Conv2D)
+bn4a_branch2b          (BatchNorm)
+res4a_branch2c         (Conv2D)
+res4a_branch1          (Conv2D)
+bn4a_branch2c          (BatchNorm)
+bn4a_branch1           (BatchNorm)
+res4b_branch2a         (Conv2D)
+bn4b_branch2a          (BatchNorm)
+res4b_branch2b         (Conv2D)
+bn4b_branch2b          (BatchNorm)
+res4b_branch2c         (Conv2D)
+bn4b_branch2c          (BatchNorm)
+res4c_branch2a         (Conv2D)
+bn4c_branch2a          (BatchNorm)
+res4c_branch2b         (Conv2D)
+bn4c_branch2b          (BatchNorm)
+res4c_branch2c         (Conv2D)
+bn4c_branch2c          (BatchNorm)
+res4d_branch2a         (Conv2D)
+bn4d_branch2a          (BatchNorm)
+res4d_branch2b         (Conv2D)
+bn4d_branch2b          (BatchNorm)
+res4d_branch2c         (Conv2D)
+bn4d_branch2c          (BatchNorm)
+res4e_branch2a         (Conv2D)
+bn4e_branch2a          (BatchNorm)
+res4e_branch2b         (Conv2D)
+bn4e_branch2b          (BatchNorm)
+res4e_branch2c         (Conv2D)
+bn4e_branch2c          (BatchNorm)
+res4f_branch2a         (Conv2D)
+bn4f_branch2a          (BatchNorm)
+res4f_branch2b         (Conv2D)
+bn4f_branch2b          (BatchNorm)
+res4f_branch2c         (Conv2D)
+bn4f_branch2c          (BatchNorm)
+res4g_branch2a         (Conv2D)
+bn4g_branch2a          (BatchNorm)
+res4g_branch2b         (Conv2D)
+bn4g_branch2b          (BatchNorm)
+res4g_branch2c         (Conv2D)
+bn4g_branch2c          (BatchNorm)
+res4h_branch2a         (Conv2D)
+bn4h_branch2a          (BatchNorm)
+res4h_branch2b         (Conv2D)
+bn4h_branch2b          (BatchNorm)
+res4h_branch2c         (Conv2D)
+bn4h_branch2c          (BatchNorm)
+res4i_branch2a         (Conv2D)
+bn4i_branch2a          (BatchNorm)
+res4i_branch2b         (Conv2D)
+bn4i_branch2b          (BatchNorm)
+res4i_branch2c         (Conv2D)
+bn4i_branch2c          (BatchNorm)
+res4j_branch2a         (Conv2D)
+bn4j_branch2a          (BatchNorm)
+res4j_branch2b         (Conv2D)
+bn4j_branch2b          (BatchNorm)
+res4j_branch2c         (Conv2D)
+bn4j_branch2c          (BatchNorm)
+res4k_branch2a         (Conv2D)
+bn4k_branch2a          (BatchNorm)
+res4k_branch2b         (Conv2D)
+bn4k_branch2b          (BatchNorm)
+res4k_branch2c         (Conv2D)
+bn4k_branch2c          (BatchNorm)
+res4l_branch2a         (Conv2D)
+bn4l_branch2a          (BatchNorm)
+res4l_branch2b         (Conv2D)
+bn4l_branch2b          (BatchNorm)
+res4l_branch2c         (Conv2D)
+bn4l_branch2c          (BatchNorm)
+res4m_branch2a         (Conv2D)
+bn4m_branch2a          (BatchNorm)
+res4m_branch2b         (Conv2D)
+bn4m_branch2b          (BatchNorm)
+res4m_branch2c         (Conv2D)
+bn4m_branch2c          (BatchNorm)
+res4n_branch2a         (Conv2D)
+bn4n_branch2a          (BatchNorm)
+res4n_branch2b         (Conv2D)
+bn4n_branch2b          (BatchNorm)
+res4n_branch2c         (Conv2D)
+bn4n_branch2c          (BatchNorm)
+res4o_branch2a         (Conv2D)
+bn4o_branch2a          (BatchNorm)
+res4o_branch2b         (Conv2D)
+bn4o_branch2b          (BatchNorm)
+res4o_branch2c         (Conv2D)
+bn4o_branch2c          (BatchNorm)
+res4p_branch2a         (Conv2D)
+bn4p_branch2a          (BatchNorm)
+res4p_branch2b         (Conv2D)
+bn4p_branch2b          (BatchNorm)
+res4p_branch2c         (Conv2D)
+bn4p_branch2c          (BatchNorm)
+res4q_branch2a         (Conv2D)
+bn4q_branch2a          (BatchNorm)
+res4q_branch2b         (Conv2D)
+bn4q_branch2b          (BatchNorm)
+res4q_branch2c         (Conv2D)
+bn4q_branch2c          (BatchNorm)
+res4r_branch2a         (Conv2D)
+bn4r_branch2a          (BatchNorm)
+res4r_branch2b         (Conv2D)
+bn4r_branch2b          (BatchNorm)
+res4r_branch2c         (Conv2D)
+bn4r_branch2c          (BatchNorm)
+res4s_branch2a         (Conv2D)
+bn4s_branch2a          (BatchNorm)
+res4s_branch2b         (Conv2D)
+bn4s_branch2b          (BatchNorm)
+res4s_branch2c         (Conv2D)
+bn4s_branch2c          (BatchNorm)
+res4t_branch2a         (Conv2D)
+bn4t_branch2a          (BatchNorm)
+res4t_branch2b         (Conv2D)
+bn4t_branch2b          (BatchNorm)
+res4t_branch2c         (Conv2D)
+bn4t_branch2c          (BatchNorm)
+res4u_branch2a         (Conv2D)
+bn4u_branch2a          (BatchNorm)
+res4u_branch2b         (Conv2D)
+bn4u_branch2b          (BatchNorm)
+res4u_branch2c         (Conv2D)
+bn4u_branch2c          (BatchNorm)
+res4v_branch2a         (Conv2D)
+bn4v_branch2a          (BatchNorm)
+res4v_branch2b         (Conv2D)
+bn4v_branch2b          (BatchNorm)
+res4v_branch2c         (Conv2D)
+bn4v_branch2c          (BatchNorm)
+res4w_branch2a         (Conv2D)
+bn4w_branch2a          (BatchNorm)
+res4w_branch2b         (Conv2D)
+bn4w_branch2b          (BatchNorm)
+res4w_branch2c         (Conv2D)
+bn4w_branch2c          (BatchNorm)
+res5a_branch2a         (Conv2D)
+bn5a_branch2a          (BatchNorm)
+res5a_branch2b         (Conv2D)
+bn5a_branch2b          (BatchNorm)
+res5a_branch2c         (Conv2D)
+res5a_branch1          (Conv2D)
+bn5a_branch2c          (BatchNorm)
+bn5a_branch1           (BatchNorm)
+res5b_branch2a         (Conv2D)
+bn5b_branch2a          (BatchNorm)
+res5b_branch2b         (Conv2D)
+bn5b_branch2b          (BatchNorm)
+res5b_branch2c         (Conv2D)
+bn5b_branch2c          (BatchNorm)
+res5c_branch2a         (Conv2D)
+bn5c_branch2a          (BatchNorm)
+res5c_branch2b         (Conv2D)
+bn5c_branch2b          (BatchNorm)
+res5c_branch2c         (Conv2D)
+bn5c_branch2c          (BatchNorm)
+fpn_c5p5               (Conv2D)
+fpn_c4p4               (Conv2D)
+fpn_c3p3               (Conv2D)
+fpn_c2p2               (Conv2D)
+fpn_p5                 (Conv2D)
+fpn_p2                 (Conv2D)
+fpn_p3                 (Conv2D)
+fpn_p4                 (Conv2D)
+In model:  rpn_model
+    rpn_conv_shared        (Conv2D)
+    rpn_class_raw          (Conv2D)
+    rpn_bbox_pred          (Conv2D)
+mrcnn_mask_conv1       (TimeDistributed)
+mrcnn_mask_bn1         (TimeDistributed)
+mrcnn_mask_conv2       (TimeDistributed)
+mrcnn_mask_bn2         (TimeDistributed)
+mrcnn_class_conv1      (TimeDistributed)
+mrcnn_class_bn1        (TimeDistributed)
+mrcnn_mask_conv3       (TimeDistributed)
+mrcnn_mask_bn3         (TimeDistributed)
+mrcnn_class_conv2      (TimeDistributed)
+mrcnn_class_bn2        (TimeDistributed)
+mrcnn_mask_conv4       (TimeDistributed)
+mrcnn_mask_bn4         (TimeDistributed)
+mrcnn_bbox_fc          (TimeDistributed)
+mrcnn_mask_deconv      (TimeDistributed)
+mrcnn_class_logits     (TimeDistributed)
+mrcnn_mask             (TimeDistributed)
+Epoch 1/700
+
+  1/256 [..............................] - ETA: 1:30:36 - loss: 4.3177 - rpn_class_loss: 0.0262 - rpn_bbox_loss: 0.1047 - mrcnn_class_loss: 2.7151 - mrcnn_bbox_loss: 1.0785 - mrcnn_mask_loss: 0.3931
+  2/256 [..............................] - ETA: 46:47 - loss: 5.0497 - rpn_class_loss: 0.0270 - rpn_bbox_loss: 0.9220 - mrcnn_class_loss: 2.2223 - mrcnn_bbox_loss: 1.3711 - mrcnn_mask_loss: 0.5074  
+  3/256 [..............................] - ETA: 32:01 - loss: 4.2539 - rpn_class_loss: 0.0335 - rpn_bbox_loss: 0.6766 - mrcnn_class_loss: 1.6770 - mrcnn_bbox_loss: 1.3875 - mrcnn_mask_loss: 0.4792
+  4/256 [..............................] - ETA: 24:47 - loss: 3.8056 - rpn_class_loss: 0.0291 - rpn_bbox_loss: 0.6859 - mrcnn_class_loss: 1.2834 - mrcnn_bbox_loss: 1.3287 - mrcnn_mask_loss: 0.4786
+  5/256 [..............................] - ETA: 20:20 - loss: 3.5637 - rpn_class_loss: 0.0261 - rpn_bbox_loss: 0.6823 - mrcnn_class_loss: 1.0550 - mrcnn_bbox_loss: 1.3246 - mrcnn_mask_loss: 0.4756
+  6/256 [..............................] - ETA: 17:26 - loss: 3.3040 - rpn_class_loss: 0.0231 - rpn_bbox_loss: 0.6991 - mrcnn_class_loss: 0.8893 - mrcnn_bbox_loss: 1.2070 - mrcnn_mask_loss: 0.4854
+  7/256 [..............................] - ETA: 15:21 - loss: 3.0604 - rpn_class_loss: 0.0298 - rpn_bbox_loss: 0.6131 - mrcnn_class_loss: 0.7665 - mrcnn_bbox_loss: 1.1583 - mrcnn_mask_loss: 0.4927
+  8/256 [..............................] - ETA: 13:49 - loss: 2.9633 - rpn_class_loss: 0.0283 - rpn_bbox_loss: 0.5765 - mrcnn_class_loss: 0.6747 - mrcnn_bbox_loss: 1.2027 - mrcnn_mask_loss: 0.4810
+  9/256 [>.............................] - ETA: 12:34 - loss: 2.8068 - rpn_class_loss: 0.0253 - rpn_bbox_loss: 0.5183 - mrcnn_class_loss: 0.6041 - mrcnn_bbox_loss: 1.2047 - mrcnn_mask_loss: 0.4544
+ 10/256 [>.............................] - ETA: 11:34 - loss: 2.7527 - rpn_class_loss: 0.0253 - rpn_bbox_loss: 0.5463 - mrcnn_class_loss: 0.5517 - mrcnn_bbox_loss: 1.1628 - mrcnn_mask_loss: 0.4666
+ 11/256 [>.............................] - ETA: 10:47 - loss: 2.6827 - rpn_class_loss: 0.0233 - rpn_bbox_loss: 0.5086 - mrcnn_class_loss: 0.5061 - mrcnn_bbox_loss: 1.1812 - mrcnn_mask_loss: 0.4636
+ 12/256 [>.............................] - ETA: 10:07 - loss: 2.6614 - rpn_class_loss: 0.0249 - rpn_bbox_loss: 0.5086 - mrcnn_class_loss: 0.4750 - mrcnn_bbox_loss: 1.1813 - mrcnn_mask_loss: 0.4716
+ 13/256 [>.............................] - ETA: 9:33 - loss: 2.5820 - rpn_class_loss: 0.0241 - rpn_bbox_loss: 0.4836 - mrcnn_class_loss: 0.4408 - mrcnn_bbox_loss: 1.1656 - mrcnn_mask_loss: 0.4678 
+ 14/256 [>.............................] - ETA: 9:03 - loss: 2.5580 - rpn_class_loss: 0.0225 - rpn_bbox_loss: 0.4537 - mrcnn_class_loss: 0.4330 - mrcnn_bbox_loss: 1.1761 - mrcnn_mask_loss: 0.4726
+ 15/256 [>.............................] - ETA: 8:36 - loss: 2.5685 - rpn_class_loss: 0.0212 - rpn_bbox_loss: 0.4852 - mrcnn_class_loss: 0.4087 - mrcnn_bbox_loss: 1.1791 - mrcnn_mask_loss: 0.4743
+ 16/256 [>.............................] - ETA: 8:14 - loss: 2.5241 - rpn_class_loss: 0.0200 - rpn_bbox_loss: 0.4659 - mrcnn_class_loss: 0.3891 - mrcnn_bbox_loss: 1.1678 - mrcnn_mask_loss: 0.4813
+ 17/256 [>.............................] - ETA: 7:53 - loss: 2.4737 - rpn_class_loss: 0.0193 - rpn_bbox_loss: 0.4667 - mrcnn_class_loss: 0.3711 - mrcnn_bbox_loss: 1.1415 - mrcnn_mask_loss: 0.4751
+ 18/256 [=>............................] - ETA: 7:35 - loss: 2.4431 - rpn_class_loss: 0.0202 - rpn_bbox_loss: 0.4695 - mrcnn_class_loss: 0.3570 - mrcnn_bbox_loss: 1.1265 - mrcnn_mask_loss: 0.4699
+ 19/256 [=>............................] - ETA: 7:18 - loss: 2.4372 - rpn_class_loss: 0.0203 - rpn_bbox_loss: 0.5016 - mrcnn_class_loss: 0.3427 - mrcnn_bbox_loss: 1.1051 - mrcnn_mask_loss: 0.4674
+ 20/256 [=>............................] - ETA: 7:03 - loss: 2.4059 - rpn_class_loss: 0.0195 - rpn_bbox_loss: 0.4905 - mrcnn_class_loss: 0.3319 - mrcnn_bbox_loss: 1.0900 - mrcnn_mask_loss: 0.4740
+ 21/256 [=>............................] - ETA: 6:50 - loss: 2.3419 - rpn_class_loss: 0.0196 - rpn_bbox_loss: 0.4685 - mrcnn_class_loss: 0.3187 - mrcnn_bbox_loss: 1.0669 - mrcnn_mask_loss: 0.4683
+ 22/256 [=>............................] - ETA: 6:38 - loss: 2.3037 - rpn_class_loss: 0.0187 - rpn_bbox_loss: 0.4520 - mrcnn_class_loss: 0.3056 - mrcnn_bbox_loss: 1.0652 - mrcnn_mask_loss: 0.4623
+ 23/256 [=>............................] - ETA: 6:28 - loss: 2.2822 - rpn_class_loss: 0.0190 - rpn_bbox_loss: 0.4526 - mrcnn_class_loss: 0.2925 - mrcnn_bbox_loss: 1.0596 - mrcnn_mask_loss: 0.4586
+ 24/256 [=>............................] - ETA: 6:17 - loss: 2.2403 - rpn_class_loss: 0.0183 - rpn_bbox_loss: 0.4367 - mrcnn_class_loss: 0.2813 - mrcnn_bbox_loss: 1.0491 - mrcnn_mask_loss: 0.4549
+ 25/256 [=>............................] - ETA: 6:08 - loss: 2.1917 - rpn_class_loss: 0.0185 - rpn_bbox_loss: 0.4292 - mrcnn_class_loss: 0.2708 - mrcnn_bbox_loss: 1.0194 - mrcnn_mask_loss: 0.4538
+ 26/256 [==>...........................] - ETA: 5:58 - loss: 2.4185 - rpn_class_loss: 0.0250 - rpn_bbox_loss: 0.6734 - mrcnn_class_loss: 0.2611 - mrcnn_bbox_loss: 1.0050 - mrcnn_mask_loss: 0.4540
+ 27/256 [==>...........................] - ETA: 5:49 - loss: 2.4003 - rpn_class_loss: 0.0243 - rpn_bbox_loss: 0.6729 - mrcnn_class_loss: 0.2554 - mrcnn_bbox_loss: 0.9876 - mrcnn_mask_loss: 0.4601
+ 28/256 [==>...........................] - ETA: 5:41 - loss: 2.3957 - rpn_class_loss: 0.0244 - rpn_bbox_loss: 0.6776 - mrcnn_class_loss: 0.2465 - mrcnn_bbox_loss: 0.9763 - mrcnn_mask_loss: 0.4709
+ 29/256 [==>...........................] - ETA: 5:33 - loss: 2.3515 - rpn_class_loss: 0.0246 - rpn_bbox_loss: 0.6602 - mrcnn_class_loss: 0.2393 - mrcnn_bbox_loss: 0.9558 - mrcnn_mask_loss: 0.4715
+ 30/256 [==>...........................] - ETA: 5:27 - loss: 2.3291 - rpn_class_loss: 0.0240 - rpn_bbox_loss: 0.6496 - mrcnn_class_loss: 0.2332 - mrcnn_bbox_loss: 0.9505 - mrcnn_mask_loss: 0.4718
+ 31/256 [==>...........................] - ETA: 5:20 - loss: 2.2832 - rpn_class_loss: 0.0235 - rpn_bbox_loss: 0.6314 - mrcnn_class_loss: 0.2272 - mrcnn_bbox_loss: 0.9373 - mrcnn_mask_loss: 0.4638
+ 32/256 [==>...........................] - ETA: 5:14 - loss: 2.2462 - rpn_class_loss: 0.0237 - rpn_bbox_loss: 0.6198 - mrcnn_class_loss: 0.2216 - mrcnn_bbox_loss: 0.9210 - mrcnn_mask_loss: 0.4602
+ 33/256 [==>...........................] - ETA: 5:08 - loss: 2.2268 - rpn_class_loss: 0.0240 - rpn_bbox_loss: 0.6118 - mrcnn_class_loss: 0.2161 - mrcnn_bbox_loss: 0.9132 - mrcnn_mask_loss: 0.4617
+ 34/256 [==>...........................] - ETA: 5:02 - loss: 2.1938 - rpn_class_loss: 0.0241 - rpn_bbox_loss: 0.6045 - mrcnn_class_loss: 0.2106 - mrcnn_bbox_loss: 0.8943 - mrcnn_mask_loss: 0.4603
+ 35/256 [===>..........................] - ETA: 4:57 - loss: 2.1545 - rpn_class_loss: 0.0235 - rpn_bbox_loss: 0.5889 - mrcnn_class_loss: 0.2054 - mrcnn_bbox_loss: 0.8753 - mrcnn_mask_loss: 0.4614
+ 36/256 [===>..........................] - ETA: 4:52 - loss: 2.1173 - rpn_class_loss: 0.0232 - rpn_bbox_loss: 0.5738 - mrcnn_class_loss: 0.2004 - mrcnn_bbox_loss: 0.8637 - mrcnn_mask_loss: 0.4561
+ 37/256 [===>..........................] - ETA: 4:47 - loss: 2.0776 - rpn_class_loss: 0.0227 - rpn_bbox_loss: 0.5590 - mrcnn_class_loss: 0.1953 - mrcnn_bbox_loss: 0.8497 - mrcnn_mask_loss: 0.4508
+ 38/256 [===>..........................] - ETA: 4:42 - loss: 2.0664 - rpn_class_loss: 0.0224 - rpn_bbox_loss: 0.5504 - mrcnn_class_loss: 0.1913 - mrcnn_bbox_loss: 0.8511 - mrcnn_mask_loss: 0.4513
+ 39/256 [===>..........................] - ETA: 4:38 - loss: 2.0382 - rpn_class_loss: 0.0224 - rpn_bbox_loss: 0.5378 - mrcnn_class_loss: 0.1868 - mrcnn_bbox_loss: 0.8383 - mrcnn_mask_loss: 0.4529
+ 40/256 [===>..........................] - ETA: 4:33 - loss: 2.0094 - rpn_class_loss: 0.0228 - rpn_bbox_loss: 0.5257 - mrcnn_class_loss: 0.1833 - mrcnn_bbox_loss: 0.8233 - mrcnn_mask_loss: 0.4543
+ 41/256 [===>..........................] - ETA: 4:29 - loss: 1.9773 - rpn_class_loss: 0.0227 - rpn_bbox_loss: 0.5134 - mrcnn_class_loss: 0.1795 - mrcnn_bbox_loss: 0.8109 - mrcnn_mask_loss: 0.4508
+ 42/256 [===>..........................] - ETA: 4:26 - loss: 1.9413 - rpn_class_loss: 0.0222 - rpn_bbox_loss: 0.5021 - mrcnn_class_loss: 0.1753 - mrcnn_bbox_loss: 0.7964 - mrcnn_mask_loss: 0.4453
+ 43/256 [====>.........................] - ETA: 4:22 - loss: 1.9088 - rpn_class_loss: 0.0221 - rpn_bbox_loss: 0.4909 - mrcnn_class_loss: 0.1715 - mrcnn_bbox_loss: 0.7819 - mrcnn_mask_loss: 0.4423
+ 44/256 [====>.........................] - ETA: 4:18 - loss: 1.9137 - rpn_class_loss: 0.0226 - rpn_bbox_loss: 0.5005 - mrcnn_class_loss: 0.1676 - mrcnn_bbox_loss: 0.7819 - mrcnn_mask_loss: 0.4411
+ 45/256 [====>.........................] - ETA: 4:15 - loss: 1.8975 - rpn_class_loss: 0.0224 - rpn_bbox_loss: 0.4959 - mrcnn_class_loss: 0.1656 - mrcnn_bbox_loss: 0.7744 - mrcnn_mask_loss: 0.4391
+ 46/256 [====>.........................] - ETA: 4:12 - loss: 1.8847 - rpn_class_loss: 0.0220 - rpn_bbox_loss: 0.4898 - mrcnn_class_loss: 0.1625 - mrcnn_bbox_loss: 0.7706 - mrcnn_mask_loss: 0.4399
+ 47/256 [====>.........................] - ETA: 4:08 - loss: 1.8631 - rpn_class_loss: 0.0215 - rpn_bbox_loss: 0.4810 - mrcnn_class_loss: 0.1591 - mrcnn_bbox_loss: 0.7629 - mrcnn_mask_loss: 0.4385
+ 48/256 [====>.........................] - ETA: 4:06 - loss: 1.8433 - rpn_class_loss: 0.0216 - rpn_bbox_loss: 0.4739 - mrcnn_class_loss: 0.1562 - mrcnn_bbox_loss: 0.7567 - mrcnn_mask_loss: 0.4349
+ 49/256 [====>.........................] - ETA: 4:03 - loss: 1.8286 - rpn_class_loss: 0.0214 - rpn_bbox_loss: 0.4681 - mrcnn_class_loss: 0.1533 - mrcnn_bbox_loss: 0.7515 - mrcnn_mask_loss: 0.4342
+ 50/256 [====>.........................] - ETA: 4:00 - loss: 1.8153 - rpn_class_loss: 0.0210 - rpn_bbox_loss: 0.4630 - mrcnn_class_loss: 0.1505 - mrcnn_bbox_loss: 0.7462 - mrcnn_mask_loss: 0.4345
+ 51/256 [====>.........................] - ETA: 3:57 - loss: 1.7998 - rpn_class_loss: 0.0213 - rpn_bbox_loss: 0.4586 - mrcnn_class_loss: 0.1479 - mrcnn_bbox_loss: 0.7412 - mrcnn_mask_loss: 0.4308
+ 52/256 [=====>........................] - ETA: 3:54 - loss: 1.7938 - rpn_class_loss: 0.0210 - rpn_bbox_loss: 0.4558 - mrcnn_class_loss: 0.1453 - mrcnn_bbox_loss: 0.7378 - mrcnn_mask_loss: 0.4338
+ 53/256 [=====>........................] - ETA: 3:51 - loss: 1.7879 - rpn_class_loss: 0.0208 - rpn_bbox_loss: 0.4568 - mrcnn_class_loss: 0.1428 - mrcnn_bbox_loss: 0.7302 - mrcnn_mask_loss: 0.4373
+ 54/256 [=====>........................] - ETA: 3:49 - loss: 1.7819 - rpn_class_loss: 0.0207 - rpn_bbox_loss: 0.4536 - mrcnn_class_loss: 0.1417 - mrcnn_bbox_loss: 0.7288 - mrcnn_mask_loss: 0.4371
+ 55/256 [=====>........................] - ETA: 3:47 - loss: 1.7702 - rpn_class_loss: 0.0204 - rpn_bbox_loss: 0.4470 - mrcnn_class_loss: 0.1393 - mrcnn_bbox_loss: 0.7255 - mrcnn_mask_loss: 0.4380
+ 56/256 [=====>........................] - ETA: 3:44 - loss: 1.7586 - rpn_class_loss: 0.0201 - rpn_bbox_loss: 0.4412 - mrcnn_class_loss: 0.1370 - mrcnn_bbox_loss: 0.7240 - mrcnn_mask_loss: 0.4362
+ 57/256 [=====>........................] - ETA: 3:42 - loss: 1.7477 - rpn_class_loss: 0.0199 - rpn_bbox_loss: 0.4354 - mrcnn_class_loss: 0.1350 - mrcnn_bbox_loss: 0.7231 - mrcnn_mask_loss: 0.4344
+ 58/256 [=====>........................] - ETA: 3:39 - loss: 1.7354 - rpn_class_loss: 0.0196 - rpn_bbox_loss: 0.4305 - mrcnn_class_loss: 0.1329 - mrcnn_bbox_loss: 0.7184 - mrcnn_mask_loss: 0.4341
+ 59/256 [=====>........................] - ETA: 3:37 - loss: 1.7201 - rpn_class_loss: 0.0194 - rpn_bbox_loss: 0.4248 - mrcnn_class_loss: 0.1317 - mrcnn_bbox_loss: 0.7124 - mrcnn_mask_loss: 0.4319
+ 60/256 [======>.......................] - ETA: 3:35 - loss: 1.7088 - rpn_class_loss: 0.0191 - rpn_bbox_loss: 0.4182 - mrcnn_class_loss: 0.1295 - mrcnn_bbox_loss: 0.7060 - mrcnn_mask_loss: 0.4361
+ 61/256 [======>.......................] - ETA: 3:32 - loss: 1.6995 - rpn_class_loss: 0.0191 - rpn_bbox_loss: 0.4117 - mrcnn_class_loss: 0.1289 - mrcnn_bbox_loss: 0.7035 - mrcnn_mask_loss: 0.4362
+ 62/256 [======>.......................] - ETA: 3:30 - loss: 1.6919 - rpn_class_loss: 0.0188 - rpn_bbox_loss: 0.4065 - mrcnn_class_loss: 0.1270 - mrcnn_bbox_loss: 0.7009 - mrcnn_mask_loss: 0.4386
+ 63/256 [======>.......................] - ETA: 3:28 - loss: 1.7006 - rpn_class_loss: 0.0194 - rpn_bbox_loss: 0.4107 - mrcnn_class_loss: 0.1262 - mrcnn_bbox_loss: 0.7034 - mrcnn_mask_loss: 0.4408
+ 64/256 [======>.......................] - ETA: 3:26 - loss: 1.6924 - rpn_class_loss: 0.0191 - rpn_bbox_loss: 0.4060 - mrcnn_class_loss: 0.1243 - mrcnn_bbox_loss: 0.7006 - mrcnn_mask_loss: 0.4423
+ 65/256 [======>.......................] - ETA: 3:23 - loss: 1.6884 - rpn_class_loss: 0.0188 - rpn_bbox_loss: 0.4074 - mrcnn_class_loss: 0.1231 - mrcnn_bbox_loss: 0.6973 - mrcnn_mask_loss: 0.4418
+ 66/256 [======>.......................] - ETA: 3:22 - loss: 1.6869 - rpn_class_loss: 0.0186 - rpn_bbox_loss: 0.4086 - mrcnn_class_loss: 0.1219 - mrcnn_bbox_loss: 0.6936 - mrcnn_mask_loss: 0.4442
+ 67/256 [======>.......................] - ETA: 3:20 - loss: 1.6932 - rpn_class_loss: 0.0187 - rpn_bbox_loss: 0.4100 - mrcnn_class_loss: 0.1271 - mrcnn_bbox_loss: 0.6893 - mrcnn_mask_loss: 0.4480
+ 68/256 [======>.......................] - ETA: 3:18 - loss: 1.6765 - rpn_class_loss: 0.0186 - rpn_bbox_loss: 0.4046 - mrcnn_class_loss: 0.1256 - mrcnn_bbox_loss: 0.6811 - mrcnn_mask_loss: 0.4466
+ 69/256 [=======>......................] - ETA: 3:16 - loss: 1.6617 - rpn_class_loss: 0.0188 - rpn_bbox_loss: 0.4014 - mrcnn_class_loss: 0.1238 - mrcnn_bbox_loss: 0.6750 - mrcnn_mask_loss: 0.4428
+ 70/256 [=======>......................] - ETA: 3:14 - loss: 1.6478 - rpn_class_loss: 0.0185 - rpn_bbox_loss: 0.3980 - mrcnn_class_loss: 0.1222 - mrcnn_bbox_loss: 0.6688 - mrcnn_mask_loss: 0.4403
+ 71/256 [=======>......................] - ETA: 3:12 - loss: 1.6412 - rpn_class_loss: 0.0183 - rpn_bbox_loss: 0.3939 - mrcnn_class_loss: 0.1205 - mrcnn_bbox_loss: 0.6677 - mrcnn_mask_loss: 0.4407
+ 72/256 [=======>......................] - ETA: 3:11 - loss: 1.6278 - rpn_class_loss: 0.0181 - rpn_bbox_loss: 0.3888 - mrcnn_class_loss: 0.1189 - mrcnn_bbox_loss: 0.6619 - mrcnn_mask_loss: 0.4402
+ 73/256 [=======>......................] - ETA: 3:09 - loss: 1.6288 - rpn_class_loss: 0.0178 - rpn_bbox_loss: 0.3909 - mrcnn_class_loss: 0.1173 - mrcnn_bbox_loss: 0.6631 - mrcnn_mask_loss: 0.4397
+ 74/256 [=======>......................] - ETA: 3:07 - loss: 1.6327 - rpn_class_loss: 0.0185 - rpn_bbox_loss: 0.3968 - mrcnn_class_loss: 0.1158 - mrcnn_bbox_loss: 0.6623 - mrcnn_mask_loss: 0.4393
+ 75/256 [=======>......................] - ETA: 3:06 - loss: 1.6265 - rpn_class_loss: 0.0183 - rpn_bbox_loss: 0.3932 - mrcnn_class_loss: 0.1145 - mrcnn_bbox_loss: 0.6620 - mrcnn_mask_loss: 0.4385
+ 76/256 [=======>......................] - ETA: 3:04 - loss: 1.6158 - rpn_class_loss: 0.0181 - rpn_bbox_loss: 0.3913 - mrcnn_class_loss: 0.1132 - mrcnn_bbox_loss: 0.6559 - mrcnn_mask_loss: 0.4373
+ 77/256 [========>.....................] - ETA: 3:02 - loss: 1.6050 - rpn_class_loss: 0.0179 - rpn_bbox_loss: 0.3897 - mrcnn_class_loss: 0.1124 - mrcnn_bbox_loss: 0.6496 - mrcnn_mask_loss: 0.4354
+ 78/256 [========>.....................] - ETA: 3:01 - loss: 1.5951 - rpn_class_loss: 0.0177 - rpn_bbox_loss: 0.3885 - mrcnn_class_loss: 0.1110 - mrcnn_bbox_loss: 0.6424 - mrcnn_mask_loss: 0.4355
+ 79/256 [========>.....................] - ETA: 2:59 - loss: 1.5852 - rpn_class_loss: 0.0176 - rpn_bbox_loss: 0.3839 - mrcnn_class_loss: 0.1100 - mrcnn_bbox_loss: 0.6397 - mrcnn_mask_loss: 0.4339
+ 80/256 [========>.....................] - ETA: 2:57 - loss: 1.5767 - rpn_class_loss: 0.0175 - rpn_bbox_loss: 0.3818 - mrcnn_class_loss: 0.1090 - mrcnn_bbox_loss: 0.6360 - mrcnn_mask_loss: 0.4323
+ 81/256 [========>.....................] - ETA: 2:56 - loss: 1.5690 - rpn_class_loss: 0.0175 - rpn_bbox_loss: 0.3779 - mrcnn_class_loss: 0.1082 - mrcnn_bbox_loss: 0.6326 - mrcnn_mask_loss: 0.4329
+ 82/256 [========>.....................] - ETA: 2:54 - loss: 1.5615 - rpn_class_loss: 0.0173 - rpn_bbox_loss: 0.3753 - mrcnn_class_loss: 0.1069 - mrcnn_bbox_loss: 0.6304 - mrcnn_mask_loss: 0.4315
+ 83/256 [========>.....................] - ETA: 2:53 - loss: 1.5610 - rpn_class_loss: 0.0172 - rpn_bbox_loss: 0.3773 - mrcnn_class_loss: 0.1059 - mrcnn_bbox_loss: 0.6286 - mrcnn_mask_loss: 0.4320
+ 84/256 [========>.....................] - ETA: 2:52 - loss: 1.5535 - rpn_class_loss: 0.0171 - rpn_bbox_loss: 0.3747 - mrcnn_class_loss: 0.1046 - mrcnn_bbox_loss: 0.6271 - mrcnn_mask_loss: 0.4299
+ 85/256 [========>.....................] - ETA: 2:50 - loss: 1.5522 - rpn_class_loss: 0.0169 - rpn_bbox_loss: 0.3799 - mrcnn_class_loss: 0.1039 - mrcnn_bbox_loss: 0.6225 - mrcnn_mask_loss: 0.4289
+ 86/256 [=========>....................] - ETA: 2:49 - loss: 1.5436 - rpn_class_loss: 0.0168 - rpn_bbox_loss: 0.3768 - mrcnn_class_loss: 0.1028 - mrcnn_bbox_loss: 0.6206 - mrcnn_mask_loss: 0.4266
+ 87/256 [=========>....................] - ETA: 2:47 - loss: 1.5397 - rpn_class_loss: 0.0166 - rpn_bbox_loss: 0.3743 - mrcnn_class_loss: 0.1017 - mrcnn_bbox_loss: 0.6210 - mrcnn_mask_loss: 0.4260
+ 88/256 [=========>....................] - ETA: 2:46 - loss: 1.5373 - rpn_class_loss: 0.0164 - rpn_bbox_loss: 0.3720 - mrcnn_class_loss: 0.1007 - mrcnn_bbox_loss: 0.6223 - mrcnn_mask_loss: 0.4258
+ 89/256 [=========>....................] - ETA: 2:44 - loss: 1.5284 - rpn_class_loss: 0.0163 - rpn_bbox_loss: 0.3684 - mrcnn_class_loss: 0.0997 - mrcnn_bbox_loss: 0.6190 - mrcnn_mask_loss: 0.4249
+ 90/256 [=========>....................] - ETA: 2:43 - loss: 1.5230 - rpn_class_loss: 0.0162 - rpn_bbox_loss: 0.3673 - mrcnn_class_loss: 0.0989 - mrcnn_bbox_loss: 0.6164 - mrcnn_mask_loss: 0.4242
+ 91/256 [=========>....................] - ETA: 2:41 - loss: 1.5165 - rpn_class_loss: 0.0161 - rpn_bbox_loss: 0.3640 - mrcnn_class_loss: 0.0986 - mrcnn_bbox_loss: 0.6134 - mrcnn_mask_loss: 0.4244
+ 92/256 [=========>....................] - ETA: 2:40 - loss: 1.5080 - rpn_class_loss: 0.0160 - rpn_bbox_loss: 0.3607 - mrcnn_class_loss: 0.0976 - mrcnn_bbox_loss: 0.6101 - mrcnn_mask_loss: 0.4236
+ 93/256 [=========>....................] - ETA: 2:39 - loss: 1.5053 - rpn_class_loss: 0.0159 - rpn_bbox_loss: 0.3611 - mrcnn_class_loss: 0.0967 - mrcnn_bbox_loss: 0.6096 - mrcnn_mask_loss: 0.4220
+ 94/256 [==========>...................] - ETA: 2:37 - loss: 1.4977 - rpn_class_loss: 0.0157 - rpn_bbox_loss: 0.3589 - mrcnn_class_loss: 0.0958 - mrcnn_bbox_loss: 0.6063 - mrcnn_mask_loss: 0.4210
+ 95/256 [==========>...................] - ETA: 2:36 - loss: 1.4911 - rpn_class_loss: 0.0156 - rpn_bbox_loss: 0.3573 - mrcnn_class_loss: 0.0949 - mrcnn_bbox_loss: 0.6037 - mrcnn_mask_loss: 0.4197
+ 96/256 [==========>...................] - ETA: 2:35 - loss: 1.4838 - rpn_class_loss: 0.0154 - rpn_bbox_loss: 0.3541 - mrcnn_class_loss: 0.0939 - mrcnn_bbox_loss: 0.5993 - mrcnn_mask_loss: 0.4211
+ 97/256 [==========>...................] - ETA: 2:33 - loss: 1.4752 - rpn_class_loss: 0.0153 - rpn_bbox_loss: 0.3517 - mrcnn_class_loss: 0.0930 - mrcnn_bbox_loss: 0.5948 - mrcnn_mask_loss: 0.4203
+ 98/256 [==========>...................] - ETA: 2:32 - loss: 1.4742 - rpn_class_loss: 0.0152 - rpn_bbox_loss: 0.3513 - mrcnn_class_loss: 0.0923 - mrcnn_bbox_loss: 0.5959 - mrcnn_mask_loss: 0.4195
+ 99/256 [==========>...................] - ETA: 2:31 - loss: 1.4668 - rpn_class_loss: 0.0151 - rpn_bbox_loss: 0.3503 - mrcnn_class_loss: 0.0916 - mrcnn_bbox_loss: 0.5923 - mrcnn_mask_loss: 0.4174
+100/256 [==========>...................] - ETA: 2:29 - loss: 1.4603 - rpn_class_loss: 0.0150 - rpn_bbox_loss: 0.3489 - mrcnn_class_loss: 0.0907 - mrcnn_bbox_loss: 0.5892 - mrcnn_mask_loss: 0.4165
+101/256 [==========>...................] - ETA: 2:28 - loss: 1.4593 - rpn_class_loss: 0.0149 - rpn_bbox_loss: 0.3513 - mrcnn_class_loss: 0.0899 - mrcnn_bbox_loss: 0.5869 - mrcnn_mask_loss: 0.4162
+102/256 [==========>...................] - ETA: 2:27 - loss: 1.4569 - rpn_class_loss: 0.0148 - rpn_bbox_loss: 0.3514 - mrcnn_class_loss: 0.0890 - mrcnn_bbox_loss: 0.5855 - mrcnn_mask_loss: 0.4162
+103/256 [===========>..................] - ETA: 2:26 - loss: 1.4527 - rpn_class_loss: 0.0148 - rpn_bbox_loss: 0.3483 - mrcnn_class_loss: 0.0883 - mrcnn_bbox_loss: 0.5858 - mrcnn_mask_loss: 0.4154
+104/256 [===========>..................] - ETA: 2:25 - loss: 1.4738 - rpn_class_loss: 0.0170 - rpn_bbox_loss: 0.3616 - mrcnn_class_loss: 0.0890 - mrcnn_bbox_loss: 0.5876 - mrcnn_mask_loss: 0.4185
+105/256 [===========>..................] - ETA: 2:23 - loss: 1.4667 - rpn_class_loss: 0.0168 - rpn_bbox_loss: 0.3583 - mrcnn_class_loss: 0.0883 - mrcnn_bbox_loss: 0.5866 - mrcnn_mask_loss: 0.4166
+106/256 [===========>..................] - ETA: 2:22 - loss: 1.4575 - rpn_class_loss: 0.0167 - rpn_bbox_loss: 0.3553 - mrcnn_class_loss: 0.0877 - mrcnn_bbox_loss: 0.5833 - mrcnn_mask_loss: 0.4145
+107/256 [===========>..................] - ETA: 2:21 - loss: 1.4503 - rpn_class_loss: 0.0165 - rpn_bbox_loss: 0.3527 - mrcnn_class_loss: 0.0871 - mrcnn_bbox_loss: 0.5800 - mrcnn_mask_loss: 0.4140
+108/256 [===========>..................] - ETA: 2:20 - loss: 1.4413 - rpn_class_loss: 0.0164 - rpn_bbox_loss: 0.3497 - mrcnn_class_loss: 0.0866 - mrcnn_bbox_loss: 0.5766 - mrcnn_mask_loss: 0.4120
+109/256 [===========>..................] - ETA: 2:19 - loss: 1.4391 - rpn_class_loss: 0.0162 - rpn_bbox_loss: 0.3485 - mrcnn_class_loss: 0.0858 - mrcnn_bbox_loss: 0.5757 - mrcnn_mask_loss: 0.4128
+110/256 [===========>..................] - ETA: 2:17 - loss: 1.4411 - rpn_class_loss: 0.0163 - rpn_bbox_loss: 0.3515 - mrcnn_class_loss: 0.0852 - mrcnn_bbox_loss: 0.5747 - mrcnn_mask_loss: 0.4134
+111/256 [============>.................] - ETA: 2:16 - loss: 1.4346 - rpn_class_loss: 0.0161 - rpn_bbox_loss: 0.3502 - mrcnn_class_loss: 0.0845 - mrcnn_bbox_loss: 0.5722 - mrcnn_mask_loss: 0.4115
+112/256 [============>.................] - ETA: 2:15 - loss: 1.4298 - rpn_class_loss: 0.0160 - rpn_bbox_loss: 0.3496 - mrcnn_class_loss: 0.0839 - mrcnn_bbox_loss: 0.5692 - mrcnn_mask_loss: 0.4111
+113/256 [============>.................] - ETA: 2:14 - loss: 1.4356 - rpn_class_loss: 0.0175 - rpn_bbox_loss: 0.3516 - mrcnn_class_loss: 0.0853 - mrcnn_bbox_loss: 0.5700 - mrcnn_mask_loss: 0.4113
+114/256 [============>.................] - ETA: 2:13 - loss: 1.4287 - rpn_class_loss: 0.0174 - rpn_bbox_loss: 0.3489 - mrcnn_class_loss: 0.0846 - mrcnn_bbox_loss: 0.5667 - mrcnn_mask_loss: 0.4111
+115/256 [============>.................] - ETA: 2:12 - loss: 1.4329 - rpn_class_loss: 0.0173 - rpn_bbox_loss: 0.3484 - mrcnn_class_loss: 0.0839 - mrcnn_bbox_loss: 0.5703 - mrcnn_mask_loss: 0.4131
+116/256 [============>.................] - ETA: 2:11 - loss: 1.4269 - rpn_class_loss: 0.0171 - rpn_bbox_loss: 0.3464 - mrcnn_class_loss: 0.0833 - mrcnn_bbox_loss: 0.5676 - mrcnn_mask_loss: 0.4125
+117/256 [============>.................] - ETA: 2:09 - loss: 1.4198 - rpn_class_loss: 0.0170 - rpn_bbox_loss: 0.3441 - mrcnn_class_loss: 0.0827 - mrcnn_bbox_loss: 0.5649 - mrcnn_mask_loss: 0.4111
+118/256 [============>.................] - ETA: 2:08 - loss: 1.4163 - rpn_class_loss: 0.0169 - rpn_bbox_loss: 0.3443 - mrcnn_class_loss: 0.0822 - mrcnn_bbox_loss: 0.5627 - mrcnn_mask_loss: 0.4102
+119/256 [============>.................] - ETA: 2:07 - loss: 1.4147 - rpn_class_loss: 0.0168 - rpn_bbox_loss: 0.3433 - mrcnn_class_loss: 0.0816 - mrcnn_bbox_loss: 0.5623 - mrcnn_mask_loss: 0.4107
+120/256 [=============>................] - ETA: 2:06 - loss: 1.4078 - rpn_class_loss: 0.0166 - rpn_bbox_loss: 0.3410 - mrcnn_class_loss: 0.0810 - mrcnn_bbox_loss: 0.5596 - mrcnn_mask_loss: 0.4097
+121/256 [=============>................] - ETA: 2:05 - loss: 1.4117 - rpn_class_loss: 0.0166 - rpn_bbox_loss: 0.3426 - mrcnn_class_loss: 0.0803 - mrcnn_bbox_loss: 0.5596 - mrcnn_mask_loss: 0.4125
+122/256 [=============>................] - ETA: 2:04 - loss: 1.4131 - rpn_class_loss: 0.0165 - rpn_bbox_loss: 0.3449 - mrcnn_class_loss: 0.0800 - mrcnn_bbox_loss: 0.5601 - mrcnn_mask_loss: 0.4116
+123/256 [=============>................] - ETA: 2:03 - loss: 1.4051 - rpn_class_loss: 0.0164 - rpn_bbox_loss: 0.3432 - mrcnn_class_loss: 0.0794 - mrcnn_bbox_loss: 0.5564 - mrcnn_mask_loss: 0.4097
+124/256 [=============>................] - ETA: 2:02 - loss: 1.3980 - rpn_class_loss: 0.0163 - rpn_bbox_loss: 0.3407 - mrcnn_class_loss: 0.0788 - mrcnn_bbox_loss: 0.5529 - mrcnn_mask_loss: 0.4094
+125/256 [=============>................] - ETA: 2:01 - loss: 1.3936 - rpn_class_loss: 0.0162 - rpn_bbox_loss: 0.3398 - mrcnn_class_loss: 0.0783 - mrcnn_bbox_loss: 0.5502 - mrcnn_mask_loss: 0.4091
+126/256 [=============>................] - ETA: 2:00 - loss: 1.3900 - rpn_class_loss: 0.0161 - rpn_bbox_loss: 0.3393 - mrcnn_class_loss: 0.0777 - mrcnn_bbox_loss: 0.5480 - mrcnn_mask_loss: 0.4089
+127/256 [=============>................] - ETA: 1:58 - loss: 1.3859 - rpn_class_loss: 0.0160 - rpn_bbox_loss: 0.3370 - mrcnn_class_loss: 0.0773 - mrcnn_bbox_loss: 0.5482 - mrcnn_mask_loss: 0.4074
+128/256 [==============>...............] - ETA: 1:57 - loss: 1.3838 - rpn_class_loss: 0.0164 - rpn_bbox_loss: 0.3386 - mrcnn_class_loss: 0.0768 - mrcnn_bbox_loss: 0.5466 - mrcnn_mask_loss: 0.4054
+129/256 [==============>...............] - ETA: 1:56 - loss: 1.3779 - rpn_class_loss: 0.0163 - rpn_bbox_loss: 0.3374 - mrcnn_class_loss: 0.0764 - mrcnn_bbox_loss: 0.5437 - mrcnn_mask_loss: 0.4042
+130/256 [==============>...............] - ETA: 1:55 - loss: 1.3735 - rpn_class_loss: 0.0162 - rpn_bbox_loss: 0.3357 - mrcnn_class_loss: 0.0758 - mrcnn_bbox_loss: 0.5429 - mrcnn_mask_loss: 0.4029
+131/256 [==============>...............] - ETA: 1:54 - loss: 1.3698 - rpn_class_loss: 0.0161 - rpn_bbox_loss: 0.3343 - mrcnn_class_loss: 0.0754 - mrcnn_bbox_loss: 0.5410 - mrcnn_mask_loss: 0.4030
+132/256 [==============>...............] - ETA: 1:53 - loss: 1.3658 - rpn_class_loss: 0.0160 - rpn_bbox_loss: 0.3326 - mrcnn_class_loss: 0.0748 - mrcnn_bbox_loss: 0.5399 - mrcnn_mask_loss: 0.4025
+133/256 [==============>...............] - ETA: 1:52 - loss: 1.3606 - rpn_class_loss: 0.0159 - rpn_bbox_loss: 0.3307 - mrcnn_class_loss: 0.0743 - mrcnn_bbox_loss: 0.5385 - mrcnn_mask_loss: 0.4013
+134/256 [==============>...............] - ETA: 1:51 - loss: 1.3553 - rpn_class_loss: 0.0158 - rpn_bbox_loss: 0.3289 - mrcnn_class_loss: 0.0737 - mrcnn_bbox_loss: 0.5366 - mrcnn_mask_loss: 0.4002
+135/256 [==============>...............] - ETA: 1:50 - loss: 1.3482 - rpn_class_loss: 0.0157 - rpn_bbox_loss: 0.3266 - mrcnn_class_loss: 0.0732 - mrcnn_bbox_loss: 0.5331 - mrcnn_mask_loss: 0.3996
+136/256 [==============>...............] - ETA: 1:49 - loss: 1.3442 - rpn_class_loss: 0.0156 - rpn_bbox_loss: 0.3255 - mrcnn_class_loss: 0.0727 - mrcnn_bbox_loss: 0.5302 - mrcnn_mask_loss: 0.4002
+137/256 [===============>..............] - ETA: 1:48 - loss: 1.3394 - rpn_class_loss: 0.0155 - rpn_bbox_loss: 0.3241 - mrcnn_class_loss: 0.0722 - mrcnn_bbox_loss: 0.5274 - mrcnn_mask_loss: 0.4003
+138/256 [===============>..............] - ETA: 1:47 - loss: 1.3333 - rpn_class_loss: 0.0154 - rpn_bbox_loss: 0.3223 - mrcnn_class_loss: 0.0717 - mrcnn_bbox_loss: 0.5250 - mrcnn_mask_loss: 0.3989
+139/256 [===============>..............] - ETA: 1:46 - loss: 1.3289 - rpn_class_loss: 0.0153 - rpn_bbox_loss: 0.3202 - mrcnn_class_loss: 0.0712 - mrcnn_bbox_loss: 0.5246 - mrcnn_mask_loss: 0.3975
+140/256 [===============>..............] - ETA: 1:45 - loss: 1.3306 - rpn_class_loss: 0.0152 - rpn_bbox_loss: 0.3216 - mrcnn_class_loss: 0.0708 - mrcnn_bbox_loss: 0.5265 - mrcnn_mask_loss: 0.3964
+141/256 [===============>..............] - ETA: 1:44 - loss: 1.3278 - rpn_class_loss: 0.0152 - rpn_bbox_loss: 0.3209 - mrcnn_class_loss: 0.0703 - mrcnn_bbox_loss: 0.5261 - mrcnn_mask_loss: 0.3952
+142/256 [===============>..............] - ETA: 1:43 - loss: 1.3231 - rpn_class_loss: 0.0151 - rpn_bbox_loss: 0.3187 - mrcnn_class_loss: 0.0699 - mrcnn_bbox_loss: 0.5247 - mrcnn_mask_loss: 0.3947
+143/256 [===============>..............] - ETA: 1:42 - loss: 1.3209 - rpn_class_loss: 0.0150 - rpn_bbox_loss: 0.3186 - mrcnn_class_loss: 0.0695 - mrcnn_bbox_loss: 0.5234 - mrcnn_mask_loss: 0.3944
+144/256 [===============>..............] - ETA: 1:41 - loss: 1.3158 - rpn_class_loss: 0.0149 - rpn_bbox_loss: 0.3170 - mrcnn_class_loss: 0.0692 - mrcnn_bbox_loss: 0.5208 - mrcnn_mask_loss: 0.3939
+145/256 [===============>..............] - ETA: 1:40 - loss: 1.3107 - rpn_class_loss: 0.0148 - rpn_bbox_loss: 0.3162 - mrcnn_class_loss: 0.0688 - mrcnn_bbox_loss: 0.5181 - mrcnn_mask_loss: 0.3928
+146/256 [================>.............] - ETA: 1:39 - loss: 1.3067 - rpn_class_loss: 0.0147 - rpn_bbox_loss: 0.3159 - mrcnn_class_loss: 0.0684 - mrcnn_bbox_loss: 0.5157 - mrcnn_mask_loss: 0.3921
+147/256 [================>.............] - ETA: 1:38 - loss: 1.3010 - rpn_class_loss: 0.0146 - rpn_bbox_loss: 0.3140 - mrcnn_class_loss: 0.0679 - mrcnn_bbox_loss: 0.5127 - mrcnn_mask_loss: 0.3917
+148/256 [================>.............] - ETA: 1:37 - loss: 1.2969 - rpn_class_loss: 0.0145 - rpn_bbox_loss: 0.3133 - mrcnn_class_loss: 0.0675 - mrcnn_bbox_loss: 0.5108 - mrcnn_mask_loss: 0.3907
+149/256 [================>.............] - ETA: 1:36 - loss: 1.2940 - rpn_class_loss: 0.0144 - rpn_bbox_loss: 0.3125 - mrcnn_class_loss: 0.0671 - mrcnn_bbox_loss: 0.5099 - mrcnn_mask_loss: 0.3901
+150/256 [================>.............] - ETA: 1:35 - loss: 1.2892 - rpn_class_loss: 0.0143 - rpn_bbox_loss: 0.3105 - mrcnn_class_loss: 0.0667 - mrcnn_bbox_loss: 0.5084 - mrcnn_mask_loss: 0.3893
+151/256 [================>.............] - ETA: 1:34 - loss: 1.2853 - rpn_class_loss: 0.0142 - rpn_bbox_loss: 0.3094 - mrcnn_class_loss: 0.0663 - mrcnn_bbox_loss: 0.5062 - mrcnn_mask_loss: 0.3892
+152/256 [================>.............] - ETA: 1:33 - loss: 1.2827 - rpn_class_loss: 0.0142 - rpn_bbox_loss: 0.3085 - mrcnn_class_loss: 0.0659 - mrcnn_bbox_loss: 0.5060 - mrcnn_mask_loss: 0.3881
+153/256 [================>.............] - ETA: 1:32 - loss: 1.2778 - rpn_class_loss: 0.0141 - rpn_bbox_loss: 0.3066 - mrcnn_class_loss: 0.0655 - mrcnn_bbox_loss: 0.5048 - mrcnn_mask_loss: 0.3868
+154/256 [=================>............] - ETA: 1:31 - loss: 1.2785 - rpn_class_loss: 0.0152 - rpn_bbox_loss: 0.3125 - mrcnn_class_loss: 0.0650 - mrcnn_bbox_loss: 0.5016 - mrcnn_mask_loss: 0.3843
+155/256 [=================>............] - ETA: 1:30 - loss: 1.2797 - rpn_class_loss: 0.0153 - rpn_bbox_loss: 0.3124 - mrcnn_class_loss: 0.0659 - mrcnn_bbox_loss: 0.5015 - mrcnn_mask_loss: 0.3847
+156/256 [=================>............] - ETA: 1:29 - loss: 1.3053 - rpn_class_loss: 0.0173 - rpn_bbox_loss: 0.3420 - mrcnn_class_loss: 0.0655 - mrcnn_bbox_loss: 0.4983 - mrcnn_mask_loss: 0.3822
+157/256 [=================>............] - ETA: 1:28 - loss: 1.2991 - rpn_class_loss: 0.0172 - rpn_bbox_loss: 0.3405 - mrcnn_class_loss: 0.0651 - mrcnn_bbox_loss: 0.4954 - mrcnn_mask_loss: 0.3809
+158/256 [=================>............] - ETA: 1:27 - loss: 1.3053 - rpn_class_loss: 0.0175 - rpn_bbox_loss: 0.3401 - mrcnn_class_loss: 0.0693 - mrcnn_bbox_loss: 0.4954 - mrcnn_mask_loss: 0.3830
+159/256 [=================>............] - ETA: 1:26 - loss: 1.3000 - rpn_class_loss: 0.0174 - rpn_bbox_loss: 0.3384 - mrcnn_class_loss: 0.0689 - mrcnn_bbox_loss: 0.4931 - mrcnn_mask_loss: 0.3824
+160/256 [=================>............] - ETA: 1:25 - loss: 1.3048 - rpn_class_loss: 0.0177 - rpn_bbox_loss: 0.3382 - mrcnn_class_loss: 0.0705 - mrcnn_bbox_loss: 0.4944 - mrcnn_mask_loss: 0.3840
+161/256 [=================>............] - ETA: 1:24 - loss: 1.3095 - rpn_class_loss: 0.0177 - rpn_bbox_loss: 0.3391 - mrcnn_class_loss: 0.0701 - mrcnn_bbox_loss: 0.4954 - mrcnn_mask_loss: 0.3873
+162/256 [=================>............] - ETA: 1:23 - loss: 1.3032 - rpn_class_loss: 0.0176 - rpn_bbox_loss: 0.3371 - mrcnn_class_loss: 0.0696 - mrcnn_bbox_loss: 0.4929 - mrcnn_mask_loss: 0.3861
+163/256 [==================>...........] - ETA: 1:22 - loss: 1.2973 - rpn_class_loss: 0.0175 - rpn_bbox_loss: 0.3351 - mrcnn_class_loss: 0.0692 - mrcnn_bbox_loss: 0.4908 - mrcnn_mask_loss: 0.3847
+164/256 [==================>...........] - ETA: 1:21 - loss: 1.2973 - rpn_class_loss: 0.0175 - rpn_bbox_loss: 0.3341 - mrcnn_class_loss: 0.0691 - mrcnn_bbox_loss: 0.4905 - mrcnn_mask_loss: 0.3860
+165/256 [==================>...........] - ETA: 1:20 - loss: 1.2989 - rpn_class_loss: 0.0174 - rpn_bbox_loss: 0.3336 - mrcnn_class_loss: 0.0687 - mrcnn_bbox_loss: 0.4914 - mrcnn_mask_loss: 0.3878
+166/256 [==================>...........] - ETA: 1:19 - loss: 1.2955 - rpn_class_loss: 0.0173 - rpn_bbox_loss: 0.3326 - mrcnn_class_loss: 0.0684 - mrcnn_bbox_loss: 0.4901 - mrcnn_mask_loss: 0.3871
+167/256 [==================>...........] - ETA: 1:18 - loss: 1.2938 - rpn_class_loss: 0.0172 - rpn_bbox_loss: 0.3337 - mrcnn_class_loss: 0.0680 - mrcnn_bbox_loss: 0.4887 - mrcnn_mask_loss: 0.3862
+168/256 [==================>...........] - ETA: 1:17 - loss: 1.2947 - rpn_class_loss: 0.0172 - rpn_bbox_loss: 0.3341 - mrcnn_class_loss: 0.0678 - mrcnn_bbox_loss: 0.4893 - mrcnn_mask_loss: 0.3863
+169/256 [==================>...........] - ETA: 1:16 - loss: 1.2963 - rpn_class_loss: 0.0171 - rpn_bbox_loss: 0.3332 - mrcnn_class_loss: 0.0674 - mrcnn_bbox_loss: 0.4902 - mrcnn_mask_loss: 0.3884
+170/256 [==================>...........] - ETA: 1:15 - loss: 1.2963 - rpn_class_loss: 0.0170 - rpn_bbox_loss: 0.3333 - mrcnn_class_loss: 0.0671 - mrcnn_bbox_loss: 0.4911 - mrcnn_mask_loss: 0.3878
+171/256 [===================>..........] - ETA: 1:14 - loss: 1.2911 - rpn_class_loss: 0.0170 - rpn_bbox_loss: 0.3316 - mrcnn_class_loss: 0.0669 - mrcnn_bbox_loss: 0.4889 - mrcnn_mask_loss: 0.3868
+172/256 [===================>..........] - ETA: 1:14 - loss: 1.2895 - rpn_class_loss: 0.0169 - rpn_bbox_loss: 0.3316 - mrcnn_class_loss: 0.0665 - mrcnn_bbox_loss: 0.4874 - mrcnn_mask_loss: 0.3870
+173/256 [===================>..........] - ETA: 1:13 - loss: 1.2850 - rpn_class_loss: 0.0168 - rpn_bbox_loss: 0.3307 - mrcnn_class_loss: 0.0663 - mrcnn_bbox_loss: 0.4853 - mrcnn_mask_loss: 0.3858

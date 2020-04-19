@@ -1,0 +1,1 @@
+sc create PythonApp binPath= "C:\\Program FilesPython\\Python37\\Python.exe --C:\\Users\\AISG\\Documents\\jonas\\helipad_detection\\src\\training\\test_tensorflow.py"

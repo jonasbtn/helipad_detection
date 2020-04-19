@@ -19,7 +19,7 @@ from helipad_dataset import HelipadDataset
 from training_manager import TrainingManager
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 class RunTraining:
@@ -146,7 +146,7 @@ if __name__ == "__main__":
     train_categories = ["1", "2", "3", "5", "6", "8", "9"]
     test_categories = ["4", "7", "d", "u"]
 
-    weights_filename = 'helipad_cfg_6_aug4_3+20200103T1225/mask_rcnn_helipad_cfg_6_aug4_3+_0288.h5'
+    weights_filename = 'helipad_cfg_10_no47du_3+20200418T2016/mask_rcnn_helipad_cfg_10_no47du_3+_0012.h5'
     base_weights = 'mask_rcnn_coco.h5'
 
     predict_weights_filepath = 'helipad_cfg_7_aug123_all20200106T2012/mask_rcnn_helipad_cfg_7_aug123_all_0407.h5'
@@ -154,12 +154,12 @@ if __name__ == "__main__":
     run_training = RunTraining(root_folder,
                                root_meta_folder,
                                model_folder,
-                               base_weights,
+                               weights_filename,
                                include_augmented=include_augmented,
                                augmented_version=augmented_version,
                                predict_weights_filepath=None,
                                train_categories=train_categories,
-                               test_categories=None)
+                               test_categories=test_categories)
 
     print('Starting Training')
     run_training.run()

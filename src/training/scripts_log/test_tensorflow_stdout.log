@@ -1,0 +1,31 @@
+
+C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call C:\Users\AISG\Anaconda3\Scripts\activate 
+
+(base) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call conda activate tf-gpu_1.13 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call cd C:\Users\AISG\Documents\Jonas\helipad_detection\src\training\ 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call python test_tensorflow.py  1>>test_tensorflow.log 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call C:\Users\AISG\nssm.exe stop test_tensorflow 
+Terminate batch job (Y/N)? 
+C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call C:\Users\AISG\Anaconda3\Scripts\activate 
+
+(base) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call conda activate tf-gpu_1.13 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call cd C:\Users\AISG\Documents\Jonas\helipad_detection\src\training\ 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call python test_tensorflow.py  1>>test_tensorflow.log 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call C:\Users\AISG\nssm.exe stop test_tensorflow 
+Terminate batch job (Y/N)? 
+C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call C:\Users\AISG\Anaconda3\Scripts\activate 
+
+(base) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call conda activate tf-gpu_1.13 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call cd C:\Users\AISG\Documents\Jonas\helipad_detection\src\training\ 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call python test_tensorflow.py  1>>test_tensorflow.log 
+
+(tf-gpu_1.13) C:\Users\AISG\Documents\Jonas\helipad_detection\src\training>call C:\Users\AISG\nssm.exe stop test_tensorflow 
+Terminate batch job (Y/N)? 

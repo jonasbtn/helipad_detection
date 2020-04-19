@@ -1,0 +1,48 @@
+WARNING:root:Fail load requirements file, so using default ones.
+zip_safe flag not set; analyzing archive contents...
+Traceback (most recent call last):
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\site-packages\tensorflow\python\pywrap_tensorflow.py", line 58, in <module>
+    from tensorflow.python.pywrap_tensorflow_internal import *
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\site-packages\tensorflow\python\pywrap_tensorflow_internal.py", line 28, in <module>
+    _pywrap_tensorflow_internal = swig_import_helper()
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\site-packages\tensorflow\python\pywrap_tensorflow_internal.py", line 24, in swig_import_helper
+    _mod = imp.load_module('_pywrap_tensorflow_internal', fp, pathname, description)
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\imp.py", line 242, in load_module
+    return load_dynamic(name, filename, file)
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\imp.py", line 342, in load_dynamic
+    return _load(spec)
+ImportError: DLL load failed: The specified module could not be found.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "run_training.py", line 13, in <module>
+    from mrcnn.utils import compute_ap
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\site-packages\mask_rcnn-2.1-py3.7.egg\mrcnn\utils.py", line 16, in <module>
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\site-packages\tensorflow\__init__.py", line 24, in <module>
+    from tensorflow.python import pywrap_tensorflow  # pylint: disable=unused-import
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\site-packages\tensorflow\python\__init__.py", line 49, in <module>
+    from tensorflow.python import pywrap_tensorflow
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\site-packages\tensorflow\python\pywrap_tensorflow.py", line 74, in <module>
+    raise ImportError(msg)
+ImportError: Traceback (most recent call last):
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\site-packages\tensorflow\python\pywrap_tensorflow.py", line 58, in <module>
+    from tensorflow.python.pywrap_tensorflow_internal import *
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\site-packages\tensorflow\python\pywrap_tensorflow_internal.py", line 28, in <module>
+    _pywrap_tensorflow_internal = swig_import_helper()
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\site-packages\tensorflow\python\pywrap_tensorflow_internal.py", line 24, in swig_import_helper
+    _mod = imp.load_module('_pywrap_tensorflow_internal', fp, pathname, description)
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\imp.py", line 242, in load_module
+    return load_dynamic(name, filename, file)
+  File "C:\Users\AISG\Anaconda3\envs\tf-gpu_1.13\lib\imp.py", line 342, in load_dynamic
+    return _load(spec)
+ImportError: DLL load failed: The specified module could not be found.
+
+
+Failed to load the native TensorFlow runtime.
+
+See https://www.tensorflow.org/install/errors
+
+for some common reasons and solutions.  Include the entire stack trace
+above this error message when asking for help.
+^C

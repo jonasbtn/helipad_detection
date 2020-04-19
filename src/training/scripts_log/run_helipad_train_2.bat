@@ -1,0 +1,1 @@
+call python run_training.py >> helipad_train_log_3+_3.log
