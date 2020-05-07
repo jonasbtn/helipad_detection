@@ -188,7 +188,7 @@ class BBBuildDataset:
             # classify the predicted box as false positive
             arg_max_IOUs = np.argmax(IOUs)
 
-            if IOUs[arg_max_IOUs] < self.iou_threshold:
+            if IOUs[arg_max_IOUs] < self.iou_threshold and not contains:
                 false_positive = True
         else:
             false_positive = True
@@ -335,7 +335,7 @@ if __name__ == "__main__":
                                       filter_categories=filter_categories)
 
     bb_build_dataset.run()
-    #
+    
     # #TODO: Include Categories (skip 4 and 7 for example)
 
     # image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\19"

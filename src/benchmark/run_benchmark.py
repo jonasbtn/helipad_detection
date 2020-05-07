@@ -20,6 +20,7 @@ class RunBenchmark:
         self.tms_dataset = tms_dataset
         self.zoom_level = zoom_level
         self.city_lat = city_lat
+        self.test_only = test_only
 
         self.benchmark_manager = BenchmarkManager(image_folder,
                                                   meta_folder,
@@ -74,10 +75,10 @@ class RunBenchmark:
                     filename = "benchmark_model_{}_tms_z{}.csv".format(model_number, self.zoom_level)
             else:
                 if threshold_validation:
-                    filename = "benchmark_model_{}_{}.csv".format(model_number, str(threshold_validation))
+                    filename = "benchmark_model_{}_{}_{}.csv".format(model_number, str(threshold_validation), self.test_only)
                 else:
-                    filename = "benchmark_model_{}.csv".format(model_number)
-            df.to_csv(filename)
+                    filename = "benchmark_model_{}_{}.csv".format(model_number, self.test_only)
+            df.to_csv(os.path.join("benchmark_results", filename))
 
         df_auc = pd.DataFrame(data=aucs, columns=["Model Number", "AUC"])
 
@@ -126,7 +127,7 @@ if __name__ == "__main__":
     #             ['tokyo', '23']]
     #
     # for city_lat in cities_lat:
-    #     print(city_lat)
+    #     print(city_lat),
     #     run_benchmark = RunBenchmark(image_folder,
     #                                  meta_folder,
     #                                  model_numbers,

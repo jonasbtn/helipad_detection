@@ -16,18 +16,18 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 class BenchmarkManager:
 
-    def __init__(self, image_folder_original, meta_folder_original,
+    def __init__(self, image_folder, meta_folder,
                  test_only=True, tms_dataset=False, zoom_level=None,
                  include_category=None,
                  city_lat=None):
 
-        self.image_folder = image_folder_original
-        self.meta_folder = meta_folder_original
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
 
         print("Loading Files")
         self.target_files = RunDetection.build_target_files(self.image_folder,
                                                             self.meta_folder,
-                                                            test_only=True,
+                                                            test_only=test_only,
                                                             tms_dataset=tms_dataset,
                                                             zoom_level=zoom_level,
                                                             include_category=include_category,

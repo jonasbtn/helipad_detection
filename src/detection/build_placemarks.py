@@ -17,7 +17,7 @@ class BuildPlacemarks:
         self.model_name = model_name
         self.index_path = index_path
         self.model_validation_threshold = model_validation_threshold
-        self.output_name = "placemarks_m{}_t{}_{}{}.kml".format(model_number, threshold, model_name, model_validation_threshold)
+        self.output_name = os.path.join("placemarks", "placemarks_m{}_t{}_{}{}.kml".format(model_number, threshold, model_name, model_validation_threshold)
 
     def build_target_file(self):
         target = []

@@ -19,7 +19,7 @@ from helipad_dataset import HelipadDataset
 from training_manager import TrainingManager
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 
 class RunTraining:
@@ -111,7 +111,7 @@ class RunTraining:
                                           learning_rate=self.training_manager.config.LEARNING_RATE,
                                           epochs=self.training_manager.config.EPOCHS,
                                           layers=self.training_manager.config.LAYERS,
-                                          augmentation=policy)
+                                          augmentation=None)
 
     def run_predict(self):
 
@@ -139,17 +139,19 @@ if __name__ == "__main__":
 
     root_folder = "../../../Helipad/Helipad_DataBase"
     root_meta_folder = "../../../Helipad/Helipad_DataBase_meta"
-    model_folder = "../../../Helipad/model"
-    include_augmented = False
-    augmented_version = []
+    # model_folder = "../../../Helipad/model"
+    model_folder = "D:\\Jonas\\model\\"
+    include_augmented = True
+    augmented_version = [10]
 
     train_categories = ["1", "2", "3", "5", "6", "8", "9"]
     test_categories = ["4", "7", "d", "u"]
 
-    weights_filename = 'helipad_cfg_10_no47du_3+20200418T2016/mask_rcnn_helipad_cfg_10_no47du_3+_0012.h5'
+    # weights_filename = 'helipad_cfg_10_no47du_all20200420T0127/mask_rcnn_helipad_cfg_10_no47du_all_0827.h5'
+    weights_filename = 'helipad_cfg_11_no47du_3+20200506T1509/mask_rcnn_helipad_cfg_11_no47du_3+_0007.h5'
     base_weights = 'mask_rcnn_coco.h5'
 
-    predict_weights_filepath = 'helipad_cfg_7_aug123_all20200106T2012/mask_rcnn_helipad_cfg_7_aug123_all_0407.h5'
+    predict_weights_filepath = 'helipad_cfg_7_aug123_all20200106T2012/mask_rcnn_helipad_cfg_7_aug123_all_0472.h5'
 
     run_training = RunTraining(root_folder,
                                root_meta_folder,
@@ -164,6 +166,7 @@ if __name__ == "__main__":
     print('Starting Training')
     run_training.run()
     print('Training Over')
+
     # print('Evaluating Last Epoch')
     # run_training.run_predict()
     # print('Evaluation Done')

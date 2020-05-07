@@ -101,8 +101,8 @@ class KNNTraining:
         acc = self.model.score(self.testFeat, self.testLabels)
         print("[INFO] histogram accuracy: {:.2f}%".format(acc * 100))
 
-    def save(self):
-        _ = joblib.dump(self.model, "knn_{}_{}.pkl".format(self.mode, self.nb_neighbors), compress=9)
+    def save(self, model_number, dataset):
+        _ = joblib.dump(self.model, "knn_{}_{}_{}_{}.pkl".format(self.mode, self.nb_neighbors, model_number, dataset), compress=9)
         # _ = joblib.dump(self.model, "random_forest_e100.pkl".format(self.mode, self.nb_neighbors), compress=9)
 
 
