@@ -16,8 +16,8 @@ from training.helipad_config import HelipadConfig
 from training.helipad_dataset import HelipadDataset
 from training.filter_manager import FilterManager
 
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 class RunDetection:

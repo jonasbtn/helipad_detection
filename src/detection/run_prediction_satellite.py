@@ -22,7 +22,8 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 class RunPredictionSatellite:
 
     def __init__(self, cache_tms_sat_folder, output_meta_folder, zoom_level,
-                 model_folder, weights_filename, model_number, activate_filters=False):
+                 model_folder, weights_filename, model_number, activate_filters=False,
+                 redo_prediction=False):
         self.cache_tms_sat_folder = cache_tms_sat_folder
         self.output_meta_folder = output_meta_folder
         self.zoom_level = zoom_level
@@ -30,6 +31,7 @@ class RunPredictionSatellite:
         self.weights_filename = weights_filename
         self.model_number = model_number
         self.activate_filters = activate_filters
+        self.redo_prediction = redo_prediction
         self.image_folder = os.path.join(self.cache_tms_sat_folder, str(zoom_level))
         self.meta_folder = os.path.join(self.output_meta_folder, str(zoom_level))
         if not os.path.isdir(os.path.join(self.output_meta_folder, str(zoom_level))):
@@ -180,7 +182,18 @@ class RunPredictionSatellite:
             bboxes_bounds_coordinates.append(corners_coordinates)
 
         return bboxes_center_coordinates, bboxes_bounds_coordinates
+    
+    def initiate_meta(self, meta_filename):
+        meta = dict()
+        meta_coordinates = meta_filename.split('_')
+        zoom_level = int(meta_coordinates[1])
+        xtile = int(meta_coordinates[2])
+        ytile = int(meta_coordinates[3])
+        coordinates_info = self.get_coordinates_info(xtile, ytile, zoom_level)
+        meta["coordinates"] = coordinates_info
+        return meta
 
+    
     def run(self):
 
         for i in tqdm(range(len(self.target_files))):
@@ -193,19 +206,26 @@ class RunPredictionSatellite:
             image_shape = image.shape
 
             if os.path.isfile(meta_path):
-                with open(meta_path, 'r') as f:
-                    meta = json.load(f)
-                coordinates_info = meta["coordinates"]
-                xtile = coordinates_info["xtile"]
+                try:
+                    with open(meta_path, 'r') as f:
+                        meta = json.load(f)
+                    coordinates_info = meta["coordinates"]
+                    xtile = coordinates_info["xtile"]
+                except:
+                    meta = self.initiate_meta(meta_filename)
             else:
-                meta = dict()
-                meta_coordinates = meta_filename.split('_')
-                zoom_level = int(meta_coordinates[1])
-                xtile = int(meta_coordinates[2])
-                ytile = int(meta_coordinates[3])
-                coordinates_info = self.get_coordinates_info(xtile, ytile, zoom_level)
-                meta["coordinates"] = coordinates_info
+                meta = self.initiate_meta(meta_filename)
+            
+            if "predicted" in meta:
+                predicted = meta["predicted"]
+            else:
+                predicted = {}
 
+            key = "model_{}".format(self.model_number)
+            
+            if key in predicted and not self.redo_prediction:
+                continue
+            
             # now predict on image
             prediction = self.predict_image(image)
 
@@ -221,16 +241,14 @@ class RunPredictionSatellite:
             prediction_coordinates["bounds"] = bboxes_bounds_coordinates
             prediction["coordinates"] = prediction_coordinates
 
-            if "predicted" in meta:
-                predicted = meta["predicted"]
-            else:
-                predicted = {}
-
-            key = "model_{}".format(self.model_number)
             predicted[key] = prediction
 
             meta["predicted"] = predicted
-
+            
+            if not os.path.isdir(os.path.join(self.output_meta_folder,
+                                              str(self.zoom_level))):
+                os.mkdir(os.path.join(self.output_meta_folder,
+                                      str(self.zoom_level)))
             if not os.path.isdir(os.path.join(self.output_meta_folder,
                                               str(self.zoom_level),
                                               str(xtile))):
@@ -240,8 +258,6 @@ class RunPredictionSatellite:
 
             with open(meta_path, 'w') as f:
                 json.dump(meta, f, indent=4, sort_keys=True)
-
-            print()
 
 
 if __name__ == "__main__":
@@ -293,14 +309,5 @@ if __name__ == "__main__":
     # save center coordinates
     # OPTIONAL : include the google maps url of the helipad
     # OPTIONAL : include info of location (country, city, id? ...)
-
-
-
-
-
-
-
-
-
 
 

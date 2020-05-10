@@ -21,6 +21,7 @@ class RunBenchmark:
         self.zoom_level = zoom_level
         self.city_lat = city_lat
         self.test_only = test_only
+        self.include_category = include_category
 
         self.benchmark_manager = BenchmarkManager(image_folder,
                                                   meta_folder,
@@ -76,9 +77,11 @@ class RunBenchmark:
             else:
                 if threshold_validation:
                     filename = "benchmark_model_{}_{}_{}.csv".format(model_number, str(threshold_validation), self.test_only)
+                if self.include_category:
+                    filename = "benchmark_model_{}_{}.csv".format(model_number, "".join(self.include_category))
                 else:
                     filename = "benchmark_model_{}_{}.csv".format(model_number, self.test_only)
-            df.to_csv(os.path.join("benchmark_results", filename))
+            df.to_csv(os.path.join("benchmark", "benchmark_results", filename))
 
         df_auc = pd.DataFrame(data=aucs, columns=["Model Number", "AUC"])
 

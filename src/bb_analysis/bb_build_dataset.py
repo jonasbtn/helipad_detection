@@ -11,7 +11,8 @@ class BBBuildDataset:
 
     def __init__(self, image_folder, meta_folder, model_number,
                  score_threshold, iou_threshold,
-                 output_folder, tms=False,
+                 output_folder, 
+                 tms=False,
                  groundtruth_bb = True,
                  filter_categories=None):
         self.image_folder = image_folder
@@ -130,21 +131,32 @@ class BBBuildDataset:
                                             f'model_{self.model_number}_{self.score_threshold}'))
         elif not os.path.isdir(os.path.join(self.output_folder,
                                             f'model_{self.model_number}_{self.score_threshold}',
-                                            "tms")):
+                                            "sat")):
             os.mkdir(os.path.join(self.output_folder,
                                             f'model_{self.model_number}_{self.score_threshold}',
-                                            "tms"))
+                                            "sat"))
         elif not os.path.isdir(os.path.join(self.output_folder,
                                             f'model_{self.model_number}_{self.score_threshold}',
-                                            "tms",
+                                            "sat",
+                                            zoom)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            "sat",
+                                            zoom))
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            "sat",
+                                            zoom,
                                             xtile)):
             os.mkdir(os.path.join(self.output_folder,
                                             f'model_{self.model_number}_{self.score_threshold}',
-                                            "tms",
+                                            "sat",
+                                            zoom,
                                             xtile))
         output_path = os.path.join(self.output_folder,
                                    f'model_{self.model_number}_{self.score_threshold}',
-                                   "tms",
+                                   "sat",
+                                   zoom,
                                    xtile,
                                    f'Satellite_{zoom}_{xtile}_{ytile}_{box_id}.jpg')
         return output_path
