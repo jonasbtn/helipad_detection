@@ -10,7 +10,7 @@ class IndexPathScore:
         self.model_number = model_number
         self.score_threshold = score_threshold
         self.path_to_add = []
-        self.output_filename = "helipad_path_over_{}.txt".format(score_threshold)
+        self.output_filename = "helipad_path_over_{}_m{}.txt".format(score_threshold, model_number)
 
     def build_target_files(self):
         target_files = []

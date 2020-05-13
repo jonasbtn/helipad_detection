@@ -59,11 +59,11 @@ class HelipadDataset(Dataset):
                 if include_categories:
                     if meta["groundtruth"]["category"] not in include_categories:
                         continue
-                else:
-                    if is_train and image_number > 4250:
-                        continue
-                    if not is_train and image_number <= 4250:
-                        continue
+                
+                if is_train and image_number > 4750:
+                    continue
+                if not is_train and image_number <= 4750:
+                    continue
 
                 self.add_image('dataset',
                                image_id=os.path.splitext(file)[0],
@@ -88,23 +88,15 @@ class HelipadDataset(Dataset):
                             continue
                         elif "box" not in meta["groundtruth"]:
                             continue
-                        # elif include_categories:
-                        #     if meta["groundtruth"]["category"] not in include_categories:
-                        #         continue
-                        # else:
-                        #     image_name = os.path.splitext(file)[0]
-                        #     image_number = int(image_name.split('_')[1])
-                        #     if image_number > 4250:
-                        #         continue
 
                         if include_categories:
                             if meta["groundtruth"]["category"] not in include_categories:
                                 continue
-                        else:
-                            image_name = os.path.splitext(file)[0]
-                            image_number = int(image_name.split('_')[1])
-                            if image_number > 4250:
-                                continue
+                        
+                        image_name = os.path.splitext(file)[0]
+                        image_number = int(image_name.split('_')[1])
+                        if image_number > 4750:
+                            continue
 
                         self.add_image('dataset',
                                        image_id=os.path.splitext(file)[0]+"_v{}".format(version),

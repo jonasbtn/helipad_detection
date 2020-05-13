@@ -93,17 +93,17 @@ class RunTraining:
 
     def run(self):
         
-        policy = iaa.Sequential([
-                            iaa.Sometimes(0.2, iaa.Fliplr(1)),
-                            iaa.Sometimes(0.2, iaa.Flipud(1)),
-                            iaa.Sometimes(0.2, iaa.Affine(rotate=(-45, 45))),
-                            iaa.Sometimes(0.2, iaa.Affine(rotate=(-90, 90))),
-                            iaa.Sometimes(0.2, iaa.Affine(scale=(0.5, 1.5))),
-                            iaa.Sometimes(0.2, iaa.GaussianBlur(sigma=(0.0, 3.0))),
-                            iaa.Sometimes(0.1, iaa.AllChannelsHistogramEqualization()),
-                            iaa.Sometimes(0.2, iaa.ShearX((-20, 20))),
-                            iaa.Sometimes(0.2, iaa.ShearY((-20, 20)))
-                            ])
+#         policy = iaa.Sequential([
+#                             iaa.Sometimes(0.2, iaa.Fliplr(1)),
+#                             iaa.Sometimes(0.2, iaa.Flipud(1)),
+#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-45, 45))),
+#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-90, 90))),
+#                             iaa.Sometimes(0.2, iaa.Affine(scale=(0.5, 1.5))),
+#                             iaa.Sometimes(0.2, iaa.GaussianBlur(sigma=(0.0, 3.0))),
+#                             iaa.Sometimes(0.1, iaa.AllChannelsHistogramEqualization()),
+#                             iaa.Sometimes(0.2, iaa.ShearX((-20, 20))),
+#                             iaa.Sometimes(0.2, iaa.ShearY((-20, 20)))
+#                             ])
         
         # train weights (output layers or 'heads')
         self.training_manager.model.train(self.training_manager.train_set,
@@ -137,18 +137,22 @@ if __name__ == "__main__":
     # root_meta_folder = os.path.join('C:\\', 'Users', 'jonas', 'Desktop', 'Helipad', 'Helipad_DataBase_meta')
     # model_folder = os.path.join('C:\\', 'Users', 'jonas', 'Desktop', 'Helipad', 'model')
 
-    root_folder = "../../../Helipad/Helipad_DataBase"
-    root_meta_folder = "../../../Helipad/Helipad_DataBase_meta"
+#     root_folder = "../../../Helipad/Helipad_DataBase"
+#     root_meta_folder = "../../../Helipad/Helipad_DataBase_meta"
     # model_folder = "../../../Helipad/model"
+    
+    root_folder = "D:\\Jonas\\Helipad_DataBase"
+    root_meta_folder = "D:\\Jonas\\Helipad_DataBase_meta"
     model_folder = "D:\\Jonas\\model\\"
     include_augmented = True
-    augmented_version = [10]
+    augmented_version = [11]
 
     train_categories = ["1", "2", "3", "5", "6", "8", "9"]
-    test_categories = ["4", "7", "d", "u"]
+    test_categories = ["1", "2", "3", "5", "6", "8", "9"]
 
     # weights_filename = 'helipad_cfg_10_no47du_all20200420T0127/mask_rcnn_helipad_cfg_10_no47du_all_0896.h5'
-    weights_filename = 'helipad_cfg_11_no47du_3+20200507T2024/mask_rcnn_helipad_cfg_11_no47du_3+_0038.h5'
+#     weights_filename = 'helipad_cfg_11_no47du_3+20200507T2024/mask_rcnn_helipad_cfg_11_no47du_3+_0038.h5'
+    
     base_weights = 'mask_rcnn_coco.h5'
 
     predict_weights_filepath = 'helipad_cfg_7_aug123_all20200106T2012/mask_rcnn_helipad_cfg_7_aug123_all_0472.h5'
@@ -156,7 +160,7 @@ if __name__ == "__main__":
     run_training = RunTraining(root_folder,
                                root_meta_folder,
                                model_folder,
-                               weights_filename,
+                               base_weights,
                                include_augmented=include_augmented,
                                augmented_version=augmented_version,
                                predict_weights_filepath=None,

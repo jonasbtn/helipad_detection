@@ -209,12 +209,13 @@ class RunPredictionSatellite:
                 try:
                     with open(meta_path, 'r') as f:
                         meta = json.load(f)
-                    coordinates_info = meta["coordinates"]
-                    xtile = coordinates_info["xtile"]
                 except:
                     meta = self.initiate_meta(meta_filename)
             else:
                 meta = self.initiate_meta(meta_filename)
+            
+            coordinates_info = meta["coordinates"]
+            xtile = coordinates_info["xtile"]
             
             if "predicted" in meta:
                 predicted = meta["predicted"]

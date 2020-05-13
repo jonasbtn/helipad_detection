@@ -16,8 +16,8 @@ from training.helipad_config import HelipadConfig
 from training.helipad_dataset import HelipadDataset
 from training.filter_manager import FilterManager
 
-# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 
 class RunDetection:
@@ -51,6 +51,7 @@ class RunDetection:
     def build_target_files(image_folder, meta_folder, test_only=False,
                            tms_dataset=False, zoom_level=None,
                            include_category=None,
+                           include_negative=True,
                            city_lat=None):
         target_files = []
         for subdir, dirs, files in os.walk(image_folder, topdown=True):
@@ -81,6 +82,10 @@ class RunDetection:
                                 continue
                             elif meta["groundtruth"]["category"] not in include_category:
                                 continue
+                           # this adds the false samples and only the positive samples 
+                           # from include_category
+                        if not include_negative and not meta["groundtruth"]["helipad"]:
+                            continue
                 else:
                     dir_zoom_level = os.path.basename(os.path.dirname(subdir))
                     if zoom_level and dir_zoom_level != str(zoom_level):

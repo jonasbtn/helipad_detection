@@ -11,8 +11,9 @@ class RunBenchmark:
 
     def __init__(self, image_folder, meta_folder, model_numbers,
                  test_only=True, tms_dataset=False, zoom_level=None,
-                 include_category = None,
-                 city_lat = None):
+                 include_category=None,
+                 include_negative=True,
+                 city_lat=None):
 
         self.image_folder = image_folder
         self.meta_folder = meta_folder
@@ -22,6 +23,7 @@ class RunBenchmark:
         self.city_lat = city_lat
         self.test_only = test_only
         self.include_category = include_category
+        self.include_negative = include_negative
 
         self.benchmark_manager = BenchmarkManager(image_folder,
                                                   meta_folder,
@@ -29,6 +31,7 @@ class RunBenchmark:
                                                   tms_dataset=tms_dataset,
                                                   zoom_level=zoom_level,
                                                   include_category=include_category,
+                                                  include_negative=include_negative,
                                                   city_lat=city_lat)
 
     def run(self, threshold_validation=None):
@@ -76,9 +79,9 @@ class RunBenchmark:
                     filename = "benchmark_model_{}_tms_z{}.csv".format(model_number, self.zoom_level)
             else:
                 if threshold_validation:
-                    filename = "benchmark_model_{}_{}_{}.csv".format(model_number, str(threshold_validation), self.test_only)
+                    filename = "benchmark_model_{}_t{}_{}.csv".format(model_number, str(threshold_validation), self.test_only)
                 if self.include_category:
-                    filename = "benchmark_model_{}_{}.csv".format(model_number, "".join(self.include_category))
+                    filename = "benchmark_model_{}_c{}_n{}.csv".format(model_number, "".join(self.include_category), self.include_negative)
                 else:
                     filename = "benchmark_model_{}_{}.csv".format(model_number, self.test_only)
             df.to_csv(os.path.join("benchmark", "benchmark_results", filename))

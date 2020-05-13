@@ -11,6 +11,7 @@ from keras.layers import Dense
 from keras.layers import Flatten
 from keras.optimizers import SGD, Adam
 from keras.preprocessing.image import ImageDataGenerator
+from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 
 
 class BBTrainingManager:
@@ -22,39 +23,61 @@ class BBTrainingManager:
         self.datagen = ImageDataGenerator(rescale=1.0/255.0)
 
         self.train_it = self.datagen.flow_from_directory(os.path.join(self.image_folder, "train"),
-                                                    class_mode='binary', batch_size=128, target_size=(32,32))
+                                                    class_mode='binary', batch_size=512, target_size=(64,64))
         self.test_it = self.datagen.flow_from_directory(os.path.join(self.image_folder, "test"),
-                                                         class_mode='binary', batch_size=128, target_size=(32, 32))
+                                                         class_mode='binary', batch_size=512, target_size=(64, 64))
 
         self.model = self.define_model()
 
     def define_model(self):
         model = Sequential()
         model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same',
-                         input_shape=(32, 32, 3)))
+                         input_shape=(64, 64, 3)))
         model.add(MaxPooling2D((2, 2)))
         model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
         model.add(MaxPooling2D((2, 2)))
         model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
         model.add(MaxPooling2D((2, 2)))
+        model.add(Conv2D(256, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+        model.add(MaxPooling2D((2, 2)))
         model.add(Flatten())
+        model.add(Dense(256, activation='relu', kernel_initializer='he_uniform'))
         model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
+        model.add(Dense(64, activation='relu', kernel_initializer='he_uniform'))
         model.add(Dense(1, activation='sigmoid'))
         # compile model
-        # opt = Adam(lr=0.001)
-        opt = SGD(lr=0.001, momentum=0.9)
-        model.compile(optimizer=opt, loss='binary_crossentropy', metrics=['accuracy'])
+        opt = Adam(lr=0.001)
+#         opt = SGD(lr=0.001, momentum=0.9)
+        model.compile(optimizer=opt, loss='binary_crossentropy', metrics=['accuracy'])        
         return model
 
     def run(self):
+        # callbacks
+        model_checkpoint_callback = ModelCheckpoint(filepath="./checkpoint_manilla/weights.{epoch:02d}-{loss:.2f}-{acc:.2f}-{val_loss:.2f}-{val_acc:.2f}.h5",
+                                                    save_weights_only=False,
+                                                    monitor='val_acc',
+                                                    mode='max',
+                                                    save_best_only=True)
+        early_stopping = EarlyStopping(monitor='val_acc',
+                                       min_delta=0,
+                                       patience=250,
+                                       verbose=1,
+                                       mode="auto")
+        reduce_lr_on_plateau = ReduceLROnPlateau(monitor='val_loss',
+                                                 factor=0.1,
+                                                 patience=250,
+                                                 verbose=1,
+                                                 mode='auto',
+                                                 cooldown=0,
+                                                 min_lr=0)
         # fit model
         self.history = self.model.fit_generator(self.train_it, steps_per_epoch=len(self.train_it),
                                       validation_data=self.test_it, validation_steps=len(self.test_it),
-                                      epochs=200, verbose=1)
+                                      epochs=500, verbose=1, callbacks=[model_checkpoint_callback, early_stopping, reduce_lr_on_plateau])
 
     def evaluate(self):
         # evaluate model
-        _, acc = self.model.evaluate_generator(self.test_it, steps=len(self.test_it), verbose=0)
+        _, acc = self.model.evaluate_generator(self.test_it, steps=len(self.test_it))
         print('> %.3f' % (acc * 100.0))
 
     def plot(self):
@@ -83,9 +106,9 @@ class BBTrainingManager:
 
         summarize_diagnostics(self.history)
 
-    def save(self):
+    def save(self, filename):
         # save model
-        self.model.save('final_model_sgd.h5')
+        self.model.save(filename)
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ from src.knn.knn_predict import KNNPredict
 class BuildPlacemarks:
 
     def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None,
-                 model_validation_threshold=None):
+                 model_validation_threshold=None, prefix=""):
 
         self.meta_folder = meta_folder
         self.model_number = model_number
@@ -17,7 +17,7 @@ class BuildPlacemarks:
         self.model_name = model_name
         self.index_path = index_path
         self.model_validation_threshold = model_validation_threshold
-        self.output_name = os.path.join("detection", "placemarks", "placemarks_m{}_t{}_{}{}.kml".format(model_number, threshold, model_name, model_validation_threshold))
+        self.output_name = os.path.join("detection", "placemarks", "{}placemarks_m{}_t{}_v{}_{}_t{}.kml".format(prefix, model_number, threshold, knn, model_name, model_validation_threshold))
 
     def build_target_file(self):
         target = []
@@ -56,7 +56,6 @@ class BuildPlacemarks:
 
             for i in tqdm(range(len(target_path))):
                 filepath = target_path[i]
-
                 with open(filepath, 'r') as j:
                     meta = json.load(j)
                 if "predicted" not in meta:
@@ -74,7 +73,6 @@ class BuildPlacemarks:
                         if self.knn:
                             if self.model_name in meta["predicted"][key]:
                                 knn = meta["predicted"][key][self.model_name]
-                                print(knn)
                                 if self.model_validation_threshold:
                                     if knn[k] < self.model_validation_threshold:
                                         continue

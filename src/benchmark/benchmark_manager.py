@@ -19,6 +19,7 @@ class BenchmarkManager:
     def __init__(self, image_folder, meta_folder,
                  test_only=True, tms_dataset=False, zoom_level=None,
                  include_category=None,
+                 include_negative=True,
                  city_lat=None):
 
         self.image_folder = image_folder
@@ -30,7 +31,8 @@ class BenchmarkManager:
                                                             test_only=test_only,
                                                             tms_dataset=tms_dataset,
                                                             zoom_level=zoom_level,
-                                                            include_category=include_category,
+                                                        include_category=include_category,
+                                                            include_negative=include_negative,
                                                             city_lat=city_lat)
         print("{} files loaded!".format(len(self.target_files)))
 
@@ -238,8 +240,14 @@ class BenchmarkManager:
             self.precision = self.TP / (self.TP + self.FP)
         else:
             self.precision = 0
-        self.recall = self.TP / (self.TP + self.FN)
-        self.FPR = self.FP / (self.TN + self.FP)
+        if (self.TP + self.FN)>0:
+            self.recall = self.TP / (self.TP + self.FN)
+        else:
+            self.recall = 0
+        if (self.TN + self.FP)>0:
+            self.FPR = self.FP / (self.TN + self.FP)
+        else:
+            self.FPR = 0
         self.TPR = self.recall
 
         data = [model_number, threshold_score, threshold_iou, threshold_area,

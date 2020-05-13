@@ -1,11 +1,11 @@
 from mrcnn.config import Config
 
+import numpy as np
 
 # define a configuration for the model
 class HelipadConfig(Config):
     # define the name of the configuration
-    # NAME = "helipad_cfg_10_no47du_all"
-    NAME = "helipad_cfg_11_no47du_3+"
+    NAME = "helipad_cfg_12_no47du_all"
     # number of classes (background + helipad)
     NUM_CLASSES = 1 + 1
     # number of training steps per epoch, ie: number of images/epoch
@@ -18,8 +18,17 @@ class HelipadConfig(Config):
     #               3+: Train Resnet stage 3 and up
     #               4+: Train Resnet stage 4 and up
     #               5+: Train Resnet stage 5 and up
-    LAYERS = "3+"
+    LAYERS = "all"
     # FOR PREDICTION
     # simplify GPU config
     GPU_COUNT = 1
     IMAGES_PER_GPU = 1
+    
+    # # Image mean (RGB)
+    MEAN_PIXEL = np.array([105.53481742492863, 108.17376197983675, 95.31055683666851])
+    
+    IMAGE_RESIZE_MODE = "square"
+    IMAGE_MIN_DIM = 512
+    IMAGE_MAX_DIM = 640
+    
+    

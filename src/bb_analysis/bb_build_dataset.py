@@ -6,6 +6,7 @@ import numpy as np
 
 from src.training.filter_manager import FilterManager
 
+from src.database_management.Database_augmentation import DatabaseAugmentation
 
 class BBBuildDataset:
 
@@ -14,7 +15,8 @@ class BBBuildDataset:
                  output_folder, 
                  tms=False,
                  groundtruth_bb = True,
-                 filter_categories=None):
+                 filter_categories=None,
+                 balance_categories=False):
         self.image_folder = image_folder
         self.meta_folder = meta_folder
         self.model_number = model_number
@@ -28,28 +30,35 @@ class BBBuildDataset:
         # hence it can add noise to the model
         self.groundtruth_bb = groundtruth_bb
         self.filter_categories = filter_categories
+        self.balance_categories = balance_categories
 
     def build_target_files(self):
-        target_files = []
-        for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
-            for file in files:
-                meta_path = os.path.join(subdir, file)
-                if not self.tms:
-                    image_path = os.path.join(self.image_folder,
-                                              os.path.basename(subdir),
-                                              os.path.splitext(file)[0]+".png")
-                else:
-                    image_info = os.path.splitext(file)[0].split("_")
-                    zoom = image_info[1]
-                    xtile = image_info[2]
-                    ytile = image_info[3]
-                    image_path = os.path.join(self.image_folder,
-                                              xtile,
-                                              str(ytile)+".jpg")
-                target_files.append([image_path, meta_path])
+        
+        if not self.tms and self.balance_categories:
+            target_files = DatabaseAugmentation.balance_categories(self.image_folder, 
+                                                                  self.meta_folder, 
+                                                                  repartition=None)
+        else:
+            target_files = []
+            for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
+                for file in files:
+                    meta_path = os.path.join(subdir, file)
+                    if not self.tms:
+                        image_path = os.path.join(self.image_folder,
+                                                  os.path.basename(subdir),
+                                                  os.path.splitext(file)[0]+".png")
+                    else:
+                        image_info = os.path.splitext(file)[0].split("_")
+                        zoom = image_info[1]
+                        xtile = image_info[2]
+                        ytile = image_info[3]
+                        image_path = os.path.join(self.image_folder,
+                                                  xtile,
+                                                  str(ytile)+".jpg")
+                    target_files.append([image_path, meta_path])
         return target_files
 
-    def get_output_file_name(self, classe, image_path, box_id):
+    def get_output_file_name(self, classe, image_path, box_id, helipad_id):
         """
         output_folder/model_{number}_{score}/classes/folder_id/image_name_{}
         TODO: Support TMS Dataset (use meta_path)
@@ -108,7 +117,7 @@ class BBBuildDataset:
                                    f'model_{self.model_number}_{self.score_threshold}',
                                    dataset,
                                    classe,
-                                   image_name+"_"+str(box_id)+ext)
+                                   image_name+"_"+str(box_id)+"_"+str(helipad_id)+ext)
         return output_path
 
     def get_output_file_name_tms(self, image_path, box_id):
@@ -210,7 +219,9 @@ class BBBuildDataset:
     def run(self):
 
         self.target_files = self.build_target_files()
-
+        
+        print(f'{len(self.target_files)} files loaded!')
+        
         for i in tqdm(range(len(self.target_files))):
             image_meta_path = self.target_files[i]
             image_path = image_meta_path[0]
@@ -267,7 +278,8 @@ class BBBuildDataset:
                         # get the name of the output_file
                         output_path = self.get_output_file_name(output_classe,
                                                                 image_path,
-                                                                box_id)
+                                                                box_id,
+                                                                i)
                         # save the file
                         self.save_image(image_box, output_path)
                         box_id += 1
@@ -306,7 +318,8 @@ class BBBuildDataset:
                         # keep only the false positive
                         output_path = self.get_output_file_name("false_positive",
                                                                 image_path,
-                                                                box_id)
+                                                                box_id,
+                                                                i)
                         self.save_image(image_box, output_path)
                         box_id += 1
                 else:
@@ -318,9 +331,10 @@ class BBBuildDataset:
                     else:
                         classe = "helipad"
 
-                    output_path = self.get_output_file_name("false_positive",
+                    output_path = self.get_output_file_name(classe,
                                                             image_path,
-                                                            box_id)
+                                                            box_id,
+                                                            i)
                     self.save_image(image_box, output_path)
                     box_id += 1
 
