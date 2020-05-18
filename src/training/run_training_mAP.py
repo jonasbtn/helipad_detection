@@ -14,9 +14,9 @@ from mrcnn.utils import compute_ap
 from mrcnn.model import load_image_gt
 from mrcnn.model import mold_image
 
-from helipad_config import HelipadConfig
-from helipad_dataset import HelipadDataset
-from training_manager import TrainingManager
+from helipad_detection.src.training.helipad_config import HelipadConfig
+from helipad_detection.src.training.helipad_dataset import HelipadDataset
+from helipad_detection.src.training.training_manager import TrainingManager
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"

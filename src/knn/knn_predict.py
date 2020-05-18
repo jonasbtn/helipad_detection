@@ -5,8 +5,8 @@ import json
 from tqdm import tqdm as tqdm
 import joblib
 
-from src.knn.knn_build_database import KNNBuildDatabase
-from src.knn.knn_training import KNNTraining
+from helipad_detection.src.knn.knn_build_database import KNNBuildDatabase
+from helipad_detection.src.knn.knn_training import KNNTraining
 
 
 class KNNPredict:

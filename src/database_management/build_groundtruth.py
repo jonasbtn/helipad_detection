@@ -6,10 +6,28 @@ import json
 
 
 class GroundTruth:
-
+    """
+    Groundtruth is an interface allowing a user to manually anotate images as helipad or not helipad by drawing a bounding box around it and then press the `s` key to save the annotation to its meta file.\n
+    If no bounding boxes are drawn and the `s` key is press, the image is marked as not helipad. \n
+    The key `r` reset the annotation and remove all the bounding boxes in case of mistakes. \n
+    The key `backspace` allows the user the go back in case there was a mistakes. \n
+    The key `q` terminates the process in case the user wants to finish later. \n
+    
+    """
     def __init__(self, database_folder, meta_folder, review=False,
                  augment_only=False, redo_false=False, redo_true=False,
                  tms_dataset=False):
+        """
+        Initialize the Groundtruth object \n
+        
+        `database_folder`: the path of the folder containing the images \n
+        `meta_folder`: the path of the folder containing the meta files arrange in the same directory structure than the `database_folder`\n
+        `review`: review the annotation \n
+        `augment_only`: view only the augmented images \n
+        `redo_false`: re-annotate only the images marked as false\n
+        `redo_true`: re-annotate only the images marked as true \n
+        `tms_dataset`: boolean if the `database_folder` follows a TMS directory structure (ie : `sat/zoom/xtile/ytile')
+        """
         self.database_folder = database_folder
         self.meta_folder = meta_folder
         self.target_files = self.build_target_files(review, augment_only, redo_false, redo_true, tms_dataset)
@@ -17,6 +35,16 @@ class GroundTruth:
         print("%d more files to go !" % len(self.target_files))
 
     def build_target_files(self, review, augment_only, redo_false, redo_true, tms_dataset):
+        """
+        Build a list of tuple (image_path, meta_path) \n
+        
+        `review`: review the annotation \n
+        `augment_only`: view only the augmented images \n
+        `redo_false`: re-annotate only the images marked as false\n
+        `redo_true`: re-annotate only the images marked as true \n
+        `tms_dataset`: boolean if the `database_folder` follows a TMS directory structure (ie : `sat/zoom/xtile/ytile')
+        """
+        
         target_files = []
         for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
 
@@ -68,6 +96,9 @@ class GroundTruth:
         return target_files
 
     def shape_selection(self, event, x, y, flags, param):
+        """
+        Event to draw a bounding boxes
+        """
         # # grab references to the global variables
         # global ref_point, crop
 
@@ -92,7 +123,9 @@ class GroundTruth:
             cv2.imshow("image", self.image)
 
     def run(self):
-
+        """
+        Run the interface after initialization of the object Groundtruth
+        """
         cv2.namedWindow("image")
         cv2.setMouseCallback("image", self.shape_selection)
 

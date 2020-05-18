@@ -3,8 +3,9 @@ import numpy as np
 from tqdm import tqdm
 import pandas as pd
 from sklearn import metrics
+import pathlib
 
-from benchmark_manager import BenchmarkManager
+from helipad_detection.src.benchmark.benchmark_manager import BenchmarkManager
 
 
 class RunBenchmark:
@@ -13,7 +14,8 @@ class RunBenchmark:
                  test_only=True, tms_dataset=False, zoom_level=None,
                  include_category=None,
                  include_negative=True,
-                 city_lat=None):
+                 city_lat=None,
+                 train_only=False):
 
         self.image_folder = image_folder
         self.meta_folder = meta_folder
@@ -24,6 +26,7 @@ class RunBenchmark:
         self.test_only = test_only
         self.include_category = include_category
         self.include_negative = include_negative
+        self.train_only = train_only
 
         self.benchmark_manager = BenchmarkManager(image_folder,
                                                   meta_folder,
@@ -32,7 +35,8 @@ class RunBenchmark:
                                                   zoom_level=zoom_level,
                                                   include_category=include_category,
                                                   include_negative=include_negative,
-                                                  city_lat=city_lat)
+                                                  city_lat=city_lat,
+                                                  train_only=train_only)
 
     def run(self, threshold_validation=None):
         aucs = []
@@ -79,12 +83,12 @@ class RunBenchmark:
                     filename = "benchmark_model_{}_tms_z{}.csv".format(model_number, self.zoom_level)
             else:
                 if threshold_validation:
-                    filename = "benchmark_model_{}_t{}_{}.csv".format(model_number, str(threshold_validation), self.test_only)
+                    filename = "benchmark_model_{}_t{}_test{}_train{}.csv".format(model_number, str(threshold_validation), self.test_only, self.train_only)
                 if self.include_category:
-                    filename = "benchmark_model_{}_c{}_n{}.csv".format(model_number, "".join(self.include_category), self.include_negative)
+                    filename = "benchmark_model_{}_c{}_n{}_test{}_train{}.csv".format(model_number, "".join(self.include_category), self.include_negative, self.test_only, self.train_only)
                 else:
                     filename = "benchmark_model_{}_{}.csv".format(model_number, self.test_only)
-            df.to_csv(os.path.join("benchmark", "benchmark_results", filename))
+            df.to_csv(os.path.join(pathlib.Path(__file__).parent.absolute(), "benchmark_results", filename))
 
         df_auc = pd.DataFrame(data=aucs, columns=["Model Number", "AUC"])
 

@@ -4,9 +4,8 @@ import cv2
 from tqdm import tqdm as tqdm
 import numpy as np
 
-from src.training.filter_manager import FilterManager
-
-from src.database_management.Database_augmentation import DatabaseAugmentation
+from helipad_detection.src.training.filter_manager import FilterManager
+from helipad_detection.src.database_management.database_augmentation import DatabaseAugmentation
 
 class BBBuildDataset:
 

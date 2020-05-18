@@ -14,9 +14,8 @@ from mrcnn.model import MaskRCNN
 import sys
 sys.path.append('../')
 
-from training.helipad_dataset import HelipadDataset
-from prediction_config import PredictionConfig
-from training.helipad_config import HelipadConfig
+from helipad_detection.src.training.helipad_dataset import HelipadDataset
+from helipad_detection.src.training.helipad_config import HelipadConfig
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"

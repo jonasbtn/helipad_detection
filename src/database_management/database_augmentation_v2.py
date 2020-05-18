@@ -10,24 +10,34 @@ import imgaug as ia
 from imgaug import augmenters as iaa
 from imgaug.augmentables.bbs import BoundingBox, BoundingBoxesOnImage 
 
-# from imgaug import augmenters as iaa
-
 import sys
 sys.path.append('../')
-
-# from utils.autoaugment_utils import *
-# from utils.box_utils import *
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 class DatabaseAugmentationV2:
-
+    
+    """
+    Apply Augmentation on the dataset using an ImgAug augmentation sequence 
+    """
+    
     def __init__(self, input_folder, meta_folder, root_folder, root_folder_meta,
                  augmentation_strategy, version_number,
                  balance_dataset=False, repartition=None):
-
+        
+        """
+        `input_folder`: the folder containing the original images \n
+        `meta_folder`: the folder containing the meta of the original images \n
+        `root_folder`: the folder where to store the augmented images \n
+        `root_folder_meta`: the folder where to store the meta of the augmented images \n
+        `augmentation_strategy`: an ImgAug augmentation sequence \n
+        `version_number`: the augmentation version number. The suffix of the output folder will be the version number \n 
+        `balance_dataset`: boolean, if yes, the number of images per category is balanced by augmenting more the images from small categories \n
+        `repartition`: list of 12 integers precising the number of times each image per category is augmented  \n
+        """
+        
         self.input_folder = input_folder
         self.meta_folder = meta_folder
         self.root_folder = root_folder
@@ -60,6 +70,9 @@ class DatabaseAugmentationV2:
 
     @staticmethod
     def set_aug_foldername(folder, version_number=None):
+        """
+        Set the augmented folder name with the suffix `version_number`. The output folder is a sub-directory of `folder`. 
+        """
         if version_number == None:
             directories = os.listdir(folder)
             print(directories)
@@ -77,12 +90,17 @@ class DatabaseAugmentationV2:
 
     @staticmethod
     def set_aug_filename(filename, i):
+        """
+        Set the augmentation filename using the `filename` and its augmentation id `i`.
+        """
         filename_ext = os.path.splitext(filename)
         aug_filename = filename_ext[0]+"_aug_{:03d}".format(i)+filename_ext[1]
         return aug_filename
     
     def set_aug_image_meta_path(self, filename, subdir):
-        # save image inside the database folder with the meta file
+        """
+        Save image inside the database folder with the meta file
+        """
         aug_filename = self.set_aug_filename(filename, 0)
         folder_name = os.path.basename(subdir)
         folder_augmented = folder_name[:len(folder_name)-3] + "augmented_" + folder_name[len(folder_name)-3:]
@@ -106,6 +124,9 @@ class DatabaseAugmentationV2:
 
     @staticmethod
     def categories_imagemeta_path(input_folder, meta_folder):
+        """
+        Returns a dictionnary having a category as a key and a list of tuples (image_path, meta_filepath) belonging to this category as value.
+        """
         categories_path = {}
         for subdir, dirs, files in os.walk(input_folder, topdown=True):
             for file in files:
@@ -134,6 +155,10 @@ class DatabaseAugmentationV2:
 
     @staticmethod
     def duplicate_categories(input_folder, meta_folder, repartition):
+        """
+        Duplicate the categories respectively to the `repartition` chosen\n
+        Return a list of target files
+        """
         categories_path = DatabaseAugmentation.categories_imagemeta_path(input_folder, meta_folder)
         target_files = []
 
@@ -152,6 +177,10 @@ class DatabaseAugmentationV2:
 
     @staticmethod
     def balance_categories(input_folder, meta_folder, repartition=None):
+        """
+        Balance the categories first and then apply the `repartition` chosen \n
+        Return a list of target files. 
+        """
         categories_path = DatabaseAugmentationV2.categories_imagemeta_path(input_folder, meta_folder)
         categories_count = []
         categories_count_dict = {}
@@ -200,6 +229,9 @@ class DatabaseAugmentationV2:
         return target_files
 
     def build_target_files(self):
+        """
+        Return a list of target files from the `input_folder`.
+        """
         target_files = []
 
         for subdir, dirs, files in os.walk(self.input_folder, topdown=True):
@@ -227,6 +259,9 @@ class DatabaseAugmentationV2:
     
     @staticmethod
     def load_image_bboxes(image_path, meta_path):
+        """
+        Load the bounding boxes of the image from `image_path` and `meta_path`
+        """
         image = cv2.imread(image_path)
         with open(meta_path, 'r') as f:
             meta = json.load(f)
@@ -243,6 +278,10 @@ class DatabaseAugmentationV2:
     
     @staticmethod
     def load_image_box_for_aug(image, bboxes):
+        """
+        Convert the bounding boxes to ImgAug bounding boxes format \n
+        Returns the image with the bounding boxes.
+        """
         bb = []
         for box in bboxes:
             bb.append(BoundingBox(x1=box[0], x2=box[2], y1=box[1], y2=box[3]))
@@ -251,11 +290,19 @@ class DatabaseAugmentationV2:
     
     @staticmethod
     def apply_aug(image, bbs, aug):
+        """
+        Apply the augmentation on the image using the ImgAug bounding boxes format\n
+        Return the augmented image with the augmented bounding boxes
+        """
         image_aug, bbs_aug = aug(image=image, bounding_boxes=bbs)
         bbs_aug = bbs_aug.remove_out_of_image().clip_out_of_image()
         return image_aug, bbs_aug
     
     def apply_augmentation_on_image(self, image, meta, bboxes):
+        """
+        Apply augmentation on the image using the image and meta files\n
+        Return the augmented image with the augmented bounding boxes as a list.
+        """
         image, bbs = self.load_image_box_for_aug(image, bboxes)
         image_aug, bbs_aug = self.apply_aug(image, bbs, self.augmentation_strategy)
         bboxes_aug = []
@@ -269,6 +316,9 @@ class DatabaseAugmentationV2:
     
     @staticmethod
     def save_aug(image_aug, bboxes_aug, meta, meta_aug_path, image_aug_path):
+        """
+        Save the augmented image and meta
+        """
         if not os.path.isdir(os.path.dirname(image_aug_path)):
                 os.mkdir(os.path.dirname(image_aug_path))
         if not os.path.isdir(os.path.dirname(meta_aug_path)):
@@ -281,7 +331,9 @@ class DatabaseAugmentationV2:
         cv2.imwrite(image_aug_path, image_aug)
 
     def run(self):
-
+        """
+        Run the augmentation on the dataset after initialization
+        """
         for i in tqdm(range(len(self.target_files))):
 
             image_meta_path = self.target_files[i]

@@ -2,8 +2,6 @@ import os
 import json
 from tqdm import tqdm as tqdm
 
-from src.knn.knn_predict import KNNPredict
-
 
 class BuildPlacemarks:
 
@@ -18,13 +16,25 @@ class BuildPlacemarks:
         self.index_path = index_path
         self.model_validation_threshold = model_validation_threshold
         self.output_name = os.path.join("detection", "placemarks", "{}placemarks_m{}_t{}_v{}_{}_t{}.kml".format(prefix, model_number, threshold, knn, model_name, model_validation_threshold))
-
+    
+    @staticmethod
+    def get_meta_info_from_line(line):
+        if "\n" in line:
+            meta_filename = line[:len(line) - 1]
+        else:
+            meta_filename = line
+        meta_info = os.path.splitext(meta_filename)[0].split('_')
+        zoom = meta_info[1]
+        xtile = meta_info[2]
+        ytile = meta_info[3]
+        return zoom, xtile, ytile, meta_filename
+    
     def build_target_file(self):
         target = []
         if self.index_path:
             with open(self.index_path, 'r') as f:
                 for line in f:
-                    zoom, xtile, ytile, meta_filename = KNNPredict.get_meta_info_from_line(line)
+                    zoom, xtile, ytile, meta_filename = self.get_meta_info_from_line(line)
                     meta_path = os.path.join(self.meta_folder, zoom, xtile, meta_filename)
                     target.append(meta_path)
         else:

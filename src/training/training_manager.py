@@ -1,8 +1,8 @@
 import os
 import argparse
 
-from helipad_dataset import HelipadDataset
-from helipad_config import HelipadConfig
+from helipad_detection.src.training.helipad_dataset import HelipadDataset
+from helipad_detection.src.training.helipad_config import HelipadConfig
 
 from mrcnn.visualize import display_instances
 from mrcnn.utils import extract_bboxes

@@ -14,12 +14,12 @@ from mrcnn.utils import compute_ap
 from mrcnn.model import load_image_gt
 from mrcnn.model import mold_image
 
-from helipad_config import HelipadConfig
-from helipad_dataset import HelipadDataset
-from training_manager import TrainingManager
+from helipad_detection.src.training.helipad_config import HelipadConfig
+from helipad_detection.src.training.helipad_dataset import HelipadDataset
+from helipad_detection.src.training.training_manager import TrainingManager
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 class RunTraining:
@@ -151,8 +151,9 @@ if __name__ == "__main__":
     test_categories = ["1", "2", "3", "5", "6", "8", "9"]
 
     # weights_filename = 'helipad_cfg_10_no47du_all20200420T0127/mask_rcnn_helipad_cfg_10_no47du_all_0896.h5'
-#     weights_filename = 'helipad_cfg_11_no47du_3+20200507T2024/mask_rcnn_helipad_cfg_11_no47du_3+_0038.h5'
-    
+    # weights_filename = 'helipad_cfg_11_no47du_3+20200507T2024/mask_rcnn_helipad_cfg_11_no47du_3+_0038.h5'
+    # weights_filename = 'helipad_cfg_12_no47du_all20200513T1024/mask_rcnn_helipad_cfg_12_no47du_all_0113.h5'
+    weights_filename = 'helipad_cfg_13_no47du_all20200514T2105/mask_rcnn_helipad_cfg_13_no47du_all_0057.h5'
     base_weights = 'mask_rcnn_coco.h5'
 
     predict_weights_filepath = 'helipad_cfg_7_aug123_all20200106T2012/mask_rcnn_helipad_cfg_7_aug123_all_0472.h5'
@@ -160,7 +161,7 @@ if __name__ == "__main__":
     run_training = RunTraining(root_folder,
                                root_meta_folder,
                                model_folder,
-                               base_weights,
+                               weights_filename,
                                include_augmented=include_augmented,
                                augmented_version=augmented_version,
                                predict_weights_filepath=None,

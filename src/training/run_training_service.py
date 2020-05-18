@@ -4,7 +4,7 @@ import win32event
 import servicemanager
 import socket
 
-from run_training import RunTraining
+from helipad_detection.src.training.run_training import RunTraining
 
 
 class AppServerSvc (win32serviceutil.ServiceFramework):

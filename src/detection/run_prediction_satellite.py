@@ -10,10 +10,10 @@ from mrcnn.model import mold_image
 import sys
 sys.path.append('../')
 
-from utils.globalmaptiles import GlobalMercator
+from helipad_detection.src.utils.globalmaptiles import GlobalMercator
 
-from training.helipad_config import HelipadConfig
-from training.filter_manager import FilterManager
+from helipad_detection.src.training.helipad_config import HelipadConfig
+from helipad_detection.src.training.filter_manager import FilterManager
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"

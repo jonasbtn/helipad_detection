@@ -12,12 +12,12 @@ from mrcnn.model import mold_image
 import sys
 sys.path.append('../')
 
-from training.helipad_config import HelipadConfig
-from training.helipad_dataset import HelipadDataset
-from training.filter_manager import FilterManager
+from helipad_detection.src.training.helipad_config import HelipadConfig
+from helipad_detection.src.training.helipad_dataset import HelipadDataset
+from helipad_detection.src.training.filter_manager import FilterManager
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 class RunDetection:
@@ -52,7 +52,8 @@ class RunDetection:
                            tms_dataset=False, zoom_level=None,
                            include_category=None,
                            include_negative=True,
-                           city_lat=None):
+                           city_lat=None,
+                           train_only=False):
         target_files = []
         for subdir, dirs, files in os.walk(image_folder, topdown=True):
             for file in files:
@@ -65,7 +66,9 @@ class RunDetection:
                 if not tms_dataset:
                     image_name = os.path.splitext(file)[0]
                     image_number = int(image_name.split('_')[1])
-                    if test_only and image_number <= 4250:
+                    if test_only and image_number <= 4750:
+                        continue
+                    if train_only and image_number > 4750:
                         continue
                     meta_filepath = os.path.join(meta_folder,
                                                  os.path.basename(subdir),
@@ -82,8 +85,8 @@ class RunDetection:
                                 continue
                             elif meta["groundtruth"]["category"] not in include_category:
                                 continue
-                           # this adds the false samples and only the positive samples 
-                           # from include_category
+                       # this adds the false samples and only the positive samples 
+                       # from include_category
                         if not include_negative and not meta["groundtruth"]["helipad"]:
                             continue
                 else:

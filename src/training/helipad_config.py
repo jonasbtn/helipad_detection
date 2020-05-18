@@ -5,11 +5,12 @@ import numpy as np
 # define a configuration for the model
 class HelipadConfig(Config):
     # define the name of the configuration
-    NAME = "helipad_cfg_12_no47du_all"
+    NAME = "helipad_cfg_13_no47du_all"
     # number of classes (background + helipad)
     NUM_CLASSES = 1 + 1
     # number of training steps per epoch, ie: number of images/epoch
     STEPS_PER_EPOCH = 4096
+    VALIDATION_STEPS = 200
     # number of epochs
     EPOCHS = 1000
     # layers to train

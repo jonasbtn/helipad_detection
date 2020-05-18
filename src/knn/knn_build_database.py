@@ -4,7 +4,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.training.filter_manager import FilterManager
+from helipad_detection.src.training.filter_manager import FilterManager
 
 
 class KNNBuildDatabase:

@@ -16,26 +16,34 @@ tf.enable_eager_execution()
 
 # from imgaug import augmenters as iaa
 
-import sys
-sys.path.append('../')
-
-from utils.autoaugment_utils import *
-from utils.box_utils import *
+from helipad_detection.src.utils.autoaugment_utils import *
+from helipad_detection.src.utils.box_utils import *
 
 
 class DatabaseAugmentation:
-
+    """
+    Apply Augmentation on the dataset using Google's policy 
+    """
     def __init__(self, input_folder, meta_folder, root_folder, root_folder_meta,
-                 balance_dataset=False, repartition=None, display=True):
-
+                 balance_dataset=False, repartition=None, version_number=None, display=False):
+        """
+        `input_folder`: the folder containing the original images \n
+        `meta_folder`: the folder containing the meta of the original images \n
+        `root_folder`: the folder where to store the augmented images \n
+        `root_folder_meta`: the folder where to store the meta of the augmented images \n
+        `balance_dataset`: boolean, if yes, the number of images per category is balanced by augmenting more the images from small categories \n
+        `repartition`: list of 12 integers precising the number of times each image per category is augmented  \n
+        `version_number`: the augmentation version number. The suffix of the output folder will be the version number \n 
+        `display`: boolean to display the augmented images as the script augment them \n
+        """
         self.input_folder = input_folder
         self.meta_folder = meta_folder
         self.root_folder = root_folder
         self.root_folder_meta = root_folder_meta
-
-        self.aug_foldername = self.set_aug_foldername(self.root_folder)
+        self.version_number = version_number
+        self.aug_foldername = self.set_aug_foldername(self.root_folder, version_number=self.version_number)
         self.output_folder = os.path.join(root_folder, self.aug_foldername)
-        self.aug_meta_foldername = self.set_aug_foldername(self.root_folder_meta)
+        self.aug_meta_foldername = self.set_aug_foldername(self.root_folder_meta, version_number=self.version_number)
         self.meta_output_folder = os.path.join(os.path.dirname(self.meta_folder), self.aug_meta_foldername)
 
         if not os.path.isdir(self.output_folder):
@@ -68,27 +76,39 @@ class DatabaseAugmentation:
         self.sess = tf.InteractiveSession()
 
     @staticmethod
-    def set_aug_foldername(folder):
-        directories = os.listdir(folder)
-        print(directories)
-        i = 1
-        for dir in directories:
-            if dir[0] == '.':
-                continue
-            elements = dir.split('_')
-            if elements[-2] == 'augmented':
-                i += 1
-        aug_foldername = os.path.basename(folder)+"_augmented_{}".format(i)
+    def set_aug_foldername(folder, version_number=None):
+        """
+        Set the augmented folder name with the suffix `version_number`. The output folder is a sub-directory of `folder`. 
+        """
+        if not version_number:
+            directories = os.listdir(folder)
+            print(directories)
+            i = 1
+            for dir in directories:
+                if dir[0] == '.':
+                    continue
+                elements = dir.split('_')
+                if elements[-2] == 'augmented':
+                    i += 1
+            aug_foldername = os.path.basename(folder)+"_augmented_{}".format(i)
+        else:
+            aug_foldername = os.path.basename(folder)+"_augmented_{}".format(version_number)
         return aug_foldername
 
     @staticmethod
     def set_aug_filename(filename, i):
+        """
+        Set the augmentation filename using the `filename` and its augmentation id `i`.
+        """
         filename_ext = os.path.splitext(filename)
         aug_filename = filename_ext[0]+"_aug_{:03d}".format(i)+filename_ext[1]
         return aug_filename
 
     @staticmethod
     def categories_imagemeta_path(input_folder, meta_folder):
+        """
+        Returns a dictionnary having a category as a key and a list of tuples (image_path, meta_filepath) belonging to this category as value.
+        """
         categories_path = {}
         for subdir, dirs, files in os.walk(input_folder, topdown=True):
             for file in files:
@@ -117,6 +137,10 @@ class DatabaseAugmentation:
 
     @staticmethod
     def duplicate_categories(input_folder, meta_folder, repartition):
+        """
+        Duplicate the categories respectively to the `repartition` chosen\n
+        Return a list of target files
+        """
         categories_path = DatabaseAugmentation.categories_imagemeta_path(input_folder, meta_folder)
         target_files = []
 
@@ -135,6 +159,10 @@ class DatabaseAugmentation:
 
     @staticmethod
     def balance_categories(input_folder, meta_folder, repartition=None):
+        """
+        Balance the categories first and then apply the `repartition` chosen \n
+        Return a list of target files. 
+        """
         categories_path = DatabaseAugmentation.categories_imagemeta_path(input_folder, meta_folder)
         categories_count = []
         categories_count_dict = {}
@@ -187,6 +215,9 @@ class DatabaseAugmentation:
         return target_files
 
     def build_target_files(self):
+        """
+        Return a list of target files from the `input_folder`.
+        """
         target_files = []
 
         for subdir, dirs, files in os.walk(self.input_folder, topdown=True):
@@ -213,8 +244,9 @@ class DatabaseAugmentation:
         return target_files
 
     def run(self):
-
-        # with tf.Session() as sess:
+        """
+        Run the augmentation on the dataset after initialization
+        """
 
         for i in tqdm(range(len(self.target_files))):
 

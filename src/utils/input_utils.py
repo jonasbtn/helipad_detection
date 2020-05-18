@@ -23,8 +23,8 @@ import math
 from six.moves import range
 import tensorflow.compat.v1 as tf
 
-from utils import box_utils
-from utils.object_detection import preprocessor
+from helipad_detection.src.utils import box_utils
+# from helipad_detection.src.utils.object_detection import preprocessor
 
 
 def pad_to_fixed_size(input_tensor, size, constant_values=0):

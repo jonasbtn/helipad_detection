@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.2">
+	<Document>
+		<Folder>
+			<name>New Category</name>
+			<open>1</open>
+			<Style>
+				<ListStyle>
+					<listItemType>check</listItemType>
+					<bgColor>00ffffff</bgColor>
+				</ListStyle>
+			</Style>
+			<Placemark>
+				<name>Placemark 38-0.987-857</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.87605863809584,14.424431391959144,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 92-0.994-984</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.90682491660118,14.495602320120419,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 93-0.993-974</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.90711325407028,14.495719177329613,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 104-0.994-853</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.91174006462097,14.497048747483893,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 105-0.993-825</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.91154024004936,14.497512277298249,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 106-0.992-822</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.91164350509644,14.497281161786711,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 106-0.950-943</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.91251522302628,14.360427612902567,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 132-0.931-840</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.93232199549676,14.340537256963666,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 135-0.870-933</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.93282759189607,14.385402064119445,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 145-0.992-839</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.93456566333772,14.766644025799394,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 208-0.827-812</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.95224678516388,14.79552596436568,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 213-0.992-828</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.95295622944832,14.795243296969144,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 218-0.993-809</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.953888297081,14.789893295831142,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 221-0.738-839</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.95553249120712,14.434817884619582,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 225-0.899-968</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.95625668764114,14.418537228440936,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 241-0.987-996</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.96125364303587,14.380473390464157,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 243-0.773-834</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.96186921000479,14.331908328834695,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 248-0.709-939</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.96188664436339,14.43900767172518,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 260-0.988-900</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.96599042415617,14.688881171048292,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 266-0.886-834</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.96737846732138,14.667044379003167,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 302-0.764-898</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.97438037395479,14.454358294690467,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 319-0.989-890</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.97702771425247,14.685999908488698,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 351-0.992-952</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.98656967282295,14.618939193314006,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 353-0.988-896</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.9880730509758,14.35852817254365,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 354-0.906-887</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.98804220557213,14.392706537536863,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 356-0.731-930</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.98875299096107,14.62562088363707,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 357-0.954-840</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>120.9893149137497,14.432455412432615,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 396-0.990-924</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.00654006004332,14.511537168932763,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 416-0.960-955</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.01192057132722,14.396543790870188,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 417-0.990-922</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.01185619831087,14.431720300522523,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 429-0.948-887</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.01733326911928,14.575244315659383,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 478-0.995-946</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.04820415377615,14.448961022147811,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 479-0.993-839</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.04820683598517,14.449171409227247,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 486-0.996-923</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.05107411742209,14.583043529632326,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 496-0.949-899</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.0598596930504,14.586048145540003,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 498-0.952-830</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.06090977787973,14.662356812954126,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 500-0.974-809</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.06154680252077,14.585369352508048,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 505-0.985-851</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.0666698217392,14.698810274239095,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 516-0.924-941</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.0751160979271,14.65582934314407,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 518-0.992-918</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.07560560107231,14.786401331094117,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 524-0.987-819</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.0805743932724,14.658838153358927,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 528-0.860-816</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.08760714530943,14.613631588070483,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 533-0.993-973</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.0986176133156,14.636396286714437,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 559-0.901-851</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>121.19624868035316,14.664792076437147,0 </coordinates>
+				</Point>
+			</Placemark>
+		</Folder>
+	</Document>
+</kml>

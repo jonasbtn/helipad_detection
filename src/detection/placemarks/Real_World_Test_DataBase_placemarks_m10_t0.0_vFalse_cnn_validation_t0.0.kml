@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.2">
+	<Document>
+		<Folder>
+			<name>New Category</name>
+			<open>1</open>
+			<Style>
+				<ListStyle>
+					<listItemType>check</listItemType>
+					<bgColor>00ffffff</bgColor>
+				</ListStyle>
+			</Style>
+			<Placemark>
+				<name>Placemark 17-990</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>2.2726437449455403,48.831477141354696,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 84-992</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>2.7818208932876733,48.86872522173141,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 121-991</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>2.785272896289837,48.86442009395105,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 1822-985</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>-118.2655343413353,34.051048256570084,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 1887-985</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>-118.2615888118744,34.04644794000722,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 1953-937</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>-118.25772643089294,34.044016560859035,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Placemark 2103-986</name>
+				<description>1/7/2020 2:18:10 PM</description>
+				<Style>
+					<LabelStyle>
+						<color>A600FFFF</color>
+						<scale>1</scale>
+					</LabelStyle>
+					<IconStyle>
+						<scale>0.5</scale>
+						<Icon>
+							<href>files/1.png</href>
+						</Icon>
+						<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+					</IconStyle>
+				</Style>
+				<Point>
+					<extrude>1</extrude>
+					<coordinates>-118.24773520231246,34.057810490875184,0 </coordinates>
+				</Point>
+			</Placemark>
+		</Folder>
+	</Document>
+</kml>

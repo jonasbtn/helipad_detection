@@ -1,7 +1,7 @@
 import time
 import random
 from pathlib import Path
-from SMWinservice import SMWinservice
+from helipad_detection.src.training.scripts_log.SMWinservice import SMWinservice
 
 import tensorflow as tf
 

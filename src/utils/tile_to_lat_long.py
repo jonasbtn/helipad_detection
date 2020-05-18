@@ -1,23 +1,25 @@
-from utils.globalmaptiles import GlobalMercator
+from helipad_detection.src.utils.globalmaptiles import GlobalMercator
 
-globalmercator = GlobalMercator()
 
-( minLat, minLon, maxLat, maxLon ) = globalmercator.TileLatLonBounds(265454, 343865, 19)
+if __name__ == "__main__":
+    globalmercator = GlobalMercator()
 
-print(minLat)
-print(minLon)
+    ( minLat, minLon, maxLat, maxLon ) = globalmercator.TileLatLonBounds(265454, 343865, 19)
 
-print(maxLat)
-print(maxLon)
+    print(minLat)
+    print(minLon)
 
-meanLat = (minLat+maxLat)/2
-meanLon = (minLon+maxLon)/2
+    print(maxLat)
+    print(maxLon)
 
-print(meanLat)
-print(meanLon)
+    meanLat = (minLat+maxLat)/2
+    meanLon = (minLon+maxLon)/2
 
-coordinates = globalmercator.TileLatLonBox(265454, 343865, 19)
+    print(meanLat)
+    print(meanLon)
 
-for c in coordinates:
-    print(c)
+    coordinates = globalmercator.TileLatLonBox(265454, 343865, 19)
+
+    for c in coordinates:
+        print(c)
 

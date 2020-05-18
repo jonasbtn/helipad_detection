@@ -7,11 +7,11 @@ from time import time
 import sys
 sys.path.append('../')
 
-from detection.run_detection import RunDetection
-from training.filter_manager import FilterManager
+from helipad_detection.src.detection.run_detection import RunDetection
+from helipad_detection.src.training.filter_manager import FilterManager
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 
 class BenchmarkManager:
@@ -20,7 +20,8 @@ class BenchmarkManager:
                  test_only=True, tms_dataset=False, zoom_level=None,
                  include_category=None,
                  include_negative=True,
-                 city_lat=None):
+                 city_lat=None,
+                 train_only=False):
 
         self.image_folder = image_folder
         self.meta_folder = meta_folder
@@ -33,7 +34,8 @@ class BenchmarkManager:
                                                             zoom_level=zoom_level,
                                                         include_category=include_category,
                                                             include_negative=include_negative,
-                                                            city_lat=city_lat)
+                                                            city_lat=city_lat,
+                                                            train_only=train_only)
         print("{} files loaded!".format(len(self.target_files)))
 
     def reinitialize_metrics(self):

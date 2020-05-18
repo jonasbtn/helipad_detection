@@ -3,8 +3,15 @@ from shutil import copyfile
 
 
 class RestoreMeta:
-
+    """
+    Restore specific meta files from a backup folder to another meta folder.
+    """
     def __init__(self, meta_folder, save_folder, index_filename):
+        """
+        `meta_folder`: the path to the meta folder \n
+        `save_folder`: the path to the save folder \n
+        `index_filename`: the path to the file containing the filenames of the meta files to restore
+        """
         self.meta_folder = meta_folder
         self.save_folder = save_folder
         self.filenames = []
@@ -16,7 +23,9 @@ class RestoreMeta:
                     self.filenames.append(line)
 
     def restore(self):
-
+        """
+        Run the restauration
+        """
         for file in self.filenames:
             image_info = os.path.splitext(file)[0].split("_")
             zoom = image_info[1]
