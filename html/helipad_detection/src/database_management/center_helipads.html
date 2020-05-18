@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>helipad_detection.src.database_management.center_helipads API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>helipad_detection.src.database_management.center_helipads</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+import urllib.parse
+import urllib.request
+import re
+import time
+import os
+import json
+import shutil
+import cv2
+
+from shutil import copyfile
+
+
+class CenterHelipads:
+
+    def __init__(self, image_folder, meta_folder):
+
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+
+    # get the center of the box from meta file
+    def get_center_box(self, meta):
+        if &#34;groundtruth&#34; in meta:
+            if &#34;box&#34; in meta[&#34;groundtruth&#34;]:
+                boxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+
+                centers = []
+
+                for box in boxes:
+
+                    x1, y1, x2, y2 = box[0], box[1], box[2], box[3]
+
+                    x_c = (x1 + x2) // 2
+                    y_c = (y1 + y2) // 2
+
+                    centers.append((x_c, y_c))
+
+                return centers
+            else:
+                return []
+        else:
+            return []
+
+    def get_proportion_centered(self):
+        nb_helipads = 0
+        nb_helipads_centered = 0
+
+        for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
+            for file in files:
+                # print(file)
+                metapath = os.path.join(subdir, file)
+                with open(metapath, &#39;r&#39;) as f:
+                    meta = json.load(f)
+
+                if &#34;groundtruth&#34; not in meta:
+                    continue
+                else:
+                    if &#34;helipad&#34; in meta[&#34;groundtruth&#34;]:
+                        if not meta[&#34;groundtruth&#34;][&#34;helipad&#34;]:
+                            continue
+
+                centers = self.get_center_box(meta)
+
+                for center in centers:
+                    if 300 &lt;= center[0] &lt;= 340 and 300 &lt;= center[1] &lt;= 340:
+                        nb_helipads_centered += 1
+                    nb_helipads += 1
+
+        return [nb_helipads_centered/nb_helipads, nb_helipads_centered, nb_helipads]
+
+    def get_center_shift(self, helipads_centers, image):
+        height, width = image.shape[0], image.shape[1]
+        image_center_x, image_center_y = height // 2, width // 2
+
+        if len(helipads_centers) == 0:
+            return []
+
+        center_shifts = []
+
+        for center in helipads_centers:
+            x_c, y_c = center[0], center[1]
+
+            x_shift = x_c - image_center_x
+            y_shift = y_c - image_center_y
+
+            print(&#34;({},{})&lt;--({},{})+({},{})&#34;.format(x_c, y_c,
+                                                     image_center_x,
+                                                     image_center_y,
+                                                     x_shift, y_shift))
+
+            center_shifts.append((x_shift, y_shift))
+
+        return center_shifts
+
+    def draw_rectangle(self, image, meta):
+        if &#34;groundtruth&#34; in meta:
+            if &#34;box&#34; in meta[&#34;groundtruth&#34;]:
+                boxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+                for box in boxes:
+                    cv2.rectangle(image, (box[0], box[1]), (box[2], box[3]), (0, 0, 255))
+        return image
+
+    def draw_centers(self, image, centers):
+        for center in centers:
+            cv2.circle(image, center, 5, (0, 0, 255))
+        return image
+
+    def get_zoom(self, meta):
+        if &#34;groundtruth&#34; in meta:
+            if &#34;box&#34; in meta[&#34;groundtruth&#34;]:
+                boxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+                areas = []
+                for box in boxes:
+                    x1, y1, x2, y2 = box[0], box[1], box[2], box[3]
+                    print(&#34;({},{}),({},{})&#34;.format(x1,y1,x2,y2))
+                    # print(&#34;({},{})&#34;.format(x2-x1, y2-y1))
+                    area = (x2-x1)*(y2-y1)
+                    areas.append(abs(area)) # Absolute value
+                print(areas)
+                # return a list of zoom, sometimes plusieurs helipads
+                return areas
+            else:
+                return meta[&#34;coordinates&#34;][&#34;zoom&#34;]
+        else:
+            return meta[&#34;coordinates&#34;][&#34;zoom&#34;]
+
+    def center_helipads(self):
+
+        for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
+            for file in files:
+                metapath = os.path.join(subdir, file)
+                with open(metapath, &#39;r&#39;) as f:
+                    meta = json.load(f)
+
+                if &#34;groundtruth&#34; not in meta:
+                    continue
+                else:
+                    if &#34;helipad&#34; in meta[&#34;groundtruth&#34;]:
+                        if not meta[&#34;groundtruth&#34;][&#34;helipad&#34;]:
+                            continue
+
+                imagepath = os.path.join(self.image_folder, os.path.basename(subdir), os.path.splitext(file)[0] + &#34;.png&#34;)
+                image = cv2.imread(imagepath)
+
+                helipads_centers = self.get_center_box(meta)
+
+                center_shifts = self.get_center_shift(helipads_centers, image)
+
+                zooms = self.get_zoom(meta)
+                print(&#34;({},{})&#34;.format(meta[&#34;coordinates&#34;][&#34;latitude&#34;],
+                                       meta[&#34;coordinates&#34;][&#34;longitude&#34;]))
+
+                image = self.draw_rectangle(image, meta)
+                image = self.draw_centers(image, helipads_centers)
+
+                cv2.imshow(&#39;image&#39;, image)
+
+                k = cv2.waitKey(0)
+
+
+
+# get center shift
+# get zoom shift
+
+# get coordinates of images images, its center coordinates,
+# and make relation between the shift and the shift coordinates
+# problem if size of the image different ?
+
+# 100696 --&gt; +1 zoom
+# 67797 --&gt; +1 zoom
+# WARNING : zoom 22 maybe no imagery !
+
+# see the notebook
+
+# after get augmented images
+
+
+if __name__ == &#34;__main__&#34;:
+
+    meta_folder = os.path.join(&#39;C:\\&#39;, &#39;Users&#39;, &#39;jonas&#39;, &#39;Desktop&#39;, &#39;Helipad&#39;, &#39;Helipad_DataBase_meta&#39;, &#39;Helipad_DataBase_meta_original&#39;)
+    image_folder = os.path.join(&#39;C:\\&#39;, &#39;Users&#39;, &#39;jonas&#39;, &#39;Desktop&#39;, &#39;Helipad&#39;, &#39;Helipad_DataBase&#39;, &#39;Helipad_DataBase_original&#39;)
+
+    center_helipads = CenterHelipads(image_folder, meta_folder)
+
+    # center_helipads.center_helipads()
+
+    results = center_helipads.get_proportion_centered()
+
+    print(results)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="helipad_detection.src.database_management.center_helipads.CenterHelipads"><code class="flex name class">
+<span>class <span class="ident">CenterHelipads</span></span>
+<span>(</span><span>image_folder, meta_folder)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CenterHelipads:
+
+    def __init__(self, image_folder, meta_folder):
+
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+
+    # get the center of the box from meta file
+    def get_center_box(self, meta):
+        if &#34;groundtruth&#34; in meta:
+            if &#34;box&#34; in meta[&#34;groundtruth&#34;]:
+                boxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+
+                centers = []
+
+                for box in boxes:
+
+                    x1, y1, x2, y2 = box[0], box[1], box[2], box[3]
+
+                    x_c = (x1 + x2) // 2
+                    y_c = (y1 + y2) // 2
+
+                    centers.append((x_c, y_c))
+
+                return centers
+            else:
+                return []
+        else:
+            return []
+
+    def get_proportion_centered(self):
+        nb_helipads = 0
+        nb_helipads_centered = 0
+
+        for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
+            for file in files:
+                # print(file)
+                metapath = os.path.join(subdir, file)
+                with open(metapath, &#39;r&#39;) as f:
+                    meta = json.load(f)
+
+                if &#34;groundtruth&#34; not in meta:
+                    continue
+                else:
+                    if &#34;helipad&#34; in meta[&#34;groundtruth&#34;]:
+                        if not meta[&#34;groundtruth&#34;][&#34;helipad&#34;]:
+                            continue
+
+                centers = self.get_center_box(meta)
+
+                for center in centers:
+                    if 300 &lt;= center[0] &lt;= 340 and 300 &lt;= center[1] &lt;= 340:
+                        nb_helipads_centered += 1
+                    nb_helipads += 1
+
+        return [nb_helipads_centered/nb_helipads, nb_helipads_centered, nb_helipads]
+
+    def get_center_shift(self, helipads_centers, image):
+        height, width = image.shape[0], image.shape[1]
+        image_center_x, image_center_y = height // 2, width // 2
+
+        if len(helipads_centers) == 0:
+            return []
+
+        center_shifts = []
+
+        for center in helipads_centers:
+            x_c, y_c = center[0], center[1]
+
+            x_shift = x_c - image_center_x
+            y_shift = y_c - image_center_y
+
+            print(&#34;({},{})&lt;--({},{})+({},{})&#34;.format(x_c, y_c,
+                                                     image_center_x,
+                                                     image_center_y,
+                                                     x_shift, y_shift))
+
+            center_shifts.append((x_shift, y_shift))
+
+        return center_shifts
+
+    def draw_rectangle(self, image, meta):
+        if &#34;groundtruth&#34; in meta:
+            if &#34;box&#34; in meta[&#34;groundtruth&#34;]:
+                boxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+                for box in boxes:
+                    cv2.rectangle(image, (box[0], box[1]), (box[2], box[3]), (0, 0, 255))
+        return image
+
+    def draw_centers(self, image, centers):
+        for center in centers:
+            cv2.circle(image, center, 5, (0, 0, 255))
+        return image
+
+    def get_zoom(self, meta):
+        if &#34;groundtruth&#34; in meta:
+            if &#34;box&#34; in meta[&#34;groundtruth&#34;]:
+                boxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+                areas = []
+                for box in boxes:
+                    x1, y1, x2, y2 = box[0], box[1], box[2], box[3]
+                    print(&#34;({},{}),({},{})&#34;.format(x1,y1,x2,y2))
+                    # print(&#34;({},{})&#34;.format(x2-x1, y2-y1))
+                    area = (x2-x1)*(y2-y1)
+                    areas.append(abs(area)) # Absolute value
+                print(areas)
+                # return a list of zoom, sometimes plusieurs helipads
+                return areas
+            else:
+                return meta[&#34;coordinates&#34;][&#34;zoom&#34;]
+        else:
+            return meta[&#34;coordinates&#34;][&#34;zoom&#34;]
+
+    def center_helipads(self):
+
+        for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
+            for file in files:
+                metapath = os.path.join(subdir, file)
+                with open(metapath, &#39;r&#39;) as f:
+                    meta = json.load(f)
+
+                if &#34;groundtruth&#34; not in meta:
+                    continue
+                else:
+                    if &#34;helipad&#34; in meta[&#34;groundtruth&#34;]:
+                        if not meta[&#34;groundtruth&#34;][&#34;helipad&#34;]:
+                            continue
+
+                imagepath = os.path.join(self.image_folder, os.path.basename(subdir), os.path.splitext(file)[0] + &#34;.png&#34;)
+                image = cv2.imread(imagepath)
+
+                helipads_centers = self.get_center_box(meta)
+
+                center_shifts = self.get_center_shift(helipads_centers, image)
+
+                zooms = self.get_zoom(meta)
+                print(&#34;({},{})&#34;.format(meta[&#34;coordinates&#34;][&#34;latitude&#34;],
+                                       meta[&#34;coordinates&#34;][&#34;longitude&#34;]))
+
+                image = self.draw_rectangle(image, meta)
+                image = self.draw_centers(image, helipads_centers)
+
+                cv2.imshow(&#39;image&#39;, image)
+
+                k = cv2.waitKey(0)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="helipad_detection.src.database_management.center_helipads.CenterHelipads.center_helipads"><code class="name flex">
+<span>def <span class="ident">center_helipads</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def center_helipads(self):
+
+    for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
+        for file in files:
+            metapath = os.path.join(subdir, file)
+            with open(metapath, &#39;r&#39;) as f:
+                meta = json.load(f)
+
+            if &#34;groundtruth&#34; not in meta:
+                continue
+            else:
+                if &#34;helipad&#34; in meta[&#34;groundtruth&#34;]:
+                    if not meta[&#34;groundtruth&#34;][&#34;helipad&#34;]:
+                        continue
+
+            imagepath = os.path.join(self.image_folder, os.path.basename(subdir), os.path.splitext(file)[0] + &#34;.png&#34;)
+            image = cv2.imread(imagepath)
+
+            helipads_centers = self.get_center_box(meta)
+
+            center_shifts = self.get_center_shift(helipads_centers, image)
+
+            zooms = self.get_zoom(meta)
+            print(&#34;({},{})&#34;.format(meta[&#34;coordinates&#34;][&#34;latitude&#34;],
+                                   meta[&#34;coordinates&#34;][&#34;longitude&#34;]))
+
+            image = self.draw_rectangle(image, meta)
+            image = self.draw_centers(image, helipads_centers)
+
+            cv2.imshow(&#39;image&#39;, image)
+
+            k = cv2.waitKey(0)</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.center_helipads.CenterHelipads.draw_centers"><code class="name flex">
+<span>def <span class="ident">draw_centers</span></span>(<span>self, image, centers)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def draw_centers(self, image, centers):
+    for center in centers:
+        cv2.circle(image, center, 5, (0, 0, 255))
+    return image</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.center_helipads.CenterHelipads.draw_rectangle"><code class="name flex">
+<span>def <span class="ident">draw_rectangle</span></span>(<span>self, image, meta)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def draw_rectangle(self, image, meta):
+    if &#34;groundtruth&#34; in meta:
+        if &#34;box&#34; in meta[&#34;groundtruth&#34;]:
+            boxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+            for box in boxes:
+                cv2.rectangle(image, (box[0], box[1]), (box[2], box[3]), (0, 0, 255))
+    return image</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.center_helipads.CenterHelipads.get_center_box"><code class="name flex">
+<span>def <span class="ident">get_center_box</span></span>(<span>self, meta)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_center_box(self, meta):
+    if &#34;groundtruth&#34; in meta:
+        if &#34;box&#34; in meta[&#34;groundtruth&#34;]:
+            boxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+
+            centers = []
+
+            for box in boxes:
+
+                x1, y1, x2, y2 = box[0], box[1], box[2], box[3]
+
+                x_c = (x1 + x2) // 2
+                y_c = (y1 + y2) // 2
+
+                centers.append((x_c, y_c))
+
+            return centers
+        else:
+            return []
+    else:
+        return []</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.center_helipads.CenterHelipads.get_center_shift"><code class="name flex">
+<span>def <span class="ident">get_center_shift</span></span>(<span>self, helipads_centers, image)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_center_shift(self, helipads_centers, image):
+    height, width = image.shape[0], image.shape[1]
+    image_center_x, image_center_y = height // 2, width // 2
+
+    if len(helipads_centers) == 0:
+        return []
+
+    center_shifts = []
+
+    for center in helipads_centers:
+        x_c, y_c = center[0], center[1]
+
+        x_shift = x_c - image_center_x
+        y_shift = y_c - image_center_y
+
+        print(&#34;({},{})&lt;--({},{})+({},{})&#34;.format(x_c, y_c,
+                                                 image_center_x,
+                                                 image_center_y,
+                                                 x_shift, y_shift))
+
+        center_shifts.append((x_shift, y_shift))
+
+    return center_shifts</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.center_helipads.CenterHelipads.get_proportion_centered"><code class="name flex">
+<span>def <span class="ident">get_proportion_centered</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_proportion_centered(self):
+    nb_helipads = 0
+    nb_helipads_centered = 0
+
+    for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
+        for file in files:
+            # print(file)
+            metapath = os.path.join(subdir, file)
+            with open(metapath, &#39;r&#39;) as f:
+                meta = json.load(f)
+
+            if &#34;groundtruth&#34; not in meta:
+                continue
+            else:
+                if &#34;helipad&#34; in meta[&#34;groundtruth&#34;]:
+                    if not meta[&#34;groundtruth&#34;][&#34;helipad&#34;]:
+                        continue
+
+            centers = self.get_center_box(meta)
+
+            for center in centers:
+                if 300 &lt;= center[0] &lt;= 340 and 300 &lt;= center[1] &lt;= 340:
+                    nb_helipads_centered += 1
+                nb_helipads += 1
+
+    return [nb_helipads_centered/nb_helipads, nb_helipads_centered, nb_helipads]</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.center_helipads.CenterHelipads.get_zoom"><code class="name flex">
+<span>def <span class="ident">get_zoom</span></span>(<span>self, meta)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_zoom(self, meta):
+    if &#34;groundtruth&#34; in meta:
+        if &#34;box&#34; in meta[&#34;groundtruth&#34;]:
+            boxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+            areas = []
+            for box in boxes:
+                x1, y1, x2, y2 = box[0], box[1], box[2], box[3]
+                print(&#34;({},{}),({},{})&#34;.format(x1,y1,x2,y2))
+                # print(&#34;({},{})&#34;.format(x2-x1, y2-y1))
+                area = (x2-x1)*(y2-y1)
+                areas.append(abs(area)) # Absolute value
+            print(areas)
+            # return a list of zoom, sometimes plusieurs helipads
+            return areas
+        else:
+            return meta[&#34;coordinates&#34;][&#34;zoom&#34;]
+    else:
+        return meta[&#34;coordinates&#34;][&#34;zoom&#34;]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="helipad_detection.src.database_management" href="index.html">helipad_detection.src.database_management</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="helipad_detection.src.database_management.center_helipads.CenterHelipads" href="#helipad_detection.src.database_management.center_helipads.CenterHelipads">CenterHelipads</a></code></h4>
+<ul class="">
+<li><code><a title="helipad_detection.src.database_management.center_helipads.CenterHelipads.center_helipads" href="#helipad_detection.src.database_management.center_helipads.CenterHelipads.center_helipads">center_helipads</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.center_helipads.CenterHelipads.draw_centers" href="#helipad_detection.src.database_management.center_helipads.CenterHelipads.draw_centers">draw_centers</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.center_helipads.CenterHelipads.draw_rectangle" href="#helipad_detection.src.database_management.center_helipads.CenterHelipads.draw_rectangle">draw_rectangle</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.center_helipads.CenterHelipads.get_center_box" href="#helipad_detection.src.database_management.center_helipads.CenterHelipads.get_center_box">get_center_box</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.center_helipads.CenterHelipads.get_center_shift" href="#helipad_detection.src.database_management.center_helipads.CenterHelipads.get_center_shift">get_center_shift</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.center_helipads.CenterHelipads.get_proportion_centered" href="#helipad_detection.src.database_management.center_helipads.CenterHelipads.get_proportion_centered">get_proportion_centered</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.center_helipads.CenterHelipads.get_zoom" href="#helipad_detection.src.database_management.center_helipads.CenterHelipads.get_zoom">get_zoom</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

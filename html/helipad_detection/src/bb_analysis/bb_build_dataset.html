@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>helipad_detection.src.bb_analysis.bb_build_dataset API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>helipad_detection.src.bb_analysis.bb_build_dataset</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import os
+import json
+import cv2
+from tqdm import tqdm as tqdm
+import numpy as np
+
+from helipad_detection.src.training.filter_manager import FilterManager
+from helipad_detection.src.database_management.database_augmentation import DatabaseAugmentation
+
+class BBBuildDataset:
+
+    def __init__(self, image_folder, meta_folder, model_number,
+                 score_threshold, iou_threshold,
+                 output_folder, 
+                 tms=False,
+                 groundtruth_bb = True,
+                 filter_categories=None,
+                 balance_categories=False):
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+        self.model_number = model_number
+        self.score_threshold = score_threshold
+        self.iou_threshold = iou_threshold
+        self.output_folder = output_folder
+        self.tms = tms
+        # ground_truth_bb indicates wheter the dataset keeps the groundtruth
+        # as the true positive (True) or the true positive detected by the model (False)
+        # Sometime, the detection by the model is not centered in the helipad
+        # hence it can add noise to the model
+        self.groundtruth_bb = groundtruth_bb
+        self.filter_categories = filter_categories
+        self.balance_categories = balance_categories
+
+    def build_target_files(self):
+        
+        if not self.tms and self.balance_categories:
+            target_files = DatabaseAugmentation.balance_categories(self.image_folder, 
+                                                                  self.meta_folder, 
+                                                                  repartition=None)
+        else:
+            target_files = []
+            for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
+                for file in files:
+                    meta_path = os.path.join(subdir, file)
+                    if not self.tms:
+                        image_path = os.path.join(self.image_folder,
+                                                  os.path.basename(subdir),
+                                                  os.path.splitext(file)[0]+&#34;.png&#34;)
+                    else:
+                        image_info = os.path.splitext(file)[0].split(&#34;_&#34;)
+                        zoom = image_info[1]
+                        xtile = image_info[2]
+                        ytile = image_info[3]
+                        image_path = os.path.join(self.image_folder,
+                                                  xtile,
+                                                  str(ytile)+&#34;.jpg&#34;)
+                    target_files.append([image_path, meta_path])
+        return target_files
+
+    def get_output_file_name(self, classe, image_path, box_id, helipad_id):
+        &#34;&#34;&#34;
+        output_folder/model_{number}_{score}/classes/folder_id/image_name_{}
+        TODO: Support TMS Dataset (use meta_path)
+        :param classe:
+        :param image_path:
+        :param box_id:
+        :return:
+        &#34;&#34;&#34;
+        image_name, ext = os.path.splitext(os.path.basename(image_path))
+        folder_name = os.path.basename(os.path.dirname(image_path))
+        folder_id = int(folder_name.split(&#39;_&#39;)[1])
+        dataset = &#34;train&#34;
+        if classe == &#34;false_positive&#34;:
+            if folder_id &gt; 44:
+                dataset = &#34;test&#34;
+        elif classe == &#34;helipad&#34;:
+            if folder_id &gt; 48:
+                dataset = &#34;test&#34;
+        if not os.path.isdir(self.output_folder):
+            os.mkdir(self.output_folder)
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            dataset)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            dataset))
+
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            dataset,
+                                            classe)):
+            os.mkdir(os.path.join(self.output_folder,
+                                  f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                  dataset,
+                                  classe))
+        # elif not os.path.isdir(os.path.join(self.output_folder,
+        #                                     f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+        #                                     dataset,
+        #                                     classe,
+        #                                     folder_name)):
+        #     os.mkdir(os.path.join(self.output_folder,
+        #                           f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+        #                           dataset,
+        #                           classe,
+        #                           folder_name))
+        # output_path = os.path.join(self.output_folder,
+        #                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+        #                            classe,
+        #                            folder_name,
+        #                            image_name+&#34;_&#34;+str(box_id)+ext)
+        output_path = os.path.join(self.output_folder,
+                                   f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                   dataset,
+                                   classe,
+                                   image_name+&#34;_&#34;+str(box_id)+&#34;_&#34;+str(helipad_id)+ext)
+        return output_path
+
+    def get_output_file_name_tms(self, image_path, box_id):
+        &#34;&#34;&#34;
+        output_folder/model_{number}_{score}/tms/xtile/Satellite_{zoom}_{xtile}_{ytile}_{box_id}.jpg
+        :param classe:
+        :param image_path:
+        :param box_id:
+        :return:
+        &#34;&#34;&#34;
+        ytile = os.path.splitext(os.path.basename(image_path))[0]
+        xtile = os.path.basename(os.path.dirname(image_path))
+        zoom = os.path.basename(os.path.dirname(os.path.dirname(image_path)))
+
+        if not os.path.isdir(self.output_folder):
+            os.mkdir(self.output_folder)
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;))
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;,
+                                            zoom)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;,
+                                            zoom))
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;,
+                                            zoom,
+                                            xtile)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;,
+                                            zoom,
+                                            xtile))
+        output_path = os.path.join(self.output_folder,
+                                   f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                   &#34;sat&#34;,
+                                   zoom,
+                                   xtile,
+                                   f&#39;Satellite_{zoom}_{xtile}_{ytile}_{box_id}.jpg&#39;)
+        return output_path
+
+    def save_image(self, image_box, output_path):
+        # print(output_path)
+        # print(image_box)
+        cv2.imwrite(output_path, image_box)
+
+    def detect_false_postive(self, box_predicted, bboxes_groundtruth):
+        false_positive = False
+        contains = False
+        # detect if box is a true positive or a false positive
+        if len(bboxes_groundtruth) &gt; 0:
+            # check IOU
+            IOUs = []
+
+            # check IOU with groundtruth
+            # compute iou between predicted and each bbox groundtruth
+            for k in range(len(bboxes_groundtruth)):
+                box_groundtruth = bboxes_groundtruth[k]
+
+                interArea = FilterManager.compute_interArea(box_predicted, box_groundtruth)
+                boxAArea = FilterManager.compute_area(box_predicted)
+                boxBArea = FilterManager.compute_area(box_groundtruth)
+                iou = interArea / float(boxAArea + boxBArea - interArea)
+
+                IOUs.append(iou)
+
+                # check if box in contained:
+                boxA = box_predicted
+                boxB = box_groundtruth
+                # if boxA is contained inside boxB
+                if boxA[0] &gt; boxB[0] and boxA[1] &gt; boxB[1] and boxA[2] &lt; boxB[2] and boxA[3] &lt; boxB[3]:
+                    contains = True
+                # if boxB is contained inside boxA
+                elif boxA[0] &lt; boxB[0] and boxA[1] &lt; boxB[1] and boxA[2] &gt; boxB[2] and boxA[3] &gt; boxB[3]:
+                    contains = True
+
+            # if max iou &lt; threshold, and the predicted box is not contained inside a groundtruth
+            # classify the predicted box as false positive
+            arg_max_IOUs = np.argmax(IOUs)
+
+            if IOUs[arg_max_IOUs] &lt; self.iou_threshold and not contains:
+                false_positive = True
+        else:
+            false_positive = True
+
+        return false_positive, contains
+
+    def run(self):
+
+        self.target_files = self.build_target_files()
+        
+        print(f&#39;{len(self.target_files)} files loaded!&#39;)
+        
+        for i in tqdm(range(len(self.target_files))):
+            image_meta_path = self.target_files[i]
+            image_path = image_meta_path[0]
+            meta_path = image_meta_path[1]
+
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+
+            image = cv2.imread(image_path)
+
+            if image is None:
+                print(image_path)
+                continue
+
+            if not self.tms and self.groundtruth_bb and &#34;groundtruth&#34; not in meta:
+                continue
+            if &#34;predicted&#34; not in meta:
+                continue
+            elif &#34;model_{}&#34;.format(self.model_number) not in meta[&#34;predicted&#34;]:
+                continue
+
+            box_id = 0
+
+            if not self.tms:
+                groundtruth = meta[&#34;groundtruth&#34;]
+
+                if groundtruth[&#34;helipad&#34;]:
+                    if &#34;box&#34; in groundtruth:
+                        bboxes_groundtruth = groundtruth[&#34;box&#34;]
+                    else:
+                        bboxes_groundtruth = []
+
+                else:
+                    bboxes_groundtruth = []
+
+                if self.groundtruth_bb:
+                    # keep the groundtruth for the true positives
+                    for box_groundtruth in bboxes_groundtruth:
+                        x_min = min(box_groundtruth[0], box_groundtruth[2])
+                        y_min = min(box_groundtruth[1], box_groundtruth[3])
+                        x_max = max(box_groundtruth[2], box_groundtruth[0])
+                        y_max = max(box_groundtruth[3], box_groundtruth[1])
+                        image_box = image[y_min:y_max, x_min:x_max, :]
+
+                        if self.filter_categories and &#34;category&#34; in groundtruth:
+                            if groundtruth[&#34;category&#34;] in self.filter_categories:
+                                # put it as false positive
+                                output_classe = &#34;false_positive&#34;
+                            else:
+                                output_classe = &#34;helipad&#34;
+                        else:
+                            output_classe = &#34;helipad&#34;
+                        # get the name of the output_file
+                        output_path = self.get_output_file_name(output_classe,
+                                                                image_path,
+                                                                box_id,
+                                                                i)
+                        # save the file
+                        self.save_image(image_box, output_path)
+                        box_id += 1
+
+            predicted = meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;]
+            bboxes_predicted = predicted[&#34;box&#34;]
+            scores_predicted = predicted[&#34;score&#34;]
+
+            for j in range(len(bboxes_predicted)):
+
+                box_predicted = bboxes_predicted[j]
+                score_predicted = scores_predicted[j]
+
+                if score_predicted &lt; self.score_threshold:
+                    continue
+
+                x_min = box_predicted[0]
+                y_min = box_predicted[1]
+                x_max = box_predicted[2]
+                y_max = box_predicted[3]
+
+                image_box = image[y_min:y_max, x_min:x_max, :]
+
+                if self.tms:
+                    #TODO: Add support for tms
+                    output_path = self.get_output_file_name_tms(image_path, box_id)
+                    self.save_image(image_box, output_path)
+                    continue
+
+                false_positive, contains = self.detect_false_postive(box_predicted, bboxes_groundtruth)
+
+                if self.groundtruth_bb:
+                    if contains:
+                        continue
+                    elif false_positive:
+                        # keep only the false positive
+                        output_path = self.get_output_file_name(&#34;false_positive&#34;,
+                                                                image_path,
+                                                                box_id,
+                                                                i)
+                        self.save_image(image_box, output_path)
+                        box_id += 1
+                else:
+                    # keep all detected boxes and label them as true or false
+                    if contains:
+                        classe = &#34;helipad&#34;
+                    elif false_positive:
+                        classe = &#34;false_positive&#34;
+                    else:
+                        classe = &#34;helipad&#34;
+
+                    output_path = self.get_output_file_name(classe,
+                                                            image_path,
+                                                            box_id,
+                                                            i)
+                    self.save_image(image_box, output_path)
+                    box_id += 1
+
+
+if __name__ == &#34;__main__&#34;:
+    image_folder = &#34;C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original&#34;
+    meta_folder = &#34;C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original&#34;
+    model_number = 7
+    score_threshold = 0.0
+    iou_threshold = 0.5
+    output_folder = &#34;C:\\Users\\jonas\\Desktop\\Helipad\\Detected_Boxes_3&#34;
+    tms = False
+    groundtruth_bb = True
+    filter_categories = [&#34;4&#34;, &#34;7&#34;, &#34;d&#34;, &#34;u&#34;]
+
+    bb_build_dataset = BBBuildDataset(image_folder=image_folder,
+                                      meta_folder=meta_folder,
+                                      model_number=model_number,
+                                      score_threshold=score_threshold,
+                                      iou_threshold=iou_threshold,
+                                      output_folder=output_folder,
+                                      tms=tms,
+                                      groundtruth_bb=groundtruth_bb,
+                                      filter_categories=filter_categories)
+
+    bb_build_dataset.run()
+    
+    # #TODO: Include Categories (skip 4 and 7 for example)
+
+    # image_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\19&#34;
+    # meta_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\19&#34;
+    # model_number = 7
+    # score_threshold = 0.0
+    # iou_threshold = 0.5
+    # output_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Detected_Boxes&#34;
+    # tms = True
+    # groundtruth_bb = False
+    #
+    # bb_build_dataset = BBBuildDataset(image_folder=image_folder,
+    #                                   meta_folder=meta_folder,
+    #                                   model_number=model_number,
+    #                                   score_threshold=score_threshold,
+    #                                   iou_threshold=iou_threshold,
+    #                                   output_folder=output_folder,
+    #                                   tms=tms,
+    #                                   groundtruth_bb=groundtruth_bb)
+    #
+    # bb_build_dataset.run()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset"><code class="flex name class">
+<span>class <span class="ident">BBBuildDataset</span></span>
+<span>(</span><span>image_folder, meta_folder, model_number, score_threshold, iou_threshold, output_folder, tms=False, groundtruth_bb=True, filter_categories=None, balance_categories=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BBBuildDataset:
+
+    def __init__(self, image_folder, meta_folder, model_number,
+                 score_threshold, iou_threshold,
+                 output_folder, 
+                 tms=False,
+                 groundtruth_bb = True,
+                 filter_categories=None,
+                 balance_categories=False):
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+        self.model_number = model_number
+        self.score_threshold = score_threshold
+        self.iou_threshold = iou_threshold
+        self.output_folder = output_folder
+        self.tms = tms
+        # ground_truth_bb indicates wheter the dataset keeps the groundtruth
+        # as the true positive (True) or the true positive detected by the model (False)
+        # Sometime, the detection by the model is not centered in the helipad
+        # hence it can add noise to the model
+        self.groundtruth_bb = groundtruth_bb
+        self.filter_categories = filter_categories
+        self.balance_categories = balance_categories
+
+    def build_target_files(self):
+        
+        if not self.tms and self.balance_categories:
+            target_files = DatabaseAugmentation.balance_categories(self.image_folder, 
+                                                                  self.meta_folder, 
+                                                                  repartition=None)
+        else:
+            target_files = []
+            for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
+                for file in files:
+                    meta_path = os.path.join(subdir, file)
+                    if not self.tms:
+                        image_path = os.path.join(self.image_folder,
+                                                  os.path.basename(subdir),
+                                                  os.path.splitext(file)[0]+&#34;.png&#34;)
+                    else:
+                        image_info = os.path.splitext(file)[0].split(&#34;_&#34;)
+                        zoom = image_info[1]
+                        xtile = image_info[2]
+                        ytile = image_info[3]
+                        image_path = os.path.join(self.image_folder,
+                                                  xtile,
+                                                  str(ytile)+&#34;.jpg&#34;)
+                    target_files.append([image_path, meta_path])
+        return target_files
+
+    def get_output_file_name(self, classe, image_path, box_id, helipad_id):
+        &#34;&#34;&#34;
+        output_folder/model_{number}_{score}/classes/folder_id/image_name_{}
+        TODO: Support TMS Dataset (use meta_path)
+        :param classe:
+        :param image_path:
+        :param box_id:
+        :return:
+        &#34;&#34;&#34;
+        image_name, ext = os.path.splitext(os.path.basename(image_path))
+        folder_name = os.path.basename(os.path.dirname(image_path))
+        folder_id = int(folder_name.split(&#39;_&#39;)[1])
+        dataset = &#34;train&#34;
+        if classe == &#34;false_positive&#34;:
+            if folder_id &gt; 44:
+                dataset = &#34;test&#34;
+        elif classe == &#34;helipad&#34;:
+            if folder_id &gt; 48:
+                dataset = &#34;test&#34;
+        if not os.path.isdir(self.output_folder):
+            os.mkdir(self.output_folder)
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            dataset)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            dataset))
+
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            dataset,
+                                            classe)):
+            os.mkdir(os.path.join(self.output_folder,
+                                  f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                  dataset,
+                                  classe))
+        # elif not os.path.isdir(os.path.join(self.output_folder,
+        #                                     f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+        #                                     dataset,
+        #                                     classe,
+        #                                     folder_name)):
+        #     os.mkdir(os.path.join(self.output_folder,
+        #                           f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+        #                           dataset,
+        #                           classe,
+        #                           folder_name))
+        # output_path = os.path.join(self.output_folder,
+        #                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+        #                            classe,
+        #                            folder_name,
+        #                            image_name+&#34;_&#34;+str(box_id)+ext)
+        output_path = os.path.join(self.output_folder,
+                                   f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                   dataset,
+                                   classe,
+                                   image_name+&#34;_&#34;+str(box_id)+&#34;_&#34;+str(helipad_id)+ext)
+        return output_path
+
+    def get_output_file_name_tms(self, image_path, box_id):
+        &#34;&#34;&#34;
+        output_folder/model_{number}_{score}/tms/xtile/Satellite_{zoom}_{xtile}_{ytile}_{box_id}.jpg
+        :param classe:
+        :param image_path:
+        :param box_id:
+        :return:
+        &#34;&#34;&#34;
+        ytile = os.path.splitext(os.path.basename(image_path))[0]
+        xtile = os.path.basename(os.path.dirname(image_path))
+        zoom = os.path.basename(os.path.dirname(os.path.dirname(image_path)))
+
+        if not os.path.isdir(self.output_folder):
+            os.mkdir(self.output_folder)
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;))
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;,
+                                            zoom)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;,
+                                            zoom))
+        elif not os.path.isdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;,
+                                            zoom,
+                                            xtile)):
+            os.mkdir(os.path.join(self.output_folder,
+                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            &#34;sat&#34;,
+                                            zoom,
+                                            xtile))
+        output_path = os.path.join(self.output_folder,
+                                   f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                   &#34;sat&#34;,
+                                   zoom,
+                                   xtile,
+                                   f&#39;Satellite_{zoom}_{xtile}_{ytile}_{box_id}.jpg&#39;)
+        return output_path
+
+    def save_image(self, image_box, output_path):
+        # print(output_path)
+        # print(image_box)
+        cv2.imwrite(output_path, image_box)
+
+    def detect_false_postive(self, box_predicted, bboxes_groundtruth):
+        false_positive = False
+        contains = False
+        # detect if box is a true positive or a false positive
+        if len(bboxes_groundtruth) &gt; 0:
+            # check IOU
+            IOUs = []
+
+            # check IOU with groundtruth
+            # compute iou between predicted and each bbox groundtruth
+            for k in range(len(bboxes_groundtruth)):
+                box_groundtruth = bboxes_groundtruth[k]
+
+                interArea = FilterManager.compute_interArea(box_predicted, box_groundtruth)
+                boxAArea = FilterManager.compute_area(box_predicted)
+                boxBArea = FilterManager.compute_area(box_groundtruth)
+                iou = interArea / float(boxAArea + boxBArea - interArea)
+
+                IOUs.append(iou)
+
+                # check if box in contained:
+                boxA = box_predicted
+                boxB = box_groundtruth
+                # if boxA is contained inside boxB
+                if boxA[0] &gt; boxB[0] and boxA[1] &gt; boxB[1] and boxA[2] &lt; boxB[2] and boxA[3] &lt; boxB[3]:
+                    contains = True
+                # if boxB is contained inside boxA
+                elif boxA[0] &lt; boxB[0] and boxA[1] &lt; boxB[1] and boxA[2] &gt; boxB[2] and boxA[3] &gt; boxB[3]:
+                    contains = True
+
+            # if max iou &lt; threshold, and the predicted box is not contained inside a groundtruth
+            # classify the predicted box as false positive
+            arg_max_IOUs = np.argmax(IOUs)
+
+            if IOUs[arg_max_IOUs] &lt; self.iou_threshold and not contains:
+                false_positive = True
+        else:
+            false_positive = True
+
+        return false_positive, contains
+
+    def run(self):
+
+        self.target_files = self.build_target_files()
+        
+        print(f&#39;{len(self.target_files)} files loaded!&#39;)
+        
+        for i in tqdm(range(len(self.target_files))):
+            image_meta_path = self.target_files[i]
+            image_path = image_meta_path[0]
+            meta_path = image_meta_path[1]
+
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+
+            image = cv2.imread(image_path)
+
+            if image is None:
+                print(image_path)
+                continue
+
+            if not self.tms and self.groundtruth_bb and &#34;groundtruth&#34; not in meta:
+                continue
+            if &#34;predicted&#34; not in meta:
+                continue
+            elif &#34;model_{}&#34;.format(self.model_number) not in meta[&#34;predicted&#34;]:
+                continue
+
+            box_id = 0
+
+            if not self.tms:
+                groundtruth = meta[&#34;groundtruth&#34;]
+
+                if groundtruth[&#34;helipad&#34;]:
+                    if &#34;box&#34; in groundtruth:
+                        bboxes_groundtruth = groundtruth[&#34;box&#34;]
+                    else:
+                        bboxes_groundtruth = []
+
+                else:
+                    bboxes_groundtruth = []
+
+                if self.groundtruth_bb:
+                    # keep the groundtruth for the true positives
+                    for box_groundtruth in bboxes_groundtruth:
+                        x_min = min(box_groundtruth[0], box_groundtruth[2])
+                        y_min = min(box_groundtruth[1], box_groundtruth[3])
+                        x_max = max(box_groundtruth[2], box_groundtruth[0])
+                        y_max = max(box_groundtruth[3], box_groundtruth[1])
+                        image_box = image[y_min:y_max, x_min:x_max, :]
+
+                        if self.filter_categories and &#34;category&#34; in groundtruth:
+                            if groundtruth[&#34;category&#34;] in self.filter_categories:
+                                # put it as false positive
+                                output_classe = &#34;false_positive&#34;
+                            else:
+                                output_classe = &#34;helipad&#34;
+                        else:
+                            output_classe = &#34;helipad&#34;
+                        # get the name of the output_file
+                        output_path = self.get_output_file_name(output_classe,
+                                                                image_path,
+                                                                box_id,
+                                                                i)
+                        # save the file
+                        self.save_image(image_box, output_path)
+                        box_id += 1
+
+            predicted = meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;]
+            bboxes_predicted = predicted[&#34;box&#34;]
+            scores_predicted = predicted[&#34;score&#34;]
+
+            for j in range(len(bboxes_predicted)):
+
+                box_predicted = bboxes_predicted[j]
+                score_predicted = scores_predicted[j]
+
+                if score_predicted &lt; self.score_threshold:
+                    continue
+
+                x_min = box_predicted[0]
+                y_min = box_predicted[1]
+                x_max = box_predicted[2]
+                y_max = box_predicted[3]
+
+                image_box = image[y_min:y_max, x_min:x_max, :]
+
+                if self.tms:
+                    #TODO: Add support for tms
+                    output_path = self.get_output_file_name_tms(image_path, box_id)
+                    self.save_image(image_box, output_path)
+                    continue
+
+                false_positive, contains = self.detect_false_postive(box_predicted, bboxes_groundtruth)
+
+                if self.groundtruth_bb:
+                    if contains:
+                        continue
+                    elif false_positive:
+                        # keep only the false positive
+                        output_path = self.get_output_file_name(&#34;false_positive&#34;,
+                                                                image_path,
+                                                                box_id,
+                                                                i)
+                        self.save_image(image_box, output_path)
+                        box_id += 1
+                else:
+                    # keep all detected boxes and label them as true or false
+                    if contains:
+                        classe = &#34;helipad&#34;
+                    elif false_positive:
+                        classe = &#34;false_positive&#34;
+                    else:
+                        classe = &#34;helipad&#34;
+
+                    output_path = self.get_output_file_name(classe,
+                                                            image_path,
+                                                            box_id,
+                                                            i)
+                    self.save_image(image_box, output_path)
+                    box_id += 1</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.build_target_files"><code class="name flex">
+<span>def <span class="ident">build_target_files</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def build_target_files(self):
+    
+    if not self.tms and self.balance_categories:
+        target_files = DatabaseAugmentation.balance_categories(self.image_folder, 
+                                                              self.meta_folder, 
+                                                              repartition=None)
+    else:
+        target_files = []
+        for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
+            for file in files:
+                meta_path = os.path.join(subdir, file)
+                if not self.tms:
+                    image_path = os.path.join(self.image_folder,
+                                              os.path.basename(subdir),
+                                              os.path.splitext(file)[0]+&#34;.png&#34;)
+                else:
+                    image_info = os.path.splitext(file)[0].split(&#34;_&#34;)
+                    zoom = image_info[1]
+                    xtile = image_info[2]
+                    ytile = image_info[3]
+                    image_path = os.path.join(self.image_folder,
+                                              xtile,
+                                              str(ytile)+&#34;.jpg&#34;)
+                target_files.append([image_path, meta_path])
+    return target_files</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.detect_false_postive"><code class="name flex">
+<span>def <span class="ident">detect_false_postive</span></span>(<span>self, box_predicted, bboxes_groundtruth)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def detect_false_postive(self, box_predicted, bboxes_groundtruth):
+    false_positive = False
+    contains = False
+    # detect if box is a true positive or a false positive
+    if len(bboxes_groundtruth) &gt; 0:
+        # check IOU
+        IOUs = []
+
+        # check IOU with groundtruth
+        # compute iou between predicted and each bbox groundtruth
+        for k in range(len(bboxes_groundtruth)):
+            box_groundtruth = bboxes_groundtruth[k]
+
+            interArea = FilterManager.compute_interArea(box_predicted, box_groundtruth)
+            boxAArea = FilterManager.compute_area(box_predicted)
+            boxBArea = FilterManager.compute_area(box_groundtruth)
+            iou = interArea / float(boxAArea + boxBArea - interArea)
+
+            IOUs.append(iou)
+
+            # check if box in contained:
+            boxA = box_predicted
+            boxB = box_groundtruth
+            # if boxA is contained inside boxB
+            if boxA[0] &gt; boxB[0] and boxA[1] &gt; boxB[1] and boxA[2] &lt; boxB[2] and boxA[3] &lt; boxB[3]:
+                contains = True
+            # if boxB is contained inside boxA
+            elif boxA[0] &lt; boxB[0] and boxA[1] &lt; boxB[1] and boxA[2] &gt; boxB[2] and boxA[3] &gt; boxB[3]:
+                contains = True
+
+        # if max iou &lt; threshold, and the predicted box is not contained inside a groundtruth
+        # classify the predicted box as false positive
+        arg_max_IOUs = np.argmax(IOUs)
+
+        if IOUs[arg_max_IOUs] &lt; self.iou_threshold and not contains:
+            false_positive = True
+    else:
+        false_positive = True
+
+    return false_positive, contains</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.get_output_file_name"><code class="name flex">
+<span>def <span class="ident">get_output_file_name</span></span>(<span>self, classe, image_path, box_id, helipad_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>output_folder/model_{number}<em>{score}/classes/folder_id/image_name</em>
+TODO: Support TMS Dataset (use meta_path)
+:param classe:
+:param image_path:
+:param box_id:
+:return:</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_output_file_name(self, classe, image_path, box_id, helipad_id):
+    &#34;&#34;&#34;
+    output_folder/model_{number}_{score}/classes/folder_id/image_name_{}
+    TODO: Support TMS Dataset (use meta_path)
+    :param classe:
+    :param image_path:
+    :param box_id:
+    :return:
+    &#34;&#34;&#34;
+    image_name, ext = os.path.splitext(os.path.basename(image_path))
+    folder_name = os.path.basename(os.path.dirname(image_path))
+    folder_id = int(folder_name.split(&#39;_&#39;)[1])
+    dataset = &#34;train&#34;
+    if classe == &#34;false_positive&#34;:
+        if folder_id &gt; 44:
+            dataset = &#34;test&#34;
+    elif classe == &#34;helipad&#34;:
+        if folder_id &gt; 48:
+            dataset = &#34;test&#34;
+    if not os.path.isdir(self.output_folder):
+        os.mkdir(self.output_folder)
+    elif not os.path.isdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+        os.mkdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+    elif not os.path.isdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        dataset)):
+        os.mkdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        dataset))
+
+    elif not os.path.isdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        dataset,
+                                        classe)):
+        os.mkdir(os.path.join(self.output_folder,
+                              f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                              dataset,
+                              classe))
+    # elif not os.path.isdir(os.path.join(self.output_folder,
+    #                                     f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+    #                                     dataset,
+    #                                     classe,
+    #                                     folder_name)):
+    #     os.mkdir(os.path.join(self.output_folder,
+    #                           f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+    #                           dataset,
+    #                           classe,
+    #                           folder_name))
+    # output_path = os.path.join(self.output_folder,
+    #                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+    #                            classe,
+    #                            folder_name,
+    #                            image_name+&#34;_&#34;+str(box_id)+ext)
+    output_path = os.path.join(self.output_folder,
+                               f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                               dataset,
+                               classe,
+                               image_name+&#34;_&#34;+str(box_id)+&#34;_&#34;+str(helipad_id)+ext)
+    return output_path</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.get_output_file_name_tms"><code class="name flex">
+<span>def <span class="ident">get_output_file_name_tms</span></span>(<span>self, image_path, box_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>output_folder/model_{number}<em zoom>{score}/tms/xtile/Satellite</em><em ytile>{xtile}</em>_{box_id}.jpg
+:param classe:
+:param image_path:
+:param box_id:
+:return:</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_output_file_name_tms(self, image_path, box_id):
+    &#34;&#34;&#34;
+    output_folder/model_{number}_{score}/tms/xtile/Satellite_{zoom}_{xtile}_{ytile}_{box_id}.jpg
+    :param classe:
+    :param image_path:
+    :param box_id:
+    :return:
+    &#34;&#34;&#34;
+    ytile = os.path.splitext(os.path.basename(image_path))[0]
+    xtile = os.path.basename(os.path.dirname(image_path))
+    zoom = os.path.basename(os.path.dirname(os.path.dirname(image_path)))
+
+    if not os.path.isdir(self.output_folder):
+        os.mkdir(self.output_folder)
+    elif not os.path.isdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+        os.mkdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+    elif not os.path.isdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        &#34;sat&#34;)):
+        os.mkdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        &#34;sat&#34;))
+    elif not os.path.isdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        &#34;sat&#34;,
+                                        zoom)):
+        os.mkdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        &#34;sat&#34;,
+                                        zoom))
+    elif not os.path.isdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        &#34;sat&#34;,
+                                        zoom,
+                                        xtile)):
+        os.mkdir(os.path.join(self.output_folder,
+                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        &#34;sat&#34;,
+                                        zoom,
+                                        xtile))
+    output_path = os.path.join(self.output_folder,
+                               f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                               &#34;sat&#34;,
+                               zoom,
+                               xtile,
+                               f&#39;Satellite_{zoom}_{xtile}_{ytile}_{box_id}.jpg&#39;)
+    return output_path</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self):
+
+    self.target_files = self.build_target_files()
+    
+    print(f&#39;{len(self.target_files)} files loaded!&#39;)
+    
+    for i in tqdm(range(len(self.target_files))):
+        image_meta_path = self.target_files[i]
+        image_path = image_meta_path[0]
+        meta_path = image_meta_path[1]
+
+        with open(meta_path, &#39;r&#39;) as f:
+            meta = json.load(f)
+        f.close()
+
+        image = cv2.imread(image_path)
+
+        if image is None:
+            print(image_path)
+            continue
+
+        if not self.tms and self.groundtruth_bb and &#34;groundtruth&#34; not in meta:
+            continue
+        if &#34;predicted&#34; not in meta:
+            continue
+        elif &#34;model_{}&#34;.format(self.model_number) not in meta[&#34;predicted&#34;]:
+            continue
+
+        box_id = 0
+
+        if not self.tms:
+            groundtruth = meta[&#34;groundtruth&#34;]
+
+            if groundtruth[&#34;helipad&#34;]:
+                if &#34;box&#34; in groundtruth:
+                    bboxes_groundtruth = groundtruth[&#34;box&#34;]
+                else:
+                    bboxes_groundtruth = []
+
+            else:
+                bboxes_groundtruth = []
+
+            if self.groundtruth_bb:
+                # keep the groundtruth for the true positives
+                for box_groundtruth in bboxes_groundtruth:
+                    x_min = min(box_groundtruth[0], box_groundtruth[2])
+                    y_min = min(box_groundtruth[1], box_groundtruth[3])
+                    x_max = max(box_groundtruth[2], box_groundtruth[0])
+                    y_max = max(box_groundtruth[3], box_groundtruth[1])
+                    image_box = image[y_min:y_max, x_min:x_max, :]
+
+                    if self.filter_categories and &#34;category&#34; in groundtruth:
+                        if groundtruth[&#34;category&#34;] in self.filter_categories:
+                            # put it as false positive
+                            output_classe = &#34;false_positive&#34;
+                        else:
+                            output_classe = &#34;helipad&#34;
+                    else:
+                        output_classe = &#34;helipad&#34;
+                    # get the name of the output_file
+                    output_path = self.get_output_file_name(output_classe,
+                                                            image_path,
+                                                            box_id,
+                                                            i)
+                    # save the file
+                    self.save_image(image_box, output_path)
+                    box_id += 1
+
+        predicted = meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;]
+        bboxes_predicted = predicted[&#34;box&#34;]
+        scores_predicted = predicted[&#34;score&#34;]
+
+        for j in range(len(bboxes_predicted)):
+
+            box_predicted = bboxes_predicted[j]
+            score_predicted = scores_predicted[j]
+
+            if score_predicted &lt; self.score_threshold:
+                continue
+
+            x_min = box_predicted[0]
+            y_min = box_predicted[1]
+            x_max = box_predicted[2]
+            y_max = box_predicted[3]
+
+            image_box = image[y_min:y_max, x_min:x_max, :]
+
+            if self.tms:
+                #TODO: Add support for tms
+                output_path = self.get_output_file_name_tms(image_path, box_id)
+                self.save_image(image_box, output_path)
+                continue
+
+            false_positive, contains = self.detect_false_postive(box_predicted, bboxes_groundtruth)
+
+            if self.groundtruth_bb:
+                if contains:
+                    continue
+                elif false_positive:
+                    # keep only the false positive
+                    output_path = self.get_output_file_name(&#34;false_positive&#34;,
+                                                            image_path,
+                                                            box_id,
+                                                            i)
+                    self.save_image(image_box, output_path)
+                    box_id += 1
+            else:
+                # keep all detected boxes and label them as true or false
+                if contains:
+                    classe = &#34;helipad&#34;
+                elif false_positive:
+                    classe = &#34;false_positive&#34;
+                else:
+                    classe = &#34;helipad&#34;
+
+                output_path = self.get_output_file_name(classe,
+                                                        image_path,
+                                                        box_id,
+                                                        i)
+                self.save_image(image_box, output_path)
+                box_id += 1</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.save_image"><code class="name flex">
+<span>def <span class="ident">save_image</span></span>(<span>self, image_box, output_path)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save_image(self, image_box, output_path):
+    # print(output_path)
+    # print(image_box)
+    cv2.imwrite(output_path, image_box)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="helipad_detection.src.bb_analysis" href="index.html">helipad_detection.src.bb_analysis</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset">BBBuildDataset</a></code></h4>
+<ul class="">
+<li><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.build_target_files" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.build_target_files">build_target_files</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.detect_false_postive" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.detect_false_postive">detect_false_postive</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.get_output_file_name" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.get_output_file_name">get_output_file_name</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.get_output_file_name_tms" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.get_output_file_name_tms">get_output_file_name_tms</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.run" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.run">run</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.save_image" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.save_image">save_image</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

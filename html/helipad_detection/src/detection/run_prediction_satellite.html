@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>helipad_detection.src.detection.run_prediction_satellite API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>helipad_detection.src.detection.run_prediction_satellite</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import os
+import cv2
+import json
+from numpy import expand_dims
+from tqdm import tqdm
+
+from mrcnn.model import MaskRCNN
+from mrcnn.model import mold_image
+
+import sys
+sys.path.append(&#39;../&#39;)
+
+from helipad_detection.src.utils.globalmaptiles import GlobalMercator
+
+from helipad_detection.src.training.helipad_config import HelipadConfig
+from helipad_detection.src.training.filter_manager import FilterManager
+
+os.environ[&#34;CUDA_DEVICE_ORDER&#34;] = &#34;PCI_BUS_ID&#34;
+os.environ[&#34;CUDA_VISIBLE_DEVICES&#34;] = &#34;0&#34;
+
+
+class RunPredictionSatellite:
+
+    def __init__(self, cache_tms_sat_folder, output_meta_folder, zoom_level,
+                 model_folder, weights_filename, model_number, activate_filters=False,
+                 redo_prediction=False):
+        self.cache_tms_sat_folder = cache_tms_sat_folder
+        self.output_meta_folder = output_meta_folder
+        self.zoom_level = zoom_level
+        self.model_folder = model_folder
+        self.weights_filename = weights_filename
+        self.model_number = model_number
+        self.activate_filters = activate_filters
+        self.redo_prediction = redo_prediction
+        self.image_folder = os.path.join(self.cache_tms_sat_folder, str(zoom_level))
+        self.meta_folder = os.path.join(self.output_meta_folder, str(zoom_level))
+        if not os.path.isdir(os.path.join(self.output_meta_folder, str(zoom_level))):
+            os.mkdir(os.path.join(self.output_meta_folder, str(zoom_level)))
+        self.target_files = self.build_target_files_path()
+        self.config = HelipadConfig()
+        self.globalmercator = GlobalMercator()
+        self.model_predict_setup()
+
+    def build_target_files_path(self):
+        target_files = []
+        for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+            for file in files:
+                xtile = os.path.basename(subdir)
+                ytile = os.path.splitext(file)[0]
+                filepath = os.path.join(subdir, file)
+                meta_filepath = os.path.join(self.output_meta_folder,
+                                             str(self.zoom_level),
+                                             str(xtile),
+                                             &#39;Satellite_{}_{}_{}.meta&#39;.format(str(self.zoom_level), str(xtile), str(ytile)))
+                target_files.append([filepath, meta_filepath])
+        return target_files
+
+    def model_predict_setup(self):
+        self.model_predict = MaskRCNN(mode=&#39;inference&#39;, model_dir=self.model_folder, config=self.config)
+        self.model_predict.load_weights(os.path.join(self.model_folder, self.weights_filename),
+                                        by_name=True)
+
+    def get_coordinates_info(self, xtile, ytile, zoom_level):
+        coordinates_info = dict()
+        coordinates_info[&#34;zoom&#34;] = zoom_level
+        coordinates_info[&#34;xtile&#34;] = xtile
+        coordinates_info[&#34;ytile&#34;] = ytile
+
+        tile_bounds_coordinates = self.globalmercator.TileLatLonBox(xtile, ytile, zoom_level)
+        tile_center_lat = (tile_bounds_coordinates[0][0] + tile_bounds_coordinates[3][0]) / 2
+        tile_center_lon = (tile_bounds_coordinates[0][1] + tile_bounds_coordinates[3][1]) / 2
+        coordinates_info[&#34;latitude&#34;] = tile_center_lat
+        coordinates_info[&#34;longitude&#34;] = tile_center_lon
+        coordinates_info[&#34;bounds&#34;] = tile_bounds_coordinates
+
+        return coordinates_info
+
+    def predict_image(self, image):
+        scaled_image = mold_image(image, self.config)
+        sample = expand_dims(scaled_image, 0)
+        yhat = self.model_predict.detect(sample, verbose=0)
+
+        rois = yhat[0][&#39;rois&#39;]
+        class_id = yhat[0][&#39;class_ids&#39;]
+        score = yhat[0][&#39;scores&#39;]
+
+        # reorder rois :
+        # x1, y1, x2, y2
+        bboxes = []
+        for roi in rois:
+            box = [int(roi[1]), int(roi[0]), int(roi[3]), int(roi[2])]
+            bboxes.append(box)
+
+        class_ids = []
+        for id in class_id:
+            class_ids.append(int(id))
+
+        scores = []
+        for s in score:
+            scores.append(float(s))
+
+        # filter is helipad detected
+        if self.activate_filters and len(scores) &gt; 0:
+            # remove if score &lt; threshold (see FilterManager for default values)
+            bboxes, class_ids, scores = FilterManager.filter_by_scores(bboxes, class_ids, scores)
+            # Filter overlapping box (see FilterManager for default value of threshold_iou and threshold_area)
+            bboxes, class_ids, scores = FilterManager.filter_by_iou(bboxes, class_ids, scores)
+
+        # Save to meta roi
+        prediction = dict()
+        prediction[&#34;box&#34;] = bboxes
+        prediction[&#34;class_id&#34;] = class_ids
+        prediction[&#34;score&#34;] = scores
+
+        if len(bboxes) &gt; 0:
+            prediction[&#34;helipad&#34;] = True
+            print(scores)
+        else:
+            prediction[&#34;helipad&#34;] = False
+
+        return prediction
+
+    def convert_point_to_coordinate(self, x, y, minLat, minLon, maxLat, maxLon, image_shape, verbose=0):
+        tmp = x
+        x = y
+        y = tmp
+        lat_factor = (image_shape[0] - x)/image_shape[0]
+        lon_factor = y / image_shape[1]
+        lat = minLat + (abs(minLat - maxLat) * lat_factor)
+        lon = minLon + (abs(minLon - maxLon) * lon_factor)
+
+        if verbose == 1:
+            # print(x)
+            # print(y)
+            # print(minLat)
+            # print(minLon)
+            # print(maxLat)
+            # print(maxLon)
+            # print(image_shape)
+            # print(lat_factor)
+            # print(lon_factor)
+            print(lat)
+            print(lon)
+
+        return lat, lon
+
+    def convert_bboxes_to_coordinates(self, bboxes, bounds_coordinates, image_shape):
+        # convert box to coordinates
+
+        minLat, minLon = bounds_coordinates[0][0], bounds_coordinates[0][1]
+        maxLat, maxLon = bounds_coordinates[3][0], bounds_coordinates[3][1]
+
+        # lat lon of center
+        center_pixel = []
+        for box in bboxes:
+            xmean = (box[0] + box[2]) / 2
+            ymean = (box[1] + box[3]) / 2
+            center_pixel.append((xmean, ymean))
+
+        bboxes_center_coordinates = []
+        for center in center_pixel:
+            xmean, ymean = center[0], center[1]
+            bboxes_center_lat, bboxes_center_lon = self.convert_point_to_coordinate(xmean, ymean,
+                                                                                    minLat, minLon,
+                                                                                    maxLat, maxLon,
+                                                                                    image_shape,
+                                                                                    verbose=1)
+            bboxes_center_coordinates.append((bboxes_center_lat, bboxes_center_lon))
+
+        bboxes_bounds_coordinates = []
+        for box in bboxes:
+            corners = [(box[0], box[1]),  # minx, miny
+                       (box[0], box[3]),  # minx, maxy
+                       (box[2], box[1]),  # maxx, miny
+                       (box[2], box[3])]  # maxx, maxy
+            corners_coordinates = []
+            for point in corners:
+                x, y = point[0], point[1]
+                lat, lon = self.convert_point_to_coordinate(x, y, minLat, minLon, maxLat, maxLon, image_shape)
+                point_coordinates = (lat, lon)
+                corners_coordinates.append(point_coordinates)
+            bboxes_bounds_coordinates.append(corners_coordinates)
+
+        return bboxes_center_coordinates, bboxes_bounds_coordinates
+    
+    def initiate_meta(self, meta_filename):
+        meta = dict()
+        meta_coordinates = meta_filename.split(&#39;_&#39;)
+        zoom_level = int(meta_coordinates[1])
+        xtile = int(meta_coordinates[2])
+        ytile = int(meta_coordinates[3])
+        coordinates_info = self.get_coordinates_info(xtile, ytile, zoom_level)
+        meta[&#34;coordinates&#34;] = coordinates_info
+        return meta
+
+    
+    def run(self):
+
+        for i in tqdm(range(len(self.target_files))):
+            target_file = self.target_files[i]
+
+            image_path = target_file[0]
+            meta_path = target_file[1]
+            meta_filename = os.path.splitext(os.path.basename(meta_path))[0]
+            image = cv2.imread(image_path)
+            image_shape = image.shape
+
+            if os.path.isfile(meta_path):
+                try:
+                    with open(meta_path, &#39;r&#39;) as f:
+                        meta = json.load(f)
+                except:
+                    meta = self.initiate_meta(meta_filename)
+            else:
+                meta = self.initiate_meta(meta_filename)
+            
+            coordinates_info = meta[&#34;coordinates&#34;]
+            xtile = coordinates_info[&#34;xtile&#34;]
+            
+            if &#34;predicted&#34; in meta:
+                predicted = meta[&#34;predicted&#34;]
+            else:
+                predicted = {}
+
+            key = &#34;model_{}&#34;.format(self.model_number)
+            
+            if key in predicted and not self.redo_prediction:
+                continue
+            
+            # now predict on image
+            prediction = self.predict_image(image)
+
+            bounds_coordinate = coordinates_info[&#34;bounds&#34;]
+            bboxes = prediction[&#34;box&#34;]
+
+            bboxes_center_coordinates, bboxes_bounds_coordinates = self.convert_bboxes_to_coordinates(bboxes,
+                                                                                                      bounds_coordinate,
+                                                                                                      image_shape)
+
+            prediction_coordinates = dict()
+            prediction_coordinates[&#34;center&#34;] = bboxes_center_coordinates
+            prediction_coordinates[&#34;bounds&#34;] = bboxes_bounds_coordinates
+            prediction[&#34;coordinates&#34;] = prediction_coordinates
+
+            predicted[key] = prediction
+
+            meta[&#34;predicted&#34;] = predicted
+            
+            if not os.path.isdir(os.path.join(self.output_meta_folder,
+                                              str(self.zoom_level))):
+                os.mkdir(os.path.join(self.output_meta_folder,
+                                      str(self.zoom_level)))
+            if not os.path.isdir(os.path.join(self.output_meta_folder,
+                                              str(self.zoom_level),
+                                              str(xtile))):
+                os.mkdir(os.path.join(self.output_meta_folder,
+                                      str(self.zoom_level),
+                                      str(xtile)))
+
+            with open(meta_path, &#39;w&#39;) as f:
+                json.dump(meta, f, indent=4, sort_keys=True)
+
+
+if __name__ == &#34;__main__&#34;:
+
+    # cache_tms_sat_folder = &#34;C:\\Users\\jonas\\Desktop\\SAS.Planet.Release.191221\\\cache_tms\\sat&#34;
+    # cache_tms_sat_folder = &#34;C:\\Users\\jonas\\Desktop\\cache_tms_test&#34;
+    # output_meta_folder = &#34;C:\\Users\\jonas\\Desktop\\cache_tms_meta&#34;
+    # model_folder = &#34;C:\\Users\\jonas\\Desktop\\Helipad\\model&#34;
+
+    cache_tms_sat_folder = &#34;../../../Detection/Detection_Dataset&#34;
+    output_meta_folder = &#34;../../../Detection/Detection_Dataset_meta&#34;
+    model_folder = &#34;../../model&#34;
+
+    # weights_filename = &#34;helipad_cfg_6_aug4_3+20200103T1225/mask_rcnn_helipad_cfg_6_aug4_3+_0288.h5&#34;
+    # model_number = 5
+
+    # weights_filename = &#34;helipad_cfg_8_no47_aug2_3+20200108T0600/mask_rcnn_helipad_cfg_8_no47_aug2_3+_0472.h5&#34;
+    # model_number = 7
+
+    # weights_filename = &#34;helipad_cfg_9_no47_aug2_3+20200112T2326/mask_rcnn_helipad_cfg_9_no47_aug2_3+_0257.h5&#34;
+    # model_number = 8
+
+    weights_filename = &#34;helipad_cfg_aug2_5+20191211T1749/mask_rcnn_helipad_cfg_aug2_5+_0381.h5&#34;
+    model_number = 4
+
+    zoom_level = [18, 19]
+    activate_filters = False
+
+    for zoom in zoom_level:
+
+        run_prediction_satellite = RunPredictionSatellite(cache_tms_sat_folder=cache_tms_sat_folder,
+                                                          output_meta_folder=output_meta_folder,
+                                                          zoom_level=zoom,
+                                                          model_folder=model_folder,
+                                                          weights_filename=weights_filename,
+                                                          model_number=model_number,
+                                                          activate_filters=activate_filters)
+
+        run_prediction_satellite.run()
+
+    #TODO:
+    # load the image
+    # write image coordinates (zoom level, tsm coordinates, center coordinates and corner coordinates)
+    # load the model
+    # predict
+    # save prediction in meta
+    # get the center of box
+    # convert center to coordinates
+    # save center coordinates
+    # OPTIONAL : include the google maps url of the helipad
+    # OPTIONAL : include info of location (country, city, id? ...)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite"><code class="flex name class">
+<span>class <span class="ident">RunPredictionSatellite</span></span>
+<span>(</span><span>cache_tms_sat_folder, output_meta_folder, zoom_level, model_folder, weights_filename, model_number, activate_filters=False, redo_prediction=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RunPredictionSatellite:
+
+    def __init__(self, cache_tms_sat_folder, output_meta_folder, zoom_level,
+                 model_folder, weights_filename, model_number, activate_filters=False,
+                 redo_prediction=False):
+        self.cache_tms_sat_folder = cache_tms_sat_folder
+        self.output_meta_folder = output_meta_folder
+        self.zoom_level = zoom_level
+        self.model_folder = model_folder
+        self.weights_filename = weights_filename
+        self.model_number = model_number
+        self.activate_filters = activate_filters
+        self.redo_prediction = redo_prediction
+        self.image_folder = os.path.join(self.cache_tms_sat_folder, str(zoom_level))
+        self.meta_folder = os.path.join(self.output_meta_folder, str(zoom_level))
+        if not os.path.isdir(os.path.join(self.output_meta_folder, str(zoom_level))):
+            os.mkdir(os.path.join(self.output_meta_folder, str(zoom_level)))
+        self.target_files = self.build_target_files_path()
+        self.config = HelipadConfig()
+        self.globalmercator = GlobalMercator()
+        self.model_predict_setup()
+
+    def build_target_files_path(self):
+        target_files = []
+        for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+            for file in files:
+                xtile = os.path.basename(subdir)
+                ytile = os.path.splitext(file)[0]
+                filepath = os.path.join(subdir, file)
+                meta_filepath = os.path.join(self.output_meta_folder,
+                                             str(self.zoom_level),
+                                             str(xtile),
+                                             &#39;Satellite_{}_{}_{}.meta&#39;.format(str(self.zoom_level), str(xtile), str(ytile)))
+                target_files.append([filepath, meta_filepath])
+        return target_files
+
+    def model_predict_setup(self):
+        self.model_predict = MaskRCNN(mode=&#39;inference&#39;, model_dir=self.model_folder, config=self.config)
+        self.model_predict.load_weights(os.path.join(self.model_folder, self.weights_filename),
+                                        by_name=True)
+
+    def get_coordinates_info(self, xtile, ytile, zoom_level):
+        coordinates_info = dict()
+        coordinates_info[&#34;zoom&#34;] = zoom_level
+        coordinates_info[&#34;xtile&#34;] = xtile
+        coordinates_info[&#34;ytile&#34;] = ytile
+
+        tile_bounds_coordinates = self.globalmercator.TileLatLonBox(xtile, ytile, zoom_level)
+        tile_center_lat = (tile_bounds_coordinates[0][0] + tile_bounds_coordinates[3][0]) / 2
+        tile_center_lon = (tile_bounds_coordinates[0][1] + tile_bounds_coordinates[3][1]) / 2
+        coordinates_info[&#34;latitude&#34;] = tile_center_lat
+        coordinates_info[&#34;longitude&#34;] = tile_center_lon
+        coordinates_info[&#34;bounds&#34;] = tile_bounds_coordinates
+
+        return coordinates_info
+
+    def predict_image(self, image):
+        scaled_image = mold_image(image, self.config)
+        sample = expand_dims(scaled_image, 0)
+        yhat = self.model_predict.detect(sample, verbose=0)
+
+        rois = yhat[0][&#39;rois&#39;]
+        class_id = yhat[0][&#39;class_ids&#39;]
+        score = yhat[0][&#39;scores&#39;]
+
+        # reorder rois :
+        # x1, y1, x2, y2
+        bboxes = []
+        for roi in rois:
+            box = [int(roi[1]), int(roi[0]), int(roi[3]), int(roi[2])]
+            bboxes.append(box)
+
+        class_ids = []
+        for id in class_id:
+            class_ids.append(int(id))
+
+        scores = []
+        for s in score:
+            scores.append(float(s))
+
+        # filter is helipad detected
+        if self.activate_filters and len(scores) &gt; 0:
+            # remove if score &lt; threshold (see FilterManager for default values)
+            bboxes, class_ids, scores = FilterManager.filter_by_scores(bboxes, class_ids, scores)
+            # Filter overlapping box (see FilterManager for default value of threshold_iou and threshold_area)
+            bboxes, class_ids, scores = FilterManager.filter_by_iou(bboxes, class_ids, scores)
+
+        # Save to meta roi
+        prediction = dict()
+        prediction[&#34;box&#34;] = bboxes
+        prediction[&#34;class_id&#34;] = class_ids
+        prediction[&#34;score&#34;] = scores
+
+        if len(bboxes) &gt; 0:
+            prediction[&#34;helipad&#34;] = True
+            print(scores)
+        else:
+            prediction[&#34;helipad&#34;] = False
+
+        return prediction
+
+    def convert_point_to_coordinate(self, x, y, minLat, minLon, maxLat, maxLon, image_shape, verbose=0):
+        tmp = x
+        x = y
+        y = tmp
+        lat_factor = (image_shape[0] - x)/image_shape[0]
+        lon_factor = y / image_shape[1]
+        lat = minLat + (abs(minLat - maxLat) * lat_factor)
+        lon = minLon + (abs(minLon - maxLon) * lon_factor)
+
+        if verbose == 1:
+            # print(x)
+            # print(y)
+            # print(minLat)
+            # print(minLon)
+            # print(maxLat)
+            # print(maxLon)
+            # print(image_shape)
+            # print(lat_factor)
+            # print(lon_factor)
+            print(lat)
+            print(lon)
+
+        return lat, lon
+
+    def convert_bboxes_to_coordinates(self, bboxes, bounds_coordinates, image_shape):
+        # convert box to coordinates
+
+        minLat, minLon = bounds_coordinates[0][0], bounds_coordinates[0][1]
+        maxLat, maxLon = bounds_coordinates[3][0], bounds_coordinates[3][1]
+
+        # lat lon of center
+        center_pixel = []
+        for box in bboxes:
+            xmean = (box[0] + box[2]) / 2
+            ymean = (box[1] + box[3]) / 2
+            center_pixel.append((xmean, ymean))
+
+        bboxes_center_coordinates = []
+        for center in center_pixel:
+            xmean, ymean = center[0], center[1]
+            bboxes_center_lat, bboxes_center_lon = self.convert_point_to_coordinate(xmean, ymean,
+                                                                                    minLat, minLon,
+                                                                                    maxLat, maxLon,
+                                                                                    image_shape,
+                                                                                    verbose=1)
+            bboxes_center_coordinates.append((bboxes_center_lat, bboxes_center_lon))
+
+        bboxes_bounds_coordinates = []
+        for box in bboxes:
+            corners = [(box[0], box[1]),  # minx, miny
+                       (box[0], box[3]),  # minx, maxy
+                       (box[2], box[1]),  # maxx, miny
+                       (box[2], box[3])]  # maxx, maxy
+            corners_coordinates = []
+            for point in corners:
+                x, y = point[0], point[1]
+                lat, lon = self.convert_point_to_coordinate(x, y, minLat, minLon, maxLat, maxLon, image_shape)
+                point_coordinates = (lat, lon)
+                corners_coordinates.append(point_coordinates)
+            bboxes_bounds_coordinates.append(corners_coordinates)
+
+        return bboxes_center_coordinates, bboxes_bounds_coordinates
+    
+    def initiate_meta(self, meta_filename):
+        meta = dict()
+        meta_coordinates = meta_filename.split(&#39;_&#39;)
+        zoom_level = int(meta_coordinates[1])
+        xtile = int(meta_coordinates[2])
+        ytile = int(meta_coordinates[3])
+        coordinates_info = self.get_coordinates_info(xtile, ytile, zoom_level)
+        meta[&#34;coordinates&#34;] = coordinates_info
+        return meta
+
+    
+    def run(self):
+
+        for i in tqdm(range(len(self.target_files))):
+            target_file = self.target_files[i]
+
+            image_path = target_file[0]
+            meta_path = target_file[1]
+            meta_filename = os.path.splitext(os.path.basename(meta_path))[0]
+            image = cv2.imread(image_path)
+            image_shape = image.shape
+
+            if os.path.isfile(meta_path):
+                try:
+                    with open(meta_path, &#39;r&#39;) as f:
+                        meta = json.load(f)
+                except:
+                    meta = self.initiate_meta(meta_filename)
+            else:
+                meta = self.initiate_meta(meta_filename)
+            
+            coordinates_info = meta[&#34;coordinates&#34;]
+            xtile = coordinates_info[&#34;xtile&#34;]
+            
+            if &#34;predicted&#34; in meta:
+                predicted = meta[&#34;predicted&#34;]
+            else:
+                predicted = {}
+
+            key = &#34;model_{}&#34;.format(self.model_number)
+            
+            if key in predicted and not self.redo_prediction:
+                continue
+            
+            # now predict on image
+            prediction = self.predict_image(image)
+
+            bounds_coordinate = coordinates_info[&#34;bounds&#34;]
+            bboxes = prediction[&#34;box&#34;]
+
+            bboxes_center_coordinates, bboxes_bounds_coordinates = self.convert_bboxes_to_coordinates(bboxes,
+                                                                                                      bounds_coordinate,
+                                                                                                      image_shape)
+
+            prediction_coordinates = dict()
+            prediction_coordinates[&#34;center&#34;] = bboxes_center_coordinates
+            prediction_coordinates[&#34;bounds&#34;] = bboxes_bounds_coordinates
+            prediction[&#34;coordinates&#34;] = prediction_coordinates
+
+            predicted[key] = prediction
+
+            meta[&#34;predicted&#34;] = predicted
+            
+            if not os.path.isdir(os.path.join(self.output_meta_folder,
+                                              str(self.zoom_level))):
+                os.mkdir(os.path.join(self.output_meta_folder,
+                                      str(self.zoom_level)))
+            if not os.path.isdir(os.path.join(self.output_meta_folder,
+                                              str(self.zoom_level),
+                                              str(xtile))):
+                os.mkdir(os.path.join(self.output_meta_folder,
+                                      str(self.zoom_level),
+                                      str(xtile)))
+
+            with open(meta_path, &#39;w&#39;) as f:
+                json.dump(meta, f, indent=4, sort_keys=True)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.build_target_files_path"><code class="name flex">
+<span>def <span class="ident">build_target_files_path</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def build_target_files_path(self):
+    target_files = []
+    for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+        for file in files:
+            xtile = os.path.basename(subdir)
+            ytile = os.path.splitext(file)[0]
+            filepath = os.path.join(subdir, file)
+            meta_filepath = os.path.join(self.output_meta_folder,
+                                         str(self.zoom_level),
+                                         str(xtile),
+                                         &#39;Satellite_{}_{}_{}.meta&#39;.format(str(self.zoom_level), str(xtile), str(ytile)))
+            target_files.append([filepath, meta_filepath])
+    return target_files</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.convert_bboxes_to_coordinates"><code class="name flex">
+<span>def <span class="ident">convert_bboxes_to_coordinates</span></span>(<span>self, bboxes, bounds_coordinates, image_shape)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def convert_bboxes_to_coordinates(self, bboxes, bounds_coordinates, image_shape):
+    # convert box to coordinates
+
+    minLat, minLon = bounds_coordinates[0][0], bounds_coordinates[0][1]
+    maxLat, maxLon = bounds_coordinates[3][0], bounds_coordinates[3][1]
+
+    # lat lon of center
+    center_pixel = []
+    for box in bboxes:
+        xmean = (box[0] + box[2]) / 2
+        ymean = (box[1] + box[3]) / 2
+        center_pixel.append((xmean, ymean))
+
+    bboxes_center_coordinates = []
+    for center in center_pixel:
+        xmean, ymean = center[0], center[1]
+        bboxes_center_lat, bboxes_center_lon = self.convert_point_to_coordinate(xmean, ymean,
+                                                                                minLat, minLon,
+                                                                                maxLat, maxLon,
+                                                                                image_shape,
+                                                                                verbose=1)
+        bboxes_center_coordinates.append((bboxes_center_lat, bboxes_center_lon))
+
+    bboxes_bounds_coordinates = []
+    for box in bboxes:
+        corners = [(box[0], box[1]),  # minx, miny
+                   (box[0], box[3]),  # minx, maxy
+                   (box[2], box[1]),  # maxx, miny
+                   (box[2], box[3])]  # maxx, maxy
+        corners_coordinates = []
+        for point in corners:
+            x, y = point[0], point[1]
+            lat, lon = self.convert_point_to_coordinate(x, y, minLat, minLon, maxLat, maxLon, image_shape)
+            point_coordinates = (lat, lon)
+            corners_coordinates.append(point_coordinates)
+        bboxes_bounds_coordinates.append(corners_coordinates)
+
+    return bboxes_center_coordinates, bboxes_bounds_coordinates</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.convert_point_to_coordinate"><code class="name flex">
+<span>def <span class="ident">convert_point_to_coordinate</span></span>(<span>self, x, y, minLat, minLon, maxLat, maxLon, image_shape, verbose=0)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def convert_point_to_coordinate(self, x, y, minLat, minLon, maxLat, maxLon, image_shape, verbose=0):
+    tmp = x
+    x = y
+    y = tmp
+    lat_factor = (image_shape[0] - x)/image_shape[0]
+    lon_factor = y / image_shape[1]
+    lat = minLat + (abs(minLat - maxLat) * lat_factor)
+    lon = minLon + (abs(minLon - maxLon) * lon_factor)
+
+    if verbose == 1:
+        # print(x)
+        # print(y)
+        # print(minLat)
+        # print(minLon)
+        # print(maxLat)
+        # print(maxLon)
+        # print(image_shape)
+        # print(lat_factor)
+        # print(lon_factor)
+        print(lat)
+        print(lon)
+
+    return lat, lon</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.get_coordinates_info"><code class="name flex">
+<span>def <span class="ident">get_coordinates_info</span></span>(<span>self, xtile, ytile, zoom_level)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_coordinates_info(self, xtile, ytile, zoom_level):
+    coordinates_info = dict()
+    coordinates_info[&#34;zoom&#34;] = zoom_level
+    coordinates_info[&#34;xtile&#34;] = xtile
+    coordinates_info[&#34;ytile&#34;] = ytile
+
+    tile_bounds_coordinates = self.globalmercator.TileLatLonBox(xtile, ytile, zoom_level)
+    tile_center_lat = (tile_bounds_coordinates[0][0] + tile_bounds_coordinates[3][0]) / 2
+    tile_center_lon = (tile_bounds_coordinates[0][1] + tile_bounds_coordinates[3][1]) / 2
+    coordinates_info[&#34;latitude&#34;] = tile_center_lat
+    coordinates_info[&#34;longitude&#34;] = tile_center_lon
+    coordinates_info[&#34;bounds&#34;] = tile_bounds_coordinates
+
+    return coordinates_info</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.initiate_meta"><code class="name flex">
+<span>def <span class="ident">initiate_meta</span></span>(<span>self, meta_filename)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def initiate_meta(self, meta_filename):
+    meta = dict()
+    meta_coordinates = meta_filename.split(&#39;_&#39;)
+    zoom_level = int(meta_coordinates[1])
+    xtile = int(meta_coordinates[2])
+    ytile = int(meta_coordinates[3])
+    coordinates_info = self.get_coordinates_info(xtile, ytile, zoom_level)
+    meta[&#34;coordinates&#34;] = coordinates_info
+    return meta</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.model_predict_setup"><code class="name flex">
+<span>def <span class="ident">model_predict_setup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def model_predict_setup(self):
+    self.model_predict = MaskRCNN(mode=&#39;inference&#39;, model_dir=self.model_folder, config=self.config)
+    self.model_predict.load_weights(os.path.join(self.model_folder, self.weights_filename),
+                                    by_name=True)</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.predict_image"><code class="name flex">
+<span>def <span class="ident">predict_image</span></span>(<span>self, image)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def predict_image(self, image):
+    scaled_image = mold_image(image, self.config)
+    sample = expand_dims(scaled_image, 0)
+    yhat = self.model_predict.detect(sample, verbose=0)
+
+    rois = yhat[0][&#39;rois&#39;]
+    class_id = yhat[0][&#39;class_ids&#39;]
+    score = yhat[0][&#39;scores&#39;]
+
+    # reorder rois :
+    # x1, y1, x2, y2
+    bboxes = []
+    for roi in rois:
+        box = [int(roi[1]), int(roi[0]), int(roi[3]), int(roi[2])]
+        bboxes.append(box)
+
+    class_ids = []
+    for id in class_id:
+        class_ids.append(int(id))
+
+    scores = []
+    for s in score:
+        scores.append(float(s))
+
+    # filter is helipad detected
+    if self.activate_filters and len(scores) &gt; 0:
+        # remove if score &lt; threshold (see FilterManager for default values)
+        bboxes, class_ids, scores = FilterManager.filter_by_scores(bboxes, class_ids, scores)
+        # Filter overlapping box (see FilterManager for default value of threshold_iou and threshold_area)
+        bboxes, class_ids, scores = FilterManager.filter_by_iou(bboxes, class_ids, scores)
+
+    # Save to meta roi
+    prediction = dict()
+    prediction[&#34;box&#34;] = bboxes
+    prediction[&#34;class_id&#34;] = class_ids
+    prediction[&#34;score&#34;] = scores
+
+    if len(bboxes) &gt; 0:
+        prediction[&#34;helipad&#34;] = True
+        print(scores)
+    else:
+        prediction[&#34;helipad&#34;] = False
+
+    return prediction</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self):
+
+    for i in tqdm(range(len(self.target_files))):
+        target_file = self.target_files[i]
+
+        image_path = target_file[0]
+        meta_path = target_file[1]
+        meta_filename = os.path.splitext(os.path.basename(meta_path))[0]
+        image = cv2.imread(image_path)
+        image_shape = image.shape
+
+        if os.path.isfile(meta_path):
+            try:
+                with open(meta_path, &#39;r&#39;) as f:
+                    meta = json.load(f)
+            except:
+                meta = self.initiate_meta(meta_filename)
+        else:
+            meta = self.initiate_meta(meta_filename)
+        
+        coordinates_info = meta[&#34;coordinates&#34;]
+        xtile = coordinates_info[&#34;xtile&#34;]
+        
+        if &#34;predicted&#34; in meta:
+            predicted = meta[&#34;predicted&#34;]
+        else:
+            predicted = {}
+
+        key = &#34;model_{}&#34;.format(self.model_number)
+        
+        if key in predicted and not self.redo_prediction:
+            continue
+        
+        # now predict on image
+        prediction = self.predict_image(image)
+
+        bounds_coordinate = coordinates_info[&#34;bounds&#34;]
+        bboxes = prediction[&#34;box&#34;]
+
+        bboxes_center_coordinates, bboxes_bounds_coordinates = self.convert_bboxes_to_coordinates(bboxes,
+                                                                                                  bounds_coordinate,
+                                                                                                  image_shape)
+
+        prediction_coordinates = dict()
+        prediction_coordinates[&#34;center&#34;] = bboxes_center_coordinates
+        prediction_coordinates[&#34;bounds&#34;] = bboxes_bounds_coordinates
+        prediction[&#34;coordinates&#34;] = prediction_coordinates
+
+        predicted[key] = prediction
+
+        meta[&#34;predicted&#34;] = predicted
+        
+        if not os.path.isdir(os.path.join(self.output_meta_folder,
+                                          str(self.zoom_level))):
+            os.mkdir(os.path.join(self.output_meta_folder,
+                                  str(self.zoom_level)))
+        if not os.path.isdir(os.path.join(self.output_meta_folder,
+                                          str(self.zoom_level),
+                                          str(xtile))):
+            os.mkdir(os.path.join(self.output_meta_folder,
+                                  str(self.zoom_level),
+                                  str(xtile)))
+
+        with open(meta_path, &#39;w&#39;) as f:
+            json.dump(meta, f, indent=4, sort_keys=True)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="helipad_detection.src.detection" href="index.html">helipad_detection.src.detection</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite" href="#helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite">RunPredictionSatellite</a></code></h4>
+<ul class="">
+<li><code><a title="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.build_target_files_path" href="#helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.build_target_files_path">build_target_files_path</a></code></li>
+<li><code><a title="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.convert_bboxes_to_coordinates" href="#helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.convert_bboxes_to_coordinates">convert_bboxes_to_coordinates</a></code></li>
+<li><code><a title="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.convert_point_to_coordinate" href="#helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.convert_point_to_coordinate">convert_point_to_coordinate</a></code></li>
+<li><code><a title="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.get_coordinates_info" href="#helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.get_coordinates_info">get_coordinates_info</a></code></li>
+<li><code><a title="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.initiate_meta" href="#helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.initiate_meta">initiate_meta</a></code></li>
+<li><code><a title="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.model_predict_setup" href="#helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.model_predict_setup">model_predict_setup</a></code></li>
+<li><code><a title="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.predict_image" href="#helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.predict_image">predict_image</a></code></li>
+<li><code><a title="helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.run" href="#helipad_detection.src.detection.run_prediction_satellite.RunPredictionSatellite.run">run</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

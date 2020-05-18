@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>helipad_detection.src.database_management.database_categories API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>helipad_detection.src.database_management.database_categories</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import os
+import matplotlib.pyplot as plt
+import cv2
+import shutil
+import numpy as np
+
+
+class DatabaseCategories:
+
+    def __init__(self, true_folder, category_folder, nb_categories=12):
+
+    # to change :
+    # fix 12 categories --&gt; DONE
+    # initiate to empty folder --&gt; DONE
+    # number 0-9 : 10 categories + d (divers) + u (unknown, can&#39;t classifiy) --&gt; DONE
+    # display a grid of 4x3 images --&gt; DONE
+    # if categories empty, display black image --&gt; DONE
+
+        if not os.path.isdir(true_folder):
+            os.mkdir(true_folder)
+        if not os.path.isdir(category_folder):
+            os.mkdir(category_folder)
+        for i in range(nb_categories-2):
+            if not os.path.isdir(os.path.join(category_folder, &#34;Helipad_category_{}&#34;.format(i))):
+                os.mkdir(os.path.join(category_folder, &#34;Helipad_category_{}&#34;.format(i)))
+        if not os.path.isdir(os.path.join(category_folder, &#34;Helipad_category_d&#34;)):
+            os.mkdir(os.path.join(category_folder, &#34;Helipad_category_d&#34;))
+        if not os.path.isdir(os.path.join(category_folder, &#34;Helipad_category_u&#34;)):
+            os.mkdir(os.path.join(category_folder, &#34;Helipad_category_u&#34;))
+
+        self.category_folder_basename = &#34;Helipad_category_&#34;
+
+        self.true_folder = true_folder
+        self.category_folder = category_folder
+        self.nb_categories = nb_categories
+
+        self.all_filepaths = self.load_all_filepaths(true_folder)
+        self.categories_file = self.load_categories_file(category_folder)
+        print(self.categories_file)
+        self.nb_blank = nb_categories
+        self.example_img = self.load_first_image_per_category(category_folder)
+
+        print(len(self.all_filepaths))
+
+    def load_all_filepaths(self, folder):
+        all_filepaths = []
+        for subdir, dirs, files in os.walk(folder):
+            for file in files:
+                filepath = os.path.join(subdir, file)
+                all_filepaths.append(filepath)
+        return all_filepaths
+
+    def load_categories_file(self, folder):
+        categories_file = {}
+        for root, dirs, files in os.walk(folder, topdown=True):
+            folder = os.path.basename(root)
+            if len(folder.split(&#39;_&#39;)) == 2:
+                category = os.path.basename(os.path.dirname(root))
+                if category[len(category)-1:] is &#39;s&#39;:
+                    continue
+                category_number = category[len(category)-1:]
+                if len(files) == 0:
+                    if category_number not in categories_file:
+                        categories_file[category_number] = []
+                else:
+                    for file in files:
+                        if category_number not in categories_file:
+                            categories_file[category_number] = [file]
+                        else:
+                            categories_file[category_number].append(file)
+        return categories_file
+
+    def add_file_to_category(self, target, file):
+        if target not in self.categories_file:
+            self.categories_file[target] = [file]
+        else:
+            self.categories_file[target].append(file)
+
+    def load_first_image_per_category(self, folder):
+        img_width = 640
+        img_height = 640
+        nb_row = 4
+        nb_col = 3
+        final_img = np.zeros((img_width*nb_row, img_height*nb_col, 3))
+        i = 0
+        j = 0
+        for root, dirs, files in os.walk(folder, topdown=True):
+            folder = os.path.basename(root)
+            if len(folder.split(&#39;_&#39;)) == 2:
+                # Folder_001
+                category = os.path.basename(os.path.dirname(root))
+                target = category[len(category)-1:]
+                if target is &#39;s&#39;:
+                    continue
+                if len(files) == 0:
+                    img = np.zeros((img_width, img_height, 3))
+                else:
+                    filepath = os.path.join(root, files[len(files)-1])
+                    img = cv2.imread(filepath)
+                    # normalize
+                    img = img/256
+                    self.nb_blank -= 1
+                if target is &#39;d&#39;:
+                    i = 3
+                    j = 1
+                elif target is &#39;u&#39;:
+                    i = 3
+                    j = 2
+                else:
+                    nb_category = int(target)
+                    i = nb_category // nb_col
+                    j = nb_category % nb_col
+
+                final_img[i * img_width:(i + 1) * img_width, j * img_height:(j + 1) * img_height, :] = img
+
+        final_img = cv2.resize(final_img, (640, 640))
+        return final_img
+
+    def add_to_category(self, category_number, filename):
+        if category_number not in self.categories_file:
+            self.categories_file[category_number] = [filename]
+        else:
+            self.categories_file[category_number].append(filename)
+
+    def load_filepath_first_image_categories(self):
+        filepaths = []
+        for category_number in self.categories_file.keys():
+            folder = &#34;Helipad_category_{:02d}&#34;.format(category_number)
+            filename = self.categories_file[category_number][0]
+            filepath = os.path.join(self.category_folder, folder, filename)
+            filepaths.append(filepath)
+        return filepaths
+
+    def display_categories(self):
+        self.example_img = self.load_first_image_per_category(self.category_folder)
+        cv2.imshow(&#39;Category&#39;, self.example_img)
+
+    @staticmethod
+    def copy_file(filename, source, directory, destination_database):
+        destination_folder = os.path.join(destination_database, directory)
+        if not os.path.isdir(destination_folder):
+            os.mkdir(destination_folder)
+        destination_file = os.path.join(destination_folder, filename)
+        dest = shutil.copy(source, destination_file)
+        print(&#34;Copied to : %s&#34; % destination_file)
+
+    def build_categories(self):
+
+        i = 0
+        window_name = &#39;image&#39;
+
+        while i &lt; len(self.all_filepaths):
+
+            source = self.all_filepaths[i]
+            filename = os.path.basename(source)
+            directory = os.path.basename(os.path.dirname(source))
+
+            already_classified = False
+            for categorie_number, filenames in self.categories_file.items():
+                if not already_classified:
+                    if filename in filenames:
+                        already_classified = True
+            if already_classified:
+                print(&#34;image {} already classified&#34;.format(filename))
+                i = i+1
+                continue
+
+            image = cv2.imread(source)
+            cv2.imshow(window_name, image)
+
+            self.display_categories()
+
+            k = cv2.waitKey(0)
+
+            if k &gt;= 48 and k &lt;= 57:
+                target = str(k % 48)
+            elif k == 100:
+                target = &#39;d&#39;
+            elif k == 117:
+                target = &#39;u&#39;
+            elif k == 8 : #back
+                target = -2
+            else:
+                target = -1
+            print(&#34;target = {}&#34;.format(target))
+
+            if target is -1:
+                i += 1
+                continue
+            elif target is -2:
+                # delete
+                i = i-1
+                source = self.all_filepaths[i]
+                filename = os.path.basename(source)
+                directory = os.path.basename(os.path.dirname(source))
+
+                for category, files in self.categories_file.items():
+                    if filename in files:
+                        path = os.path.join(self.category_folder, self.category_folder_basename+category, directory, filename)
+                        if os.path.exists(path):
+                            os.remove(path)
+                            files.remove(filename)
+                            print(&#34;File %s removed!&#34; % path)
+                continue
+            else:
+                destination = os.path.join(self.category_folder, self.category_folder_basename+target)
+                self.copy_file(filename, source, directory, destination)
+                self.add_file_to_category(target, filename)
+                # self.load_categories_file(self.category_folder)
+
+            i = i + 1
+
+            print(&#34;{} more to go!&#34;.format(len(self.all_filepaths) - i))
+
+    def run(self):
+        self.build_categories()
+
+
+if __name__ == &#34;__main__&#34;:
+
+    true_folder = os.path.join(&#39;C:\\&#39;, &#39;Users&#39;, &#39;jonas&#39;, &#39;Desktop&#39;, &#39;Helipad&#39;, &#39;Helipad_DataBase_True&#39;)
+    category_folder = os.path.join(&#39;C:\\&#39;, &#39;Users&#39;, &#39;jonas&#39;, &#39;Desktop&#39;, &#39;Helipad&#39;, &#39;Helipad_DataBase_Categories&#39;)
+
+    database_category = DatabaseCategories(true_folder, category_folder)
+
+    database_category.run()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="helipad_detection.src.database_management.database_categories.DatabaseCategories"><code class="flex name class">
+<span>class <span class="ident">DatabaseCategories</span></span>
+<span>(</span><span>true_folder, category_folder, nb_categories=12)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DatabaseCategories:
+
+    def __init__(self, true_folder, category_folder, nb_categories=12):
+
+    # to change :
+    # fix 12 categories --&gt; DONE
+    # initiate to empty folder --&gt; DONE
+    # number 0-9 : 10 categories + d (divers) + u (unknown, can&#39;t classifiy) --&gt; DONE
+    # display a grid of 4x3 images --&gt; DONE
+    # if categories empty, display black image --&gt; DONE
+
+        if not os.path.isdir(true_folder):
+            os.mkdir(true_folder)
+        if not os.path.isdir(category_folder):
+            os.mkdir(category_folder)
+        for i in range(nb_categories-2):
+            if not os.path.isdir(os.path.join(category_folder, &#34;Helipad_category_{}&#34;.format(i))):
+                os.mkdir(os.path.join(category_folder, &#34;Helipad_category_{}&#34;.format(i)))
+        if not os.path.isdir(os.path.join(category_folder, &#34;Helipad_category_d&#34;)):
+            os.mkdir(os.path.join(category_folder, &#34;Helipad_category_d&#34;))
+        if not os.path.isdir(os.path.join(category_folder, &#34;Helipad_category_u&#34;)):
+            os.mkdir(os.path.join(category_folder, &#34;Helipad_category_u&#34;))
+
+        self.category_folder_basename = &#34;Helipad_category_&#34;
+
+        self.true_folder = true_folder
+        self.category_folder = category_folder
+        self.nb_categories = nb_categories
+
+        self.all_filepaths = self.load_all_filepaths(true_folder)
+        self.categories_file = self.load_categories_file(category_folder)
+        print(self.categories_file)
+        self.nb_blank = nb_categories
+        self.example_img = self.load_first_image_per_category(category_folder)
+
+        print(len(self.all_filepaths))
+
+    def load_all_filepaths(self, folder):
+        all_filepaths = []
+        for subdir, dirs, files in os.walk(folder):
+            for file in files:
+                filepath = os.path.join(subdir, file)
+                all_filepaths.append(filepath)
+        return all_filepaths
+
+    def load_categories_file(self, folder):
+        categories_file = {}
+        for root, dirs, files in os.walk(folder, topdown=True):
+            folder = os.path.basename(root)
+            if len(folder.split(&#39;_&#39;)) == 2:
+                category = os.path.basename(os.path.dirname(root))
+                if category[len(category)-1:] is &#39;s&#39;:
+                    continue
+                category_number = category[len(category)-1:]
+                if len(files) == 0:
+                    if category_number not in categories_file:
+                        categories_file[category_number] = []
+                else:
+                    for file in files:
+                        if category_number not in categories_file:
+                            categories_file[category_number] = [file]
+                        else:
+                            categories_file[category_number].append(file)
+        return categories_file
+
+    def add_file_to_category(self, target, file):
+        if target not in self.categories_file:
+            self.categories_file[target] = [file]
+        else:
+            self.categories_file[target].append(file)
+
+    def load_first_image_per_category(self, folder):
+        img_width = 640
+        img_height = 640
+        nb_row = 4
+        nb_col = 3
+        final_img = np.zeros((img_width*nb_row, img_height*nb_col, 3))
+        i = 0
+        j = 0
+        for root, dirs, files in os.walk(folder, topdown=True):
+            folder = os.path.basename(root)
+            if len(folder.split(&#39;_&#39;)) == 2:
+                # Folder_001
+                category = os.path.basename(os.path.dirname(root))
+                target = category[len(category)-1:]
+                if target is &#39;s&#39;:
+                    continue
+                if len(files) == 0:
+                    img = np.zeros((img_width, img_height, 3))
+                else:
+                    filepath = os.path.join(root, files[len(files)-1])
+                    img = cv2.imread(filepath)
+                    # normalize
+                    img = img/256
+                    self.nb_blank -= 1
+                if target is &#39;d&#39;:
+                    i = 3
+                    j = 1
+                elif target is &#39;u&#39;:
+                    i = 3
+                    j = 2
+                else:
+                    nb_category = int(target)
+                    i = nb_category // nb_col
+                    j = nb_category % nb_col
+
+                final_img[i * img_width:(i + 1) * img_width, j * img_height:(j + 1) * img_height, :] = img
+
+        final_img = cv2.resize(final_img, (640, 640))
+        return final_img
+
+    def add_to_category(self, category_number, filename):
+        if category_number not in self.categories_file:
+            self.categories_file[category_number] = [filename]
+        else:
+            self.categories_file[category_number].append(filename)
+
+    def load_filepath_first_image_categories(self):
+        filepaths = []
+        for category_number in self.categories_file.keys():
+            folder = &#34;Helipad_category_{:02d}&#34;.format(category_number)
+            filename = self.categories_file[category_number][0]
+            filepath = os.path.join(self.category_folder, folder, filename)
+            filepaths.append(filepath)
+        return filepaths
+
+    def display_categories(self):
+        self.example_img = self.load_first_image_per_category(self.category_folder)
+        cv2.imshow(&#39;Category&#39;, self.example_img)
+
+    @staticmethod
+    def copy_file(filename, source, directory, destination_database):
+        destination_folder = os.path.join(destination_database, directory)
+        if not os.path.isdir(destination_folder):
+            os.mkdir(destination_folder)
+        destination_file = os.path.join(destination_folder, filename)
+        dest = shutil.copy(source, destination_file)
+        print(&#34;Copied to : %s&#34; % destination_file)
+
+    def build_categories(self):
+
+        i = 0
+        window_name = &#39;image&#39;
+
+        while i &lt; len(self.all_filepaths):
+
+            source = self.all_filepaths[i]
+            filename = os.path.basename(source)
+            directory = os.path.basename(os.path.dirname(source))
+
+            already_classified = False
+            for categorie_number, filenames in self.categories_file.items():
+                if not already_classified:
+                    if filename in filenames:
+                        already_classified = True
+            if already_classified:
+                print(&#34;image {} already classified&#34;.format(filename))
+                i = i+1
+                continue
+
+            image = cv2.imread(source)
+            cv2.imshow(window_name, image)
+
+            self.display_categories()
+
+            k = cv2.waitKey(0)
+
+            if k &gt;= 48 and k &lt;= 57:
+                target = str(k % 48)
+            elif k == 100:
+                target = &#39;d&#39;
+            elif k == 117:
+                target = &#39;u&#39;
+            elif k == 8 : #back
+                target = -2
+            else:
+                target = -1
+            print(&#34;target = {}&#34;.format(target))
+
+            if target is -1:
+                i += 1
+                continue
+            elif target is -2:
+                # delete
+                i = i-1
+                source = self.all_filepaths[i]
+                filename = os.path.basename(source)
+                directory = os.path.basename(os.path.dirname(source))
+
+                for category, files in self.categories_file.items():
+                    if filename in files:
+                        path = os.path.join(self.category_folder, self.category_folder_basename+category, directory, filename)
+                        if os.path.exists(path):
+                            os.remove(path)
+                            files.remove(filename)
+                            print(&#34;File %s removed!&#34; % path)
+                continue
+            else:
+                destination = os.path.join(self.category_folder, self.category_folder_basename+target)
+                self.copy_file(filename, source, directory, destination)
+                self.add_file_to_category(target, filename)
+                # self.load_categories_file(self.category_folder)
+
+            i = i + 1
+
+            print(&#34;{} more to go!&#34;.format(len(self.all_filepaths) - i))
+
+    def run(self):
+        self.build_categories()</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="helipad_detection.src.database_management.database_categories.DatabaseCategories.copy_file"><code class="name flex">
+<span>def <span class="ident">copy_file</span></span>(<span>filename, source, directory, destination_database)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def copy_file(filename, source, directory, destination_database):
+    destination_folder = os.path.join(destination_database, directory)
+    if not os.path.isdir(destination_folder):
+        os.mkdir(destination_folder)
+    destination_file = os.path.join(destination_folder, filename)
+    dest = shutil.copy(source, destination_file)
+    print(&#34;Copied to : %s&#34; % destination_file)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="helipad_detection.src.database_management.database_categories.DatabaseCategories.add_file_to_category"><code class="name flex">
+<span>def <span class="ident">add_file_to_category</span></span>(<span>self, target, file)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_file_to_category(self, target, file):
+    if target not in self.categories_file:
+        self.categories_file[target] = [file]
+    else:
+        self.categories_file[target].append(file)</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.database_categories.DatabaseCategories.add_to_category"><code class="name flex">
+<span>def <span class="ident">add_to_category</span></span>(<span>self, category_number, filename)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_to_category(self, category_number, filename):
+    if category_number not in self.categories_file:
+        self.categories_file[category_number] = [filename]
+    else:
+        self.categories_file[category_number].append(filename)</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.database_categories.DatabaseCategories.build_categories"><code class="name flex">
+<span>def <span class="ident">build_categories</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def build_categories(self):
+
+    i = 0
+    window_name = &#39;image&#39;
+
+    while i &lt; len(self.all_filepaths):
+
+        source = self.all_filepaths[i]
+        filename = os.path.basename(source)
+        directory = os.path.basename(os.path.dirname(source))
+
+        already_classified = False
+        for categorie_number, filenames in self.categories_file.items():
+            if not already_classified:
+                if filename in filenames:
+                    already_classified = True
+        if already_classified:
+            print(&#34;image {} already classified&#34;.format(filename))
+            i = i+1
+            continue
+
+        image = cv2.imread(source)
+        cv2.imshow(window_name, image)
+
+        self.display_categories()
+
+        k = cv2.waitKey(0)
+
+        if k &gt;= 48 and k &lt;= 57:
+            target = str(k % 48)
+        elif k == 100:
+            target = &#39;d&#39;
+        elif k == 117:
+            target = &#39;u&#39;
+        elif k == 8 : #back
+            target = -2
+        else:
+            target = -1
+        print(&#34;target = {}&#34;.format(target))
+
+        if target is -1:
+            i += 1
+            continue
+        elif target is -2:
+            # delete
+            i = i-1
+            source = self.all_filepaths[i]
+            filename = os.path.basename(source)
+            directory = os.path.basename(os.path.dirname(source))
+
+            for category, files in self.categories_file.items():
+                if filename in files:
+                    path = os.path.join(self.category_folder, self.category_folder_basename+category, directory, filename)
+                    if os.path.exists(path):
+                        os.remove(path)
+                        files.remove(filename)
+                        print(&#34;File %s removed!&#34; % path)
+            continue
+        else:
+            destination = os.path.join(self.category_folder, self.category_folder_basename+target)
+            self.copy_file(filename, source, directory, destination)
+            self.add_file_to_category(target, filename)
+            # self.load_categories_file(self.category_folder)
+
+        i = i + 1
+
+        print(&#34;{} more to go!&#34;.format(len(self.all_filepaths) - i))</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.database_categories.DatabaseCategories.display_categories"><code class="name flex">
+<span>def <span class="ident">display_categories</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_categories(self):
+    self.example_img = self.load_first_image_per_category(self.category_folder)
+    cv2.imshow(&#39;Category&#39;, self.example_img)</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.database_categories.DatabaseCategories.load_all_filepaths"><code class="name flex">
+<span>def <span class="ident">load_all_filepaths</span></span>(<span>self, folder)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_all_filepaths(self, folder):
+    all_filepaths = []
+    for subdir, dirs, files in os.walk(folder):
+        for file in files:
+            filepath = os.path.join(subdir, file)
+            all_filepaths.append(filepath)
+    return all_filepaths</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.database_categories.DatabaseCategories.load_categories_file"><code class="name flex">
+<span>def <span class="ident">load_categories_file</span></span>(<span>self, folder)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_categories_file(self, folder):
+    categories_file = {}
+    for root, dirs, files in os.walk(folder, topdown=True):
+        folder = os.path.basename(root)
+        if len(folder.split(&#39;_&#39;)) == 2:
+            category = os.path.basename(os.path.dirname(root))
+            if category[len(category)-1:] is &#39;s&#39;:
+                continue
+            category_number = category[len(category)-1:]
+            if len(files) == 0:
+                if category_number not in categories_file:
+                    categories_file[category_number] = []
+            else:
+                for file in files:
+                    if category_number not in categories_file:
+                        categories_file[category_number] = [file]
+                    else:
+                        categories_file[category_number].append(file)
+    return categories_file</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.database_categories.DatabaseCategories.load_filepath_first_image_categories"><code class="name flex">
+<span>def <span class="ident">load_filepath_first_image_categories</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_filepath_first_image_categories(self):
+    filepaths = []
+    for category_number in self.categories_file.keys():
+        folder = &#34;Helipad_category_{:02d}&#34;.format(category_number)
+        filename = self.categories_file[category_number][0]
+        filepath = os.path.join(self.category_folder, folder, filename)
+        filepaths.append(filepath)
+    return filepaths</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.database_categories.DatabaseCategories.load_first_image_per_category"><code class="name flex">
+<span>def <span class="ident">load_first_image_per_category</span></span>(<span>self, folder)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_first_image_per_category(self, folder):
+    img_width = 640
+    img_height = 640
+    nb_row = 4
+    nb_col = 3
+    final_img = np.zeros((img_width*nb_row, img_height*nb_col, 3))
+    i = 0
+    j = 0
+    for root, dirs, files in os.walk(folder, topdown=True):
+        folder = os.path.basename(root)
+        if len(folder.split(&#39;_&#39;)) == 2:
+            # Folder_001
+            category = os.path.basename(os.path.dirname(root))
+            target = category[len(category)-1:]
+            if target is &#39;s&#39;:
+                continue
+            if len(files) == 0:
+                img = np.zeros((img_width, img_height, 3))
+            else:
+                filepath = os.path.join(root, files[len(files)-1])
+                img = cv2.imread(filepath)
+                # normalize
+                img = img/256
+                self.nb_blank -= 1
+            if target is &#39;d&#39;:
+                i = 3
+                j = 1
+            elif target is &#39;u&#39;:
+                i = 3
+                j = 2
+            else:
+                nb_category = int(target)
+                i = nb_category // nb_col
+                j = nb_category % nb_col
+
+            final_img[i * img_width:(i + 1) * img_width, j * img_height:(j + 1) * img_height, :] = img
+
+    final_img = cv2.resize(final_img, (640, 640))
+    return final_img</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.database_categories.DatabaseCategories.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self):
+    self.build_categories()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="helipad_detection.src.database_management" href="index.html">helipad_detection.src.database_management</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="helipad_detection.src.database_management.database_categories.DatabaseCategories" href="#helipad_detection.src.database_management.database_categories.DatabaseCategories">DatabaseCategories</a></code></h4>
+<ul class="">
+<li><code><a title="helipad_detection.src.database_management.database_categories.DatabaseCategories.add_file_to_category" href="#helipad_detection.src.database_management.database_categories.DatabaseCategories.add_file_to_category">add_file_to_category</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.database_categories.DatabaseCategories.add_to_category" href="#helipad_detection.src.database_management.database_categories.DatabaseCategories.add_to_category">add_to_category</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.database_categories.DatabaseCategories.build_categories" href="#helipad_detection.src.database_management.database_categories.DatabaseCategories.build_categories">build_categories</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.database_categories.DatabaseCategories.copy_file" href="#helipad_detection.src.database_management.database_categories.DatabaseCategories.copy_file">copy_file</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.database_categories.DatabaseCategories.display_categories" href="#helipad_detection.src.database_management.database_categories.DatabaseCategories.display_categories">display_categories</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.database_categories.DatabaseCategories.load_all_filepaths" href="#helipad_detection.src.database_management.database_categories.DatabaseCategories.load_all_filepaths">load_all_filepaths</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.database_categories.DatabaseCategories.load_categories_file" href="#helipad_detection.src.database_management.database_categories.DatabaseCategories.load_categories_file">load_categories_file</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.database_categories.DatabaseCategories.load_filepath_first_image_categories" href="#helipad_detection.src.database_management.database_categories.DatabaseCategories.load_filepath_first_image_categories">load_filepath_first_image_categories</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.database_categories.DatabaseCategories.load_first_image_per_category" href="#helipad_detection.src.database_management.database_categories.DatabaseCategories.load_first_image_per_category">load_first_image_per_category</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.database_categories.DatabaseCategories.run" href="#helipad_detection.src.database_management.database_categories.DatabaseCategories.run">run</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

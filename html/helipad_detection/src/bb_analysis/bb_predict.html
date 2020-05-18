@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>helipad_detection.src.bb_analysis.bb_predict API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>helipad_detection.src.bb_analysis.bb_predict</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import os
+import json
+import cv2
+from tqdm import tqdm as tqdm
+
+from keras.models import load_model
+from keras.preprocessing.image import load_img, img_to_array
+
+
+class BBPredict:
+
+    def __init__(self, image_folder, meta_folder, model_number, model_path, tms=True,
+                 extract_bounding_boxes=False, index_path=None):
+
+        self.image_folder = image_folder
+        self.model_path = model_path
+        self.meta_folder = meta_folder
+        self.model_number = model_number
+        self.model = load_model(model_path)
+        self.tms = tms
+        self.extract_bounding_boxes = extract_bounding_boxes
+        self.index_path = index_path
+        if self.index_path:
+            self.target_files = self.convert_meta_filename_to_path(image_folder, meta_folder, index_path)
+        else:
+            self.target_files = self.load_target_files()
+        
+    def load_target_files(self):
+        target_files = []
+        for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+            for file in files:
+                image_path = os.path.join(subdir, file)
+                ytile = os.path.splitext(file)[0]
+                xtile = os.path.basename(subdir)
+                zoom = os.path.basename(os.path.dirname(subdir))
+                meta_path = os.path.join(self.meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+                target_files.append([image_path, meta_path])
+        return target_files
+    
+    @staticmethod
+    def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+        image_meta_path = []
+        with open(index_path, &#39;r&#39;) as f:
+            for meta_filename in f:
+                info = meta_filename.split(&#39;_&#39;)
+                ytile = info[3].split(&#39;.&#39;)[0]
+                xtile = info[2]
+                zoom = info[1]
+                meta_path = os.path.join(meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+                image_path = os.path.join(image_folder,
+                                          zoom,
+                                          xtile, 
+                                          ytile+&#34;.jpg&#34;)
+                image_meta_path.append([image_path, meta_path])
+        f.close()
+        return image_meta_path
+
+    def load_image(self, filename):
+        image = load_img(filename, target_size=(64, 64))
+        image = img_to_array(image)
+        image = image.astype(&#39;float32&#39;)
+        image = image.reshape((1, 64, 64, 3))
+        image = image*1.0/255.0
+        return image
+
+    def preprocess_image_box(self, image_box):
+        image_box = cv2.resize(image_box, (64,64))
+        image_box = img_to_array(image_box).astype(&#39;float32&#39;).reshape((1,64,64,3))
+        image_box = image_box*1.0/255.0
+        return image_box
+
+    def run(self):
+        
+        for i in tqdm(range(len(self.target_files))):
+            
+            image_path = self.target_files[i][0]
+            meta_path = self.target_files[i][1]
+        
+#         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+
+#             print(os.path.basename(subdir))
+
+#             for file in files:
+#                 image_path = os.path.join(subdir, file)
+
+#                 if self.tms:
+#                     ytile = os.path.splitext(file)[0]
+#                     xtile = os.path.basename(subdir)
+#                     zoom = os.path.basename(os.path.dirname(subdir))
+#                     meta_path = os.path.join(self.meta_folder,
+#                                              zoom,
+#                                              xtile,
+#                                              &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+#                                                                               xtile,
+#                                                                               ytile))
+#                 else:
+#                     meta_path = os.path.join(self.meta_folder,
+#                                              os.path.basename(subdir),
+#                                              os.path.splitext(file)[0] + &#34;.meta&#34;)
+
+#             if not os.path.isfile(meta_path):
+#                 meta = dict()
+#             else:
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+
+            if not self.tms:
+                if &#34;groundtruth&#34; not in meta:
+                    continue
+            if &#34;predicted&#34; not in meta:
+                print(&#34;File not yet predicted by the model!&#34;)
+                continue
+            if &#34;model_{}&#34;.format(self.model_number) not in meta[&#34;predicted&#34;]:
+                print(&#34;File not yet predicted by the model!&#34;)
+                continue
+
+            image = cv2.imread(image_path)
+
+            predicted = meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)]
+
+            predicted_boxes = predicted[&#34;box&#34;]
+
+            if &#34;cnn_validation&#34; in predicted:
+                cnn_validation = predicted[&#34;cnn_validation&#34;]
+            else:
+                cnn_validation = [0 for i in range(len(predicted_boxes))]
+
+            for i in range(len(predicted_boxes)):
+                box = predicted_boxes[i]
+                x_min = min(box[0], box[2])
+                y_min = min(box[1], box[3])
+                x_max = max(box[2], box[0])
+                y_max = max(box[3], box[1])
+                image_box = image[y_min:y_max, x_min:x_max, :]
+                image_box = self.preprocess_image_box(image_box)
+
+                result = float(self.model.predict(image_box)[0][0])
+
+                cnn_validation[i] = result
+
+            predicted[&#34;cnn_validation&#34;] = cnn_validation
+
+            meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;] = predicted
+
+#                 else:
+
+#                     image = self.load_image(image_path)
+
+#                     result = float(self.model.predict(image)[0][0])
+#                     print(result)
+#                     # if result &lt;= 0.5:
+#                     #     result = 0
+#                     # else:
+#                     #     result = 1
+#                     # 0 for false positive, 1 for helipad
+#                     # print(image_path)
+#                     # print(result)
+#                     # save results of the prediction
+#                     image_name = os.path.splitext(file)[0]
+#                     image_info = image_name.split(&#39;_&#39;)
+#                     zoom = image_info[1]
+#                     xtile = image_info[2]
+#                     ytile = image_info[3]
+#                     image_id = int(image_info[4])
+#                     # print(image_info)
+#                     # print(&#39;_&#39;.join(image_info[:len(image_info)-1])+&#39;.meta&#39;)
+#                     meta_path = os.path.join(self.meta_folder,
+#                                              zoom,
+#                                              xtile,
+#                                              &#39;_&#39;.join(image_info[:len(image_info)-1])+&#39;.meta&#39;)
+#                     print(meta_path)
+#                     with open(meta_path, &#39;r&#39;) as f:
+#                         meta = json.load(f)
+#                     f.close()
+#                     print(meta)
+#                     predicted = meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;]
+
+#                     nb_boxes = len(predicted[&#34;box&#34;])
+
+#                     if &#34;cnn_validation&#34; in predicted:
+#                         cnn_validation = predicted[&#34;cnn_validation&#34;]
+#                     else:
+#                         cnn_validation = [0 for i in range(nb_boxes)]
+
+#                     cnn_validation[image_id] = result
+
+#                     predicted[&#34;cnn_validation&#34;] = cnn_validation
+
+#                     meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;] = predicted
+#                     print(meta)
+
+            with open(meta_path, &#39;w&#39;) as f:
+                json.dump(meta, f, sort_keys=True, indent=4)
+            f.close()
+
+
+if __name__ == &#34;__main__&#34;:
+
+    # image_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Detected_Boxes\\model_7_0.0\\tms&#34;
+    # meta_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta_save_2\\Real_World_Dataset_TMS_meta\\sat&#34;
+    # model_number = 7
+    # model_path = &#34;final_model.h5&#34;
+    # tms = True
+    # extract_bounding_boxes = False
+
+    image_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original&#34;
+    meta_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original&#34;
+    model_number = 7
+    model_path = &#34;final_model.h5&#34;
+    tms = False
+    extract_bounding_boxes = True
+
+    bbpredict = BBPredict(image_folder=image_folder,
+                          meta_folder=meta_folder,
+                          model_number=model_number,
+                          model_path=model_path,
+                          tms=tms,
+                          extract_bounding_boxes=extract_bounding_boxes)
+
+    bbpredict.run()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.bb_predict.BBPredict"><code class="flex name class">
+<span>class <span class="ident">BBPredict</span></span>
+<span>(</span><span>image_folder, meta_folder, model_number, model_path, tms=True, extract_bounding_boxes=False, index_path=None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BBPredict:
+
+    def __init__(self, image_folder, meta_folder, model_number, model_path, tms=True,
+                 extract_bounding_boxes=False, index_path=None):
+
+        self.image_folder = image_folder
+        self.model_path = model_path
+        self.meta_folder = meta_folder
+        self.model_number = model_number
+        self.model = load_model(model_path)
+        self.tms = tms
+        self.extract_bounding_boxes = extract_bounding_boxes
+        self.index_path = index_path
+        if self.index_path:
+            self.target_files = self.convert_meta_filename_to_path(image_folder, meta_folder, index_path)
+        else:
+            self.target_files = self.load_target_files()
+        
+    def load_target_files(self):
+        target_files = []
+        for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+            for file in files:
+                image_path = os.path.join(subdir, file)
+                ytile = os.path.splitext(file)[0]
+                xtile = os.path.basename(subdir)
+                zoom = os.path.basename(os.path.dirname(subdir))
+                meta_path = os.path.join(self.meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+                target_files.append([image_path, meta_path])
+        return target_files
+    
+    @staticmethod
+    def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+        image_meta_path = []
+        with open(index_path, &#39;r&#39;) as f:
+            for meta_filename in f:
+                info = meta_filename.split(&#39;_&#39;)
+                ytile = info[3].split(&#39;.&#39;)[0]
+                xtile = info[2]
+                zoom = info[1]
+                meta_path = os.path.join(meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+                image_path = os.path.join(image_folder,
+                                          zoom,
+                                          xtile, 
+                                          ytile+&#34;.jpg&#34;)
+                image_meta_path.append([image_path, meta_path])
+        f.close()
+        return image_meta_path
+
+    def load_image(self, filename):
+        image = load_img(filename, target_size=(64, 64))
+        image = img_to_array(image)
+        image = image.astype(&#39;float32&#39;)
+        image = image.reshape((1, 64, 64, 3))
+        image = image*1.0/255.0
+        return image
+
+    def preprocess_image_box(self, image_box):
+        image_box = cv2.resize(image_box, (64,64))
+        image_box = img_to_array(image_box).astype(&#39;float32&#39;).reshape((1,64,64,3))
+        image_box = image_box*1.0/255.0
+        return image_box
+
+    def run(self):
+        
+        for i in tqdm(range(len(self.target_files))):
+            
+            image_path = self.target_files[i][0]
+            meta_path = self.target_files[i][1]
+        
+#         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+
+#             print(os.path.basename(subdir))
+
+#             for file in files:
+#                 image_path = os.path.join(subdir, file)
+
+#                 if self.tms:
+#                     ytile = os.path.splitext(file)[0]
+#                     xtile = os.path.basename(subdir)
+#                     zoom = os.path.basename(os.path.dirname(subdir))
+#                     meta_path = os.path.join(self.meta_folder,
+#                                              zoom,
+#                                              xtile,
+#                                              &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+#                                                                               xtile,
+#                                                                               ytile))
+#                 else:
+#                     meta_path = os.path.join(self.meta_folder,
+#                                              os.path.basename(subdir),
+#                                              os.path.splitext(file)[0] + &#34;.meta&#34;)
+
+#             if not os.path.isfile(meta_path):
+#                 meta = dict()
+#             else:
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+
+            if not self.tms:
+                if &#34;groundtruth&#34; not in meta:
+                    continue
+            if &#34;predicted&#34; not in meta:
+                print(&#34;File not yet predicted by the model!&#34;)
+                continue
+            if &#34;model_{}&#34;.format(self.model_number) not in meta[&#34;predicted&#34;]:
+                print(&#34;File not yet predicted by the model!&#34;)
+                continue
+
+            image = cv2.imread(image_path)
+
+            predicted = meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)]
+
+            predicted_boxes = predicted[&#34;box&#34;]
+
+            if &#34;cnn_validation&#34; in predicted:
+                cnn_validation = predicted[&#34;cnn_validation&#34;]
+            else:
+                cnn_validation = [0 for i in range(len(predicted_boxes))]
+
+            for i in range(len(predicted_boxes)):
+                box = predicted_boxes[i]
+                x_min = min(box[0], box[2])
+                y_min = min(box[1], box[3])
+                x_max = max(box[2], box[0])
+                y_max = max(box[3], box[1])
+                image_box = image[y_min:y_max, x_min:x_max, :]
+                image_box = self.preprocess_image_box(image_box)
+
+                result = float(self.model.predict(image_box)[0][0])
+
+                cnn_validation[i] = result
+
+            predicted[&#34;cnn_validation&#34;] = cnn_validation
+
+            meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;] = predicted
+
+#                 else:
+
+#                     image = self.load_image(image_path)
+
+#                     result = float(self.model.predict(image)[0][0])
+#                     print(result)
+#                     # if result &lt;= 0.5:
+#                     #     result = 0
+#                     # else:
+#                     #     result = 1
+#                     # 0 for false positive, 1 for helipad
+#                     # print(image_path)
+#                     # print(result)
+#                     # save results of the prediction
+#                     image_name = os.path.splitext(file)[0]
+#                     image_info = image_name.split(&#39;_&#39;)
+#                     zoom = image_info[1]
+#                     xtile = image_info[2]
+#                     ytile = image_info[3]
+#                     image_id = int(image_info[4])
+#                     # print(image_info)
+#                     # print(&#39;_&#39;.join(image_info[:len(image_info)-1])+&#39;.meta&#39;)
+#                     meta_path = os.path.join(self.meta_folder,
+#                                              zoom,
+#                                              xtile,
+#                                              &#39;_&#39;.join(image_info[:len(image_info)-1])+&#39;.meta&#39;)
+#                     print(meta_path)
+#                     with open(meta_path, &#39;r&#39;) as f:
+#                         meta = json.load(f)
+#                     f.close()
+#                     print(meta)
+#                     predicted = meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;]
+
+#                     nb_boxes = len(predicted[&#34;box&#34;])
+
+#                     if &#34;cnn_validation&#34; in predicted:
+#                         cnn_validation = predicted[&#34;cnn_validation&#34;]
+#                     else:
+#                         cnn_validation = [0 for i in range(nb_boxes)]
+
+#                     cnn_validation[image_id] = result
+
+#                     predicted[&#34;cnn_validation&#34;] = cnn_validation
+
+#                     meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;] = predicted
+#                     print(meta)
+
+            with open(meta_path, &#39;w&#39;) as f:
+                json.dump(meta, f, sort_keys=True, indent=4)
+            f.close()</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.bb_predict.BBPredict.convert_meta_filename_to_path"><code class="name flex">
+<span>def <span class="ident">convert_meta_filename_to_path</span></span>(<span>image_folder, meta_folder, index_path)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+    image_meta_path = []
+    with open(index_path, &#39;r&#39;) as f:
+        for meta_filename in f:
+            info = meta_filename.split(&#39;_&#39;)
+            ytile = info[3].split(&#39;.&#39;)[0]
+            xtile = info[2]
+            zoom = info[1]
+            meta_path = os.path.join(meta_folder,
+                                     zoom,
+                                     xtile,
+                                     &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                      xtile,
+                                                                      ytile))
+            image_path = os.path.join(image_folder,
+                                      zoom,
+                                      xtile, 
+                                      ytile+&#34;.jpg&#34;)
+            image_meta_path.append([image_path, meta_path])
+    f.close()
+    return image_meta_path</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.bb_predict.BBPredict.load_image"><code class="name flex">
+<span>def <span class="ident">load_image</span></span>(<span>self, filename)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_image(self, filename):
+    image = load_img(filename, target_size=(64, 64))
+    image = img_to_array(image)
+    image = image.astype(&#39;float32&#39;)
+    image = image.reshape((1, 64, 64, 3))
+    image = image*1.0/255.0
+    return image</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.bb_predict.BBPredict.load_target_files"><code class="name flex">
+<span>def <span class="ident">load_target_files</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_target_files(self):
+    target_files = []
+    for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+        for file in files:
+            image_path = os.path.join(subdir, file)
+            ytile = os.path.splitext(file)[0]
+            xtile = os.path.basename(subdir)
+            zoom = os.path.basename(os.path.dirname(subdir))
+            meta_path = os.path.join(self.meta_folder,
+                                     zoom,
+                                     xtile,
+                                     &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                      xtile,
+                                                                      ytile))
+            target_files.append([image_path, meta_path])
+    return target_files</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.bb_predict.BBPredict.preprocess_image_box"><code class="name flex">
+<span>def <span class="ident">preprocess_image_box</span></span>(<span>self, image_box)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def preprocess_image_box(self, image_box):
+    image_box = cv2.resize(image_box, (64,64))
+    image_box = img_to_array(image_box).astype(&#39;float32&#39;).reshape((1,64,64,3))
+    image_box = image_box*1.0/255.0
+    return image_box</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.bb_predict.BBPredict.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    def run(self):
+        
+        for i in tqdm(range(len(self.target_files))):
+            
+            image_path = self.target_files[i][0]
+            meta_path = self.target_files[i][1]
+        
+#         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+
+#             print(os.path.basename(subdir))
+
+#             for file in files:
+#                 image_path = os.path.join(subdir, file)
+
+#                 if self.tms:
+#                     ytile = os.path.splitext(file)[0]
+#                     xtile = os.path.basename(subdir)
+#                     zoom = os.path.basename(os.path.dirname(subdir))
+#                     meta_path = os.path.join(self.meta_folder,
+#                                              zoom,
+#                                              xtile,
+#                                              &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+#                                                                               xtile,
+#                                                                               ytile))
+#                 else:
+#                     meta_path = os.path.join(self.meta_folder,
+#                                              os.path.basename(subdir),
+#                                              os.path.splitext(file)[0] + &#34;.meta&#34;)
+
+#             if not os.path.isfile(meta_path):
+#                 meta = dict()
+#             else:
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+
+            if not self.tms:
+                if &#34;groundtruth&#34; not in meta:
+                    continue
+            if &#34;predicted&#34; not in meta:
+                print(&#34;File not yet predicted by the model!&#34;)
+                continue
+            if &#34;model_{}&#34;.format(self.model_number) not in meta[&#34;predicted&#34;]:
+                print(&#34;File not yet predicted by the model!&#34;)
+                continue
+
+            image = cv2.imread(image_path)
+
+            predicted = meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)]
+
+            predicted_boxes = predicted[&#34;box&#34;]
+
+            if &#34;cnn_validation&#34; in predicted:
+                cnn_validation = predicted[&#34;cnn_validation&#34;]
+            else:
+                cnn_validation = [0 for i in range(len(predicted_boxes))]
+
+            for i in range(len(predicted_boxes)):
+                box = predicted_boxes[i]
+                x_min = min(box[0], box[2])
+                y_min = min(box[1], box[3])
+                x_max = max(box[2], box[0])
+                y_max = max(box[3], box[1])
+                image_box = image[y_min:y_max, x_min:x_max, :]
+                image_box = self.preprocess_image_box(image_box)
+
+                result = float(self.model.predict(image_box)[0][0])
+
+                cnn_validation[i] = result
+
+            predicted[&#34;cnn_validation&#34;] = cnn_validation
+
+            meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;] = predicted
+
+#                 else:
+
+#                     image = self.load_image(image_path)
+
+#                     result = float(self.model.predict(image)[0][0])
+#                     print(result)
+#                     # if result &lt;= 0.5:
+#                     #     result = 0
+#                     # else:
+#                     #     result = 1
+#                     # 0 for false positive, 1 for helipad
+#                     # print(image_path)
+#                     # print(result)
+#                     # save results of the prediction
+#                     image_name = os.path.splitext(file)[0]
+#                     image_info = image_name.split(&#39;_&#39;)
+#                     zoom = image_info[1]
+#                     xtile = image_info[2]
+#                     ytile = image_info[3]
+#                     image_id = int(image_info[4])
+#                     # print(image_info)
+#                     # print(&#39;_&#39;.join(image_info[:len(image_info)-1])+&#39;.meta&#39;)
+#                     meta_path = os.path.join(self.meta_folder,
+#                                              zoom,
+#                                              xtile,
+#                                              &#39;_&#39;.join(image_info[:len(image_info)-1])+&#39;.meta&#39;)
+#                     print(meta_path)
+#                     with open(meta_path, &#39;r&#39;) as f:
+#                         meta = json.load(f)
+#                     f.close()
+#                     print(meta)
+#                     predicted = meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;]
+
+#                     nb_boxes = len(predicted[&#34;box&#34;])
+
+#                     if &#34;cnn_validation&#34; in predicted:
+#                         cnn_validation = predicted[&#34;cnn_validation&#34;]
+#                     else:
+#                         cnn_validation = [0 for i in range(nb_boxes)]
+
+#                     cnn_validation[image_id] = result
+
+#                     predicted[&#34;cnn_validation&#34;] = cnn_validation
+
+#                     meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;] = predicted
+#                     print(meta)
+
+            with open(meta_path, &#39;w&#39;) as f:
+                json.dump(meta, f, sort_keys=True, indent=4)
+            f.close()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="helipad_detection.src.bb_analysis" href="index.html">helipad_detection.src.bb_analysis</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="helipad_detection.src.bb_analysis.bb_predict.BBPredict" href="#helipad_detection.src.bb_analysis.bb_predict.BBPredict">BBPredict</a></code></h4>
+<ul class="">
+<li><code><a title="helipad_detection.src.bb_analysis.bb_predict.BBPredict.convert_meta_filename_to_path" href="#helipad_detection.src.bb_analysis.bb_predict.BBPredict.convert_meta_filename_to_path">convert_meta_filename_to_path</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.bb_predict.BBPredict.load_image" href="#helipad_detection.src.bb_analysis.bb_predict.BBPredict.load_image">load_image</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.bb_predict.BBPredict.load_target_files" href="#helipad_detection.src.bb_analysis.bb_predict.BBPredict.load_target_files">load_target_files</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.bb_predict.BBPredict.preprocess_image_box" href="#helipad_detection.src.bb_analysis.bb_predict.BBPredict.preprocess_image_box">preprocess_image_box</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.bb_predict.BBPredict.run" href="#helipad_detection.src.bb_analysis.bb_predict.BBPredict.run">run</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>helipad_detection.src.benchmark.benchmark_manager API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>helipad_detection.src.benchmark.benchmark_manager</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import os
+import json
+import numpy as np
+import pandas as pd
+from time import time
+
+import sys
+sys.path.append(&#39;../&#39;)
+
+from helipad_detection.src.detection.run_detection import RunDetection
+from helipad_detection.src.training.filter_manager import FilterManager
+
+os.environ[&#34;CUDA_DEVICE_ORDER&#34;] = &#34;PCI_BUS_ID&#34;
+os.environ[&#34;CUDA_VISIBLE_DEVICES&#34;] = &#34;1&#34;
+
+
+class BenchmarkManager:
+
+    def __init__(self, image_folder, meta_folder,
+                 test_only=True, tms_dataset=False, zoom_level=None,
+                 include_category=None,
+                 include_negative=True,
+                 city_lat=None,
+                 train_only=False):
+
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+
+        print(&#34;Loading Files&#34;)
+        self.target_files = RunDetection.build_target_files(self.image_folder,
+                                                            self.meta_folder,
+                                                            test_only=test_only,
+                                                            tms_dataset=tms_dataset,
+                                                            zoom_level=zoom_level,
+                                                        include_category=include_category,
+                                                            include_negative=include_negative,
+                                                            city_lat=city_lat,
+                                                            train_only=train_only)
+        print(&#34;{} files loaded!&#34;.format(len(self.target_files)))
+
+    def reinitialize_metrics(self):
+        self.TP = 0
+        self.TN = 0
+        self.FP = 0
+        self.FN = 0
+
+        self.metrics_per_categories = {}
+        for i in range(10):
+            self.metrics_per_categories[str(i)] = {&#39;TP&#39;: 0, &#39;TN&#39;: 0, &#39;FP&#39;: 0, &#39;FN&#39;: 0}
+        self.metrics_per_categories[&#39;u&#39;] = {&#39;TP&#39;: 0, &#39;TN&#39;: 0, &#39;FP&#39;: 0, &#39;FN&#39;: 0}
+        self.metrics_per_categories[&#39;d&#39;] = {&#39;TP&#39;: 0, &#39;TN&#39;: 0, &#39;FP&#39;: 0, &#39;FN&#39;: 0}
+
+    @staticmethod
+    def check_false_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+        # if no box detected
+        if &#34;box&#34; not in predicted:
+            return 0
+        # if some boxes detected but none in the groundtruth
+        # there are len(boxes) false positive
+        if &#34;box&#34; not in groundtruth or len(groundtruth[&#34;box&#34;]) == 0:
+            return len(predicted[&#34;box&#34;])
+
+        bboxes_predicted = predicted[&#34;box&#34;]
+        bboxes_groundtruth = groundtruth[&#34;box&#34;]
+
+        nb_FN = 0
+
+        # for all predicted
+        for j in range(len(bboxes_predicted)):
+            box_predicted = bboxes_predicted[j]
+            IOUs = []
+            contains = [False]*len(bboxes_groundtruth)
+
+            # compute iou between predicted and each bbox groundtruth
+            for k in range(len(bboxes_groundtruth)):
+                box_groundtruth = bboxes_groundtruth[k]
+
+                interArea = FilterManager.compute_interArea(box_predicted, box_groundtruth)
+                boxAArea = FilterManager.compute_area(box_predicted)
+                boxBArea = FilterManager.compute_area(box_groundtruth)
+                iou = interArea / float(boxAArea + boxBArea - interArea)
+
+                if interArea &gt; boxAArea*threshold_area or interArea &gt; boxBArea*threshold_area:
+                    contains[k] = True
+
+                IOUs.append(iou)
+
+            # if max iou &lt; threshold, and the predicted box is not contained inside a groundtruth
+            # classify the predicted box as false positive
+            arg_max_IOUs = np.argmax(IOUs)
+
+            if IOUs[arg_max_IOUs] &lt; threshold_iou and not contains[arg_max_IOUs]:
+                nb_FN += 1
+
+        return nb_FN
+
+    @staticmethod
+    def check_true_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+        # if no box detected
+        if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
+            return 0
+        # need to fix this, why are there helipad without box ?
+        if &#34;box&#34; not in groundtruth or len(groundtruth[&#34;box&#34;]) == 0:
+            return 0
+
+        bboxes_predicted = predicted[&#34;box&#34;]
+        bboxes_groundtruth = groundtruth[&#34;box&#34;]
+
+        nb_TP = 0
+
+        # for all predicted
+        for j in range(len(bboxes_predicted)):
+            box_predicted = bboxes_predicted[j]
+            IOUs = []
+            contains = [False] * len(bboxes_groundtruth)
+
+            # compute iou for each bbox groundtruth
+            for k in range(len(bboxes_groundtruth)):
+                box_groundtruth = bboxes_groundtruth[k]
+
+                interArea = FilterManager.compute_interArea(box_predicted, box_groundtruth)
+                boxAArea = FilterManager.compute_area(box_predicted)
+                boxBArea = FilterManager.compute_area(box_groundtruth)
+                iou = interArea / float(boxAArea + boxBArea - interArea)
+
+                if interArea &gt; boxAArea*threshold_area or interArea &gt; boxBArea*threshold_area:
+                    contains[k] = True
+
+                IOUs.append(iou)
+
+            arg_max_IOUs = np.argmax(IOUs)
+
+            # if max iou &gt; threshold or if the predicted box is contained inside a groundtruth
+            # classify the predicted box as true positive
+            if IOUs[arg_max_IOUs] &gt; threshold_iou or contains[arg_max_IOUs]:
+                nb_TP += 1
+
+        return nb_TP
+
+    @staticmethod
+    def filter_predicted(predicted, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+        if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
+            return predicted
+        bboxes = predicted[&#34;box&#34;]
+        class_ids = predicted[&#34;class_id&#34;]
+        scores = predicted[&#34;score&#34;]
+
+        if threshold_validation:
+            scores_validation = predicted[&#34;cnn_validation&#34;]
+        else:
+            scores_validation = None
+
+        # Filter overlapping box (see FilterManager for default value of threshold_iou and threshold_area)
+        # bboxes, class_ids, scores = FilterManager.filter_by_iou(bboxes,
+        #                                                         class_ids,
+        #                                                         scores,
+        #                                                         threshold_iou=threshold_iou,
+        #                                                         threshold_area=threshold_area)
+
+        # remove if score &lt; threshold (see FilterManager for default values)
+        bboxes, class_ids, scores = FilterManager.filter_by_scores(bboxes,
+                                                                   class_ids,
+                                                                   scores,
+                                                                   threshold=threshold_score,
+                                                                   threshold_validation=threshold_validation,
+                                                                   scores_validation=scores_validation)
+
+        predicted[&#34;box&#34;] = bboxes
+        predicted[&#34;class_id&#34;] = class_ids
+        predicted[&#34;score&#34;] = scores
+        if len(bboxes) == 0:
+            predicted[&#34;helipad&#34;] = False
+
+        return predicted
+
+    def run(self, model_number, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+
+        self.model_number = model_number
+
+        self.reinitialize_metrics()
+
+        L = len(self.target_files)
+
+        for i in range(L):
+
+            image_meta_path = self.target_files[i]
+            imagepath = image_meta_path[0]
+            metapath = image_meta_path[1]
+
+            with open(metapath, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+
+            if &#34;groundtruth&#34; not in meta:
+                continue
+            if &#34;predicted&#34; not in meta:
+                continue
+
+            key = &#34;model_{}&#34;.format(model_number)
+
+            if key not in meta[&#34;predicted&#34;]:
+                print(&#34;Model not predicted yet&#34;)
+                break
+
+            groundtruth = meta[&#34;groundtruth&#34;].copy()
+            predicted = meta[&#34;predicted&#34;][key].copy()
+
+            # Apply filtering here
+            predicted_filtered = self.filter_predicted(predicted, threshold_score, threshold_iou, threshold_area,
+                                                       threshold_validation=threshold_validation)
+
+            # if not groundtruth[&#34;helipad&#34;] and predicted[&#34;helipad&#34;]:
+            FP = self.check_false_positive(groundtruth, predicted_filtered, threshold_iou=0.5, threshold_area=0.8)
+            self.FP += FP
+            if &#34;category&#34; in groundtruth:
+                self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;FP&#39;] += FP
+
+            # if groundtruth[&#34;helipad&#34;] and predicted[&#34;helipad&#34;]:
+            TP = self.check_true_positive(groundtruth, predicted_filtered, threshold_iou=0.5, threshold_area=0.8)
+            self.TP += TP
+            if &#34;category&#34; in groundtruth:
+                self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;TP&#39;] += TP
+
+            if not groundtruth[&#34;helipad&#34;] and not predicted_filtered[&#34;helipad&#34;]:
+                self.TN += 1
+                if &#34;category&#34; in groundtruth:
+                    self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;TN&#39;] += 1
+
+            if groundtruth[&#34;helipad&#34;] and &#34;box&#34; in groundtruth and not predicted_filtered[&#34;helipad&#34;]:
+                self.FN += len(groundtruth[&#34;box&#34;])
+                if &#34;category&#34; in groundtruth:
+                    self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;FN&#39;] += len(groundtruth[&#34;box&#34;])
+
+        # print(self.TP)
+        # print(self.TN)
+        # print(self.FP)
+        # print(self.FN)
+
+        self.accuracy = (self.TP + self.TN) / (self.TP + self.TN + self.FP + self.FN)
+        self.error = (self.FP+self.FN) / (self.TP + self.TN + self.FP + self.FN)
+        if (self.TP + self.FP)&gt;0:
+            self.precision = self.TP / (self.TP + self.FP)
+        else:
+            self.precision = 0
+        if (self.TP + self.FN)&gt;0:
+            self.recall = self.TP / (self.TP + self.FN)
+        else:
+            self.recall = 0
+        if (self.TN + self.FP)&gt;0:
+            self.FPR = self.FP / (self.TN + self.FP)
+        else:
+            self.FPR = 0
+        self.TPR = self.recall
+
+        data = [model_number, threshold_score, threshold_iou, threshold_area,
+                self.accuracy, self.error, self.precision, self.recall,
+                self.FPR, self.TPR, self.TP, self.TN, self.FP, self.FN]
+
+        return data
+
+    def save_benchmark(self):
+        with open(&#34;benchmark_model_{}.txt&#34;.format(self.model_number), &#39;w&#39;) as f:
+            f.write(&#34;Accuracy : {}\nError : {}\nPrecision : {}\nRecall : {}\n&#34;.format(
+                self.accuracy,
+                self.error,
+                self.precision,
+                self.recall
+            ))
+            f.write(&#34;True Positive : {}\nTrue Negative : {}\nFalse Positive : {}\nFalse Negative : {}\n&#34;.format(
+                self.TP,
+                self.TN,
+                self.FP,
+                self.FN
+            ))
+            f.write(json.dumps(self.metrics_per_categories, indent=4, sort_keys=True))
+            f.close()
+
+    def get_attributes(self):
+        data = [self.model_number, self.accuracy, self.error, self.precision, self.recall,
+                self.FPR, self.TPR, self.TP, self.TN, self.FP, self.FN]
+        return data
+
+
+if __name__ == &#34;__main__&#34;:
+
+    image_folder = &#34;C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original&#34;
+    meta_folder = &#34;C:\\Users\\jonas\\Desktop\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original&#34;
+
+    # image_folder = &#34;../Helipad_DataBase/Helipad_DataBase_original&#34;
+    # meta_folder = &#34;../Helipad_DataBase_meta/Helipad_DataBase_meta_original&#34;
+
+    tms_image_folder = &#34;C:\\Users\\jonas\\Desktop\\Real_World_Test_DataBase&#34;
+    tms_meta_folder = &#34;C:\\Users\\jonas\\Desktop\\Real_World_Test_DataBase_meta&#34;
+    model_number = 5
+
+    threshold_score = 0
+    threshold_iou = 0.5
+    threshold_area = 0.8
+
+    # if model_number:
+    benchmark_manager = BenchmarkManager(tms_image_folder,
+                                         tms_meta_folder,
+                                         test_only=True,
+                                         tms_dataset=True)
+
+    result = benchmark_manager.run(model_number, threshold_score, threshold_iou, threshold_area)
+    print(result)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager"><code class="flex name class">
+<span>class <span class="ident">BenchmarkManager</span></span>
+<span>(</span><span>image_folder, meta_folder, test_only=True, tms_dataset=False, zoom_level=None, include_category=None, include_negative=True, city_lat=None, train_only=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BenchmarkManager:
+
+    def __init__(self, image_folder, meta_folder,
+                 test_only=True, tms_dataset=False, zoom_level=None,
+                 include_category=None,
+                 include_negative=True,
+                 city_lat=None,
+                 train_only=False):
+
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+
+        print(&#34;Loading Files&#34;)
+        self.target_files = RunDetection.build_target_files(self.image_folder,
+                                                            self.meta_folder,
+                                                            test_only=test_only,
+                                                            tms_dataset=tms_dataset,
+                                                            zoom_level=zoom_level,
+                                                        include_category=include_category,
+                                                            include_negative=include_negative,
+                                                            city_lat=city_lat,
+                                                            train_only=train_only)
+        print(&#34;{} files loaded!&#34;.format(len(self.target_files)))
+
+    def reinitialize_metrics(self):
+        self.TP = 0
+        self.TN = 0
+        self.FP = 0
+        self.FN = 0
+
+        self.metrics_per_categories = {}
+        for i in range(10):
+            self.metrics_per_categories[str(i)] = {&#39;TP&#39;: 0, &#39;TN&#39;: 0, &#39;FP&#39;: 0, &#39;FN&#39;: 0}
+        self.metrics_per_categories[&#39;u&#39;] = {&#39;TP&#39;: 0, &#39;TN&#39;: 0, &#39;FP&#39;: 0, &#39;FN&#39;: 0}
+        self.metrics_per_categories[&#39;d&#39;] = {&#39;TP&#39;: 0, &#39;TN&#39;: 0, &#39;FP&#39;: 0, &#39;FN&#39;: 0}
+
+    @staticmethod
+    def check_false_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+        # if no box detected
+        if &#34;box&#34; not in predicted:
+            return 0
+        # if some boxes detected but none in the groundtruth
+        # there are len(boxes) false positive
+        if &#34;box&#34; not in groundtruth or len(groundtruth[&#34;box&#34;]) == 0:
+            return len(predicted[&#34;box&#34;])
+
+        bboxes_predicted = predicted[&#34;box&#34;]
+        bboxes_groundtruth = groundtruth[&#34;box&#34;]
+
+        nb_FN = 0
+
+        # for all predicted
+        for j in range(len(bboxes_predicted)):
+            box_predicted = bboxes_predicted[j]
+            IOUs = []
+            contains = [False]*len(bboxes_groundtruth)
+
+            # compute iou between predicted and each bbox groundtruth
+            for k in range(len(bboxes_groundtruth)):
+                box_groundtruth = bboxes_groundtruth[k]
+
+                interArea = FilterManager.compute_interArea(box_predicted, box_groundtruth)
+                boxAArea = FilterManager.compute_area(box_predicted)
+                boxBArea = FilterManager.compute_area(box_groundtruth)
+                iou = interArea / float(boxAArea + boxBArea - interArea)
+
+                if interArea &gt; boxAArea*threshold_area or interArea &gt; boxBArea*threshold_area:
+                    contains[k] = True
+
+                IOUs.append(iou)
+
+            # if max iou &lt; threshold, and the predicted box is not contained inside a groundtruth
+            # classify the predicted box as false positive
+            arg_max_IOUs = np.argmax(IOUs)
+
+            if IOUs[arg_max_IOUs] &lt; threshold_iou and not contains[arg_max_IOUs]:
+                nb_FN += 1
+
+        return nb_FN
+
+    @staticmethod
+    def check_true_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+        # if no box detected
+        if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
+            return 0
+        # need to fix this, why are there helipad without box ?
+        if &#34;box&#34; not in groundtruth or len(groundtruth[&#34;box&#34;]) == 0:
+            return 0
+
+        bboxes_predicted = predicted[&#34;box&#34;]
+        bboxes_groundtruth = groundtruth[&#34;box&#34;]
+
+        nb_TP = 0
+
+        # for all predicted
+        for j in range(len(bboxes_predicted)):
+            box_predicted = bboxes_predicted[j]
+            IOUs = []
+            contains = [False] * len(bboxes_groundtruth)
+
+            # compute iou for each bbox groundtruth
+            for k in range(len(bboxes_groundtruth)):
+                box_groundtruth = bboxes_groundtruth[k]
+
+                interArea = FilterManager.compute_interArea(box_predicted, box_groundtruth)
+                boxAArea = FilterManager.compute_area(box_predicted)
+                boxBArea = FilterManager.compute_area(box_groundtruth)
+                iou = interArea / float(boxAArea + boxBArea - interArea)
+
+                if interArea &gt; boxAArea*threshold_area or interArea &gt; boxBArea*threshold_area:
+                    contains[k] = True
+
+                IOUs.append(iou)
+
+            arg_max_IOUs = np.argmax(IOUs)
+
+            # if max iou &gt; threshold or if the predicted box is contained inside a groundtruth
+            # classify the predicted box as true positive
+            if IOUs[arg_max_IOUs] &gt; threshold_iou or contains[arg_max_IOUs]:
+                nb_TP += 1
+
+        return nb_TP
+
+    @staticmethod
+    def filter_predicted(predicted, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+        if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
+            return predicted
+        bboxes = predicted[&#34;box&#34;]
+        class_ids = predicted[&#34;class_id&#34;]
+        scores = predicted[&#34;score&#34;]
+
+        if threshold_validation:
+            scores_validation = predicted[&#34;cnn_validation&#34;]
+        else:
+            scores_validation = None
+
+        # Filter overlapping box (see FilterManager for default value of threshold_iou and threshold_area)
+        # bboxes, class_ids, scores = FilterManager.filter_by_iou(bboxes,
+        #                                                         class_ids,
+        #                                                         scores,
+        #                                                         threshold_iou=threshold_iou,
+        #                                                         threshold_area=threshold_area)
+
+        # remove if score &lt; threshold (see FilterManager for default values)
+        bboxes, class_ids, scores = FilterManager.filter_by_scores(bboxes,
+                                                                   class_ids,
+                                                                   scores,
+                                                                   threshold=threshold_score,
+                                                                   threshold_validation=threshold_validation,
+                                                                   scores_validation=scores_validation)
+
+        predicted[&#34;box&#34;] = bboxes
+        predicted[&#34;class_id&#34;] = class_ids
+        predicted[&#34;score&#34;] = scores
+        if len(bboxes) == 0:
+            predicted[&#34;helipad&#34;] = False
+
+        return predicted
+
+    def run(self, model_number, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+
+        self.model_number = model_number
+
+        self.reinitialize_metrics()
+
+        L = len(self.target_files)
+
+        for i in range(L):
+
+            image_meta_path = self.target_files[i]
+            imagepath = image_meta_path[0]
+            metapath = image_meta_path[1]
+
+            with open(metapath, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+
+            if &#34;groundtruth&#34; not in meta:
+                continue
+            if &#34;predicted&#34; not in meta:
+                continue
+
+            key = &#34;model_{}&#34;.format(model_number)
+
+            if key not in meta[&#34;predicted&#34;]:
+                print(&#34;Model not predicted yet&#34;)
+                break
+
+            groundtruth = meta[&#34;groundtruth&#34;].copy()
+            predicted = meta[&#34;predicted&#34;][key].copy()
+
+            # Apply filtering here
+            predicted_filtered = self.filter_predicted(predicted, threshold_score, threshold_iou, threshold_area,
+                                                       threshold_validation=threshold_validation)
+
+            # if not groundtruth[&#34;helipad&#34;] and predicted[&#34;helipad&#34;]:
+            FP = self.check_false_positive(groundtruth, predicted_filtered, threshold_iou=0.5, threshold_area=0.8)
+            self.FP += FP
+            if &#34;category&#34; in groundtruth:
+                self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;FP&#39;] += FP
+
+            # if groundtruth[&#34;helipad&#34;] and predicted[&#34;helipad&#34;]:
+            TP = self.check_true_positive(groundtruth, predicted_filtered, threshold_iou=0.5, threshold_area=0.8)
+            self.TP += TP
+            if &#34;category&#34; in groundtruth:
+                self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;TP&#39;] += TP
+
+            if not groundtruth[&#34;helipad&#34;] and not predicted_filtered[&#34;helipad&#34;]:
+                self.TN += 1
+                if &#34;category&#34; in groundtruth:
+                    self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;TN&#39;] += 1
+
+            if groundtruth[&#34;helipad&#34;] and &#34;box&#34; in groundtruth and not predicted_filtered[&#34;helipad&#34;]:
+                self.FN += len(groundtruth[&#34;box&#34;])
+                if &#34;category&#34; in groundtruth:
+                    self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;FN&#39;] += len(groundtruth[&#34;box&#34;])
+
+        # print(self.TP)
+        # print(self.TN)
+        # print(self.FP)
+        # print(self.FN)
+
+        self.accuracy = (self.TP + self.TN) / (self.TP + self.TN + self.FP + self.FN)
+        self.error = (self.FP+self.FN) / (self.TP + self.TN + self.FP + self.FN)
+        if (self.TP + self.FP)&gt;0:
+            self.precision = self.TP / (self.TP + self.FP)
+        else:
+            self.precision = 0
+        if (self.TP + self.FN)&gt;0:
+            self.recall = self.TP / (self.TP + self.FN)
+        else:
+            self.recall = 0
+        if (self.TN + self.FP)&gt;0:
+            self.FPR = self.FP / (self.TN + self.FP)
+        else:
+            self.FPR = 0
+        self.TPR = self.recall
+
+        data = [model_number, threshold_score, threshold_iou, threshold_area,
+                self.accuracy, self.error, self.precision, self.recall,
+                self.FPR, self.TPR, self.TP, self.TN, self.FP, self.FN]
+
+        return data
+
+    def save_benchmark(self):
+        with open(&#34;benchmark_model_{}.txt&#34;.format(self.model_number), &#39;w&#39;) as f:
+            f.write(&#34;Accuracy : {}\nError : {}\nPrecision : {}\nRecall : {}\n&#34;.format(
+                self.accuracy,
+                self.error,
+                self.precision,
+                self.recall
+            ))
+            f.write(&#34;True Positive : {}\nTrue Negative : {}\nFalse Positive : {}\nFalse Negative : {}\n&#34;.format(
+                self.TP,
+                self.TN,
+                self.FP,
+                self.FN
+            ))
+            f.write(json.dumps(self.metrics_per_categories, indent=4, sort_keys=True))
+            f.close()
+
+    def get_attributes(self):
+        data = [self.model_number, self.accuracy, self.error, self.precision, self.recall,
+                self.FPR, self.TPR, self.TP, self.TN, self.FP, self.FN]
+        return data</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.check_false_positive"><code class="name flex">
+<span>def <span class="ident">check_false_positive</span></span>(<span>groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def check_false_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+    # if no box detected
+    if &#34;box&#34; not in predicted:
+        return 0
+    # if some boxes detected but none in the groundtruth
+    # there are len(boxes) false positive
+    if &#34;box&#34; not in groundtruth or len(groundtruth[&#34;box&#34;]) == 0:
+        return len(predicted[&#34;box&#34;])
+
+    bboxes_predicted = predicted[&#34;box&#34;]
+    bboxes_groundtruth = groundtruth[&#34;box&#34;]
+
+    nb_FN = 0
+
+    # for all predicted
+    for j in range(len(bboxes_predicted)):
+        box_predicted = bboxes_predicted[j]
+        IOUs = []
+        contains = [False]*len(bboxes_groundtruth)
+
+        # compute iou between predicted and each bbox groundtruth
+        for k in range(len(bboxes_groundtruth)):
+            box_groundtruth = bboxes_groundtruth[k]
+
+            interArea = FilterManager.compute_interArea(box_predicted, box_groundtruth)
+            boxAArea = FilterManager.compute_area(box_predicted)
+            boxBArea = FilterManager.compute_area(box_groundtruth)
+            iou = interArea / float(boxAArea + boxBArea - interArea)
+
+            if interArea &gt; boxAArea*threshold_area or interArea &gt; boxBArea*threshold_area:
+                contains[k] = True
+
+            IOUs.append(iou)
+
+        # if max iou &lt; threshold, and the predicted box is not contained inside a groundtruth
+        # classify the predicted box as false positive
+        arg_max_IOUs = np.argmax(IOUs)
+
+        if IOUs[arg_max_IOUs] &lt; threshold_iou and not contains[arg_max_IOUs]:
+            nb_FN += 1
+
+    return nb_FN</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.check_true_positive"><code class="name flex">
+<span>def <span class="ident">check_true_positive</span></span>(<span>groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def check_true_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+    # if no box detected
+    if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
+        return 0
+    # need to fix this, why are there helipad without box ?
+    if &#34;box&#34; not in groundtruth or len(groundtruth[&#34;box&#34;]) == 0:
+        return 0
+
+    bboxes_predicted = predicted[&#34;box&#34;]
+    bboxes_groundtruth = groundtruth[&#34;box&#34;]
+
+    nb_TP = 0
+
+    # for all predicted
+    for j in range(len(bboxes_predicted)):
+        box_predicted = bboxes_predicted[j]
+        IOUs = []
+        contains = [False] * len(bboxes_groundtruth)
+
+        # compute iou for each bbox groundtruth
+        for k in range(len(bboxes_groundtruth)):
+            box_groundtruth = bboxes_groundtruth[k]
+
+            interArea = FilterManager.compute_interArea(box_predicted, box_groundtruth)
+            boxAArea = FilterManager.compute_area(box_predicted)
+            boxBArea = FilterManager.compute_area(box_groundtruth)
+            iou = interArea / float(boxAArea + boxBArea - interArea)
+
+            if interArea &gt; boxAArea*threshold_area or interArea &gt; boxBArea*threshold_area:
+                contains[k] = True
+
+            IOUs.append(iou)
+
+        arg_max_IOUs = np.argmax(IOUs)
+
+        # if max iou &gt; threshold or if the predicted box is contained inside a groundtruth
+        # classify the predicted box as true positive
+        if IOUs[arg_max_IOUs] &gt; threshold_iou or contains[arg_max_IOUs]:
+            nb_TP += 1
+
+    return nb_TP</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.filter_predicted"><code class="name flex">
+<span>def <span class="ident">filter_predicted</span></span>(<span>predicted, threshold_score, threshold_iou, threshold_area, threshold_validation=None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def filter_predicted(predicted, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+    if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
+        return predicted
+    bboxes = predicted[&#34;box&#34;]
+    class_ids = predicted[&#34;class_id&#34;]
+    scores = predicted[&#34;score&#34;]
+
+    if threshold_validation:
+        scores_validation = predicted[&#34;cnn_validation&#34;]
+    else:
+        scores_validation = None
+
+    # Filter overlapping box (see FilterManager for default value of threshold_iou and threshold_area)
+    # bboxes, class_ids, scores = FilterManager.filter_by_iou(bboxes,
+    #                                                         class_ids,
+    #                                                         scores,
+    #                                                         threshold_iou=threshold_iou,
+    #                                                         threshold_area=threshold_area)
+
+    # remove if score &lt; threshold (see FilterManager for default values)
+    bboxes, class_ids, scores = FilterManager.filter_by_scores(bboxes,
+                                                               class_ids,
+                                                               scores,
+                                                               threshold=threshold_score,
+                                                               threshold_validation=threshold_validation,
+                                                               scores_validation=scores_validation)
+
+    predicted[&#34;box&#34;] = bboxes
+    predicted[&#34;class_id&#34;] = class_ids
+    predicted[&#34;score&#34;] = scores
+    if len(bboxes) == 0:
+        predicted[&#34;helipad&#34;] = False
+
+    return predicted</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.get_attributes"><code class="name flex">
+<span>def <span class="ident">get_attributes</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_attributes(self):
+    data = [self.model_number, self.accuracy, self.error, self.precision, self.recall,
+            self.FPR, self.TPR, self.TP, self.TN, self.FP, self.FN]
+    return data</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.reinitialize_metrics"><code class="name flex">
+<span>def <span class="ident">reinitialize_metrics</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reinitialize_metrics(self):
+    self.TP = 0
+    self.TN = 0
+    self.FP = 0
+    self.FN = 0
+
+    self.metrics_per_categories = {}
+    for i in range(10):
+        self.metrics_per_categories[str(i)] = {&#39;TP&#39;: 0, &#39;TN&#39;: 0, &#39;FP&#39;: 0, &#39;FN&#39;: 0}
+    self.metrics_per_categories[&#39;u&#39;] = {&#39;TP&#39;: 0, &#39;TN&#39;: 0, &#39;FP&#39;: 0, &#39;FN&#39;: 0}
+    self.metrics_per_categories[&#39;d&#39;] = {&#39;TP&#39;: 0, &#39;TN&#39;: 0, &#39;FP&#39;: 0, &#39;FN&#39;: 0}</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self, model_number, threshold_score, threshold_iou, threshold_area, threshold_validation=None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self, model_number, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+
+    self.model_number = model_number
+
+    self.reinitialize_metrics()
+
+    L = len(self.target_files)
+
+    for i in range(L):
+
+        image_meta_path = self.target_files[i]
+        imagepath = image_meta_path[0]
+        metapath = image_meta_path[1]
+
+        with open(metapath, &#39;r&#39;) as f:
+            meta = json.load(f)
+        f.close()
+
+        if &#34;groundtruth&#34; not in meta:
+            continue
+        if &#34;predicted&#34; not in meta:
+            continue
+
+        key = &#34;model_{}&#34;.format(model_number)
+
+        if key not in meta[&#34;predicted&#34;]:
+            print(&#34;Model not predicted yet&#34;)
+            break
+
+        groundtruth = meta[&#34;groundtruth&#34;].copy()
+        predicted = meta[&#34;predicted&#34;][key].copy()
+
+        # Apply filtering here
+        predicted_filtered = self.filter_predicted(predicted, threshold_score, threshold_iou, threshold_area,
+                                                   threshold_validation=threshold_validation)
+
+        # if not groundtruth[&#34;helipad&#34;] and predicted[&#34;helipad&#34;]:
+        FP = self.check_false_positive(groundtruth, predicted_filtered, threshold_iou=0.5, threshold_area=0.8)
+        self.FP += FP
+        if &#34;category&#34; in groundtruth:
+            self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;FP&#39;] += FP
+
+        # if groundtruth[&#34;helipad&#34;] and predicted[&#34;helipad&#34;]:
+        TP = self.check_true_positive(groundtruth, predicted_filtered, threshold_iou=0.5, threshold_area=0.8)
+        self.TP += TP
+        if &#34;category&#34; in groundtruth:
+            self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;TP&#39;] += TP
+
+        if not groundtruth[&#34;helipad&#34;] and not predicted_filtered[&#34;helipad&#34;]:
+            self.TN += 1
+            if &#34;category&#34; in groundtruth:
+                self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;TN&#39;] += 1
+
+        if groundtruth[&#34;helipad&#34;] and &#34;box&#34; in groundtruth and not predicted_filtered[&#34;helipad&#34;]:
+            self.FN += len(groundtruth[&#34;box&#34;])
+            if &#34;category&#34; in groundtruth:
+                self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;FN&#39;] += len(groundtruth[&#34;box&#34;])
+
+    # print(self.TP)
+    # print(self.TN)
+    # print(self.FP)
+    # print(self.FN)
+
+    self.accuracy = (self.TP + self.TN) / (self.TP + self.TN + self.FP + self.FN)
+    self.error = (self.FP+self.FN) / (self.TP + self.TN + self.FP + self.FN)
+    if (self.TP + self.FP)&gt;0:
+        self.precision = self.TP / (self.TP + self.FP)
+    else:
+        self.precision = 0
+    if (self.TP + self.FN)&gt;0:
+        self.recall = self.TP / (self.TP + self.FN)
+    else:
+        self.recall = 0
+    if (self.TN + self.FP)&gt;0:
+        self.FPR = self.FP / (self.TN + self.FP)
+    else:
+        self.FPR = 0
+    self.TPR = self.recall
+
+    data = [model_number, threshold_score, threshold_iou, threshold_area,
+            self.accuracy, self.error, self.precision, self.recall,
+            self.FPR, self.TPR, self.TP, self.TN, self.FP, self.FN]
+
+    return data</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.save_benchmark"><code class="name flex">
+<span>def <span class="ident">save_benchmark</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save_benchmark(self):
+    with open(&#34;benchmark_model_{}.txt&#34;.format(self.model_number), &#39;w&#39;) as f:
+        f.write(&#34;Accuracy : {}\nError : {}\nPrecision : {}\nRecall : {}\n&#34;.format(
+            self.accuracy,
+            self.error,
+            self.precision,
+            self.recall
+        ))
+        f.write(&#34;True Positive : {}\nTrue Negative : {}\nFalse Positive : {}\nFalse Negative : {}\n&#34;.format(
+            self.TP,
+            self.TN,
+            self.FP,
+            self.FN
+        ))
+        f.write(json.dumps(self.metrics_per_categories, indent=4, sort_keys=True))
+        f.close()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="helipad_detection.src.benchmark" href="index.html">helipad_detection.src.benchmark</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager" href="#helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager">BenchmarkManager</a></code></h4>
+<ul class="">
+<li><code><a title="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.check_false_positive" href="#helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.check_false_positive">check_false_positive</a></code></li>
+<li><code><a title="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.check_true_positive" href="#helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.check_true_positive">check_true_positive</a></code></li>
+<li><code><a title="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.filter_predicted" href="#helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.filter_predicted">filter_predicted</a></code></li>
+<li><code><a title="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.get_attributes" href="#helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.get_attributes">get_attributes</a></code></li>
+<li><code><a title="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.reinitialize_metrics" href="#helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.reinitialize_metrics">reinitialize_metrics</a></code></li>
+<li><code><a title="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.run" href="#helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.run">run</a></code></li>
+<li><code><a title="helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.save_benchmark" href="#helipad_detection.src.benchmark.benchmark_manager.BenchmarkManager.save_benchmark">save_benchmark</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
