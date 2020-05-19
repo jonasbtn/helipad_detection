@@ -83,6 +83,10 @@ class ShadowDetection:
     
     @staticmethod
     def check_local_maximum(candidate_seed, candidate_window):
+        """
+        Check that the pixel is a local maximum\n
+        Returns a boolean
+        """
         if candidate_seed >= np.max(candidate_window):
             return True
         else:
@@ -90,6 +94,9 @@ class ShadowDetection:
     
     @staticmethod
     def check_value_neighbourhood(candidate_window, mean_c3, ratio=1/2):
+        """
+        Check that all the values of the pixel inside the `candidate_window` are above `mean_c3*ratio`\n
+        """
         if np.min(candidate_window) > mean_c3*ratio:  # should be > mean_c3 according to the article but change to fit better
             return True
         else:
@@ -97,6 +104,10 @@ class ShadowDetection:
     
     @staticmethod
     def check_mean_V(V_window, threshold_v):
+        """
+        Check that the mean of the values in V inside the window `V_window` are below the threshold `threshold_v`.\n
+        Returns a boolean
+        """
         if np.mean(V_window/255.0) < threshold_v:
             return True
         else:
@@ -104,6 +115,10 @@ class ShadowDetection:
     
     @staticmethod
     def check_mean_S(S_window, threshold_s):
+        """
+        Check that the mean of the values in S inside the window `S_window` are above the threshold `threshold_s`.\n
+        Returns a boolean
+        """
         if np.mean(S_window/255.0) > threshold_s:
             return True
         else:
@@ -111,6 +126,10 @@ class ShadowDetection:
     
     @staticmethod
     def check_window_already_seed(i, j, seeds, delay, minimum_size_window):
+        """
+        Check that the pixel at `[i,j]` is not already a seed.\n
+        Returns a boolean
+        """
         d = delay
         m = minimum_size_window
         if np.max(seeds[i-d:i+m, j-d:j+m]) > 0:
@@ -119,6 +138,12 @@ class ShadowDetection:
             return True
         
     def seed_selection(self):
+        """
+        Find all the shadows seeds inside the image.\n
+        Returns:\n
+        - `seeds`: a mask of the same shape as the `image` with `1` where the pixels are seeds or `0` if not.\n
+        - `prototype`:  a dictionnary having all the informations regarding each seed. 
+        """
         h, w = self.c3.shape
         seeds = np.zeros((h, w))
         prototype = {}
@@ -167,6 +192,10 @@ class ShadowDetection:
     
     @staticmethod
     def check_pixel_in_shadow(prototype, i, j):
+        """
+        Check if the pixel at `[i,j]` is already a shadow\n
+        Returns a boolean
+        """
         for key, values in prototype.items():
             if (i,j) in values['indices']:
                 return True
@@ -174,6 +203,10 @@ class ShadowDetection:
 
     @staticmethod
     def check_pixel_neighbours_boundary_shadow(prototype, i, j):
+        """
+        Check that the pixel at `[i,j]` is a neighbour of a shadow pixel.\n
+        Returns a boolean
+        """
         neighbours = [(i-1,j), (i+1,j), (i-1,j-1), (i, j-1), (i,j+1), (i+1, j+1), (i+1, j-1), (i-1, j+1)]
         for key, values in prototype.items():
             indices = values['indices']
@@ -184,6 +217,10 @@ class ShadowDetection:
     
     @staticmethod
     def check_mahalanobis_distance(pixel_c3, region_id, prototype, d_0 = 3):
+        """
+        Check that the candidate pixel `pixel_c3` mahalanobis distance from the shadow region `region_id` is below `d_0`.\n
+        Returns a boolean
+        """
         mean_c3 = prototype[region_id]['mean']
         sigma_c3 = prototype[region_id]['sigma']
         if np.abs(pixel_c3 - mean_c3)/sigma_c3 < d_0:
@@ -192,6 +229,10 @@ class ShadowDetection:
             return False
         
     def region_growing(self, seeds, prototype):
+        """
+        Apply the region growing algorithm from the `seeds`. \n
+        Returns the dictionnary `prototype` with all the different shadow regions. 
+        """
         n, p, c = self.image.shape
 
         d = self.minimum_size_window-1
@@ -238,7 +279,12 @@ class ShadowDetection:
         return prototype
     
     def run(self, verbose=2):
-        
+        """
+        Run the entire shadow detection algorithm\n
+        `verbose=0`: no display \n
+        `verbose=1`: display image and seeds side by side \n
+        `verbose=2`: display image, seeds and shadows side by side\n
+        """
         seeds, prototype = self.seed_selection()
         
         prototype = self.region_growing(seeds, prototype)
@@ -255,6 +301,10 @@ class ShadowDetection:
     
     @staticmethod
     def mark_seeds_on_image(image, seeds):
+        """
+        Marks the seeds on the image in blue\n
+        Returns the image with the seeds pixels in blue
+        """
         image_seed = image.copy()
         for i in range(image.shape[0]):
             for j in range(image.shape[1]):
@@ -264,6 +314,10 @@ class ShadowDetection:
     
     @staticmethod
     def mark_shadows_on_image(image, prototype):
+        """
+        Marks the shadow on the image in blue\n
+        Return the image with the shadow pixels in blue
+        """
         image_shadow = image.copy()
         for key,values in prototype.items():
             indices = values['indices']
@@ -275,6 +329,9 @@ class ShadowDetection:
     
     @staticmethod
     def display_two_image_side_by_side(image_1, image_2):
+        """
+        Display `image_1` and `image_2` side by side
+        """
         fig, axes = plt.subplots(1, 2, figsize=(14, 6), sharex=True, sharey=True)
         
         axes[0].axis('off')
@@ -289,6 +346,9 @@ class ShadowDetection:
     
     @staticmethod
     def display_three_image_side_by_side(image_1, image_2, image_3):
+        """
+        Display `image_1`, `image_2` and `image_3` side by side
+        """
         fig, axes = plt.subplots(1, 3, figsize=(14, 6), sharex=True, sharey=True)
 
         axes[0].axis('off')
