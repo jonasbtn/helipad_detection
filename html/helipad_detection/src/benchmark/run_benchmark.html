@@ -35,6 +35,11 @@ from helipad_detection.src.benchmark.benchmark_manager import BenchmarkManager
 
 
 class RunBenchmark:
+    
+    &#34;&#34;&#34;
+    Run a multiple benchmarks on a specific dataset with wide range of score threshold. \n
+    The results are saved in a csv file. The user can then find the optimal score threshold that fit best the dataset. 
+    &#34;&#34;&#34;
 
     def __init__(self, image_folder, meta_folder, model_numbers,
                  test_only=True, tms_dataset=False, zoom_level=None,
@@ -190,12 +195,18 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>image_folder, meta_folder, model_numbers, test_only=True, tms_dataset=False, zoom_level=None, include_category=None, include_negative=True, city_lat=None, train_only=False)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run a multiple benchmarks on a specific dataset with wide range of score threshold. </p>
+<p>The results are saved in a csv file. The user can then find the optimal score threshold that fit best the dataset.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class RunBenchmark:
+    
+    &#34;&#34;&#34;
+    Run a multiple benchmarks on a specific dataset with wide range of score threshold. \n
+    The results are saved in a csv file. The user can then find the optimal score threshold that fit best the dataset. 
+    &#34;&#34;&#34;
 
     def __init__(self, image_folder, meta_folder, model_numbers,
                  test_only=True, tms_dataset=False, zoom_level=None,

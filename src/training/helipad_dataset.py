@@ -12,10 +12,12 @@ from mrcnn.utils import extract_bboxes
 from mrcnn.model import MaskRCNN
 
 
-# add image size to meta
-
 class HelipadDataset(Dataset):
-
+    
+    """
+    Class to load the dataset for training, extract the bounding boxes and the according mask. 
+    """
+    
     def load_dataset(self, root_folder, root_meta_folder, is_train=True, include_augmented=False, augmented_versions=[],
                      include_categories=None):
         self.add_class("dataset", 1, "helipad")
@@ -40,26 +42,11 @@ class HelipadDataset(Dataset):
                     continue
                 elif not meta["groundtruth"]["helipad"]:
                     continue
-                # or add the false positive here as not helipad ?
                 elif "box" not in meta["groundtruth"]:
                     continue
-
-
-                # elif include_categories:
-                #     if meta["groundtruth"]["category"] not in include_categories:
-                #         continue
-                # else:
-                #     # change to add shuffle to change the train set
-                #     # or not ?
-                #     if is_train and image_number > 4250:
-                #         continue
-                #     if not is_train and image_number <= 4250:
-                #         continue
-
                 if include_categories:
                     if meta["groundtruth"]["category"] not in include_categories:
                         continue
-                
                 if is_train and image_number > 4750:
                     continue
                 if not is_train and image_number <= 4750:

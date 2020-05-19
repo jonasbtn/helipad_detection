@@ -41,7 +41,12 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 
 
 class BBTrainingManager:
-
+    
+    &#34;&#34;&#34;
+    Train a CNN model to distinguish between a true positive and a false positive. \n
+    The dataset used has to be created first with `BBBuildDataset`. 
+    &#34;&#34;&#34;
+    
     def __init__(self, image_folder):
 
         self.image_folder = image_folder
@@ -168,13 +173,19 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>image_folder)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Train a CNN model to distinguish between a true positive and a false positive. </p>
+<p>The dataset used has to be created first with <code>BBBuildDataset</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class BBTrainingManager:
-
+    
+    &#34;&#34;&#34;
+    Train a CNN model to distinguish between a true positive and a false positive. \n
+    The dataset used has to be created first with `BBBuildDataset`. 
+    &#34;&#34;&#34;
+    
     def __init__(self, image_folder):
 
         self.image_folder = image_folder

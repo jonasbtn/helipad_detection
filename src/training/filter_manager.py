@@ -1,7 +1,13 @@
 
 
 class FilterManager:
-
+    
+    """
+    Class implementing 3 filtering methods: \n
+        - Filter by IOU \n
+        - Filter bounding contains inside another \n
+        - Filter by score
+    """
     @staticmethod
     def compute_interArea(boxA, boxB):
         # determine the (x, y)-coordinates of the intersection rectangle
@@ -46,11 +52,11 @@ class FilterManager:
         like if the area of the intersection is above 90% of the area of one of the box
         and keep the one with the highest score
 
-        :param bboxes:
-        :param class_ids:
-        :param scores:
-        :param threshold:
-        :return:
+        `bboxes`:\n
+        `class_ids`: \n
+        `scores`: \n
+        `threshold`: \n
+        return \n
         """
         added = [False]*len(bboxes)
         new_bboxes = []
@@ -110,11 +116,11 @@ class FilterManager:
         """
         Filter the box contained inside another
         Keep the boxes with the highest score or the biggest
-        :param bboxes:
-        :param class_ids:
-        :param scores:
-        :param mode: "highest" / "biggest"
-        :return:
+        `bboxes`: \n
+        `class_ids`: \n
+        `scores`: \n
+        `mode`: "highest" / "biggest" \n
+        
         """
 
         added = [False]*len(bboxes)
@@ -190,11 +196,11 @@ class FilterManager:
     def filter_by_scores(bboxes, class_ids, scores, threshold=0.995, threshold_validation=None, scores_validation=None):
         """
         Filter all the predicted bounding boxes below a certain threshold
-        :param bboxes:
-        :param class_ids:
-        :param scores:
-        :param threshold:
-        :return:
+        `bboxes`: \n
+        `class_ids`: \n
+        `scores`: \n
+        `threshold`: \n
+        returns \n
         """
         new_bboxes = []
         new_class_ids = []

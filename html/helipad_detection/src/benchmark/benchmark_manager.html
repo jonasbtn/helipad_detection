@@ -41,7 +41,11 @@ os.environ[&#34;CUDA_VISIBLE_DEVICES&#34;] = &#34;1&#34;
 
 
 class BenchmarkManager:
-
+    
+    &#34;&#34;&#34;
+    Manager to setup a benchmark on different part of the dataset.\n
+    The benchmark computes all the metrics (Accuracy, Error, Precision, Recall).
+    &#34;&#34;&#34;
     def __init__(self, image_folder, meta_folder,
                  test_only=True, tms_dataset=False, zoom_level=None,
                  include_category=None,
@@ -347,13 +351,18 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>image_folder, meta_folder, test_only=True, tms_dataset=False, zoom_level=None, include_category=None, include_negative=True, city_lat=None, train_only=False)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Manager to setup a benchmark on different part of the dataset.</p>
+<p>The benchmark computes all the metrics (Accuracy, Error, Precision, Recall).</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class BenchmarkManager:
-
+    
+    &#34;&#34;&#34;
+    Manager to setup a benchmark on different part of the dataset.\n
+    The benchmark computes all the metrics (Accuracy, Error, Precision, Recall).
+    &#34;&#34;&#34;
     def __init__(self, image_folder, meta_folder,
                  test_only=True, tms_dataset=False, zoom_level=None,
                  include_category=None,

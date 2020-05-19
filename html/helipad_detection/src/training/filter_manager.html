@@ -25,7 +25,13 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class FilterManager:
-
+    
+    &#34;&#34;&#34;
+    Class implementing 3 filtering methods: \n
+        - Filter by IOU \n
+        - Filter bounding contains inside another \n
+        - Filter by score
+    &#34;&#34;&#34;
     @staticmethod
     def compute_interArea(boxA, boxB):
         # determine the (x, y)-coordinates of the intersection rectangle
@@ -70,11 +76,11 @@
         like if the area of the intersection is above 90% of the area of one of the box
         and keep the one with the highest score
 
-        :param bboxes:
-        :param class_ids:
-        :param scores:
-        :param threshold:
-        :return:
+        `bboxes`:\n
+        `class_ids`: \n
+        `scores`: \n
+        `threshold`: \n
+        return \n
         &#34;&#34;&#34;
         added = [False]*len(bboxes)
         new_bboxes = []
@@ -134,11 +140,11 @@
         &#34;&#34;&#34;
         Filter the box contained inside another
         Keep the boxes with the highest score or the biggest
-        :param bboxes:
-        :param class_ids:
-        :param scores:
-        :param mode: &#34;highest&#34; / &#34;biggest&#34;
-        :return:
+        `bboxes`: \n
+        `class_ids`: \n
+        `scores`: \n
+        `mode`: &#34;highest&#34; / &#34;biggest&#34; \n
+        
         &#34;&#34;&#34;
 
         added = [False]*len(bboxes)
@@ -214,11 +220,11 @@
     def filter_by_scores(bboxes, class_ids, scores, threshold=0.995, threshold_validation=None, scores_validation=None):
         &#34;&#34;&#34;
         Filter all the predicted bounding boxes below a certain threshold
-        :param bboxes:
-        :param class_ids:
-        :param scores:
-        :param threshold:
-        :return:
+        `bboxes`: \n
+        `class_ids`: \n
+        `scores`: \n
+        `threshold`: \n
+        returns \n
         &#34;&#34;&#34;
         new_bboxes = []
         new_class_ids = []
@@ -249,13 +255,25 @@
 <span>class <span class="ident">FilterManager</span></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Class implementing 3 filtering methods: </p>
+<pre><code>- Filter by IOU
+
+- Filter bounding contains inside another
+
+- Filter by score
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class FilterManager:
-
+    
+    &#34;&#34;&#34;
+    Class implementing 3 filtering methods: \n
+        - Filter by IOU \n
+        - Filter bounding contains inside another \n
+        - Filter by score
+    &#34;&#34;&#34;
     @staticmethod
     def compute_interArea(boxA, boxB):
         # determine the (x, y)-coordinates of the intersection rectangle
@@ -300,11 +318,11 @@
         like if the area of the intersection is above 90% of the area of one of the box
         and keep the one with the highest score
 
-        :param bboxes:
-        :param class_ids:
-        :param scores:
-        :param threshold:
-        :return:
+        `bboxes`:\n
+        `class_ids`: \n
+        `scores`: \n
+        `threshold`: \n
+        return \n
         &#34;&#34;&#34;
         added = [False]*len(bboxes)
         new_bboxes = []
@@ -364,11 +382,11 @@
         &#34;&#34;&#34;
         Filter the box contained inside another
         Keep the boxes with the highest score or the biggest
-        :param bboxes:
-        :param class_ids:
-        :param scores:
-        :param mode: &#34;highest&#34; / &#34;biggest&#34;
-        :return:
+        `bboxes`: \n
+        `class_ids`: \n
+        `scores`: \n
+        `mode`: &#34;highest&#34; / &#34;biggest&#34; \n
+        
         &#34;&#34;&#34;
 
         added = [False]*len(bboxes)
@@ -444,11 +462,11 @@
     def filter_by_scores(bboxes, class_ids, scores, threshold=0.995, threshold_validation=None, scores_validation=None):
         &#34;&#34;&#34;
         Filter all the predicted bounding boxes below a certain threshold
-        :param bboxes:
-        :param class_ids:
-        :param scores:
-        :param threshold:
-        :return:
+        `bboxes`: \n
+        `class_ids`: \n
+        `scores`: \n
+        `threshold`: \n
+        returns \n
         &#34;&#34;&#34;
         new_bboxes = []
         new_class_ids = []
@@ -540,11 +558,11 @@ Keep only the bounding box with the highest score</p>
 <p>if below 0.5, check if one box in contain inside the other
 like if the area of the intersection is above 90% of the area of one of the box
 and keep the one with the highest score</p>
-<p>:param bboxes:
-:param class_ids:
-:param scores:
-:param threshold:
-:return:</p></div>
+<p><code>bboxes</code>:</p>
+<p><code>class_ids</code>: </p>
+<p><code>scores</code>: </p>
+<p><code>threshold</code>: </p>
+<p>return</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -559,11 +577,11 @@ def filter_by_iou(bboxes, class_ids, scores, threshold_iou=0.5, threshold_area=0
     like if the area of the intersection is above 90% of the area of one of the box
     and keep the one with the highest score
 
-    :param bboxes:
-    :param class_ids:
-    :param scores:
-    :param threshold:
-    :return:
+    `bboxes`:\n
+    `class_ids`: \n
+    `scores`: \n
+    `threshold`: \n
+    return \n
     &#34;&#34;&#34;
     added = [False]*len(bboxes)
     new_bboxes = []
@@ -624,11 +642,11 @@ def filter_by_iou(bboxes, class_ids, scores, threshold_iou=0.5, threshold_area=0
 </code></dt>
 <dd>
 <div class="desc"><p>Filter all the predicted bounding boxes below a certain threshold
-:param bboxes:
-:param class_ids:
-:param scores:
-:param threshold:
-:return:</p></div>
+<code>bboxes</code>: </p>
+<p><code>class_ids</code>: </p>
+<p><code>scores</code>: </p>
+<p><code>threshold</code>: </p>
+<p>returns</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -637,11 +655,11 @@ def filter_by_iou(bboxes, class_ids, scores, threshold_iou=0.5, threshold_area=0
 def filter_by_scores(bboxes, class_ids, scores, threshold=0.995, threshold_validation=None, scores_validation=None):
     &#34;&#34;&#34;
     Filter all the predicted bounding boxes below a certain threshold
-    :param bboxes:
-    :param class_ids:
-    :param scores:
-    :param threshold:
-    :return:
+    `bboxes`: \n
+    `class_ids`: \n
+    `scores`: \n
+    `threshold`: \n
+    returns \n
     &#34;&#34;&#34;
     new_bboxes = []
     new_class_ids = []
@@ -665,11 +683,10 @@ def filter_by_scores(bboxes, class_ids, scores, threshold=0.995, threshold_valid
 <dd>
 <div class="desc"><p>Filter the box contained inside another
 Keep the boxes with the highest score or the biggest
-:param bboxes:
-:param class_ids:
-:param scores:
-:param mode: "highest" / "biggest"
-:return:</p></div>
+<code>bboxes</code>: </p>
+<p><code>class_ids</code>: </p>
+<p><code>scores</code>: </p>
+<p><code>mode</code>: "highest" / "biggest"</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -679,11 +696,11 @@ def filter_contains(bboxes, class_ids, scores, mode=&#34;biggest&#34;):
     &#34;&#34;&#34;
     Filter the box contained inside another
     Keep the boxes with the highest score or the biggest
-    :param bboxes:
-    :param class_ids:
-    :param scores:
-    :param mode: &#34;highest&#34; / &#34;biggest&#34;
-    :return:
+    `bboxes`: \n
+    `class_ids`: \n
+    `scores`: \n
+    `mode`: &#34;highest&#34; / &#34;biggest&#34; \n
+    
     &#34;&#34;&#34;
 
     added = [False]*len(bboxes)

@@ -4,7 +4,11 @@ import json
 
 
 class ReviewPredictionSatellite:
-
+    
+    """
+    Review the prediction of the satellite images by displaying them 
+    """
+    
     def __init__(self, cache_tms_sat_folder, meta_folder, zoom_level, model_number, helipad_only=True):
         self.cache_tms_folder = cache_tms_sat_folder
         self.image_folder = os.path.join(self.cache_tms_folder, str(zoom_level))

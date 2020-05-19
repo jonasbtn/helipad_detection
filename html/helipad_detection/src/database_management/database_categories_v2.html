@@ -34,8 +34,15 @@ import json
 
 class DatabaseCategoriesv2:
 
+    &#34;&#34;&#34;
+    Interface to assign an helipad to a category. The dataset has to be manually annotated first. 
+    &#34;&#34;&#34;
     def __init__(self, image_folder_original, meta_folder_original, nb_categories=12):
-
+        &#34;&#34;&#34;
+        `image_folder_original`: folder containing the original image dataset \n
+        `meta_folder_original`: folder containing the original meta files.
+        `nb_categories`: the number of categories wanted. 
+        &#34;&#34;&#34;
         self.image_folder = image_folder_original
         self.meta_folder = meta_folder_original
         self.nb_categories = nb_categories
@@ -122,7 +129,9 @@ class DatabaseCategoriesv2:
         cv2.imshow(&#39;Category&#39;, self.final_img_r)
 
     def build_categories(self):
-
+        &#34;&#34;&#34;
+        Run the interface after initialization.
+        &#34;&#34;&#34;
         i = 0
 
         window_name = &#39;image&#39;
@@ -228,15 +237,25 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>image_folder_original, meta_folder_original, nb_categories=12)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Interface to assign an helipad to a category. The dataset has to be manually annotated first. </p>
+<p><code>image_folder_original</code>: folder containing the original image dataset </p>
+<p><code>meta_folder_original</code>: folder containing the original meta files.
+<code>nb_categories</code>: the number of categories wanted.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class DatabaseCategoriesv2:
 
+    &#34;&#34;&#34;
+    Interface to assign an helipad to a category. The dataset has to be manually annotated first. 
+    &#34;&#34;&#34;
     def __init__(self, image_folder_original, meta_folder_original, nb_categories=12):
-
+        &#34;&#34;&#34;
+        `image_folder_original`: folder containing the original image dataset \n
+        `meta_folder_original`: folder containing the original meta files.
+        `nb_categories`: the number of categories wanted. 
+        &#34;&#34;&#34;
         self.image_folder = image_folder_original
         self.meta_folder = meta_folder_original
         self.nb_categories = nb_categories
@@ -323,7 +342,9 @@ if __name__ == &#34;__main__&#34;:
         cv2.imshow(&#39;Category&#39;, self.final_img_r)
 
     def build_categories(self):
-
+        &#34;&#34;&#34;
+        Run the interface after initialization.
+        &#34;&#34;&#34;
         i = 0
 
         window_name = &#39;image&#39;
@@ -423,13 +444,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">build_categories</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the interface after initialization.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_categories(self):
-
+    &#34;&#34;&#34;
+    Run the interface after initialization.
+    &#34;&#34;&#34;
     i = 0
 
     window_name = &#39;image&#39;

@@ -3,13 +3,23 @@ import json
 
 
 class MarkFalsePositive:
-
+    
+    """
+    Get the number of false positive and false negative predicted by a model. The detection has to be run with the model first. 
+    """
+    
     def __init__(self, meta_folder, model_number):
+        """"
+        `meta_folder`: the folder containing the meta file \n
+        `model_numer`: the number of the model to check \n
+        """
         self.meta_folder = meta_folder
         self.model_number = model_number
 
     def run(self):
-
+        """
+        Run the script.
+        """
         nb_false_positive = 0
         nb_false_negative = 0
 
@@ -38,8 +48,6 @@ class MarkFalsePositive:
                     nb_false_negative += 1
 
         return nb_false_positive, nb_false_negative
-
-                # is it really useful ?
 
 
 if __name__ == "__main__":

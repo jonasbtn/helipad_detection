@@ -22,7 +22,8 @@ from helipad_detection.src.utils.box_utils import *
 
 class DatabaseAugmentation:
     """
-    Apply Augmentation on the dataset using Google's policy 
+    Apply Augmentation on the dataset using Google's policy. \n
+    The policy is editable inside the script file `helipad_detection.src.utils.autoaugment_utils` under the function `policy_v3`.
     """
     def __init__(self, input_folder, meta_folder, root_folder, root_folder_meta,
                  balance_dataset=False, repartition=None, version_number=None, display=False):

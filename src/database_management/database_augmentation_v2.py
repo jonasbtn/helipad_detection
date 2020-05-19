@@ -260,7 +260,8 @@ class DatabaseAugmentationV2:
     @staticmethod
     def load_image_bboxes(image_path, meta_path):
         """
-        Load the bounding boxes of the image from `image_path` and `meta_path`
+        Load the bounding boxes of the image from `image_path` and `meta_path`\n
+        Returns the image, its bounding boxes and its meta informatiosn
         """
         image = cv2.imread(image_path)
         with open(meta_path, 'r') as f:

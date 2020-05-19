@@ -21,6 +21,10 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 class RunDetection:
+    
+    """
+    Run the Detection on the dataset images using a certain model. The detections are saved to the meta files. 
+    """
 
     def __init__(self, image_folder, output_meta_folder, model_folder, weight_filename, model_number,
                  activate_filter=False, test_only=False):

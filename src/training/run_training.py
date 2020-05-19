@@ -23,7 +23,10 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 class RunTraining:
-
+    
+    """
+    Run a training on the dataset.
+    """
     def __init__(self, root_folder, root_meta_folder, model_folder,
                  weights_filename, include_augmented=False,
                  augmented_version=[], predict_weights_filepath=None,

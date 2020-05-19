@@ -9,6 +9,11 @@ from helipad_detection.src.benchmark.benchmark_manager import BenchmarkManager
 
 
 class RunBenchmark:
+    
+    """
+    Run a multiple benchmarks on a specific dataset with wide range of score threshold. \n
+    The results are saved in a csv file. The user can then find the optimal score threshold that fit best the dataset. 
+    """
 
     def __init__(self, image_folder, meta_folder, model_numbers,
                  test_only=True, tms_dataset=False, zoom_level=None,

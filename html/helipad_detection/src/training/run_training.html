@@ -49,7 +49,10 @@ os.environ[&#34;CUDA_VISIBLE_DEVICES&#34;] = &#34;0&#34;
 
 
 class RunTraining:
-
+    
+    &#34;&#34;&#34;
+    Run a training on the dataset.
+    &#34;&#34;&#34;
     def __init__(self, root_folder, root_meta_folder, model_folder,
                  weights_filename, include_augmented=False,
                  augmented_version=[], predict_weights_filepath=None,
@@ -217,13 +220,16 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>root_folder, root_meta_folder, model_folder, weights_filename, include_augmented=False, augmented_version=[], predict_weights_filepath=None, train_categories=None, test_categories=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run a training on the dataset.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class RunTraining:
-
+    
+    &#34;&#34;&#34;
+    Run a training on the dataset.
+    &#34;&#34;&#34;
     def __init__(self, root_folder, root_meta_folder, model_folder,
                  weights_filename, include_augmented=False,
                  augmented_version=[], predict_weights_filepath=None,

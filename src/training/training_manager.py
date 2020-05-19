@@ -10,7 +10,11 @@ from mrcnn.model import MaskRCNN
 
 
 class TrainingManager:
-
+    
+    """
+    Manager to setup the training.
+    """
+    
     def __init__(self, root_folder, root_meta_folder, model_folder,
                  weights_filename, include_augmented=False, augmented_versions=[],
                  train_categories=None, test_categories=None):

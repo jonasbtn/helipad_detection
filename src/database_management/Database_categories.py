@@ -6,15 +6,17 @@ import numpy as np
 
 
 class DatabaseCategories:
+    
+    """
+    Interface to assign an helipad to a category. This version creates a new folder into which the images are copied from the dataset folder into subdirectories named after the category chosen.
+    """
 
     def __init__(self, true_folder, category_folder, nb_categories=12):
-
-    # to change :
-    # fix 12 categories --> DONE
-    # initiate to empty folder --> DONE
-    # number 0-9 : 10 categories + d (divers) + u (unknown, can't classifiy) --> DONE
-    # display a grid of 4x3 images --> DONE
-    # if categories empty, display black image --> DONE
+        """
+        `true_folder`: the folder containing the helipad images\n
+        `category_folder`: the output root folder when to copy the helipad image. A subdirectory will be created for each category.\n
+        `nb_categories`: the number of categories wanted.
+        """
 
         if not os.path.isdir(true_folder):
             os.mkdir(true_folder)
@@ -43,6 +45,10 @@ class DatabaseCategories:
         print(len(self.all_filepaths))
 
     def load_all_filepaths(self, folder):
+        """
+        Load all the filepaths inside a folder.\n
+        Returns a list containing all the filepaths.
+        """
         all_filepaths = []
         for subdir, dirs, files in os.walk(folder):
             for file in files:
@@ -51,6 +57,10 @@ class DatabaseCategories:
         return all_filepaths
 
     def load_categories_file(self, folder):
+        """"
+        `folder` is the root folder containing the subfolders of all the categories.\n
+        Return a dictionnary containing the categories as a key and the list of filepaths as values.
+        """
         categories_file = {}
         for root, dirs, files in os.walk(folder, topdown=True):
             folder = os.path.basename(root)
@@ -71,12 +81,21 @@ class DatabaseCategories:
         return categories_file
 
     def add_file_to_category(self, target, file):
+        """
+        Add a `file` path to a category `target`\n
+        `file` is a path. 
+        
+        """
         if target not in self.categories_file:
             self.categories_file[target] = [file]
         else:
             self.categories_file[target].append(file)
 
     def load_first_image_per_category(self, folder):
+        """
+        Load the first image per category\n
+        Returns an image containing a grid of images with each image belonging to a different category.
+        """
         img_width = 640
         img_height = 640
         nb_row = 4
@@ -117,12 +136,19 @@ class DatabaseCategories:
         return final_img
 
     def add_to_category(self, category_number, filename):
+        """
+        Add a `filename` to `category_number` inside the dictionnary `self.categories_file`.
+        """
         if category_number not in self.categories_file:
             self.categories_file[category_number] = [filename]
         else:
             self.categories_file[category_number].append(filename)
 
     def load_filepath_first_image_categories(self):
+        """
+        Load the filepath of the first image of each category.\n
+        Returns a list of filepath.
+        """
         filepaths = []
         for category_number in self.categories_file.keys():
             folder = "Helipad_category_{:02d}".format(category_number)
@@ -132,11 +158,17 @@ class DatabaseCategories:
         return filepaths
 
     def display_categories(self):
+        """
+        Display all the categories
+        """
         self.example_img = self.load_first_image_per_category(self.category_folder)
         cv2.imshow('Category', self.example_img)
 
     @staticmethod
     def copy_file(filename, source, directory, destination_database):
+        """
+        Static method to copy a file `filename` from `source` to `os.path.join(destination_database, directory)`
+        """
         destination_folder = os.path.join(destination_database, directory)
         if not os.path.isdir(destination_folder):
             os.mkdir(destination_folder)
@@ -145,7 +177,9 @@ class DatabaseCategories:
         print("Copied to : %s" % destination_file)
 
     def build_categories(self):
-
+        """
+        Launch the interface to annotate the categories.
+        """
         i = 0
         window_name = 'image'
 
@@ -213,6 +247,9 @@ class DatabaseCategories:
             print("{} more to go!".format(len(self.all_filepaths) - i))
 
     def run(self):
+        """
+        Run the interface
+        """
         self.build_categories()
 
 

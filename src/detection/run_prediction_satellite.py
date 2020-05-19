@@ -16,11 +16,15 @@ from helipad_detection.src.training.helipad_config import HelipadConfig
 from helipad_detection.src.training.filter_manager import FilterManager
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 
 class RunPredictionSatellite:
-
+    
+    """
+    Run the detection on Satellite images saved with the TMS file structure using a certain model.
+    """
+    
     def __init__(self, cache_tms_sat_folder, output_meta_folder, zoom_level,
                  model_folder, weights_filename, model_number, activate_filters=False,
                  redo_prediction=False):

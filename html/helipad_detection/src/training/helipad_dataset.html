@@ -38,10 +38,12 @@ from mrcnn.utils import extract_bboxes
 from mrcnn.model import MaskRCNN
 
 
-# add image size to meta
-
 class HelipadDataset(Dataset):
-
+    
+    &#34;&#34;&#34;
+    Class to load the dataset for training, extract the bounding boxes and the according mask. 
+    &#34;&#34;&#34;
+    
     def load_dataset(self, root_folder, root_meta_folder, is_train=True, include_augmented=False, augmented_versions=[],
                      include_categories=None):
         self.add_class(&#34;dataset&#34;, 1, &#34;helipad&#34;)
@@ -66,26 +68,11 @@ class HelipadDataset(Dataset):
                     continue
                 elif not meta[&#34;groundtruth&#34;][&#34;helipad&#34;]:
                     continue
-                # or add the false positive here as not helipad ?
                 elif &#34;box&#34; not in meta[&#34;groundtruth&#34;]:
                     continue
-
-
-                # elif include_categories:
-                #     if meta[&#34;groundtruth&#34;][&#34;category&#34;] not in include_categories:
-                #         continue
-                # else:
-                #     # change to add shuffle to change the train set
-                #     # or not ?
-                #     if is_train and image_number &gt; 4250:
-                #         continue
-                #     if not is_train and image_number &lt;= 4250:
-                #         continue
-
                 if include_categories:
                     if meta[&#34;groundtruth&#34;][&#34;category&#34;] not in include_categories:
                         continue
-                
                 if is_train and image_number &gt; 4750:
                     continue
                 if not is_train and image_number &lt;= 4750:
@@ -191,23 +178,17 @@ class HelipadDataset(Dataset):
 <span>(</span><span>class_map=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The base class for dataset classes.
-To use it, create a new class that adds functions specific to the dataset
-you want to use. For example:</p>
-<p>class CatsAndDogsDataset(Dataset):
-def load_cats_and_dogs(self):
-&hellip;
-def load_mask(self, image_id):
-&hellip;
-def image_reference(self, image_id):
-&hellip;</p>
-<p>See COCODataset and ShapesDataset as examples.</p></div>
+<div class="desc"><p>Class to load the dataset for training, extract the bounding boxes and the according mask.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class HelipadDataset(Dataset):
-
+    
+    &#34;&#34;&#34;
+    Class to load the dataset for training, extract the bounding boxes and the according mask. 
+    &#34;&#34;&#34;
+    
     def load_dataset(self, root_folder, root_meta_folder, is_train=True, include_augmented=False, augmented_versions=[],
                      include_categories=None):
         self.add_class(&#34;dataset&#34;, 1, &#34;helipad&#34;)
@@ -232,26 +213,11 @@ def image_reference(self, image_id):
                     continue
                 elif not meta[&#34;groundtruth&#34;][&#34;helipad&#34;]:
                     continue
-                # or add the false positive here as not helipad ?
                 elif &#34;box&#34; not in meta[&#34;groundtruth&#34;]:
                     continue
-
-
-                # elif include_categories:
-                #     if meta[&#34;groundtruth&#34;][&#34;category&#34;] not in include_categories:
-                #         continue
-                # else:
-                #     # change to add shuffle to change the train set
-                #     # or not ?
-                #     if is_train and image_number &gt; 4250:
-                #         continue
-                #     if not is_train and image_number &lt;= 4250:
-                #         continue
-
                 if include_categories:
                     if meta[&#34;groundtruth&#34;][&#34;category&#34;] not in include_categories:
                         continue
-                
                 if is_train and image_number &gt; 4750:
                     continue
                 if not is_train and image_number &lt;= 4750:
@@ -431,26 +397,11 @@ if you encounter images not in your dataset.</p></div>
                 continue
             elif not meta[&#34;groundtruth&#34;][&#34;helipad&#34;]:
                 continue
-            # or add the false positive here as not helipad ?
             elif &#34;box&#34; not in meta[&#34;groundtruth&#34;]:
                 continue
-
-
-            # elif include_categories:
-            #     if meta[&#34;groundtruth&#34;][&#34;category&#34;] not in include_categories:
-            #         continue
-            # else:
-            #     # change to add shuffle to change the train set
-            #     # or not ?
-            #     if is_train and image_number &gt; 4250:
-            #         continue
-            #     if not is_train and image_number &lt;= 4250:
-            #         continue
-
             if include_categories:
                 if meta[&#34;groundtruth&#34;][&#34;category&#34;] not in include_categories:
                     continue
-            
             if is_train and image_number &gt; 4750:
                 continue
             if not is_train and image_number &lt;= 4750:

@@ -5,9 +5,18 @@ import shutil
 
 
 class DatabaseCleaner:
-
-    def __init__(self, folder, true_folder, false_folder, unknown_folder, mode=1):
-
+    
+    """
+    DataBase Cleaner is an interface to classifiy a dataset of images into 3 categories : true sample, false sample and unknown (if we can't say it is true or false). The files from the dataset folder are copied into 3 subfolders accordingly.
+    """
+    
+    def __init__(self, folder, true_folder, false_folder, unknown_folder):
+        """
+        `folder`: the dataset folder path. \n
+        `true_folder`: the folder path where to save the true examples. \n
+        `false_folder`: the folder path where to save the false examples. \n
+        `unknown_folder`: the folder path where to save the unknown examples. \n
+        """
         if not os.path.isdir(true_folder):
             os.mkdir(true_folder)
         if not os.path.isdir(false_folder):
@@ -19,7 +28,6 @@ class DatabaseCleaner:
         self.true_folder = true_folder
         self.false_folder = false_folder
         self.unknown_folder = unknown_folder
-        self.mode = mode
 
         self.all_filepaths = self.load_all_filepaths(folder)
         self.true_filepath = self.load_all_filepaths(true_folder)
@@ -30,6 +38,10 @@ class DatabaseCleaner:
         print(len(self.all_filepaths))
 
     def load_all_filepaths(self, folder):
+        """
+        Load of the filepaths present in a `folder`.\n
+        Returns a list of filepaths.
+        """
         all_filepaths = []
         for subdir, dirs, files in os.walk(folder):
             for file in files:
@@ -39,6 +51,9 @@ class DatabaseCleaner:
 
     @staticmethod
     def copy_file(filename, source, directory, destination_database):
+        """
+        Copy a file of name `filename` from `source` to `os.path.join(destination_database, directory)`
+        """
         destination_folder = os.path.join(destination_database, directory)
         if not os.path.isdir(destination_folder):
             os.mkdir(destination_folder)
@@ -47,7 +62,13 @@ class DatabaseCleaner:
         print("Copied to : %s" % destination_file)
 
     def groundtruth(self):
-
+        """
+        Launch the annotation interface. \n
+        Press `y` for true\n
+        Press `n` for false\n
+        Press `u` for unknown\n
+        Press `backspace` to undo.
+        """
         i = 0
         window_name = 'image'
 
@@ -114,9 +135,10 @@ class DatabaseCleaner:
             print("{} more to go!".format(len(self.all_filepaths)-i))
 
     def run(self):
-
-        if self.mode == 1:
-            self.groundtruth()
+        """
+        Run the interface database cleaner.
+        """
+        self.groundtruth()
 
 
 if __name__ == "__main__":
@@ -126,6 +148,6 @@ if __name__ == "__main__":
     false_folder = os.path.join('C:\\', 'Users', 'jonas', 'Desktop', 'Helipad_DataBase_False')
     unknown_folder = os.path.join('C:\\', 'Users', 'jonas', 'Desktop', 'Helipad_DataBase_Junk')
 
-    database_cleaner = DatabaseCleaner(folder, true_folder, false_folder, unknown_folder, mode=1)
+    database_cleaner = DatabaseCleaner(folder, true_folder, false_folder, unknown_folder)
 
     database_cleaner.run()

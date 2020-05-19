@@ -30,7 +30,9 @@ from tqdm import tqdm as tqdm
 
 
 class IndexPathScore:
-
+    &#34;&#34;&#34;
+    Create an index file of the images where an helipad has been detected by a model with a confidence above a certain score. An index help runs certain scripts faster by knowning exactly where are the bounding boxes. 
+    &#34;&#34;&#34;
     def __init__(self, meta_folder, model_number, score_threshold):
         self.meta_folder = meta_folder
         self.model_number = model_number
@@ -99,13 +101,15 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>meta_folder, model_number, score_threshold)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Create an index file of the images where an helipad has been detected by a model with a confidence above a certain score. An index help runs certain scripts faster by knowning exactly where are the bounding boxes.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class IndexPathScore:
-
+    &#34;&#34;&#34;
+    Create an index file of the images where an helipad has been detected by a model with a confidence above a certain score. An index help runs certain scripts faster by knowning exactly where are the bounding boxes. 
+    &#34;&#34;&#34;
     def __init__(self, meta_folder, model_number, score_threshold):
         self.meta_folder = meta_folder
         self.model_number = model_number

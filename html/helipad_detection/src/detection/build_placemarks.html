@@ -30,6 +30,10 @@ from tqdm import tqdm as tqdm
 
 
 class BuildPlacemarks:
+    
+    &#34;&#34;&#34;
+    Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area. 
+    &#34;&#34;&#34;
 
     def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None,
                  model_validation_threshold=None, prefix=&#34;&#34;):
@@ -182,12 +186,16 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None, model_validation_threshold=None, prefix='')</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class BuildPlacemarks:
+    
+    &#34;&#34;&#34;
+    Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area. 
+    &#34;&#34;&#34;
 
     def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None,
                  model_validation_threshold=None, prefix=&#34;&#34;):

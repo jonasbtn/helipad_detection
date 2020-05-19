@@ -15,6 +15,10 @@ from shutil import copyfile
 
 
 class CenterHelipads:
+    
+    """
+    Center the helipad inside the image to get more precise GPS coordinates.
+    """
 
     def __init__(self, image_folder, meta_folder):
 

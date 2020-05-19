@@ -1,9 +1,14 @@
 import os
 import json
 from tqdm import tqdm as tqdm
+import pathlib
 
 
 class BuildPlacemarks:
+    
+    """
+    Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area. 
+    """
 
     def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None,
                  model_validation_threshold=None, prefix=""):
@@ -15,7 +20,7 @@ class BuildPlacemarks:
         self.model_name = model_name
         self.index_path = index_path
         self.model_validation_threshold = model_validation_threshold
-        self.output_name = os.path.join("detection", "placemarks", "{}placemarks_m{}_t{}_v{}_{}_t{}.kml".format(prefix, model_number, threshold, knn, model_name, model_validation_threshold))
+        self.output_name = os.path.join(pathlib.Path(__file__).parent.absolute(), "placemarks", "{}placemarks_m{}_t{}_v{}_{}_t{}.kml".format(prefix, model_number, threshold, knn, model_name, model_validation_threshold))
     
     @staticmethod
     def get_meta_info_from_line(line):

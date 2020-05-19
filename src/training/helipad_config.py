@@ -2,8 +2,13 @@ from mrcnn.config import Config
 
 import numpy as np
 
-# define a configuration for the model
+
 class HelipadConfig(Config):
+    
+    """
+    Define a configuration for the model
+    """
+    
     # define the name of the configuration
     NAME = "helipad_cfg_13_no47du_all"
     # number of classes (background + helipad)

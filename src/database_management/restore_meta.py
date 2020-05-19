@@ -4,7 +4,7 @@ from shutil import copyfile
 
 class RestoreMeta:
     """
-    Restore specific meta files from a backup folder to another meta folder.
+    Restore specific meta files from a backup folder to another meta folder. Since the number of meta files is very high, if there is a mistake into one file, having to copy everything from a backup folder is slow and painful. Instead, this script copy only selected meta files. 
     """
     def __init__(self, meta_folder, save_folder, index_filename):
         """

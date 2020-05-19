@@ -5,14 +5,23 @@ import cv2
 
 
 class DatabaseIllustration:
-
+    
+    """
+    Display a grid of images with groundtruth
+    """
     def __init__(self, image_folder, meta_folder):
+        """
+        `image_folder`: the folder containing the images\n
+        `meta_folder`: the folder containing the meta_folder\n
+        """
         self.image_folder = image_folder
         self.meta_folder = meta_folder
 
 
     def display_grid_groundtruth(self, width, height):
-
+        """
+        Display a grid of images with groundtruth, of width `width` and of height `height`.
+        """
         nb_images = width * height
         grid_image = np.zeros((640*height, 640*width, 3))
         added_images = 0
@@ -60,7 +69,10 @@ class DatabaseIllustration:
         cv2.imwrite('groundtruth.jpg', grid_image)
 
     def display_grid_categories(self, width, height):
-
+        
+        """
+        Display a grid of images of width `width` and of height `height`. Each image belongs to a different category.
+        """
         nb_images = width * height
         grid_image = np.zeros((640*height, 640*width, 3))
         added_images = 0
@@ -176,6 +188,9 @@ class DatabaseIllustration:
         print(added_categories)
 
     def categories_stats(self):
+        """
+        Returns a dictionnary that count the number of images per category.
+        """
         added_categories = {}
         for i in range(10):
             added_categories[str(i)] = 0

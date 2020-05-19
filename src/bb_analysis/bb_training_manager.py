@@ -15,7 +15,12 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 
 
 class BBTrainingManager:
-
+    
+    """
+    Train a CNN model to distinguish between a true positive and a false positive. \n
+    The dataset used has to be created first with `BBBuildDataset`. 
+    """
+    
     def __init__(self, image_folder):
 
         self.image_folder = image_folder

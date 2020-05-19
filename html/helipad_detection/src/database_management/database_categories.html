@@ -32,8 +32,17 @@ import numpy as np
 
 
 class DatabaseCategories:
+    
+    &#34;&#34;&#34;
+    Interface to assign an helipad to a category
+    &#34;&#34;&#34;
 
     def __init__(self, true_folder, category_folder, nb_categories=12):
+        &#34;&#34;&#34;
+        `true_folder`: the folder containing the helipad images\n
+        `category_folder`: the output root folder when to copy the helipad image. A subdirectory will be created for each category.\n
+        `nb_categories`: the number of categories wanted.
+        &#34;&#34;&#34;
 
     # to change :
     # fix 12 categories --&gt; DONE
@@ -239,6 +248,9 @@ class DatabaseCategories:
             print(&#34;{} more to go!&#34;.format(len(self.all_filepaths) - i))
 
     def run(self):
+        &#34;&#34;&#34;
+        Run the interface
+        &#34;&#34;&#34;
         self.build_categories()
 
 
@@ -266,14 +278,26 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>true_folder, category_folder, nb_categories=12)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Interface to assign an helipad to a category</p>
+<p><code>true_folder</code>: the folder containing the helipad images</p>
+<p><code>category_folder</code>: the output root folder when to copy the helipad image. A subdirectory will be created for each category.</p>
+<p><code>nb_categories</code>: the number of categories wanted.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class DatabaseCategories:
+    
+    &#34;&#34;&#34;
+    Interface to assign an helipad to a category
+    &#34;&#34;&#34;
 
     def __init__(self, true_folder, category_folder, nb_categories=12):
+        &#34;&#34;&#34;
+        `true_folder`: the folder containing the helipad images\n
+        `category_folder`: the output root folder when to copy the helipad image. A subdirectory will be created for each category.\n
+        `nb_categories`: the number of categories wanted.
+        &#34;&#34;&#34;
 
     # to change :
     # fix 12 categories --&gt; DONE
@@ -479,6 +503,9 @@ if __name__ == &#34;__main__&#34;:
             print(&#34;{} more to go!&#34;.format(len(self.all_filepaths) - i))
 
     def run(self):
+        &#34;&#34;&#34;
+        Run the interface
+        &#34;&#34;&#34;
         self.build_categories()</code></pre>
 </details>
 <h3>Static methods</h3>
@@ -750,12 +777,15 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">run</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the interface</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run(self):
+    &#34;&#34;&#34;
+    Run the interface
+    &#34;&#34;&#34;
     self.build_categories()</code></pre>
 </details>
 </dd>

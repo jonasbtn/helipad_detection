@@ -29,8 +29,16 @@ import json
 
 
 class MarkFalsePositive:
-
+    
+    &#34;&#34;&#34;
+    Get the number of false positive and false negative predicted by a model. The detection has to be run with the model first. 
+    &#34;&#34;&#34;
+    
     def __init__(self, meta_folder, model_number):
+        &#34;&#34;&#34;&#34;
+        `meta_folder`: the folder containing the meta file \n
+        `model_numer`: the number of the model to check \n
+        &#34;&#34;&#34;
         self.meta_folder = meta_folder
         self.model_number = model_number
 
@@ -95,14 +103,25 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>meta_folder, model_number)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Get the number of false positive and false negative predicted by a model. The detection has to be run with the model first. </p>
+<p>"
+<code>meta_folder</code>: the folder containing the meta file </p>
+<p><code>model_numer</code>: the number of the model to check</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class MarkFalsePositive:
-
+    
+    &#34;&#34;&#34;
+    Get the number of false positive and false negative predicted by a model. The detection has to be run with the model first. 
+    &#34;&#34;&#34;
+    
     def __init__(self, meta_folder, model_number):
+        &#34;&#34;&#34;&#34;
+        `meta_folder`: the folder containing the meta file \n
+        `model_numer`: the number of the model to check \n
+        &#34;&#34;&#34;
         self.meta_folder = meta_folder
         self.model_number = model_number
 

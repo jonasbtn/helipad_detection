@@ -4,8 +4,15 @@ from tqdm import tqdm as tqdm
 
 
 class IndexPathScore:
-
+    """
+    Create an index file of the images where an helipad has been detected by a model with a confidence above a certain score. An index help runs certain scripts faster by knowning exactly where are the bounding boxes. This reduces tremendously the number of files to load. The output file has the following format : `"helipad_path_over_{}_m{}.txt".format(score_threshold, model_number)`.
+    """
     def __init__(self, meta_folder, model_number, score_threshold):
+        """
+        `meta_folder`: the folder containing the meta files. \n
+        `model_number`: the number of the model wanted. \n
+        `score_threshold`: the score threshold. All the images having all its bounding boxes below the score threshold are not added to the index. \n
+        """
         self.meta_folder = meta_folder
         self.model_number = model_number
         self.score_threshold = score_threshold
@@ -13,6 +20,9 @@ class IndexPathScore:
         self.output_filename = "helipad_path_over_{}_m{}.txt".format(score_threshold, model_number)
 
     def build_target_files(self):
+        """
+        Builds and returns a list of target filepaths.
+        """
         target_files = []
 
         for subdirs, dirs, files in os.walk(self.meta_folder, topdown=True):
@@ -22,6 +32,9 @@ class IndexPathScore:
         return target_files
 
     def run(self):
+        """
+        Run the indexing.
+        """
         target_files = self.build_target_files()
         for i in tqdm(range(len(target_files))):
             path = target_files[i]
@@ -42,6 +55,9 @@ class IndexPathScore:
             f.close()
 
     def write_output(self):
+        """
+        Save the index into a file. 
+        """
         with open(self.output_filename, mode='wt', encoding='utf-8') as f:
             f.write('\n'.join(self.path_to_add))
 

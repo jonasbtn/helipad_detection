@@ -8,8 +8,15 @@ import json
 
 class DatabaseCategoriesv2:
 
+    """
+    Interface to assign an helipad to a category. The dataset has to be manually annotated first. This second version saves the category directly inside the meta files. The images are not copied. 
+    """
     def __init__(self, image_folder_original, meta_folder_original, nb_categories=12):
-
+        """
+        `image_folder_original`: folder containing the original image dataset \n
+        `meta_folder_original`: folder containing the original meta files.
+        `nb_categories`: the number of categories wanted. 
+        """
         self.image_folder = image_folder_original
         self.meta_folder = meta_folder_original
         self.nb_categories = nb_categories
@@ -22,6 +29,11 @@ class DatabaseCategoriesv2:
         self.load_last_image_per_category()
 
     def convert_cat_str_to_int(self, str_cat):
+        """
+        Convert a string into an int. \n
+        `str_cat`: the category as string \n
+        Returns an int
+        """
         for i in range(10):
             if str_cat == str(i):
                 return i
@@ -31,6 +43,10 @@ class DatabaseCategoriesv2:
             return 11
 
     def build_target_list(self):
+        """
+        Build a list of target files. Each target file is a tuple paths ('imagepath', 'metapath') to load the files.\n
+        Return a list of tuples. 
+        """
         target_files = []
         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
             for file in files:
@@ -55,6 +71,9 @@ class DatabaseCategoriesv2:
         return target_files
 
     def load_last_image_per_category(self):
+        """
+        Load the last image of each category and group them into one image for display.
+        """
         self.nb_row = 4
         self.nb_col = 3
         self.img_width = 640
@@ -84,9 +103,18 @@ class DatabaseCategoriesv2:
         self.final_img_r = cv2.resize(self.final_img, (640, 640))
 
     def add_to_category(self, image_path, meta_path, cat_nb):
+        """
+        Add an `image_path` and `meta_path` to a category `cat_nb`
+        """
         self.files_per_categories[cat_nb].append([image_path, meta_path])
 
     def reload_grid_category(self, img, nb_cat):
+        """
+        Reload the grid of the last image per category.\n
+        `nb_cat`: the category number\n
+        `img`: the image to add to the grid\n
+        Display the grid of images
+        """
         img = img/256
         i = nb_cat // self.nb_col
         j = nb_cat % self.nb_col
@@ -96,7 +124,9 @@ class DatabaseCategoriesv2:
         cv2.imshow('Category', self.final_img_r)
 
     def build_categories(self):
-
+        """
+        Run the interface after initialization.
+        """
         i = 0
 
         window_name = 'image'

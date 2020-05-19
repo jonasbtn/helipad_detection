@@ -30,7 +30,11 @@ import json
 
 
 class ReviewPredictionSatellite:
-
+    
+    &#34;&#34;&#34;
+    Review the prediction of the satellite images by displaying them 
+    &#34;&#34;&#34;
+    
     def __init__(self, cache_tms_sat_folder, meta_folder, zoom_level, model_number, helipad_only=True):
         self.cache_tms_folder = cache_tms_sat_folder
         self.image_folder = os.path.join(self.cache_tms_folder, str(zoom_level))
@@ -154,13 +158,17 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>cache_tms_sat_folder, meta_folder, zoom_level, model_number, helipad_only=True)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Review the prediction of the satellite images by displaying them</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ReviewPredictionSatellite:
-
+    
+    &#34;&#34;&#34;
+    Review the prediction of the satellite images by displaying them 
+    &#34;&#34;&#34;
+    
     def __init__(self, cache_tms_sat_folder, meta_folder, zoom_level, model_number, helipad_only=True):
         self.cache_tms_folder = cache_tms_sat_folder
         self.image_folder = os.path.join(self.cache_tms_folder, str(zoom_level))

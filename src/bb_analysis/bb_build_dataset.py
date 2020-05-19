@@ -8,7 +8,11 @@ from helipad_detection.src.training.filter_manager import FilterManager
 from helipad_detection.src.database_management.database_augmentation import DatabaseAugmentation
 
 class BBBuildDataset:
-
+    
+    """
+    Build a dataset of bounding boxes detected by a model or by the groundtruth.
+    """
+    
     def __init__(self, image_folder, meta_folder, model_number,
                  score_threshold, iou_threshold,
                  output_folder, 

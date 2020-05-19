@@ -8,7 +8,12 @@ from keras.preprocessing.image import load_img, img_to_array
 
 
 class BBPredict:
-
+    
+    """
+    Run the prediction on the detected bounding boxes using the trained CNN from `BBTrainingManager`. \n
+    The results are saved in the meta files as `cnn_validation`.
+    """ 
+    
     def __init__(self, image_folder, meta_folder, model_number, model_path, tms=True,
                  extract_bounding_boxes=False, index_path=None):
 
@@ -86,31 +91,6 @@ class BBPredict:
             image_path = self.target_files[i][0]
             meta_path = self.target_files[i][1]
         
-#         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
-
-#             print(os.path.basename(subdir))
-
-#             for file in files:
-#                 image_path = os.path.join(subdir, file)
-
-#                 if self.tms:
-#                     ytile = os.path.splitext(file)[0]
-#                     xtile = os.path.basename(subdir)
-#                     zoom = os.path.basename(os.path.dirname(subdir))
-#                     meta_path = os.path.join(self.meta_folder,
-#                                              zoom,
-#                                              xtile,
-#                                              "Satellite_{}_{}_{}.meta".format(zoom,
-#                                                                               xtile,
-#                                                                               ytile))
-#                 else:
-#                     meta_path = os.path.join(self.meta_folder,
-#                                              os.path.basename(subdir),
-#                                              os.path.splitext(file)[0] + ".meta")
-
-#             if not os.path.isfile(meta_path):
-#                 meta = dict()
-#             else:
             with open(meta_path, 'r') as f:
                 meta = json.load(f)
             f.close()
@@ -152,53 +132,6 @@ class BBPredict:
             predicted["cnn_validation"] = cnn_validation
 
             meta["predicted"][f'model_{self.model_number}'] = predicted
-
-#                 else:
-
-#                     image = self.load_image(image_path)
-
-#                     result = float(self.model.predict(image)[0][0])
-#                     print(result)
-#                     # if result <= 0.5:
-#                     #     result = 0
-#                     # else:
-#                     #     result = 1
-#                     # 0 for false positive, 1 for helipad
-#                     # print(image_path)
-#                     # print(result)
-#                     # save results of the prediction
-#                     image_name = os.path.splitext(file)[0]
-#                     image_info = image_name.split('_')
-#                     zoom = image_info[1]
-#                     xtile = image_info[2]
-#                     ytile = image_info[3]
-#                     image_id = int(image_info[4])
-#                     # print(image_info)
-#                     # print('_'.join(image_info[:len(image_info)-1])+'.meta')
-#                     meta_path = os.path.join(self.meta_folder,
-#                                              zoom,
-#                                              xtile,
-#                                              '_'.join(image_info[:len(image_info)-1])+'.meta')
-#                     print(meta_path)
-#                     with open(meta_path, 'r') as f:
-#                         meta = json.load(f)
-#                     f.close()
-#                     print(meta)
-#                     predicted = meta["predicted"][f'model_{self.model_number}']
-
-#                     nb_boxes = len(predicted["box"])
-
-#                     if "cnn_validation" in predicted:
-#                         cnn_validation = predicted["cnn_validation"]
-#                     else:
-#                         cnn_validation = [0 for i in range(nb_boxes)]
-
-#                     cnn_validation[image_id] = result
-
-#                     predicted["cnn_validation"] = cnn_validation
-
-#                     meta["predicted"][f'model_{self.model_number}'] = predicted
-#                     print(meta)
 
             with open(meta_path, 'w') as f:
                 json.dump(meta, f, sort_keys=True, indent=4)

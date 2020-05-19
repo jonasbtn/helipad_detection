@@ -31,14 +31,23 @@ import cv2
 
 
 class DatabaseIllustration:
-
+    
+    &#34;&#34;&#34;
+    Display a grid of images with groundtruth
+    &#34;&#34;&#34;
     def __init__(self, image_folder, meta_folder):
+        &#34;&#34;&#34;
+        `image_folder`: the folder containing the images\n
+        `meta_folder`: the folder containing the meta_folder\n
+        &#34;&#34;&#34;
         self.image_folder = image_folder
         self.meta_folder = meta_folder
 
 
     def display_grid_groundtruth(self, width, height):
-
+        &#34;&#34;&#34;
+        Display a grid of images with groundtruth, of width `width` and of height `height`.
+        &#34;&#34;&#34;
         nb_images = width * height
         grid_image = np.zeros((640*height, 640*width, 3))
         added_images = 0
@@ -86,7 +95,10 @@ class DatabaseIllustration:
         cv2.imwrite(&#39;groundtruth.jpg&#39;, grid_image)
 
     def display_grid_categories(self, width, height):
-
+        
+        &#34;&#34;&#34;
+        Display a grid of images of width `width` and of height `height`. Each image belongs to a different category.
+        &#34;&#34;&#34;
         nb_images = width * height
         grid_image = np.zeros((640*height, 640*width, 3))
         added_images = 0
@@ -202,6 +214,9 @@ class DatabaseIllustration:
         print(added_categories)
 
     def categories_stats(self):
+        &#34;&#34;&#34;
+        Returns a dictionnary that count the number of images per category.
+        &#34;&#34;&#34;
         added_categories = {}
         for i in range(10):
             added_categories[str(i)] = 0
@@ -272,20 +287,31 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>image_folder, meta_folder)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Display a grid of images with groundtruth</p>
+<p><code>image_folder</code>: the folder containing the images</p>
+<p><code>meta_folder</code>: the folder containing the meta_folder</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class DatabaseIllustration:
-
+    
+    &#34;&#34;&#34;
+    Display a grid of images with groundtruth
+    &#34;&#34;&#34;
     def __init__(self, image_folder, meta_folder):
+        &#34;&#34;&#34;
+        `image_folder`: the folder containing the images\n
+        `meta_folder`: the folder containing the meta_folder\n
+        &#34;&#34;&#34;
         self.image_folder = image_folder
         self.meta_folder = meta_folder
 
 
     def display_grid_groundtruth(self, width, height):
-
+        &#34;&#34;&#34;
+        Display a grid of images with groundtruth, of width `width` and of height `height`.
+        &#34;&#34;&#34;
         nb_images = width * height
         grid_image = np.zeros((640*height, 640*width, 3))
         added_images = 0
@@ -333,7 +359,10 @@ if __name__ == &#34;__main__&#34;:
         cv2.imwrite(&#39;groundtruth.jpg&#39;, grid_image)
 
     def display_grid_categories(self, width, height):
-
+        
+        &#34;&#34;&#34;
+        Display a grid of images of width `width` and of height `height`. Each image belongs to a different category.
+        &#34;&#34;&#34;
         nb_images = width * height
         grid_image = np.zeros((640*height, 640*width, 3))
         added_images = 0
@@ -449,6 +478,9 @@ if __name__ == &#34;__main__&#34;:
         print(added_categories)
 
     def categories_stats(self):
+        &#34;&#34;&#34;
+        Returns a dictionnary that count the number of images per category.
+        &#34;&#34;&#34;
         added_categories = {}
         for i in range(10):
             added_categories[str(i)] = 0
@@ -496,12 +528,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">categories_stats</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns a dictionnary that count the number of images per category.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def categories_stats(self):
+    &#34;&#34;&#34;
+    Returns a dictionnary that count the number of images per category.
+    &#34;&#34;&#34;
     added_categories = {}
     for i in range(10):
         added_categories[str(i)] = 0
@@ -548,13 +583,16 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">display_grid_categories</span></span>(<span>self, width, height)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Display a grid of images of width <code>width</code> and of height <code>height</code>. Each image belongs to a different category.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def display_grid_categories(self, width, height):
-
+    
+    &#34;&#34;&#34;
+    Display a grid of images of width `width` and of height `height`. Each image belongs to a different category.
+    &#34;&#34;&#34;
     nb_images = width * height
     grid_image = np.zeros((640*height, 640*width, 3))
     added_images = 0
@@ -674,13 +712,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">display_grid_groundtruth</span></span>(<span>self, width, height)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Display a grid of images with groundtruth, of width <code>width</code> and of height <code>height</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def display_grid_groundtruth(self, width, height):
-
+    &#34;&#34;&#34;
+    Display a grid of images with groundtruth, of width `width` and of height `height`.
+    &#34;&#34;&#34;
     nb_images = width * height
     grid_image = np.zeros((640*height, 640*width, 3))
     added_images = 0

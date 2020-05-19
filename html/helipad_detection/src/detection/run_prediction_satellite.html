@@ -46,7 +46,11 @@ os.environ[&#34;CUDA_VISIBLE_DEVICES&#34;] = &#34;0&#34;
 
 
 class RunPredictionSatellite:
-
+    
+    &#34;&#34;&#34;
+    Run the detection on Satellite images saved with the TMS file structure using a certain model.
+    &#34;&#34;&#34;
+    
     def __init__(self, cache_tms_sat_folder, output_meta_folder, zoom_level,
                  model_folder, weights_filename, model_number, activate_filters=False,
                  redo_prediction=False):
@@ -352,13 +356,17 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>cache_tms_sat_folder, output_meta_folder, zoom_level, model_folder, weights_filename, model_number, activate_filters=False, redo_prediction=False)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the detection on Satellite images saved with the TMS file structure using a certain model.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class RunPredictionSatellite:
-
+    
+    &#34;&#34;&#34;
+    Run the detection on Satellite images saved with the TMS file structure using a certain model.
+    &#34;&#34;&#34;
+    
     def __init__(self, cache_tms_sat_folder, output_meta_folder, zoom_level,
                  model_folder, weights_filename, model_number, activate_filters=False,
                  redo_prediction=False):

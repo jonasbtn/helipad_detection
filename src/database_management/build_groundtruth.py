@@ -156,15 +156,6 @@ class GroundTruth:
 
             cv2.imshow('image', self.image)
 
-            # draw rectangle
-
-            # clic on the rectangle + e to remove it
-
-            # press s to save
-            # we will do the categories later
-
-            # press backspace to come back
-
             k = cv2.waitKey(0)
 
             if k == ord("s"):
