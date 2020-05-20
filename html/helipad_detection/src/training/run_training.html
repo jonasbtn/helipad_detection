@@ -51,12 +51,23 @@ os.environ[&#34;CUDA_VISIBLE_DEVICES&#34;] = &#34;0&#34;
 class RunTraining:
     
     &#34;&#34;&#34;
-    Run a training on the dataset.
+    Run a Mask-RCNN training on a dataset. The model has to be configured first in `HelipadConfig`.
     &#34;&#34;&#34;
     def __init__(self, root_folder, root_meta_folder, model_folder,
                  weights_filename, include_augmented=False,
                  augmented_version=[], predict_weights_filepath=None,
                  train_categories=None, test_categories=None):
+        &#34;&#34;&#34;
+        `root_folder`: string, path to the root folder of the dataset containing the original dataset and the different augmented dataset\n
+        `root_meta_folder`: string, path to the root folder of the meta dataset containing the original meta dataset and the different augmented meta dataset\n
+        `model_folder`: the folder where to store/load the model weights\n
+        `weights_filename`: the initial model weights filename from where to start the training. The script supposed that the full path of the weights is `os.path.join(model_folder, weights_filename)`\n
+        `include_augmented`: boolean, True if the dataset has to include augmented images\n
+        `augmented_version`: list of integer, specifying the augmented dataset version to include in the dataset\n
+        `predict_weights_filepath`: the model weights filename to use when computing the mAP of the model after the training. If None, the weights obtained at the last epoch is used.\n
+        `train_categories`:a list of string, specifying the categories to be included in the training set. If None, all the categories are included.\n
+        `test_categories`:a list of string, specifying the categories to be included in the test set. If None, all the categories are included.\n
+        &#34;&#34;&#34;
 
         self.training_manager = TrainingManager(root_folder,
                                                 root_meta_folder,
@@ -76,9 +87,24 @@ class RunTraining:
                             imgaug.augmenters.Fliplr(0.5),
                             imgaug.augmenters.GaussianBlur(sigma=(0.0, 5.0))
                         ])
+#         policy = iaa.Sequential([
+#                             iaa.Sometimes(0.2, iaa.Fliplr(1)),
+#                             iaa.Sometimes(0.2, iaa.Flipud(1)),
+#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-45, 45))),
+#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-90, 90))),
+#                             iaa.Sometimes(0.2, iaa.Affine(scale=(0.5, 1.5))),
+#                             iaa.Sometimes(0.2, iaa.GaussianBlur(sigma=(0.0, 3.0))),
+#                             iaa.Sometimes(0.1, iaa.AllChannelsHistogramEqualization()),
+#                             iaa.Sometimes(0.2, iaa.ShearX((-20, 20))),
+#                             iaa.Sometimes(0.2, iaa.ShearY((-20, 20)))
+#                             ])
         return augmentation
 
     def evaluate_model(self, is_train=False):
+        &#34;&#34;&#34;
+        Evaluate the model by computing the mAP on the training/test, depending if `is_train` is true of false.\n
+        Returns: a float representing the mAP
+        &#34;&#34;&#34;
         model = self.training_manager.model_predict
         config = self.training_manager.config
         if is_train:
@@ -121,19 +147,9 @@ class RunTraining:
         return mAP
 
     def run(self):
-        
-#         policy = iaa.Sequential([
-#                             iaa.Sometimes(0.2, iaa.Fliplr(1)),
-#                             iaa.Sometimes(0.2, iaa.Flipud(1)),
-#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-45, 45))),
-#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-90, 90))),
-#                             iaa.Sometimes(0.2, iaa.Affine(scale=(0.5, 1.5))),
-#                             iaa.Sometimes(0.2, iaa.GaussianBlur(sigma=(0.0, 3.0))),
-#                             iaa.Sometimes(0.1, iaa.AllChannelsHistogramEqualization()),
-#                             iaa.Sometimes(0.2, iaa.ShearX((-20, 20))),
-#                             iaa.Sometimes(0.2, iaa.ShearY((-20, 20)))
-#                             ])
-        
+        &#34;&#34;&#34;
+        Run the training
+        &#34;&#34;&#34;
         # train weights (output layers or &#39;heads&#39;)
         self.training_manager.model.train(self.training_manager.train_set,
                                           self.training_manager.test_set,
@@ -143,7 +159,10 @@ class RunTraining:
                                           augmentation=None)
 
     def run_predict(self):
-
+        &#34;&#34;&#34;
+        Run the model evaluation by computing the mAP on the train set and on the test test.\n
+        Print the results and writes them in a file named after the weights filename. 
+        &#34;&#34;&#34;
         self.training_manager.model_predict_setup(self.predict_weights_filepath)
 
         train_mAP = self.evaluate_model(is_train=True)
@@ -201,9 +220,9 @@ if __name__ == &#34;__main__&#34;:
     run_training.run()
     print(&#39;Training Over&#39;)
 
-    # print(&#39;Evaluating Last Epoch&#39;)
-    # run_training.run_predict()
-    # print(&#39;Evaluation Done&#39;)</code></pre>
+    print(&#39;Evaluating Last Epoch&#39;)
+    run_training.run_predict()
+    print(&#39;Evaluation Done&#39;)</code></pre>
 </details>
 </section>
 <section>
@@ -220,7 +239,16 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>root_folder, root_meta_folder, model_folder, weights_filename, include_augmented=False, augmented_version=[], predict_weights_filepath=None, train_categories=None, test_categories=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Run a training on the dataset.</p></div>
+<div class="desc"><p>Run a Mask-RCNN training on a dataset. The model has to be configured first in <code>HelipadConfig</code>.</p>
+<p><code>root_folder</code>: string, path to the root folder of the dataset containing the original dataset and the different augmented dataset</p>
+<p><code>root_meta_folder</code>: string, path to the root folder of the meta dataset containing the original meta dataset and the different augmented meta dataset</p>
+<p><code>model_folder</code>: the folder where to store/load the model weights</p>
+<p><code>weights_filename</code>: the initial model weights filename from where to start the training. The script supposed that the full path of the weights is <code>os.path.join(model_folder, weights_filename)</code></p>
+<p><code>include_augmented</code>: boolean, True if the dataset has to include augmented images</p>
+<p><code>augmented_version</code>: list of integer, specifying the augmented dataset version to include in the dataset</p>
+<p><code>predict_weights_filepath</code>: the model weights filename to use when computing the mAP of the model after the training. If None, the weights obtained at the last epoch is used.</p>
+<p><code>train_categories</code>:a list of string, specifying the categories to be included in the training set. If None, all the categories are included.</p>
+<p><code>test_categories</code>:a list of string, specifying the categories to be included in the test set. If None, all the categories are included.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -228,12 +256,23 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">class RunTraining:
     
     &#34;&#34;&#34;
-    Run a training on the dataset.
+    Run a Mask-RCNN training on a dataset. The model has to be configured first in `HelipadConfig`.
     &#34;&#34;&#34;
     def __init__(self, root_folder, root_meta_folder, model_folder,
                  weights_filename, include_augmented=False,
                  augmented_version=[], predict_weights_filepath=None,
                  train_categories=None, test_categories=None):
+        &#34;&#34;&#34;
+        `root_folder`: string, path to the root folder of the dataset containing the original dataset and the different augmented dataset\n
+        `root_meta_folder`: string, path to the root folder of the meta dataset containing the original meta dataset and the different augmented meta dataset\n
+        `model_folder`: the folder where to store/load the model weights\n
+        `weights_filename`: the initial model weights filename from where to start the training. The script supposed that the full path of the weights is `os.path.join(model_folder, weights_filename)`\n
+        `include_augmented`: boolean, True if the dataset has to include augmented images\n
+        `augmented_version`: list of integer, specifying the augmented dataset version to include in the dataset\n
+        `predict_weights_filepath`: the model weights filename to use when computing the mAP of the model after the training. If None, the weights obtained at the last epoch is used.\n
+        `train_categories`:a list of string, specifying the categories to be included in the training set. If None, all the categories are included.\n
+        `test_categories`:a list of string, specifying the categories to be included in the test set. If None, all the categories are included.\n
+        &#34;&#34;&#34;
 
         self.training_manager = TrainingManager(root_folder,
                                                 root_meta_folder,
@@ -253,9 +292,24 @@ if __name__ == &#34;__main__&#34;:
                             imgaug.augmenters.Fliplr(0.5),
                             imgaug.augmenters.GaussianBlur(sigma=(0.0, 5.0))
                         ])
+#         policy = iaa.Sequential([
+#                             iaa.Sometimes(0.2, iaa.Fliplr(1)),
+#                             iaa.Sometimes(0.2, iaa.Flipud(1)),
+#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-45, 45))),
+#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-90, 90))),
+#                             iaa.Sometimes(0.2, iaa.Affine(scale=(0.5, 1.5))),
+#                             iaa.Sometimes(0.2, iaa.GaussianBlur(sigma=(0.0, 3.0))),
+#                             iaa.Sometimes(0.1, iaa.AllChannelsHistogramEqualization()),
+#                             iaa.Sometimes(0.2, iaa.ShearX((-20, 20))),
+#                             iaa.Sometimes(0.2, iaa.ShearY((-20, 20)))
+#                             ])
         return augmentation
 
     def evaluate_model(self, is_train=False):
+        &#34;&#34;&#34;
+        Evaluate the model by computing the mAP on the training/test, depending if `is_train` is true of false.\n
+        Returns: a float representing the mAP
+        &#34;&#34;&#34;
         model = self.training_manager.model_predict
         config = self.training_manager.config
         if is_train:
@@ -298,19 +352,9 @@ if __name__ == &#34;__main__&#34;:
         return mAP
 
     def run(self):
-        
-#         policy = iaa.Sequential([
-#                             iaa.Sometimes(0.2, iaa.Fliplr(1)),
-#                             iaa.Sometimes(0.2, iaa.Flipud(1)),
-#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-45, 45))),
-#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-90, 90))),
-#                             iaa.Sometimes(0.2, iaa.Affine(scale=(0.5, 1.5))),
-#                             iaa.Sometimes(0.2, iaa.GaussianBlur(sigma=(0.0, 3.0))),
-#                             iaa.Sometimes(0.1, iaa.AllChannelsHistogramEqualization()),
-#                             iaa.Sometimes(0.2, iaa.ShearX((-20, 20))),
-#                             iaa.Sometimes(0.2, iaa.ShearY((-20, 20)))
-#                             ])
-        
+        &#34;&#34;&#34;
+        Run the training
+        &#34;&#34;&#34;
         # train weights (output layers or &#39;heads&#39;)
         self.training_manager.model.train(self.training_manager.train_set,
                                           self.training_manager.test_set,
@@ -320,7 +364,10 @@ if __name__ == &#34;__main__&#34;:
                                           augmentation=None)
 
     def run_predict(self):
-
+        &#34;&#34;&#34;
+        Run the model evaluation by computing the mAP on the train set and on the test test.\n
+        Print the results and writes them in a file named after the weights filename. 
+        &#34;&#34;&#34;
         self.training_manager.model_predict_setup(self.predict_weights_filepath)
 
         train_mAP = self.evaluate_model(is_train=True)
@@ -342,12 +389,17 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">evaluate_model</span></span>(<span>self, is_train=False)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Evaluate the model by computing the mAP on the training/test, depending if <code>is_train</code> is true of false.</p>
+<p>Returns: a float representing the mAP</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def evaluate_model(self, is_train=False):
+    &#34;&#34;&#34;
+    Evaluate the model by computing the mAP on the training/test, depending if `is_train` is true of false.\n
+    Returns: a float representing the mAP
+    &#34;&#34;&#34;
     model = self.training_manager.model_predict
     config = self.training_manager.config
     if is_train:
@@ -394,45 +446,39 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">run</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the training</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">    def run(self):
-        
-#         policy = iaa.Sequential([
-#                             iaa.Sometimes(0.2, iaa.Fliplr(1)),
-#                             iaa.Sometimes(0.2, iaa.Flipud(1)),
-#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-45, 45))),
-#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-90, 90))),
-#                             iaa.Sometimes(0.2, iaa.Affine(scale=(0.5, 1.5))),
-#                             iaa.Sometimes(0.2, iaa.GaussianBlur(sigma=(0.0, 3.0))),
-#                             iaa.Sometimes(0.1, iaa.AllChannelsHistogramEqualization()),
-#                             iaa.Sometimes(0.2, iaa.ShearX((-20, 20))),
-#                             iaa.Sometimes(0.2, iaa.ShearY((-20, 20)))
-#                             ])
-        
-        # train weights (output layers or &#39;heads&#39;)
-        self.training_manager.model.train(self.training_manager.train_set,
-                                          self.training_manager.test_set,
-                                          learning_rate=self.training_manager.config.LEARNING_RATE,
-                                          epochs=self.training_manager.config.EPOCHS,
-                                          layers=self.training_manager.config.LAYERS,
-                                          augmentation=None)</code></pre>
+<pre><code class="python">def run(self):
+    &#34;&#34;&#34;
+    Run the training
+    &#34;&#34;&#34;
+    # train weights (output layers or &#39;heads&#39;)
+    self.training_manager.model.train(self.training_manager.train_set,
+                                      self.training_manager.test_set,
+                                      learning_rate=self.training_manager.config.LEARNING_RATE,
+                                      epochs=self.training_manager.config.EPOCHS,
+                                      layers=self.training_manager.config.LAYERS,
+                                      augmentation=None)</code></pre>
 </details>
 </dd>
 <dt id="helipad_detection.src.training.run_training.RunTraining.run_predict"><code class="name flex">
 <span>def <span class="ident">run_predict</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the model evaluation by computing the mAP on the train set and on the test test.</p>
+<p>Print the results and writes them in a file named after the weights filename.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run_predict(self):
-
+    &#34;&#34;&#34;
+    Run the model evaluation by computing the mAP on the train set and on the test test.\n
+    Print the results and writes them in a file named after the weights filename. 
+    &#34;&#34;&#34;
     self.training_manager.model_predict_setup(self.predict_weights_filepath)
 
     train_mAP = self.evaluate_model(is_train=True)
@@ -458,12 +504,23 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def set_augmentation(self):
-    augmentation = imgaug.augmenters.Sometimes(0.5, [
-                        imgaug.augmenters.Fliplr(0.5),
-                        imgaug.augmenters.GaussianBlur(sigma=(0.0, 5.0))
-                    ])
-    return augmentation</code></pre>
+<pre><code class="python">    def set_augmentation(self):
+        augmentation = imgaug.augmenters.Sometimes(0.5, [
+                            imgaug.augmenters.Fliplr(0.5),
+                            imgaug.augmenters.GaussianBlur(sigma=(0.0, 5.0))
+                        ])
+#         policy = iaa.Sequential([
+#                             iaa.Sometimes(0.2, iaa.Fliplr(1)),
+#                             iaa.Sometimes(0.2, iaa.Flipud(1)),
+#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-45, 45))),
+#                             iaa.Sometimes(0.2, iaa.Affine(rotate=(-90, 90))),
+#                             iaa.Sometimes(0.2, iaa.Affine(scale=(0.5, 1.5))),
+#                             iaa.Sometimes(0.2, iaa.GaussianBlur(sigma=(0.0, 3.0))),
+#                             iaa.Sometimes(0.1, iaa.AllChannelsHistogramEqualization()),
+#                             iaa.Sometimes(0.2, iaa.ShearX((-20, 20))),
+#                             iaa.Sometimes(0.2, iaa.ShearY((-20, 20)))
+#                             ])
+        return augmentation</code></pre>
 </details>
 </dd>
 </dl>

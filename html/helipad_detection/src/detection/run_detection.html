@@ -54,7 +54,15 @@ class RunDetection:
 
     def __init__(self, image_folder, output_meta_folder, model_folder, weight_filename, model_number,
                  activate_filter=False, test_only=False):
-
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the image folder\n
+        `output_meta_folder`: string, path to the folder containing the meta files\n
+        `model_folder`: string, path to the folder where the models weights are saved\n
+        `weights_filename`: string, file name of the model weights\n
+        `model_number`: int, number of the model\n
+        `activate_filter`: boolean, True to activate the bounding boxes filters\n
+        `test_only`: boolean, True if we want to run the detection only on the test set\n
+        &#34;&#34;&#34;
         self.image_folder = image_folder
         self.output_meta_folder = output_meta_folder
         if not os.path.isdir(output_meta_folder):
@@ -73,6 +81,9 @@ class RunDetection:
 
     # Change to load the model of the last epoch
     def model_predict_setup(self):
+        &#34;&#34;&#34;
+        Setup the model for prediction
+        &#34;&#34;&#34;
         self.model_predict = MaskRCNN(mode=&#39;inference&#39;, model_dir=self.model_folder, config=self.config)
         self.model_predict.load_weights(os.path.join(self.model_folder, self.weight_filename),
                                         by_name=True)
@@ -84,6 +95,18 @@ class RunDetection:
                            include_negative=True,
                            city_lat=None,
                            train_only=False):
+        &#34;&#34;&#34;
+        Build a list of tuples `(image_path, meta_path)` of the files to run the detection\n
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the folder containing the meta files\n
+        `test_only`: boolean, True if we want to run the detection only on the test set\n
+        `tms_dataset`: boolean, True if the image folder structure is TMS \n
+        `zoom_level`: int or None, only TMS images having a zoom equal to `zoom_level` are loaded\n
+        `include_category`: list or None, the images from these categories only will be predicted\n
+        `include_negative`: boolean, True if the negative samples are included\n
+        `city_lat`: string, first digit of the `xtiles` to target a particular city\n 
+        `train_only`: boolean, True if we want to run the detection only on the train set\n
+        &#34;&#34;&#34;
         target_files = []
         for subdir, dirs, files in os.walk(image_folder, topdown=True):
             for file in files:
@@ -146,7 +169,10 @@ class RunDetection:
         return target_files
 
     def run(self):
-
+        &#34;&#34;&#34;
+        Run the detection on the target files.\n
+        The predictions are saved to the meta files.
+        &#34;&#34;&#34;
         for i in tqdm(range(len(self.target_files))):
             image_meta_path = self.target_files[i]
 
@@ -216,7 +242,15 @@ class RunDetection:
 
     @staticmethod
     def review_prediction(image_folder, meta_folder, model_number, test_only=False):
-
+        
+        &#34;&#34;&#34;
+        Review the prediction by displaying them\n
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `model_number`: int, number of the model to review\n
+        `test_only`: boolean, display only the images from the test set\n 
+        &#34;&#34;&#34;
+        
         # colors = [(randint(0,255), randint(0,255), randint(0,255))]
         # color = (randint(0,255), randint(0,255), randint(0,255))
 
@@ -372,7 +406,14 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>image_folder, output_meta_folder, model_folder, weight_filename, model_number, activate_filter=False, test_only=False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Run the Detection on the dataset images using a certain model. The detections are saved to the meta files.</p></div>
+<div class="desc"><p>Run the Detection on the dataset images using a certain model. The detections are saved to the meta files. </p>
+<p><code>image_folder</code>: string, path to the image folder</p>
+<p><code>output_meta_folder</code>: string, path to the folder containing the meta files</p>
+<p><code>model_folder</code>: string, path to the folder where the models weights are saved</p>
+<p><code>weights_filename</code>: string, file name of the model weights</p>
+<p><code>model_number</code>: int, number of the model</p>
+<p><code>activate_filter</code>: boolean, True to activate the bounding boxes filters</p>
+<p><code>test_only</code>: boolean, True if we want to run the detection only on the test set</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -385,7 +426,15 @@ if __name__ == &#34;__main__&#34;:
 
     def __init__(self, image_folder, output_meta_folder, model_folder, weight_filename, model_number,
                  activate_filter=False, test_only=False):
-
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the image folder\n
+        `output_meta_folder`: string, path to the folder containing the meta files\n
+        `model_folder`: string, path to the folder where the models weights are saved\n
+        `weights_filename`: string, file name of the model weights\n
+        `model_number`: int, number of the model\n
+        `activate_filter`: boolean, True to activate the bounding boxes filters\n
+        `test_only`: boolean, True if we want to run the detection only on the test set\n
+        &#34;&#34;&#34;
         self.image_folder = image_folder
         self.output_meta_folder = output_meta_folder
         if not os.path.isdir(output_meta_folder):
@@ -404,6 +453,9 @@ if __name__ == &#34;__main__&#34;:
 
     # Change to load the model of the last epoch
     def model_predict_setup(self):
+        &#34;&#34;&#34;
+        Setup the model for prediction
+        &#34;&#34;&#34;
         self.model_predict = MaskRCNN(mode=&#39;inference&#39;, model_dir=self.model_folder, config=self.config)
         self.model_predict.load_weights(os.path.join(self.model_folder, self.weight_filename),
                                         by_name=True)
@@ -415,6 +467,18 @@ if __name__ == &#34;__main__&#34;:
                            include_negative=True,
                            city_lat=None,
                            train_only=False):
+        &#34;&#34;&#34;
+        Build a list of tuples `(image_path, meta_path)` of the files to run the detection\n
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the folder containing the meta files\n
+        `test_only`: boolean, True if we want to run the detection only on the test set\n
+        `tms_dataset`: boolean, True if the image folder structure is TMS \n
+        `zoom_level`: int or None, only TMS images having a zoom equal to `zoom_level` are loaded\n
+        `include_category`: list or None, the images from these categories only will be predicted\n
+        `include_negative`: boolean, True if the negative samples are included\n
+        `city_lat`: string, first digit of the `xtiles` to target a particular city\n 
+        `train_only`: boolean, True if we want to run the detection only on the train set\n
+        &#34;&#34;&#34;
         target_files = []
         for subdir, dirs, files in os.walk(image_folder, topdown=True):
             for file in files:
@@ -477,7 +541,10 @@ if __name__ == &#34;__main__&#34;:
         return target_files
 
     def run(self):
-
+        &#34;&#34;&#34;
+        Run the detection on the target files.\n
+        The predictions are saved to the meta files.
+        &#34;&#34;&#34;
         for i in tqdm(range(len(self.target_files))):
             image_meta_path = self.target_files[i]
 
@@ -547,7 +614,15 @@ if __name__ == &#34;__main__&#34;:
 
     @staticmethod
     def review_prediction(image_folder, meta_folder, model_number, test_only=False):
-
+        
+        &#34;&#34;&#34;
+        Review the prediction by displaying them\n
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `model_number`: int, number of the model to review\n
+        `test_only`: boolean, display only the images from the test set\n 
+        &#34;&#34;&#34;
+        
         # colors = [(randint(0,255), randint(0,255), randint(0,255))]
         # color = (randint(0,255), randint(0,255), randint(0,255))
 
@@ -631,7 +706,16 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">build_target_files</span></span>(<span>image_folder, meta_folder, test_only=False, tms_dataset=False, zoom_level=None, include_category=None, include_negative=True, city_lat=None, train_only=False)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Build a list of tuples <code>(image_path, meta_path)</code> of the files to run the detection</p>
+<p><code>image_folder</code>: string, path to the image folder</p>
+<p><code>meta_folder</code>: string, path to the folder containing the meta files</p>
+<p><code>test_only</code>: boolean, True if we want to run the detection only on the test set</p>
+<p><code>tms_dataset</code>: boolean, True if the image folder structure is TMS </p>
+<p><code>zoom_level</code>: int or None, only TMS images having a zoom equal to <code>zoom_level</code> are loaded</p>
+<p><code>include_category</code>: list or None, the images from these categories only will be predicted</p>
+<p><code>include_negative</code>: boolean, True if the negative samples are included</p>
+<p><code>city_lat</code>: string, first digit of the <code>xtiles</code> to target a particular city</p>
+<p><code>train_only</code>: boolean, True if we want to run the detection only on the train set</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -643,6 +727,18 @@ def build_target_files(image_folder, meta_folder, test_only=False,
                        include_negative=True,
                        city_lat=None,
                        train_only=False):
+    &#34;&#34;&#34;
+    Build a list of tuples `(image_path, meta_path)` of the files to run the detection\n
+    `image_folder`: string, path to the image folder\n
+    `meta_folder`: string, path to the folder containing the meta files\n
+    `test_only`: boolean, True if we want to run the detection only on the test set\n
+    `tms_dataset`: boolean, True if the image folder structure is TMS \n
+    `zoom_level`: int or None, only TMS images having a zoom equal to `zoom_level` are loaded\n
+    `include_category`: list or None, the images from these categories only will be predicted\n
+    `include_negative`: boolean, True if the negative samples are included\n
+    `city_lat`: string, first digit of the `xtiles` to target a particular city\n 
+    `train_only`: boolean, True if we want to run the detection only on the train set\n
+    &#34;&#34;&#34;
     target_files = []
     for subdir, dirs, files in os.walk(image_folder, topdown=True):
         for file in files:
@@ -709,14 +805,26 @@ def build_target_files(image_folder, meta_folder, test_only=False,
 <span>def <span class="ident">review_prediction</span></span>(<span>image_folder, meta_folder, model_number, test_only=False)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Review the prediction by displaying them</p>
+<p><code>image_folder</code>: string, path to the image folder</p>
+<p><code>meta_folder</code>: string, path to the meta folder</p>
+<p><code>model_number</code>: int, number of the model to review</p>
+<p><code>test_only</code>: boolean, display only the images from the test set</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def review_prediction(image_folder, meta_folder, model_number, test_only=False):
-
+    
+    &#34;&#34;&#34;
+    Review the prediction by displaying them\n
+    `image_folder`: string, path to the image folder\n
+    `meta_folder`: string, path to the meta folder\n
+    `model_number`: int, number of the model to review\n
+    `test_only`: boolean, display only the images from the test set\n 
+    &#34;&#34;&#34;
+    
     # colors = [(randint(0,255), randint(0,255), randint(0,255))]
     # color = (randint(0,255), randint(0,255), randint(0,255))
 
@@ -802,12 +910,15 @@ def review_prediction(image_folder, meta_folder, model_number, test_only=False):
 <span>def <span class="ident">model_predict_setup</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Setup the model for prediction</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def model_predict_setup(self):
+    &#34;&#34;&#34;
+    Setup the model for prediction
+    &#34;&#34;&#34;
     self.model_predict = MaskRCNN(mode=&#39;inference&#39;, model_dir=self.model_folder, config=self.config)
     self.model_predict.load_weights(os.path.join(self.model_folder, self.weight_filename),
                                     by_name=True)</code></pre>
@@ -817,13 +928,17 @@ def review_prediction(image_folder, meta_folder, model_number, test_only=False):
 <span>def <span class="ident">run</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the detection on the target files.</p>
+<p>The predictions are saved to the meta files.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run(self):
-
+    &#34;&#34;&#34;
+    Run the detection on the target files.\n
+    The predictions are saved to the meta files.
+    &#34;&#34;&#34;
     for i in tqdm(range(len(self.target_files))):
         image_meta_path = self.target_files[i]
 

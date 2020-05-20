@@ -34,6 +34,9 @@
     &#34;&#34;&#34;
     @staticmethod
     def compute_interArea(boxA, boxB):
+        &#34;&#34;&#34;
+        Compute the intersection area of two bounding boxes `boxA` and `boxB`
+        &#34;&#34;&#34;
         # determine the (x, y)-coordinates of the intersection rectangle
         xA = max(boxA[0], boxB[0])
         yA = max(boxA[1], boxB[1])
@@ -47,12 +50,17 @@
 
     @staticmethod
     def compute_area(box):
-        # compute the area of a box
+        &#34;&#34;&#34;
+        Computes the area of a bounding box `box`
+        &#34;&#34;&#34;
         boxArea = (box[2] - box[0] + 1) * (box[3] - box[1] + 1)
         return boxArea
 
     @staticmethod
     def bb_intersection_over_union(boxA, boxB):
+        &#34;&#34;&#34;
+        Computes the IOU of two bounding boxes `boxA` and `boxB`
+        &#34;&#34;&#34;
         interArea = FilterManager.compute_interArea(boxA, boxB)
 
         boxAArea = FilterManager.compute_area(boxA)
@@ -69,18 +77,21 @@
     @staticmethod
     def filter_by_iou(bboxes, class_ids, scores, threshold_iou=0.5, threshold_area=0.8):
         &#34;&#34;&#34;
-        Filter the predicted bounding boxes overlapping of more than 50%
-        Keep only the bounding box with the highest score
+        Filter the predicted bounding boxes overlapping of more than `threshold_iou` (default:50%)\n
+        Keep only the bounding box with the highest score\n
 
-        if below 0.5, check if one box in contain inside the other
-        like if the area of the intersection is above 90% of the area of one of the box
-        and keep the one with the highest score
+        If IOU is below 0.5, check if one box in contained inside another other \n
+        if the area of the intersection is above `threshold_area` (default:80%) of the area of one of the bon
+        Keep the one with the highest score \n
 
-        `bboxes`:\n
-        `class_ids`: \n
-        `scores`: \n
-        `threshold`: \n
-        return \n
+        `bboxes`: a list of bounding boxes\n
+        `class_ids`: a list of class ids (0 or 1) corresponding to the bounding boxes\n
+        `scores`: a list of confidence scores corresponding to the bounding boxes\n
+        `threshold_iou`: the IOU threshold\n
+        Return \n
+        `new_bboxes`: filtered bounding boxes
+        `new_class_ids`: filtered class id
+        `new_scores`: filtered confidence score
         &#34;&#34;&#34;
         added = [False]*len(bboxes)
         new_bboxes = []
@@ -138,13 +149,19 @@
     @staticmethod
     def filter_contains(bboxes, class_ids, scores, mode=&#34;biggest&#34;):
         &#34;&#34;&#34;
-        Filter the box contained inside another
-        Keep the boxes with the highest score or the biggest
-        `bboxes`: \n
-        `class_ids`: \n
-        `scores`: \n
+        Filter the box contained inside another \n
+        Keep the boxes with the highest score or the biggest \n
+        
+        `bboxes`: a list of bounding boxes\n
+        `class_ids`: a list of class ids (0 or 1) corresponding to the bounding boxes\n
+        `scores`: a list of confidence scores corresponding to the bounding boxes\n
         `mode`: &#34;highest&#34; / &#34;biggest&#34; \n
         
+        Return \n
+        `new_bboxes`: filtered bounding boxes
+        `new_class_ids`: filtered class id
+        `new_scores`: filtered confidence score
+       
         &#34;&#34;&#34;
 
         added = [False]*len(bboxes)
@@ -220,11 +237,17 @@
     def filter_by_scores(bboxes, class_ids, scores, threshold=0.995, threshold_validation=None, scores_validation=None):
         &#34;&#34;&#34;
         Filter all the predicted bounding boxes below a certain threshold
-        `bboxes`: \n
-        `class_ids`: \n
-        `scores`: \n
-        `threshold`: \n
-        returns \n
+        `bboxes`: a list of bounding boxes\n
+        `class_ids`: a list of class ids (0 or 1) corresponding to the bounding boxes\n
+        `scores`: a list of confidence scores corresponding to the bounding boxes\n
+        `threshold`: float, score threshold \n
+        `threshold_validation`: boolean to activate the score filtering using the second model validation of the bounding box\n
+        `scores_validation`: float, score threshold \n
+        
+        Return \n
+        `new_bboxes`: filtered bounding boxes
+        `new_class_ids`: filtered class id
+        `new_scores`: filtered confidence score
         &#34;&#34;&#34;
         new_bboxes = []
         new_class_ids = []
@@ -276,6 +299,9 @@
     &#34;&#34;&#34;
     @staticmethod
     def compute_interArea(boxA, boxB):
+        &#34;&#34;&#34;
+        Compute the intersection area of two bounding boxes `boxA` and `boxB`
+        &#34;&#34;&#34;
         # determine the (x, y)-coordinates of the intersection rectangle
         xA = max(boxA[0], boxB[0])
         yA = max(boxA[1], boxB[1])
@@ -289,12 +315,17 @@
 
     @staticmethod
     def compute_area(box):
-        # compute the area of a box
+        &#34;&#34;&#34;
+        Computes the area of a bounding box `box`
+        &#34;&#34;&#34;
         boxArea = (box[2] - box[0] + 1) * (box[3] - box[1] + 1)
         return boxArea
 
     @staticmethod
     def bb_intersection_over_union(boxA, boxB):
+        &#34;&#34;&#34;
+        Computes the IOU of two bounding boxes `boxA` and `boxB`
+        &#34;&#34;&#34;
         interArea = FilterManager.compute_interArea(boxA, boxB)
 
         boxAArea = FilterManager.compute_area(boxA)
@@ -311,18 +342,21 @@
     @staticmethod
     def filter_by_iou(bboxes, class_ids, scores, threshold_iou=0.5, threshold_area=0.8):
         &#34;&#34;&#34;
-        Filter the predicted bounding boxes overlapping of more than 50%
-        Keep only the bounding box with the highest score
+        Filter the predicted bounding boxes overlapping of more than `threshold_iou` (default:50%)\n
+        Keep only the bounding box with the highest score\n
 
-        if below 0.5, check if one box in contain inside the other
-        like if the area of the intersection is above 90% of the area of one of the box
-        and keep the one with the highest score
+        If IOU is below 0.5, check if one box in contained inside another other \n
+        if the area of the intersection is above `threshold_area` (default:80%) of the area of one of the bon
+        Keep the one with the highest score \n
 
-        `bboxes`:\n
-        `class_ids`: \n
-        `scores`: \n
-        `threshold`: \n
-        return \n
+        `bboxes`: a list of bounding boxes\n
+        `class_ids`: a list of class ids (0 or 1) corresponding to the bounding boxes\n
+        `scores`: a list of confidence scores corresponding to the bounding boxes\n
+        `threshold_iou`: the IOU threshold\n
+        Return \n
+        `new_bboxes`: filtered bounding boxes
+        `new_class_ids`: filtered class id
+        `new_scores`: filtered confidence score
         &#34;&#34;&#34;
         added = [False]*len(bboxes)
         new_bboxes = []
@@ -380,13 +414,19 @@
     @staticmethod
     def filter_contains(bboxes, class_ids, scores, mode=&#34;biggest&#34;):
         &#34;&#34;&#34;
-        Filter the box contained inside another
-        Keep the boxes with the highest score or the biggest
-        `bboxes`: \n
-        `class_ids`: \n
-        `scores`: \n
+        Filter the box contained inside another \n
+        Keep the boxes with the highest score or the biggest \n
+        
+        `bboxes`: a list of bounding boxes\n
+        `class_ids`: a list of class ids (0 or 1) corresponding to the bounding boxes\n
+        `scores`: a list of confidence scores corresponding to the bounding boxes\n
         `mode`: &#34;highest&#34; / &#34;biggest&#34; \n
         
+        Return \n
+        `new_bboxes`: filtered bounding boxes
+        `new_class_ids`: filtered class id
+        `new_scores`: filtered confidence score
+       
         &#34;&#34;&#34;
 
         added = [False]*len(bboxes)
@@ -462,11 +502,17 @@
     def filter_by_scores(bboxes, class_ids, scores, threshold=0.995, threshold_validation=None, scores_validation=None):
         &#34;&#34;&#34;
         Filter all the predicted bounding boxes below a certain threshold
-        `bboxes`: \n
-        `class_ids`: \n
-        `scores`: \n
-        `threshold`: \n
-        returns \n
+        `bboxes`: a list of bounding boxes\n
+        `class_ids`: a list of class ids (0 or 1) corresponding to the bounding boxes\n
+        `scores`: a list of confidence scores corresponding to the bounding boxes\n
+        `threshold`: float, score threshold \n
+        `threshold_validation`: boolean to activate the score filtering using the second model validation of the bounding box\n
+        `scores_validation`: float, score threshold \n
+        
+        Return \n
+        `new_bboxes`: filtered bounding boxes
+        `new_class_ids`: filtered class id
+        `new_scores`: filtered confidence score
         &#34;&#34;&#34;
         new_bboxes = []
         new_class_ids = []
@@ -489,13 +535,16 @@
 <span>def <span class="ident">bb_intersection_over_union</span></span>(<span>boxA, boxB)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Computes the IOU of two bounding boxes <code>boxA</code> and <code>boxB</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def bb_intersection_over_union(boxA, boxB):
+    &#34;&#34;&#34;
+    Computes the IOU of two bounding boxes `boxA` and `boxB`
+    &#34;&#34;&#34;
     interArea = FilterManager.compute_interArea(boxA, boxB)
 
     boxAArea = FilterManager.compute_area(boxA)
@@ -514,14 +563,16 @@ def bb_intersection_over_union(boxA, boxB):
 <span>def <span class="ident">compute_area</span></span>(<span>box)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Computes the area of a bounding box <code>box</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def compute_area(box):
-    # compute the area of a box
+    &#34;&#34;&#34;
+    Computes the area of a bounding box `box`
+    &#34;&#34;&#34;
     boxArea = (box[2] - box[0] + 1) * (box[3] - box[1] + 1)
     return boxArea</code></pre>
 </details>
@@ -530,13 +581,16 @@ def compute_area(box):
 <span>def <span class="ident">compute_interArea</span></span>(<span>boxA, boxB)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Compute the intersection area of two bounding boxes <code>boxA</code> and <code>boxB</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def compute_interArea(boxA, boxB):
+    &#34;&#34;&#34;
+    Compute the intersection area of two bounding boxes `boxA` and `boxB`
+    &#34;&#34;&#34;
     # determine the (x, y)-coordinates of the intersection rectangle
     xA = max(boxA[0], boxB[0])
     yA = max(boxA[1], boxB[1])
@@ -553,16 +607,19 @@ def compute_interArea(boxA, boxB):
 <span>def <span class="ident">filter_by_iou</span></span>(<span>bboxes, class_ids, scores, threshold_iou=0.5, threshold_area=0.8)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Filter the predicted bounding boxes overlapping of more than 50%
-Keep only the bounding box with the highest score</p>
-<p>if below 0.5, check if one box in contain inside the other
-like if the area of the intersection is above 90% of the area of one of the box
-and keep the one with the highest score</p>
-<p><code>bboxes</code>:</p>
-<p><code>class_ids</code>: </p>
-<p><code>scores</code>: </p>
-<p><code>threshold</code>: </p>
-<p>return</p></div>
+<div class="desc"><p>Filter the predicted bounding boxes overlapping of more than <code>threshold_iou</code> (default:50%)</p>
+<p>Keep only the bounding box with the highest score</p>
+<p>If IOU is below 0.5, check if one box in contained inside another other </p>
+<p>if the area of the intersection is above <code>threshold_area</code> (default:80%) of the area of one of the bon
+Keep the one with the highest score </p>
+<p><code>bboxes</code>: a list of bounding boxes</p>
+<p><code>class_ids</code>: a list of class ids (0 or 1) corresponding to the bounding boxes</p>
+<p><code>scores</code>: a list of confidence scores corresponding to the bounding boxes</p>
+<p><code>threshold_iou</code>: the IOU threshold</p>
+<p>Return </p>
+<p><code>new_bboxes</code>: filtered bounding boxes
+<code>new_class_ids</code>: filtered class id
+<code>new_scores</code>: filtered confidence score</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -570,18 +627,21 @@ and keep the one with the highest score</p>
 <pre><code class="python">@staticmethod
 def filter_by_iou(bboxes, class_ids, scores, threshold_iou=0.5, threshold_area=0.8):
     &#34;&#34;&#34;
-    Filter the predicted bounding boxes overlapping of more than 50%
-    Keep only the bounding box with the highest score
+    Filter the predicted bounding boxes overlapping of more than `threshold_iou` (default:50%)\n
+    Keep only the bounding box with the highest score\n
 
-    if below 0.5, check if one box in contain inside the other
-    like if the area of the intersection is above 90% of the area of one of the box
-    and keep the one with the highest score
+    If IOU is below 0.5, check if one box in contained inside another other \n
+    if the area of the intersection is above `threshold_area` (default:80%) of the area of one of the bon
+    Keep the one with the highest score \n
 
-    `bboxes`:\n
-    `class_ids`: \n
-    `scores`: \n
-    `threshold`: \n
-    return \n
+    `bboxes`: a list of bounding boxes\n
+    `class_ids`: a list of class ids (0 or 1) corresponding to the bounding boxes\n
+    `scores`: a list of confidence scores corresponding to the bounding boxes\n
+    `threshold_iou`: the IOU threshold\n
+    Return \n
+    `new_bboxes`: filtered bounding boxes
+    `new_class_ids`: filtered class id
+    `new_scores`: filtered confidence score
     &#34;&#34;&#34;
     added = [False]*len(bboxes)
     new_bboxes = []
@@ -642,11 +702,16 @@ def filter_by_iou(bboxes, class_ids, scores, threshold_iou=0.5, threshold_area=0
 </code></dt>
 <dd>
 <div class="desc"><p>Filter all the predicted bounding boxes below a certain threshold
-<code>bboxes</code>: </p>
-<p><code>class_ids</code>: </p>
-<p><code>scores</code>: </p>
-<p><code>threshold</code>: </p>
-<p>returns</p></div>
+<code>bboxes</code>: a list of bounding boxes</p>
+<p><code>class_ids</code>: a list of class ids (0 or 1) corresponding to the bounding boxes</p>
+<p><code>scores</code>: a list of confidence scores corresponding to the bounding boxes</p>
+<p><code>threshold</code>: float, score threshold </p>
+<p><code>threshold_validation</code>: boolean to activate the score filtering using the second model validation of the bounding box</p>
+<p><code>scores_validation</code>: float, score threshold </p>
+<p>Return </p>
+<p><code>new_bboxes</code>: filtered bounding boxes
+<code>new_class_ids</code>: filtered class id
+<code>new_scores</code>: filtered confidence score</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -655,11 +720,17 @@ def filter_by_iou(bboxes, class_ids, scores, threshold_iou=0.5, threshold_area=0
 def filter_by_scores(bboxes, class_ids, scores, threshold=0.995, threshold_validation=None, scores_validation=None):
     &#34;&#34;&#34;
     Filter all the predicted bounding boxes below a certain threshold
-    `bboxes`: \n
-    `class_ids`: \n
-    `scores`: \n
-    `threshold`: \n
-    returns \n
+    `bboxes`: a list of bounding boxes\n
+    `class_ids`: a list of class ids (0 or 1) corresponding to the bounding boxes\n
+    `scores`: a list of confidence scores corresponding to the bounding boxes\n
+    `threshold`: float, score threshold \n
+    `threshold_validation`: boolean to activate the score filtering using the second model validation of the bounding box\n
+    `scores_validation`: float, score threshold \n
+    
+    Return \n
+    `new_bboxes`: filtered bounding boxes
+    `new_class_ids`: filtered class id
+    `new_scores`: filtered confidence score
     &#34;&#34;&#34;
     new_bboxes = []
     new_class_ids = []
@@ -681,12 +752,16 @@ def filter_by_scores(bboxes, class_ids, scores, threshold=0.995, threshold_valid
 <span>def <span class="ident">filter_contains</span></span>(<span>bboxes, class_ids, scores, mode='biggest')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Filter the box contained inside another
-Keep the boxes with the highest score or the biggest
-<code>bboxes</code>: </p>
-<p><code>class_ids</code>: </p>
-<p><code>scores</code>: </p>
-<p><code>mode</code>: "highest" / "biggest"</p></div>
+<div class="desc"><p>Filter the box contained inside another </p>
+<p>Keep the boxes with the highest score or the biggest </p>
+<p><code>bboxes</code>: a list of bounding boxes</p>
+<p><code>class_ids</code>: a list of class ids (0 or 1) corresponding to the bounding boxes</p>
+<p><code>scores</code>: a list of confidence scores corresponding to the bounding boxes</p>
+<p><code>mode</code>: "highest" / "biggest" </p>
+<p>Return </p>
+<p><code>new_bboxes</code>: filtered bounding boxes
+<code>new_class_ids</code>: filtered class id
+<code>new_scores</code>: filtered confidence score</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -694,13 +769,19 @@ Keep the boxes with the highest score or the biggest
 <pre><code class="python">@staticmethod
 def filter_contains(bboxes, class_ids, scores, mode=&#34;biggest&#34;):
     &#34;&#34;&#34;
-    Filter the box contained inside another
-    Keep the boxes with the highest score or the biggest
-    `bboxes`: \n
-    `class_ids`: \n
-    `scores`: \n
+    Filter the box contained inside another \n
+    Keep the boxes with the highest score or the biggest \n
+    
+    `bboxes`: a list of bounding boxes\n
+    `class_ids`: a list of class ids (0 or 1) corresponding to the bounding boxes\n
+    `scores`: a list of confidence scores corresponding to the bounding boxes\n
     `mode`: &#34;highest&#34; / &#34;biggest&#34; \n
     
+    Return \n
+    `new_bboxes`: filtered bounding boxes
+    `new_class_ids`: filtered class id
+    `new_scores`: filtered confidence score
+   
     &#34;&#34;&#34;
 
     added = [False]*len(bboxes)

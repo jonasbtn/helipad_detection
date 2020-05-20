@@ -54,6 +54,18 @@ class RunPredictionSatellite:
     def __init__(self, cache_tms_sat_folder, output_meta_folder, zoom_level,
                  model_folder, weights_filename, model_number, activate_filters=False,
                  redo_prediction=False):
+        
+        &#34;&#34;&#34;
+        `cache_tms_sat_folder`: string, path to the image folder\n 
+        `output_meta_folder`:string, path to the folder where to store the meta files\n
+        `zoom_level`: int, only TMS images having a zoom equal to `zoom_level` are loaded\n
+        `model_folder`:string, path to the folder where the models weights are saved\n
+        `weights_filename`: string, file name of the model weights\n
+        `model_number`: int, number of the model\n
+        `activate_filters`: boolean, True to activate the bounding boxes filters\n
+        `redo_prediction`: boolean, True to re-run the prediction on images that were already predicted by model `model_number`\n
+        &#34;&#34;&#34;
+        
         self.cache_tms_sat_folder = cache_tms_sat_folder
         self.output_meta_folder = output_meta_folder
         self.zoom_level = zoom_level
@@ -72,6 +84,9 @@ class RunPredictionSatellite:
         self.model_predict_setup()
 
     def build_target_files_path(self):
+        &#34;&#34;&#34;
+        Build a list of tuple `(filepath, meta_filepath)` of the files to run the detection 
+        &#34;&#34;&#34;
         target_files = []
         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
             for file in files:
@@ -86,11 +101,22 @@ class RunPredictionSatellite:
         return target_files
 
     def model_predict_setup(self):
+        &#34;&#34;&#34;
+        Setup the model
+        &#34;&#34;&#34;
         self.model_predict = MaskRCNN(mode=&#39;inference&#39;, model_dir=self.model_folder, config=self.config)
         self.model_predict.load_weights(os.path.join(self.model_folder, self.weights_filename),
                                         by_name=True)
 
     def get_coordinates_info(self, xtile, ytile, zoom_level):
+        &#34;&#34;&#34;
+        Convert TMS coordinates to GPS coordinates
+        `xtile`: XTile in the TMS coordinates\n
+        `ytile`: YTile in the TMS coordinates\n
+        `zoom_level`: Zoom level in the TMS coordinates\n
+        Returns \n
+        `coordinates_info`: dict, dictionnary containing the latitude, longitudes, and bounds of the images.
+        &#34;&#34;&#34;
         coordinates_info = dict()
         coordinates_info[&#34;zoom&#34;] = zoom_level
         coordinates_info[&#34;xtile&#34;] = xtile
@@ -106,6 +132,11 @@ class RunPredictionSatellite:
         return coordinates_info
 
     def predict_image(self, image):
+        &#34;&#34;&#34;
+        Predict the `image`\n
+        Returns \n
+        `prediction`: a dictionnary containing the bounding boxes, class_ids and the confidence scores.
+        &#34;&#34;&#34;
         scaled_image = mold_image(image, self.config)
         sample = expand_dims(scaled_image, 0)
         yhat = self.model_predict.detect(sample, verbose=0)
@@ -151,6 +182,20 @@ class RunPredictionSatellite:
         return prediction
 
     def convert_point_to_coordinate(self, x, y, minLat, minLon, maxLat, maxLon, image_shape, verbose=0):
+        &#34;&#34;&#34;
+        Get the corresponding GPS coordinates of a pixel inside an image\n
+        `x`: int, pixel x point\n
+        `y`: int, pixel y point\n
+        `minLat`: float, minimum latitude of the image\n
+        `minLon`: float, minimum longitude of the image\n
+        `maxLat`: float, maximum latitude of the image\n
+        `maxLon`: float, maximum longitude of the image\n
+        `image_shape`: tuple, shape of the image\n
+        `verbose`: int, 1 to print the latitude and longitude\n
+        Returns\n
+        `lat`: float, the latitude of the point\n
+        `lon`: float, the longitude of the point\n
+        &#34;&#34;&#34;
         tmp = x
         x = y
         y = tmp
@@ -160,22 +205,21 @@ class RunPredictionSatellite:
         lon = minLon + (abs(minLon - maxLon) * lon_factor)
 
         if verbose == 1:
-            # print(x)
-            # print(y)
-            # print(minLat)
-            # print(minLon)
-            # print(maxLat)
-            # print(maxLon)
-            # print(image_shape)
-            # print(lat_factor)
-            # print(lon_factor)
             print(lat)
             print(lon)
 
         return lat, lon
 
     def convert_bboxes_to_coordinates(self, bboxes, bounds_coordinates, image_shape):
-        # convert box to coordinates
+        &#34;&#34;&#34;
+        Convert detected bounding boxes to GPS coordinates
+        `bboxes`: a list of bounding boxes\n
+        `bounds_coordinates`: a list containing the GPS coordinates of the four corners of the image\n
+        `image_shape`: a tuple, the shape of the image\n
+        Returns\n
+        `bboxes_center_coordinates`: a list of tuple (latitude, longitude) of the center of each bounding boxes\n
+        `bboxes_bounds_coordinates`: a list of four tuples (latitude, longitude) having the GPS coordinates of the four corners of the bounding boxes\n
+        &#34;&#34;&#34;
 
         minLat, minLon = bounds_coordinates[0][0], bounds_coordinates[0][1]
         maxLat, maxLon = bounds_coordinates[3][0], bounds_coordinates[3][1]
@@ -214,6 +258,10 @@ class RunPredictionSatellite:
         return bboxes_center_coordinates, bboxes_bounds_coordinates
     
     def initiate_meta(self, meta_filename):
+        &#34;&#34;&#34;
+        Initiate the meta file from the `meta_filename`\n
+        Returns a dictionnary `meta` with a key `coordinates` saving the location information of the image
+        &#34;&#34;&#34;
         meta = dict()
         meta_coordinates = meta_filename.split(&#39;_&#39;)
         zoom_level = int(meta_coordinates[1])
@@ -225,7 +273,9 @@ class RunPredictionSatellite:
 
     
     def run(self):
-
+        &#34;&#34;&#34;
+        Run the Prediction
+        &#34;&#34;&#34;
         for i in tqdm(range(len(self.target_files))):
             target_file = self.target_files[i]
 
@@ -356,7 +406,15 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>cache_tms_sat_folder, output_meta_folder, zoom_level, model_folder, weights_filename, model_number, activate_filters=False, redo_prediction=False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Run the detection on Satellite images saved with the TMS file structure using a certain model.</p></div>
+<div class="desc"><p>Run the detection on Satellite images saved with the TMS file structure using a certain model.</p>
+<p><code>cache_tms_sat_folder</code>: string, path to the image folder</p>
+<p><code>output_meta_folder</code>:string, path to the folder where to store the meta files</p>
+<p><code>zoom_level</code>: int, only TMS images having a zoom equal to <code>zoom_level</code> are loaded</p>
+<p><code>model_folder</code>:string, path to the folder where the models weights are saved</p>
+<p><code>weights_filename</code>: string, file name of the model weights</p>
+<p><code>model_number</code>: int, number of the model</p>
+<p><code>activate_filters</code>: boolean, True to activate the bounding boxes filters</p>
+<p><code>redo_prediction</code>: boolean, True to re-run the prediction on images that were already predicted by model <code>model_number</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -370,6 +428,18 @@ if __name__ == &#34;__main__&#34;:
     def __init__(self, cache_tms_sat_folder, output_meta_folder, zoom_level,
                  model_folder, weights_filename, model_number, activate_filters=False,
                  redo_prediction=False):
+        
+        &#34;&#34;&#34;
+        `cache_tms_sat_folder`: string, path to the image folder\n 
+        `output_meta_folder`:string, path to the folder where to store the meta files\n
+        `zoom_level`: int, only TMS images having a zoom equal to `zoom_level` are loaded\n
+        `model_folder`:string, path to the folder where the models weights are saved\n
+        `weights_filename`: string, file name of the model weights\n
+        `model_number`: int, number of the model\n
+        `activate_filters`: boolean, True to activate the bounding boxes filters\n
+        `redo_prediction`: boolean, True to re-run the prediction on images that were already predicted by model `model_number`\n
+        &#34;&#34;&#34;
+        
         self.cache_tms_sat_folder = cache_tms_sat_folder
         self.output_meta_folder = output_meta_folder
         self.zoom_level = zoom_level
@@ -388,6 +458,9 @@ if __name__ == &#34;__main__&#34;:
         self.model_predict_setup()
 
     def build_target_files_path(self):
+        &#34;&#34;&#34;
+        Build a list of tuple `(filepath, meta_filepath)` of the files to run the detection 
+        &#34;&#34;&#34;
         target_files = []
         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
             for file in files:
@@ -402,11 +475,22 @@ if __name__ == &#34;__main__&#34;:
         return target_files
 
     def model_predict_setup(self):
+        &#34;&#34;&#34;
+        Setup the model
+        &#34;&#34;&#34;
         self.model_predict = MaskRCNN(mode=&#39;inference&#39;, model_dir=self.model_folder, config=self.config)
         self.model_predict.load_weights(os.path.join(self.model_folder, self.weights_filename),
                                         by_name=True)
 
     def get_coordinates_info(self, xtile, ytile, zoom_level):
+        &#34;&#34;&#34;
+        Convert TMS coordinates to GPS coordinates
+        `xtile`: XTile in the TMS coordinates\n
+        `ytile`: YTile in the TMS coordinates\n
+        `zoom_level`: Zoom level in the TMS coordinates\n
+        Returns \n
+        `coordinates_info`: dict, dictionnary containing the latitude, longitudes, and bounds of the images.
+        &#34;&#34;&#34;
         coordinates_info = dict()
         coordinates_info[&#34;zoom&#34;] = zoom_level
         coordinates_info[&#34;xtile&#34;] = xtile
@@ -422,6 +506,11 @@ if __name__ == &#34;__main__&#34;:
         return coordinates_info
 
     def predict_image(self, image):
+        &#34;&#34;&#34;
+        Predict the `image`\n
+        Returns \n
+        `prediction`: a dictionnary containing the bounding boxes, class_ids and the confidence scores.
+        &#34;&#34;&#34;
         scaled_image = mold_image(image, self.config)
         sample = expand_dims(scaled_image, 0)
         yhat = self.model_predict.detect(sample, verbose=0)
@@ -467,6 +556,20 @@ if __name__ == &#34;__main__&#34;:
         return prediction
 
     def convert_point_to_coordinate(self, x, y, minLat, minLon, maxLat, maxLon, image_shape, verbose=0):
+        &#34;&#34;&#34;
+        Get the corresponding GPS coordinates of a pixel inside an image\n
+        `x`: int, pixel x point\n
+        `y`: int, pixel y point\n
+        `minLat`: float, minimum latitude of the image\n
+        `minLon`: float, minimum longitude of the image\n
+        `maxLat`: float, maximum latitude of the image\n
+        `maxLon`: float, maximum longitude of the image\n
+        `image_shape`: tuple, shape of the image\n
+        `verbose`: int, 1 to print the latitude and longitude\n
+        Returns\n
+        `lat`: float, the latitude of the point\n
+        `lon`: float, the longitude of the point\n
+        &#34;&#34;&#34;
         tmp = x
         x = y
         y = tmp
@@ -476,22 +579,21 @@ if __name__ == &#34;__main__&#34;:
         lon = minLon + (abs(minLon - maxLon) * lon_factor)
 
         if verbose == 1:
-            # print(x)
-            # print(y)
-            # print(minLat)
-            # print(minLon)
-            # print(maxLat)
-            # print(maxLon)
-            # print(image_shape)
-            # print(lat_factor)
-            # print(lon_factor)
             print(lat)
             print(lon)
 
         return lat, lon
 
     def convert_bboxes_to_coordinates(self, bboxes, bounds_coordinates, image_shape):
-        # convert box to coordinates
+        &#34;&#34;&#34;
+        Convert detected bounding boxes to GPS coordinates
+        `bboxes`: a list of bounding boxes\n
+        `bounds_coordinates`: a list containing the GPS coordinates of the four corners of the image\n
+        `image_shape`: a tuple, the shape of the image\n
+        Returns\n
+        `bboxes_center_coordinates`: a list of tuple (latitude, longitude) of the center of each bounding boxes\n
+        `bboxes_bounds_coordinates`: a list of four tuples (latitude, longitude) having the GPS coordinates of the four corners of the bounding boxes\n
+        &#34;&#34;&#34;
 
         minLat, minLon = bounds_coordinates[0][0], bounds_coordinates[0][1]
         maxLat, maxLon = bounds_coordinates[3][0], bounds_coordinates[3][1]
@@ -530,6 +632,10 @@ if __name__ == &#34;__main__&#34;:
         return bboxes_center_coordinates, bboxes_bounds_coordinates
     
     def initiate_meta(self, meta_filename):
+        &#34;&#34;&#34;
+        Initiate the meta file from the `meta_filename`\n
+        Returns a dictionnary `meta` with a key `coordinates` saving the location information of the image
+        &#34;&#34;&#34;
         meta = dict()
         meta_coordinates = meta_filename.split(&#39;_&#39;)
         zoom_level = int(meta_coordinates[1])
@@ -541,7 +647,9 @@ if __name__ == &#34;__main__&#34;:
 
     
     def run(self):
-
+        &#34;&#34;&#34;
+        Run the Prediction
+        &#34;&#34;&#34;
         for i in tqdm(range(len(self.target_files))):
             target_file = self.target_files[i]
 
@@ -612,12 +720,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">build_target_files_path</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Build a list of tuple <code>(filepath, meta_filepath)</code> of the files to run the detection</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_target_files_path(self):
+    &#34;&#34;&#34;
+    Build a list of tuple `(filepath, meta_filepath)` of the files to run the detection 
+    &#34;&#34;&#34;
     target_files = []
     for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
         for file in files:
@@ -636,13 +747,27 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">convert_bboxes_to_coordinates</span></span>(<span>self, bboxes, bounds_coordinates, image_shape)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Convert detected bounding boxes to GPS coordinates
+<code>bboxes</code>: a list of bounding boxes</p>
+<p><code>bounds_coordinates</code>: a list containing the GPS coordinates of the four corners of the image</p>
+<p><code>image_shape</code>: a tuple, the shape of the image</p>
+<p>Returns</p>
+<p><code>bboxes_center_coordinates</code>: a list of tuple (latitude, longitude) of the center of each bounding boxes</p>
+<p><code>bboxes_bounds_coordinates</code>: a list of four tuples (latitude, longitude) having the GPS coordinates of the four corners of the bounding boxes</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def convert_bboxes_to_coordinates(self, bboxes, bounds_coordinates, image_shape):
-    # convert box to coordinates
+    &#34;&#34;&#34;
+    Convert detected bounding boxes to GPS coordinates
+    `bboxes`: a list of bounding boxes\n
+    `bounds_coordinates`: a list containing the GPS coordinates of the four corners of the image\n
+    `image_shape`: a tuple, the shape of the image\n
+    Returns\n
+    `bboxes_center_coordinates`: a list of tuple (latitude, longitude) of the center of each bounding boxes\n
+    `bboxes_bounds_coordinates`: a list of four tuples (latitude, longitude) having the GPS coordinates of the four corners of the bounding boxes\n
+    &#34;&#34;&#34;
 
     minLat, minLon = bounds_coordinates[0][0], bounds_coordinates[0][1]
     maxLat, maxLon = bounds_coordinates[3][0], bounds_coordinates[3][1]
@@ -685,12 +810,37 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">convert_point_to_coordinate</span></span>(<span>self, x, y, minLat, minLon, maxLat, maxLon, image_shape, verbose=0)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Get the corresponding GPS coordinates of a pixel inside an image</p>
+<p><code>x</code>: int, pixel x point</p>
+<p><code>y</code>: int, pixel y point</p>
+<p><code>minLat</code>: float, minimum latitude of the image</p>
+<p><code>minLon</code>: float, minimum longitude of the image</p>
+<p><code>maxLat</code>: float, maximum latitude of the image</p>
+<p><code>maxLon</code>: float, maximum longitude of the image</p>
+<p><code>image_shape</code>: tuple, shape of the image</p>
+<p><code>verbose</code>: int, 1 to print the latitude and longitude</p>
+<p>Returns</p>
+<p><code>lat</code>: float, the latitude of the point</p>
+<p><code>lon</code>: float, the longitude of the point</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def convert_point_to_coordinate(self, x, y, minLat, minLon, maxLat, maxLon, image_shape, verbose=0):
+    &#34;&#34;&#34;
+    Get the corresponding GPS coordinates of a pixel inside an image\n
+    `x`: int, pixel x point\n
+    `y`: int, pixel y point\n
+    `minLat`: float, minimum latitude of the image\n
+    `minLon`: float, minimum longitude of the image\n
+    `maxLat`: float, maximum latitude of the image\n
+    `maxLon`: float, maximum longitude of the image\n
+    `image_shape`: tuple, shape of the image\n
+    `verbose`: int, 1 to print the latitude and longitude\n
+    Returns\n
+    `lat`: float, the latitude of the point\n
+    `lon`: float, the longitude of the point\n
+    &#34;&#34;&#34;
     tmp = x
     x = y
     y = tmp
@@ -700,15 +850,6 @@ if __name__ == &#34;__main__&#34;:
     lon = minLon + (abs(minLon - maxLon) * lon_factor)
 
     if verbose == 1:
-        # print(x)
-        # print(y)
-        # print(minLat)
-        # print(minLon)
-        # print(maxLat)
-        # print(maxLon)
-        # print(image_shape)
-        # print(lat_factor)
-        # print(lon_factor)
         print(lat)
         print(lon)
 
@@ -719,12 +860,25 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">get_coordinates_info</span></span>(<span>self, xtile, ytile, zoom_level)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Convert TMS coordinates to GPS coordinates
+<code>xtile</code>: XTile in the TMS coordinates</p>
+<p><code>ytile</code>: YTile in the TMS coordinates</p>
+<p><code>zoom_level</code>: Zoom level in the TMS coordinates</p>
+<p>Returns </p>
+<p><code>coordinates_info</code>: dict, dictionnary containing the latitude, longitudes, and bounds of the images.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_coordinates_info(self, xtile, ytile, zoom_level):
+    &#34;&#34;&#34;
+    Convert TMS coordinates to GPS coordinates
+    `xtile`: XTile in the TMS coordinates\n
+    `ytile`: YTile in the TMS coordinates\n
+    `zoom_level`: Zoom level in the TMS coordinates\n
+    Returns \n
+    `coordinates_info`: dict, dictionnary containing the latitude, longitudes, and bounds of the images.
+    &#34;&#34;&#34;
     coordinates_info = dict()
     coordinates_info[&#34;zoom&#34;] = zoom_level
     coordinates_info[&#34;xtile&#34;] = xtile
@@ -744,12 +898,17 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">initiate_meta</span></span>(<span>self, meta_filename)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Initiate the meta file from the <code>meta_filename</code></p>
+<p>Returns a dictionnary <code>meta</code> with a key <code>coordinates</code> saving the location information of the image</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def initiate_meta(self, meta_filename):
+    &#34;&#34;&#34;
+    Initiate the meta file from the `meta_filename`\n
+    Returns a dictionnary `meta` with a key `coordinates` saving the location information of the image
+    &#34;&#34;&#34;
     meta = dict()
     meta_coordinates = meta_filename.split(&#39;_&#39;)
     zoom_level = int(meta_coordinates[1])
@@ -764,12 +923,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">model_predict_setup</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Setup the model</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def model_predict_setup(self):
+    &#34;&#34;&#34;
+    Setup the model
+    &#34;&#34;&#34;
     self.model_predict = MaskRCNN(mode=&#39;inference&#39;, model_dir=self.model_folder, config=self.config)
     self.model_predict.load_weights(os.path.join(self.model_folder, self.weights_filename),
                                     by_name=True)</code></pre>
@@ -779,12 +941,19 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">predict_image</span></span>(<span>self, image)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Predict the <code>image</code></p>
+<p>Returns </p>
+<p><code>prediction</code>: a dictionnary containing the bounding boxes, class_ids and the confidence scores.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def predict_image(self, image):
+    &#34;&#34;&#34;
+    Predict the `image`\n
+    Returns \n
+    `prediction`: a dictionnary containing the bounding boxes, class_ids and the confidence scores.
+    &#34;&#34;&#34;
     scaled_image = mold_image(image, self.config)
     sample = expand_dims(scaled_image, 0)
     yhat = self.model_predict.detect(sample, verbose=0)
@@ -834,13 +1003,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">run</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the Prediction</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run(self):
-
+    &#34;&#34;&#34;
+    Run the Prediction
+    &#34;&#34;&#34;
     for i in tqdm(range(len(self.target_files))):
         target_file = self.target_files[i]
 

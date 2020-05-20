@@ -36,6 +36,13 @@ class ReviewPredictionSatellite:
     &#34;&#34;&#34;
     
     def __init__(self, cache_tms_sat_folder, meta_folder, zoom_level, model_number, helipad_only=True):
+        &#34;&#34;&#34;
+        `cache_tms_sat_folder`: string, path to the image folder\n 
+        `output_meta_folder`:string, path to the folder where to store the meta files\n
+        `zoom_level`: int, only TMS images having a zoom equal to `zoom_level` are loaded\n
+        `model_number`: int, number of the model\n
+        `helipad_only`: boolean, True to display only the image with at least one bounding box inside
+        &#34;&#34;&#34;
         self.cache_tms_folder = cache_tms_sat_folder
         self.image_folder = os.path.join(self.cache_tms_folder, str(zoom_level))
         self.meta_folder = meta_folder
@@ -47,6 +54,12 @@ class ReviewPredictionSatellite:
         print(&#34;{} files loaded&#34;.format(str(len(self.target_files))))
 
     def build_target_files(self, helipad_only=True):
+        &#34;&#34;&#34;
+        Build a list of tuples `(filepath, meta_filepath)` of the images to display\n
+        `helipad_only`: boolean, True to display only the image with at least one bounding box inside
+        Returns\n
+        `target_files`: a list of tuples
+        &#34;&#34;&#34;
         target_files = []
         for subdir, dirs, files in os.walk(self.meta_folder):
             for file in files:
@@ -88,7 +101,9 @@ class ReviewPredictionSatellite:
         return target_files
 
     def review_prediction(self):
-
+        &#34;&#34;&#34;
+        Run the review
+        &#34;&#34;&#34;
         predict_color = (255, 0, 0)
 
         for target_path in self.target_files:
@@ -158,7 +173,12 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>cache_tms_sat_folder, meta_folder, zoom_level, model_number, helipad_only=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Review the prediction of the satellite images by displaying them</p></div>
+<div class="desc"><p>Review the prediction of the satellite images by displaying them </p>
+<p><code>cache_tms_sat_folder</code>: string, path to the image folder</p>
+<p><code>output_meta_folder</code>:string, path to the folder where to store the meta files</p>
+<p><code>zoom_level</code>: int, only TMS images having a zoom equal to <code>zoom_level</code> are loaded</p>
+<p><code>model_number</code>: int, number of the model</p>
+<p><code>helipad_only</code>: boolean, True to display only the image with at least one bounding box inside</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -170,6 +190,13 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;
     
     def __init__(self, cache_tms_sat_folder, meta_folder, zoom_level, model_number, helipad_only=True):
+        &#34;&#34;&#34;
+        `cache_tms_sat_folder`: string, path to the image folder\n 
+        `output_meta_folder`:string, path to the folder where to store the meta files\n
+        `zoom_level`: int, only TMS images having a zoom equal to `zoom_level` are loaded\n
+        `model_number`: int, number of the model\n
+        `helipad_only`: boolean, True to display only the image with at least one bounding box inside
+        &#34;&#34;&#34;
         self.cache_tms_folder = cache_tms_sat_folder
         self.image_folder = os.path.join(self.cache_tms_folder, str(zoom_level))
         self.meta_folder = meta_folder
@@ -181,6 +208,12 @@ if __name__ == &#34;__main__&#34;:
         print(&#34;{} files loaded&#34;.format(str(len(self.target_files))))
 
     def build_target_files(self, helipad_only=True):
+        &#34;&#34;&#34;
+        Build a list of tuples `(filepath, meta_filepath)` of the images to display\n
+        `helipad_only`: boolean, True to display only the image with at least one bounding box inside
+        Returns\n
+        `target_files`: a list of tuples
+        &#34;&#34;&#34;
         target_files = []
         for subdir, dirs, files in os.walk(self.meta_folder):
             for file in files:
@@ -222,7 +255,9 @@ if __name__ == &#34;__main__&#34;:
         return target_files
 
     def review_prediction(self):
-
+        &#34;&#34;&#34;
+        Run the review
+        &#34;&#34;&#34;
         predict_color = (255, 0, 0)
 
         for target_path in self.target_files:
@@ -262,12 +297,21 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">build_target_files</span></span>(<span>self, helipad_only=True)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Build a list of tuples <code>(filepath, meta_filepath)</code> of the images to display</p>
+<p><code>helipad_only</code>: boolean, True to display only the image with at least one bounding box inside
+Returns</p>
+<p><code>target_files</code>: a list of tuples</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_target_files(self, helipad_only=True):
+    &#34;&#34;&#34;
+    Build a list of tuples `(filepath, meta_filepath)` of the images to display\n
+    `helipad_only`: boolean, True to display only the image with at least one bounding box inside
+    Returns\n
+    `target_files`: a list of tuples
+    &#34;&#34;&#34;
     target_files = []
     for subdir, dirs, files in os.walk(self.meta_folder):
         for file in files:
@@ -313,13 +357,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">review_prediction</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the review</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def review_prediction(self):
-
+    &#34;&#34;&#34;
+    Run the review
+    &#34;&#34;&#34;
     predict_color = (255, 0, 0)
 
     for target_path in self.target_files:

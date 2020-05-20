@@ -33,12 +33,21 @@ import pathlib
 class BuildPlacemarks:
     
     &#34;&#34;&#34;
-    Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area. 
+    Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area inside the software SAS Planet. The placemarks are saved into the folder &#34;placemarks&#34; inside the same folder as this script. 
     &#34;&#34;&#34;
 
     def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None,
                  model_validation_threshold=None, prefix=&#34;&#34;):
-
+        &#34;&#34;&#34;
+        `meta_folder`: string, path to the folder containing the meta files\n
+        `model_number`: int, number of the model. The detection has to be run on the images by the model first.\n
+        `threshold`: float, score threshold, all the detected bounding boxes below this threshold won&#39;t be included. \n
+        `knn`: boolean, True to consider the second model validation of the bounding boxes\n
+        `index_path`: string, path of to an index created by `database_management.index_path_by_score` if existed, else None\n
+        `model_name`: string, validation model name (the according key inside the meta file)\n
+        `model_validation_threshold`: float, score threshold of the validating model\n
+        `prefix`: string, output file prefix (ie: `&#34;Manilla_&#34;`)\n
+        &#34;&#34;&#34;
         self.meta_folder = meta_folder
         self.model_number = model_number
         self.threshold = threshold
@@ -50,6 +59,15 @@ class BuildPlacemarks:
     
     @staticmethod
     def get_meta_info_from_line(line):
+        &#34;&#34;&#34;
+        Get the image location info from the meta filename\n
+        `line`: meta file name\n
+        Returns\n
+        `zoom`: Zoom level in the TMS coordinates\n
+        `xtile`: XTile in the TMS coordinates\n
+        `ytile`: YTile in the TMS coordinates\n
+        `meta_filename`: the meta filename\n
+        &#34;&#34;&#34;
         if &#34;\n&#34; in line:
             meta_filename = line[:len(line) - 1]
         else:
@@ -61,6 +79,9 @@ class BuildPlacemarks:
         return zoom, xtile, ytile, meta_filename
     
     def build_target_file(self):
+        &#34;&#34;&#34;
+        Build a list of meta file paths targeted for placemarks.
+        &#34;&#34;&#34;
         target = []
         if self.index_path:
             with open(self.index_path, &#39;r&#39;) as f:
@@ -76,7 +97,9 @@ class BuildPlacemarks:
         return target
 
     def run(self):
-
+        &#34;&#34;&#34;
+        Run the creation of the placemarks
+        &#34;&#34;&#34;
         target_path = self.build_target_file()
 
         with open(self.output_name, &#39;w&#39;) as f:
@@ -187,7 +210,15 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None, model_validation_threshold=None, prefix='')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area.</p></div>
+<div class="desc"><p>Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area inside the software SAS Planet. The placemarks are saved into the folder "placemarks" inside the same folder as this script. </p>
+<p><code>meta_folder</code>: string, path to the folder containing the meta files</p>
+<p><code>model_number</code>: int, number of the model. The detection has to be run on the images by the model first.</p>
+<p><code>threshold</code>: float, score threshold, all the detected bounding boxes below this threshold won't be included. </p>
+<p><code>knn</code>: boolean, True to consider the second model validation of the bounding boxes</p>
+<p><code>index_path</code>: string, path of to an index created by <code>database_management.index_path_by_score</code> if existed, else None</p>
+<p><code>model_name</code>: string, validation model name (the according key inside the meta file)</p>
+<p><code>model_validation_threshold</code>: float, score threshold of the validating model</p>
+<p><code>prefix</code>: string, output file prefix (ie: <code>"Manilla_"</code>)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -195,12 +226,21 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">class BuildPlacemarks:
     
     &#34;&#34;&#34;
-    Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area. 
+    Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area inside the software SAS Planet. The placemarks are saved into the folder &#34;placemarks&#34; inside the same folder as this script. 
     &#34;&#34;&#34;
 
     def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None,
                  model_validation_threshold=None, prefix=&#34;&#34;):
-
+        &#34;&#34;&#34;
+        `meta_folder`: string, path to the folder containing the meta files\n
+        `model_number`: int, number of the model. The detection has to be run on the images by the model first.\n
+        `threshold`: float, score threshold, all the detected bounding boxes below this threshold won&#39;t be included. \n
+        `knn`: boolean, True to consider the second model validation of the bounding boxes\n
+        `index_path`: string, path of to an index created by `database_management.index_path_by_score` if existed, else None\n
+        `model_name`: string, validation model name (the according key inside the meta file)\n
+        `model_validation_threshold`: float, score threshold of the validating model\n
+        `prefix`: string, output file prefix (ie: `&#34;Manilla_&#34;`)\n
+        &#34;&#34;&#34;
         self.meta_folder = meta_folder
         self.model_number = model_number
         self.threshold = threshold
@@ -212,6 +252,15 @@ if __name__ == &#34;__main__&#34;:
     
     @staticmethod
     def get_meta_info_from_line(line):
+        &#34;&#34;&#34;
+        Get the image location info from the meta filename\n
+        `line`: meta file name\n
+        Returns\n
+        `zoom`: Zoom level in the TMS coordinates\n
+        `xtile`: XTile in the TMS coordinates\n
+        `ytile`: YTile in the TMS coordinates\n
+        `meta_filename`: the meta filename\n
+        &#34;&#34;&#34;
         if &#34;\n&#34; in line:
             meta_filename = line[:len(line) - 1]
         else:
@@ -223,6 +272,9 @@ if __name__ == &#34;__main__&#34;:
         return zoom, xtile, ytile, meta_filename
     
     def build_target_file(self):
+        &#34;&#34;&#34;
+        Build a list of meta file paths targeted for placemarks.
+        &#34;&#34;&#34;
         target = []
         if self.index_path:
             with open(self.index_path, &#39;r&#39;) as f:
@@ -238,7 +290,9 @@ if __name__ == &#34;__main__&#34;:
         return target
 
     def run(self):
-
+        &#34;&#34;&#34;
+        Run the creation of the placemarks
+        &#34;&#34;&#34;
         target_path = self.build_target_file()
 
         with open(self.output_name, &#39;w&#39;) as f:
@@ -322,13 +376,28 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">get_meta_info_from_line</span></span>(<span>line)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Get the image location info from the meta filename</p>
+<p><code>line</code>: meta file name</p>
+<p>Returns</p>
+<p><code>zoom</code>: Zoom level in the TMS coordinates</p>
+<p><code>xtile</code>: XTile in the TMS coordinates</p>
+<p><code>ytile</code>: YTile in the TMS coordinates</p>
+<p><code>meta_filename</code>: the meta filename</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def get_meta_info_from_line(line):
+    &#34;&#34;&#34;
+    Get the image location info from the meta filename\n
+    `line`: meta file name\n
+    Returns\n
+    `zoom`: Zoom level in the TMS coordinates\n
+    `xtile`: XTile in the TMS coordinates\n
+    `ytile`: YTile in the TMS coordinates\n
+    `meta_filename`: the meta filename\n
+    &#34;&#34;&#34;
     if &#34;\n&#34; in line:
         meta_filename = line[:len(line) - 1]
     else:
@@ -347,12 +416,15 @@ def get_meta_info_from_line(line):
 <span>def <span class="ident">build_target_file</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Build a list of meta file paths targeted for placemarks.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_target_file(self):
+    &#34;&#34;&#34;
+    Build a list of meta file paths targeted for placemarks.
+    &#34;&#34;&#34;
     target = []
     if self.index_path:
         with open(self.index_path, &#39;r&#39;) as f:
@@ -372,13 +444,15 @@ def get_meta_info_from_line(line):
 <span>def <span class="ident">run</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the creation of the placemarks</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run(self):
-
+    &#34;&#34;&#34;
+    Run the creation of the placemarks
+    &#34;&#34;&#34;
     target_path = self.build_target_file()
 
     with open(self.output_name, &#39;w&#39;) as f:
