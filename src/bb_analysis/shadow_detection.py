@@ -295,35 +295,43 @@ class ShadowDetection:
         mask_shadow_dilated_eroded = cv2.erode(mask_shadow_dilated, kernel, iterations=1)
         return mask_shadow_dilated_eroded
     
-    def run(self, verbose=3):
+    def run(self, seed_only=False, verbose=3):
         """
         Run the entire shadow detection algorithm\n
+        `seed_only`: boolean, True to stop the algorithm after the seed selection.
         `verbose=0`: no display \n
         `verbose=1`: display image and seeds side by side \n
         `verbose=2`: display image, seeds and shadows side by side\n
         `verbose=3`: display image, seeds, shadows and postprocessed shadows
         """
         seeds, prototype = self.seed_selection()
-        
-        prototype = self.region_growing(seeds, prototype)
-        
-        mask_shadow = self.get_shadow_mask(prototype)
-        mask_shadow_postprocessed = self.postprocessing(mask_shadow, kernel_size=2)
-        
         if verbose == 1:
             image_seed = self.mark_seeds_on_image(self.image, seeds)
             self.display_two_image_side_by_side(self.image, image_seeds)
-        elif verbose == 2:
-            image_seed = self.mark_seeds_on_image(self.image, seeds)
-            image_shadow = self.mark_shadows_on_image(self.image, prototype)
-            self.display_three_image_side_by_side(self.image, image_seed, image_shadow)
-        elif verbose == 3:
-            image_seed = self.mark_seeds_on_image(self.image, seeds)
-            image_shadow = self.mark_shadows_on_image(self.image, prototype)
-            image_shadow_post = self.mark_seeds_on_image(self.image, mask_shadow_postprocessed)
-            self.display_four_image_side_by_side(self.image, image_seed, image_shadow, image_shadow_post)
+        
+        if not seed_only:
+            prototype = self.region_growing(seeds, prototype)
+
+            mask_shadow = self.get_shadow_mask(prototype)
+            mask_shadow_postprocessed = self.postprocessing(mask_shadow, kernel_size=2)
+            
+            if verbose == 2:
+                image_seed = self.mark_seeds_on_image(self.image, seeds)
+                image_shadow = self.mark_shadows_on_image(self.image, prototype)
+                self.display_three_image_side_by_side(self.image, image_seed, image_shadow)
+            elif verbose == 3:
+                image_seed = self.mark_seeds_on_image(self.image, seeds)
+                image_shadow = self.mark_shadows_on_image(self.image, prototype)
+                image_shadow_post = self.mark_seeds_on_image(self.image, mask_shadow_postprocessed)
+                self.display_four_image_side_by_side(self.image, image_seed, image_shadow, image_shadow_post)
         
         # TODO: Analyse the shadow to return true or false if it's an helipad or not
+        
+        # Rules : If no seeds, then no shadows means the surface is flat. Hence, it is probably an helipad
+        if np.max(seeds) < 2:
+            return True
+        else:
+            return False
     
     @staticmethod
     def mark_seeds_on_image(image, seeds):
