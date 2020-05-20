@@ -31,9 +31,14 @@ from tqdm import tqdm as tqdm
 
 class IndexPathScore:
     &#34;&#34;&#34;
-    Create an index file of the images where an helipad has been detected by a model with a confidence above a certain score. An index help runs certain scripts faster by knowning exactly where are the bounding boxes. 
+    Create an index file of the images where an helipad has been detected by a model with a confidence above a certain score. An index help runs certain scripts faster by knowning exactly where are the bounding boxes. This reduces tremendously the number of files to load. The output file has the following format : `&#34;helipad_path_over_{}_m{}.txt&#34;.format(score_threshold, model_number)`.
     &#34;&#34;&#34;
     def __init__(self, meta_folder, model_number, score_threshold):
+        &#34;&#34;&#34;
+        `meta_folder`: the folder containing the meta files. \n
+        `model_number`: the number of the model wanted. \n
+        `score_threshold`: the score threshold. All the images having all its bounding boxes below the score threshold are not added to the index. \n
+        &#34;&#34;&#34;
         self.meta_folder = meta_folder
         self.model_number = model_number
         self.score_threshold = score_threshold
@@ -41,6 +46,9 @@ class IndexPathScore:
         self.output_filename = &#34;helipad_path_over_{}_m{}.txt&#34;.format(score_threshold, model_number)
 
     def build_target_files(self):
+        &#34;&#34;&#34;
+        Builds and returns a list of target filepaths.
+        &#34;&#34;&#34;
         target_files = []
 
         for subdirs, dirs, files in os.walk(self.meta_folder, topdown=True):
@@ -50,6 +58,9 @@ class IndexPathScore:
         return target_files
 
     def run(self):
+        &#34;&#34;&#34;
+        Run the indexing.
+        &#34;&#34;&#34;
         target_files = self.build_target_files()
         for i in tqdm(range(len(target_files))):
             path = target_files[i]
@@ -70,6 +81,9 @@ class IndexPathScore:
             f.close()
 
     def write_output(self):
+        &#34;&#34;&#34;
+        Save the index into a file. 
+        &#34;&#34;&#34;
         with open(self.output_filename, mode=&#39;wt&#39;, encoding=&#39;utf-8&#39;) as f:
             f.write(&#39;\n&#39;.join(self.path_to_add))
 
@@ -101,16 +115,24 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>meta_folder, model_number, score_threshold)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Create an index file of the images where an helipad has been detected by a model with a confidence above a certain score. An index help runs certain scripts faster by knowning exactly where are the bounding boxes.</p></div>
+<div class="desc"><p>Create an index file of the images where an helipad has been detected by a model with a confidence above a certain score. An index help runs certain scripts faster by knowning exactly where are the bounding boxes. This reduces tremendously the number of files to load. The output file has the following format : <code>"helipad_path_over_{}_m{}.txt".format(score_threshold, model_number)</code>.</p>
+<p><code>meta_folder</code>: the folder containing the meta files. </p>
+<p><code>model_number</code>: the number of the model wanted. </p>
+<p><code>score_threshold</code>: the score threshold. All the images having all its bounding boxes below the score threshold are not added to the index.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class IndexPathScore:
     &#34;&#34;&#34;
-    Create an index file of the images where an helipad has been detected by a model with a confidence above a certain score. An index help runs certain scripts faster by knowning exactly where are the bounding boxes. 
+    Create an index file of the images where an helipad has been detected by a model with a confidence above a certain score. An index help runs certain scripts faster by knowning exactly where are the bounding boxes. This reduces tremendously the number of files to load. The output file has the following format : `&#34;helipad_path_over_{}_m{}.txt&#34;.format(score_threshold, model_number)`.
     &#34;&#34;&#34;
     def __init__(self, meta_folder, model_number, score_threshold):
+        &#34;&#34;&#34;
+        `meta_folder`: the folder containing the meta files. \n
+        `model_number`: the number of the model wanted. \n
+        `score_threshold`: the score threshold. All the images having all its bounding boxes below the score threshold are not added to the index. \n
+        &#34;&#34;&#34;
         self.meta_folder = meta_folder
         self.model_number = model_number
         self.score_threshold = score_threshold
@@ -118,6 +140,9 @@ if __name__ == &#34;__main__&#34;:
         self.output_filename = &#34;helipad_path_over_{}_m{}.txt&#34;.format(score_threshold, model_number)
 
     def build_target_files(self):
+        &#34;&#34;&#34;
+        Builds and returns a list of target filepaths.
+        &#34;&#34;&#34;
         target_files = []
 
         for subdirs, dirs, files in os.walk(self.meta_folder, topdown=True):
@@ -127,6 +152,9 @@ if __name__ == &#34;__main__&#34;:
         return target_files
 
     def run(self):
+        &#34;&#34;&#34;
+        Run the indexing.
+        &#34;&#34;&#34;
         target_files = self.build_target_files()
         for i in tqdm(range(len(target_files))):
             path = target_files[i]
@@ -147,6 +175,9 @@ if __name__ == &#34;__main__&#34;:
             f.close()
 
     def write_output(self):
+        &#34;&#34;&#34;
+        Save the index into a file. 
+        &#34;&#34;&#34;
         with open(self.output_filename, mode=&#39;wt&#39;, encoding=&#39;utf-8&#39;) as f:
             f.write(&#39;\n&#39;.join(self.path_to_add))</code></pre>
 </details>
@@ -156,12 +187,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">build_target_files</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Builds and returns a list of target filepaths.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_target_files(self):
+    &#34;&#34;&#34;
+    Builds and returns a list of target filepaths.
+    &#34;&#34;&#34;
     target_files = []
 
     for subdirs, dirs, files in os.walk(self.meta_folder, topdown=True):
@@ -175,12 +209,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">run</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the indexing.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run(self):
+    &#34;&#34;&#34;
+    Run the indexing.
+    &#34;&#34;&#34;
     target_files = self.build_target_files()
     for i in tqdm(range(len(target_files))):
         path = target_files[i]
@@ -205,12 +242,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">write_output</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Save the index into a file.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def write_output(self):
+    &#34;&#34;&#34;
+    Save the index into a file. 
+    &#34;&#34;&#34;
     with open(self.output_filename, mode=&#39;wt&#39;, encoding=&#39;utf-8&#39;) as f:
         f.write(&#39;\n&#39;.join(self.path_to_add))</code></pre>
 </details>

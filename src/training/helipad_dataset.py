@@ -20,6 +20,17 @@ class HelipadDataset(Dataset):
     
     def load_dataset(self, root_folder, root_meta_folder, is_train=True, include_augmented=False, augmented_versions=[],
                      include_categories=None):
+        """
+        Load the dataset for training\n
+        
+        `root_folder`: string, path to the root folder of the dataset containing the original dataset and the different augmented dataset\n
+        `root_meta_folder`: string, path to the root folder of the meta dataset containing the original meta dataset and the different augmented meta dataset\n
+        `is_train`: boolean, True if needs to load the training set, False if needs to load the test set\n
+        `include_augmented`: boolean, True if the dataset has to include augmented images\n
+        `augmented_version`: list of integer, specifying the augmented dataset version to include in the dataset\n
+        `include categories`: a list of string, specifying the categories to be included. If None, all the categories are included. 
+        """
+        
         self.add_class("dataset", 1, "helipad")
 
         image_original_folder = os.path.join(root_folder, 'Helipad_DataBase_original')
@@ -91,6 +102,10 @@ class HelipadDataset(Dataset):
                                        annotation=meta_filepath)
 
     def extract_bboxes(self, meta_filepath):
+        """
+        Extract the bounding boxes from a meta file located at `meta_filepath`
+        Returns the bounding boxes and the image shape
+        """
         with open(meta_filepath, 'r') as f:
             meta = json.load(f)
         if "groundtruth" not in meta:
@@ -114,6 +129,10 @@ class HelipadDataset(Dataset):
             return bboxes, 640, 640
 
     def load_mask(self, image_id):
+        """
+        Load the mask of the image having the id `image_id` in the dataset.\n
+        Returns the mask and the class_id
+        """
         # get details of image
         info = self.image_info[image_id]
         # define box file location
@@ -134,5 +153,9 @@ class HelipadDataset(Dataset):
 
     # load an image reference
     def image_reference(self, image_id):
+        """
+        Load the path of an image having the id `image_id`\n
+        Return a string 
+        """
         info = self.image_info[image_id]
         return info['path']

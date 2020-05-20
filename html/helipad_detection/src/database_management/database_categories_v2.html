@@ -35,7 +35,7 @@ import json
 class DatabaseCategoriesv2:
 
     &#34;&#34;&#34;
-    Interface to assign an helipad to a category. The dataset has to be manually annotated first. 
+    Interface to assign an helipad to a category. The dataset has to be manually annotated first. This second version saves the category directly inside the meta files. The images are not copied. 
     &#34;&#34;&#34;
     def __init__(self, image_folder_original, meta_folder_original, nb_categories=12):
         &#34;&#34;&#34;
@@ -55,6 +55,11 @@ class DatabaseCategoriesv2:
         self.load_last_image_per_category()
 
     def convert_cat_str_to_int(self, str_cat):
+        &#34;&#34;&#34;
+        Convert a string into an int. \n
+        `str_cat`: the category as string \n
+        Returns an int
+        &#34;&#34;&#34;
         for i in range(10):
             if str_cat == str(i):
                 return i
@@ -64,6 +69,10 @@ class DatabaseCategoriesv2:
             return 11
 
     def build_target_list(self):
+        &#34;&#34;&#34;
+        Build a list of target files. Each target file is a tuple paths (&#39;imagepath&#39;, &#39;metapath&#39;) to load the files.\n
+        Return a list of tuples. 
+        &#34;&#34;&#34;
         target_files = []
         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
             for file in files:
@@ -88,6 +97,9 @@ class DatabaseCategoriesv2:
         return target_files
 
     def load_last_image_per_category(self):
+        &#34;&#34;&#34;
+        Load the last image of each category and group them into one image for display.
+        &#34;&#34;&#34;
         self.nb_row = 4
         self.nb_col = 3
         self.img_width = 640
@@ -117,9 +129,18 @@ class DatabaseCategoriesv2:
         self.final_img_r = cv2.resize(self.final_img, (640, 640))
 
     def add_to_category(self, image_path, meta_path, cat_nb):
+        &#34;&#34;&#34;
+        Add an `image_path` and `meta_path` to a category `cat_nb`
+        &#34;&#34;&#34;
         self.files_per_categories[cat_nb].append([image_path, meta_path])
 
     def reload_grid_category(self, img, nb_cat):
+        &#34;&#34;&#34;
+        Reload the grid of the last image per category.\n
+        `nb_cat`: the category number\n
+        `img`: the image to add to the grid\n
+        Display the grid of images
+        &#34;&#34;&#34;
         img = img/256
         i = nb_cat // self.nb_col
         j = nb_cat % self.nb_col
@@ -237,7 +258,7 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>image_folder_original, meta_folder_original, nb_categories=12)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Interface to assign an helipad to a category. The dataset has to be manually annotated first. </p>
+<div class="desc"><p>Interface to assign an helipad to a category. The dataset has to be manually annotated first. This second version saves the category directly inside the meta files. The images are not copied. </p>
 <p><code>image_folder_original</code>: folder containing the original image dataset </p>
 <p><code>meta_folder_original</code>: folder containing the original meta files.
 <code>nb_categories</code>: the number of categories wanted.</p></div>
@@ -248,7 +269,7 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">class DatabaseCategoriesv2:
 
     &#34;&#34;&#34;
-    Interface to assign an helipad to a category. The dataset has to be manually annotated first. 
+    Interface to assign an helipad to a category. The dataset has to be manually annotated first. This second version saves the category directly inside the meta files. The images are not copied. 
     &#34;&#34;&#34;
     def __init__(self, image_folder_original, meta_folder_original, nb_categories=12):
         &#34;&#34;&#34;
@@ -268,6 +289,11 @@ if __name__ == &#34;__main__&#34;:
         self.load_last_image_per_category()
 
     def convert_cat_str_to_int(self, str_cat):
+        &#34;&#34;&#34;
+        Convert a string into an int. \n
+        `str_cat`: the category as string \n
+        Returns an int
+        &#34;&#34;&#34;
         for i in range(10):
             if str_cat == str(i):
                 return i
@@ -277,6 +303,10 @@ if __name__ == &#34;__main__&#34;:
             return 11
 
     def build_target_list(self):
+        &#34;&#34;&#34;
+        Build a list of target files. Each target file is a tuple paths (&#39;imagepath&#39;, &#39;metapath&#39;) to load the files.\n
+        Return a list of tuples. 
+        &#34;&#34;&#34;
         target_files = []
         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
             for file in files:
@@ -301,6 +331,9 @@ if __name__ == &#34;__main__&#34;:
         return target_files
 
     def load_last_image_per_category(self):
+        &#34;&#34;&#34;
+        Load the last image of each category and group them into one image for display.
+        &#34;&#34;&#34;
         self.nb_row = 4
         self.nb_col = 3
         self.img_width = 640
@@ -330,9 +363,18 @@ if __name__ == &#34;__main__&#34;:
         self.final_img_r = cv2.resize(self.final_img, (640, 640))
 
     def add_to_category(self, image_path, meta_path, cat_nb):
+        &#34;&#34;&#34;
+        Add an `image_path` and `meta_path` to a category `cat_nb`
+        &#34;&#34;&#34;
         self.files_per_categories[cat_nb].append([image_path, meta_path])
 
     def reload_grid_category(self, img, nb_cat):
+        &#34;&#34;&#34;
+        Reload the grid of the last image per category.\n
+        `nb_cat`: the category number\n
+        `img`: the image to add to the grid\n
+        Display the grid of images
+        &#34;&#34;&#34;
         img = img/256
         i = nb_cat // self.nb_col
         j = nb_cat % self.nb_col
@@ -431,12 +473,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">add_to_category</span></span>(<span>self, image_path, meta_path, cat_nb)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add an <code>image_path</code> and <code>meta_path</code> to a category <code>cat_nb</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_to_category(self, image_path, meta_path, cat_nb):
+    &#34;&#34;&#34;
+    Add an `image_path` and `meta_path` to a category `cat_nb`
+    &#34;&#34;&#34;
     self.files_per_categories[cat_nb].append([image_path, meta_path])</code></pre>
 </details>
 </dd>
@@ -538,12 +583,17 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">build_target_list</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Build a list of target files. Each target file is a tuple paths ('imagepath', 'metapath') to load the files.</p>
+<p>Return a list of tuples.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_target_list(self):
+    &#34;&#34;&#34;
+    Build a list of target files. Each target file is a tuple paths (&#39;imagepath&#39;, &#39;metapath&#39;) to load the files.\n
+    Return a list of tuples. 
+    &#34;&#34;&#34;
     target_files = []
     for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
         for file in files:
@@ -572,12 +622,19 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">convert_cat_str_to_int</span></span>(<span>self, str_cat)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Convert a string into an int. </p>
+<p><code>str_cat</code>: the category as string </p>
+<p>Returns an int</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def convert_cat_str_to_int(self, str_cat):
+    &#34;&#34;&#34;
+    Convert a string into an int. \n
+    `str_cat`: the category as string \n
+    Returns an int
+    &#34;&#34;&#34;
     for i in range(10):
         if str_cat == str(i):
             return i
@@ -591,12 +648,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">load_last_image_per_category</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load the last image of each category and group them into one image for display.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load_last_image_per_category(self):
+    &#34;&#34;&#34;
+    Load the last image of each category and group them into one image for display.
+    &#34;&#34;&#34;
     self.nb_row = 4
     self.nb_col = 3
     self.img_width = 640
@@ -630,12 +690,21 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">reload_grid_category</span></span>(<span>self, img, nb_cat)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Reload the grid of the last image per category.</p>
+<p><code>nb_cat</code>: the category number</p>
+<p><code>img</code>: the image to add to the grid</p>
+<p>Display the grid of images</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def reload_grid_category(self, img, nb_cat):
+    &#34;&#34;&#34;
+    Reload the grid of the last image per category.\n
+    `nb_cat`: the category number\n
+    `img`: the image to add to the grid\n
+    Display the grid of images
+    &#34;&#34;&#34;
     img = img/256
     i = nb_cat // self.nb_col
     j = nb_cat % self.nb_col

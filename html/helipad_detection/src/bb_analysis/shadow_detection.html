@@ -1,0 +1,1598 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>helipad_detection.src.bb_analysis.shadow_detection API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>helipad_detection.src.bb_analysis.shadow_detection</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import os
+import matplotlib.pyplot as plt
+import numpy as np
+import cv2
+
+
+class ShadowDetection:
+    
+    &#34;&#34;&#34;
+    Shadow Detection on an image. The image is supposed to be a bounding box detected by a model. 
+    &#34;&#34;&#34;
+    
+    def __init__(self, image, minimum_size_window=3, 
+                 threshold_v=0.35, threshold_s=0.02, ratio=1, d_0=3):
+        &#34;&#34;&#34;
+        `image`: an image cropped around the bounding box\n
+        `minimum_size_window`: the minimum size of a shadow is defined by a square of side `(minimum_size_window*2-1)`\n
+        `threshold_v`: the mean of the window in V must be inferior than `threshold_v` to be accepted.\n
+        `threshold_s`: the mean of the window in S must be superior than `threshold_s` to be accepted.\n
+        `ratio`: all the values of the window in `c3` must be superior than `mean(c3)*ratio`.\n
+        `d_0`: the candidate pixel to be added to the region shadow must be below a Mahalanobis distance `d_0` from the `mean(c3[region])`.
+        &#34;&#34;&#34;
+        self.image = image
+        self.minimum_size_window = minimum_size_window
+        self.threshold_v = threshold_v
+        self.threshold_s = threshold_s
+        self.ratio = ratio
+        self.d_0 = d_0
+        
+        self.c3, self.S, self.V, self.edges = self.preprocessing(self.image)
+    
+    @staticmethod
+    def compute_c3(image):
+        &#34;&#34;&#34;
+        Compute the c3 channel of the image
+        &#34;&#34;&#34;
+        c3 = np.arctan(image[:,:,0]/np.maximum(image[:,:,1], image[:,:,2]))
+        return c3
+
+    @staticmethod
+    def apply_average_kernel(img, kernel_size):
+        &#34;&#34;&#34;
+        Apply an average kernel on the image
+        &#34;&#34;&#34;
+        return cv2.blur(img,(kernel_size, kernel_size))
+    
+    @staticmethod
+    def get_hsv(image):
+        &#34;&#34;&#34;
+        Get the image in the HSV colorspace
+        &#34;&#34;&#34;
+        return cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    @staticmethod
+    def compute_sobelx(v, kernel_size):
+        &#34;&#34;&#34;
+        Compute the gradient of the image using the SobelX algorithm
+        &#34;&#34;&#34;
+        return cv2.Sobel(v,cv2.CV_64F,1,0,ksize=kernel_size)
+
+    @staticmethod
+    def preprocessing(image):
+        &#34;&#34;&#34;
+        Preprocessing of the image\n
+        Returns the channels `c3`, `S`, `V` and `edges`
+        &#34;&#34;&#34;
+        c3 = ShadowDetection.compute_c3(image)
+        c3_smoothed = ShadowDetection.apply_average_kernel(c3, 3)
+        hsv = ShadowDetection.get_hsv(image)
+        edges = ShadowDetection.compute_sobelx(hsv[:,:,2], kernel_size=3)
+        return c3, hsv[:,:,1], hsv[:,:,2], edges
+   
+    @staticmethod
+    def zero_pad(matrix, pad_left, pad_right, pad_top, pad_bottom):
+        &#34;&#34;&#34;
+        Apply zero padding on a matrix
+        &#34;&#34;&#34;
+        h, w = matrix.shape
+        H, W = h+pad_top+pad_bottom, w+pad_left+pad_right
+        matrix_pad = np.zeros((H, W))
+        matrix_pad[pad_bottom:H-pad_top,pad_left:W-pad_right] = matrix
+        return matrix_pad
+    
+    @staticmethod
+    def check_local_maximum(candidate_seed, candidate_window):
+        &#34;&#34;&#34;
+        Check that the pixel is a local maximum\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        if candidate_seed &gt;= np.max(candidate_window):
+            return True
+        else:
+            return False
+    
+    @staticmethod
+    def check_value_neighbourhood(candidate_window, mean_c3, ratio=1/2):
+        &#34;&#34;&#34;
+        Check that all the values of the pixel inside the `candidate_window` are above `mean_c3*ratio`\n
+        &#34;&#34;&#34;
+        if np.min(candidate_window) &gt; mean_c3*ratio:  # should be &gt; mean_c3 according to the article but change to fit better
+            return True
+        else:
+            return False
+    
+    @staticmethod
+    def check_mean_V(V_window, threshold_v):
+        &#34;&#34;&#34;
+        Check that the mean of the values in V inside the window `V_window` are below the threshold `threshold_v`.\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        if np.mean(V_window/255.0) &lt; threshold_v:
+            return True
+        else:
+            return False
+    
+    @staticmethod
+    def check_mean_S(S_window, threshold_s):
+        &#34;&#34;&#34;
+        Check that the mean of the values in S inside the window `S_window` are above the threshold `threshold_s`.\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        if np.mean(S_window/255.0) &gt; threshold_s:
+            return True
+        else:
+            return False
+    
+    @staticmethod
+    def check_window_already_seed(i, j, seeds, delay, minimum_size_window):
+        &#34;&#34;&#34;
+        Check that the pixel at `[i,j]` is not already a seed.\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        d = delay
+        m = minimum_size_window
+        if np.max(seeds[i-d:i+m, j-d:j+m]) &gt; 0:
+            return False
+        else:
+            return True
+        
+    def seed_selection(self):
+        &#34;&#34;&#34;
+        Find all the shadows seeds inside the image.\n
+        Returns:\n
+        - `seeds`: a mask of the same shape as the `image` with `1` where the pixels are seeds or `0` if not.\n
+        - `prototype`:  a dictionnary having all the informations regarding each seed. 
+        &#34;&#34;&#34;
+        h, w = self.c3.shape
+        seeds = np.zeros((h, w))
+        prototype = {}
+        k = 1
+        d = self.minimum_size_window-1
+        m = self.minimum_size_window
+        c3_pad = self.zero_pad(self.c3, d, d, d, d)
+        S_pad = self.zero_pad(self.S, d, d, d, d)
+        V_pad = self.zero_pad(self.V, d, d, d, d)
+        mean_c3 = np.mean(self.c3)
+
+        for i in range(h):
+            for j in range(w):
+                candidate_seed = self.c3[i][j]
+                candidate_window_c3 = c3_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+                candidate_window_S = S_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+                candidate_window_V = V_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+                # condition a:
+                if not self.check_local_maximum(candidate_seed, candidate_window_c3):
+                    continue
+                # condition b:
+                elif not self.check_value_neighbourhood(candidate_window_c3, mean_c3, ratio=self.ratio):
+                    continue
+                # condition c:
+                elif not self.check_mean_V(candidate_window_V, threshold_v=self.threshold_v): # hyper-parameter
+                    continue
+                # condition d:
+                elif not self.check_mean_S(candidate_window_S, threshold_s=self.threshold_s): # hyper-parameter
+                    continue
+                # continue e
+                elif not self.check_window_already_seed(i, j, seeds, d, m):
+                    continue
+                else:
+                    # accept candidate and candidate window
+                    seeds[i-d:i+m, j-d:j+m] = k*np.ones((self.minimum_size_window*2-1, self.minimum_size_window*2-1))
+                    indices = []
+                    for u in range(i-d, i+m):
+                        for v in range(j-d, j+m):
+                            indices.append((u,v))
+                    prototype[k] = {&#39;indices&#39;:indices,
+                                    &#39;values&#39;:candidate_window_c3.ravel(),
+                                    &#39;mean&#39;: np.mean(candidate_window_c3),
+                                    &#39;sigma&#39;: np.std(candidate_window_c3)}
+                    k += 1
+        return seeds.astype(int), prototype
+    
+    @staticmethod
+    def check_pixel_in_shadow(prototype, i, j):
+        &#34;&#34;&#34;
+        Check if the pixel at `[i,j]` is already a shadow\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        for key, values in prototype.items():
+            if (i,j) in values[&#39;indices&#39;]:
+                return True
+        return False
+
+    @staticmethod
+    def check_pixel_neighbours_boundary_shadow(prototype, i, j):
+        &#34;&#34;&#34;
+        Check that the pixel at `[i,j]` is a neighbour of a shadow pixel.\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        neighbours = [(i-1,j), (i+1,j), (i-1,j-1), (i, j-1), (i,j+1), (i+1, j+1), (i+1, j-1), (i-1, j+1)]
+        for key, values in prototype.items():
+            indices = values[&#39;indices&#39;]
+            for neighbour in neighbours:
+                if neighbour in indices:
+                    return key
+        return 0
+    
+    @staticmethod
+    def check_mahalanobis_distance(pixel_c3, region_id, prototype, d_0 = 3):
+        &#34;&#34;&#34;
+        Check that the candidate pixel `pixel_c3` mahalanobis distance from the shadow region `region_id` is below `d_0`.\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        mean_c3 = prototype[region_id][&#39;mean&#39;]
+        sigma_c3 = prototype[region_id][&#39;sigma&#39;]
+        if np.abs(pixel_c3 - mean_c3)/sigma_c3 &lt; d_0:
+            return True
+        else:
+            return False
+        
+    def region_growing(self, seeds, prototype):
+        &#34;&#34;&#34;
+        Apply the region growing algorithm from the `seeds`. \n
+        Returns the dictionnary `prototype` with all the different shadow regions. 
+        &#34;&#34;&#34;
+        n, p, c = self.image.shape
+
+        d = self.minimum_size_window-1
+        m = self.minimum_size_window
+        c3_pad = self.zero_pad(self.c3, d, d, d, d)
+        S_pad = self.zero_pad(self.S, d, d, d, d)
+        V_pad = self.zero_pad(self.V, d, d, d, d)
+
+        pixel_added = True
+        while pixel_added:
+            pixel_added = False
+            for i in range(n):
+                for j in range(p):
+                    # check if pixel already in shadow area
+                    if self.check_pixel_in_shadow(prototype, i, j):
+                        continue
+                    # check if pixel is a neighbours of a boundary pixel
+                    region_id = self.check_pixel_neighbours_boundary_shadow(prototype, i, j) 
+                    if region_id == 0:
+                        continue
+                    pixel_c3 = self.c3[i][j]
+                    if not self.check_mahalanobis_distance(pixel_c3, region_id, prototype, d_0=self.d_0): # d_0 hyper-parameter
+                        continue
+
+                    # The magnitude of the gradient of V &lt; T_e = 0.30 (not a shadow boundary pixel)
+                    # ???
+
+                    candidate_window_V = V_pad[i+d-d:i+d+m, j+d-d:j+d+m]    
+                    if not self.check_mean_V(candidate_window_V, threshold_v=self.threshold_v): # hyper-parameter
+                        continue
+                    candidate_window_S = S_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+                    # condition d:
+                    if not self.check_mean_S(candidate_window_S, threshold_s=self.threshold_s): # hyper-parameter
+                        continue
+
+                    # Add the pixel to the region region_id
+                    prototype[region_id][&#39;indices&#39;].append((i,j))
+                    prototype[region_id][&#39;values&#39;]  = np.append(prototype[region_id][&#39;values&#39;], pixel_c3)
+                    prototype[region_id][&#39;mean&#39;] = np.mean(prototype[region_id][&#39;values&#39;])
+                    prototype[region_id][&#39;sigma&#39;] = np.std(prototype[region_id][&#39;values&#39;])
+
+                    # TODO: Add region merging 
+
+        return prototype
+    
+    def get_shadow_mask(self, prototype):
+        mask_shadow = np.zeros(self.image.shape[:2])
+        for key,values in prototype.items():
+            indices = values[&#39;indices&#39;]
+            for indice in indices:
+                i = indice[0]
+                j = indice[1]
+                mask_shadow[i,j] = 1  
+        return mask_shadow
+    
+    @staticmethod
+    def postprocessing(mask_shadow, kernel_size=2):
+        kernel = np.ones((kernel_size, kernel_size))
+        mask_shadow_dilated = cv2.dilate(mask_shadow, kernel, iterations=1)
+        mask_shadow_dilated_eroded = cv2.erode(mask_shadow_dilated, kernel, iterations=1)
+        return mask_shadow_dilated_eroded
+    
+    def run(self, verbose=3):
+        &#34;&#34;&#34;
+        Run the entire shadow detection algorithm\n
+        `verbose=0`: no display \n
+        `verbose=1`: display image and seeds side by side \n
+        `verbose=2`: display image, seeds and shadows side by side\n
+        `verbose=3`: display image, seeds, shadows and postprocessed shadows
+        &#34;&#34;&#34;
+        seeds, prototype = self.seed_selection()
+        
+        prototype = self.region_growing(seeds, prototype)
+        
+        mask_shadow = self.get_shadow_mask(prototype)
+        mask_shadow_postprocessed = self.postprocessing(mask_shadow, kernel_size=2)
+        
+        if verbose == 1:
+            image_seed = self.mark_seeds_on_image(self.image, seeds)
+            self.display_two_image_side_by_side(self.image, image_seeds)
+        elif verbose == 2:
+            image_seed = self.mark_seeds_on_image(self.image, seeds)
+            image_shadow = self.mark_shadows_on_image(self.image, prototype)
+            self.display_three_image_side_by_side(self.image, image_seed, image_shadow)
+        elif verbose == 3:
+            image_seed = self.mark_seeds_on_image(self.image, seeds)
+            image_shadow = self.mark_shadows_on_image(self.image, prototype)
+            image_shadow_post = self.mark_seeds_on_image(self.image, mask_shadow_postprocessed)
+            self.display_four_image_side_by_side(self.image, image_seed, image_shadow, image_shadow_post)
+        
+        # TODO: Analyse the shadow to return true or false if it&#39;s an helipad or not
+    
+    @staticmethod
+    def mark_seeds_on_image(image, seeds):
+        &#34;&#34;&#34;
+        Marks the seeds on the image in blue\n
+        Returns the image with the seeds pixels in blue
+        &#34;&#34;&#34;
+        image_seed = image.copy()
+        for i in range(image.shape[0]):
+            for j in range(image.shape[1]):
+                if seeds[i][j] &gt; 1:
+                    image_seed[i,j,:] = [0,0,255]
+        return image_seed
+    
+    @staticmethod
+    def mark_shadows_on_image(image, prototype):
+        &#34;&#34;&#34;
+        Marks the shadow on the image in blue\n
+        Return the image with the shadow pixels in blue
+        &#34;&#34;&#34;
+        image_shadow = image.copy()
+        for key,values in prototype.items():
+            indices = values[&#39;indices&#39;]
+            for indice in indices:
+                i = indice[0]
+                j = indice[1]
+                image_shadow[i,j,:] = [0,0,255]  
+        return image_shadow
+    
+    @staticmethod
+    def display_two_image_side_by_side(image_1, image_2):
+        &#34;&#34;&#34;
+        Display `image_1` and `image_2` side by side
+        &#34;&#34;&#34;
+        fig, axes = plt.subplots(1, 2, figsize=(14, 6), sharex=True, sharey=True)
+        
+        axes[0].axis(&#39;off&#39;)
+        axes[0].imshow(image_1)
+        axes[0].set_title(&#39;Input image&#39;)
+
+        axes[1].axis(&#39;off&#39;)
+        axes[1].imshow(image_2)
+        axes[1].set_title(&#39;Shadow seeds&#39;)
+
+        plt.show()
+    
+    @staticmethod
+    def display_three_image_side_by_side(image_1, image_2, image_3):
+        &#34;&#34;&#34;
+        Display `image_1`, `image_2` and `image_3` side by side
+        &#34;&#34;&#34;
+        fig, axes = plt.subplots(1, 3, figsize=(14, 6), sharex=True, sharey=True)
+
+        axes[0].axis(&#39;off&#39;)
+        axes[0].imshow(image_1)
+        axes[0].set_title(&#39;Input image&#39;)
+
+        axes[1].axis(&#39;off&#39;)
+        axes[1].imshow(image_2)
+        axes[1].set_title(&#39;Shadow seeds&#39;)
+
+        axes[2].axis(&#39;off&#39;)
+        axes[2].imshow(image_3)
+        axes[2].set_title(&#39;Shadows&#39;)
+
+        plt.show()
+        
+    @staticmethod
+    def display_four_image_side_by_side(image_1, image_2, image_3, image_4):
+        &#34;&#34;&#34;
+        Display `image_1`, `image_2`, `image_3` and `image_4` side by side
+        &#34;&#34;&#34;
+        fig, axes = plt.subplots(1, 4, figsize=(14, 6), sharex=True, sharey=True)
+
+        axes[0].axis(&#39;off&#39;)
+        axes[0].imshow(image_1)
+        axes[0].set_title(&#39;Input image&#39;)
+
+        axes[1].axis(&#39;off&#39;)
+        axes[1].imshow(image_2)
+        axes[1].set_title(&#39;Shadow seeds&#39;)
+
+        axes[2].axis(&#39;off&#39;)
+        axes[2].imshow(image_3)
+        axes[2].set_title(&#39;Shadows&#39;)
+        
+        axes[3].axis(&#39;off&#39;)
+        axes[3].imshow(image_3)
+        axes[3].set_title(&#39;Shadows Postprocessed&#39;)
+
+        plt.show()
+
+        </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection"><code class="flex name class">
+<span>class <span class="ident">ShadowDetection</span></span>
+<span>(</span><span>image, minimum_size_window=3, threshold_v=0.35, threshold_s=0.02, ratio=1, d_0=3)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shadow Detection on an image. The image is supposed to be a bounding box detected by a model. </p>
+<p><code>image</code>: an image cropped around the bounding box</p>
+<p><code>minimum_size_window</code>: the minimum size of a shadow is defined by a square of side <code>(minimum_size_window*2-1)</code></p>
+<p><code>threshold_v</code>: the mean of the window in V must be inferior than <code>threshold_v</code> to be accepted.</p>
+<p><code>threshold_s</code>: the mean of the window in S must be superior than <code>threshold_s</code> to be accepted.</p>
+<p><code>ratio</code>: all the values of the window in <code>c3</code> must be superior than <code>mean(c3)*ratio</code>.</p>
+<p><code>d_0</code>: the candidate pixel to be added to the region shadow must be below a Mahalanobis distance <code>d_0</code> from the <code>mean(c3[region])</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ShadowDetection:
+    
+    &#34;&#34;&#34;
+    Shadow Detection on an image. The image is supposed to be a bounding box detected by a model. 
+    &#34;&#34;&#34;
+    
+    def __init__(self, image, minimum_size_window=3, 
+                 threshold_v=0.35, threshold_s=0.02, ratio=1, d_0=3):
+        &#34;&#34;&#34;
+        `image`: an image cropped around the bounding box\n
+        `minimum_size_window`: the minimum size of a shadow is defined by a square of side `(minimum_size_window*2-1)`\n
+        `threshold_v`: the mean of the window in V must be inferior than `threshold_v` to be accepted.\n
+        `threshold_s`: the mean of the window in S must be superior than `threshold_s` to be accepted.\n
+        `ratio`: all the values of the window in `c3` must be superior than `mean(c3)*ratio`.\n
+        `d_0`: the candidate pixel to be added to the region shadow must be below a Mahalanobis distance `d_0` from the `mean(c3[region])`.
+        &#34;&#34;&#34;
+        self.image = image
+        self.minimum_size_window = minimum_size_window
+        self.threshold_v = threshold_v
+        self.threshold_s = threshold_s
+        self.ratio = ratio
+        self.d_0 = d_0
+        
+        self.c3, self.S, self.V, self.edges = self.preprocessing(self.image)
+    
+    @staticmethod
+    def compute_c3(image):
+        &#34;&#34;&#34;
+        Compute the c3 channel of the image
+        &#34;&#34;&#34;
+        c3 = np.arctan(image[:,:,0]/np.maximum(image[:,:,1], image[:,:,2]))
+        return c3
+
+    @staticmethod
+    def apply_average_kernel(img, kernel_size):
+        &#34;&#34;&#34;
+        Apply an average kernel on the image
+        &#34;&#34;&#34;
+        return cv2.blur(img,(kernel_size, kernel_size))
+    
+    @staticmethod
+    def get_hsv(image):
+        &#34;&#34;&#34;
+        Get the image in the HSV colorspace
+        &#34;&#34;&#34;
+        return cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    @staticmethod
+    def compute_sobelx(v, kernel_size):
+        &#34;&#34;&#34;
+        Compute the gradient of the image using the SobelX algorithm
+        &#34;&#34;&#34;
+        return cv2.Sobel(v,cv2.CV_64F,1,0,ksize=kernel_size)
+
+    @staticmethod
+    def preprocessing(image):
+        &#34;&#34;&#34;
+        Preprocessing of the image\n
+        Returns the channels `c3`, `S`, `V` and `edges`
+        &#34;&#34;&#34;
+        c3 = ShadowDetection.compute_c3(image)
+        c3_smoothed = ShadowDetection.apply_average_kernel(c3, 3)
+        hsv = ShadowDetection.get_hsv(image)
+        edges = ShadowDetection.compute_sobelx(hsv[:,:,2], kernel_size=3)
+        return c3, hsv[:,:,1], hsv[:,:,2], edges
+   
+    @staticmethod
+    def zero_pad(matrix, pad_left, pad_right, pad_top, pad_bottom):
+        &#34;&#34;&#34;
+        Apply zero padding on a matrix
+        &#34;&#34;&#34;
+        h, w = matrix.shape
+        H, W = h+pad_top+pad_bottom, w+pad_left+pad_right
+        matrix_pad = np.zeros((H, W))
+        matrix_pad[pad_bottom:H-pad_top,pad_left:W-pad_right] = matrix
+        return matrix_pad
+    
+    @staticmethod
+    def check_local_maximum(candidate_seed, candidate_window):
+        &#34;&#34;&#34;
+        Check that the pixel is a local maximum\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        if candidate_seed &gt;= np.max(candidate_window):
+            return True
+        else:
+            return False
+    
+    @staticmethod
+    def check_value_neighbourhood(candidate_window, mean_c3, ratio=1/2):
+        &#34;&#34;&#34;
+        Check that all the values of the pixel inside the `candidate_window` are above `mean_c3*ratio`\n
+        &#34;&#34;&#34;
+        if np.min(candidate_window) &gt; mean_c3*ratio:  # should be &gt; mean_c3 according to the article but change to fit better
+            return True
+        else:
+            return False
+    
+    @staticmethod
+    def check_mean_V(V_window, threshold_v):
+        &#34;&#34;&#34;
+        Check that the mean of the values in V inside the window `V_window` are below the threshold `threshold_v`.\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        if np.mean(V_window/255.0) &lt; threshold_v:
+            return True
+        else:
+            return False
+    
+    @staticmethod
+    def check_mean_S(S_window, threshold_s):
+        &#34;&#34;&#34;
+        Check that the mean of the values in S inside the window `S_window` are above the threshold `threshold_s`.\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        if np.mean(S_window/255.0) &gt; threshold_s:
+            return True
+        else:
+            return False
+    
+    @staticmethod
+    def check_window_already_seed(i, j, seeds, delay, minimum_size_window):
+        &#34;&#34;&#34;
+        Check that the pixel at `[i,j]` is not already a seed.\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        d = delay
+        m = minimum_size_window
+        if np.max(seeds[i-d:i+m, j-d:j+m]) &gt; 0:
+            return False
+        else:
+            return True
+        
+    def seed_selection(self):
+        &#34;&#34;&#34;
+        Find all the shadows seeds inside the image.\n
+        Returns:\n
+        - `seeds`: a mask of the same shape as the `image` with `1` where the pixels are seeds or `0` if not.\n
+        - `prototype`:  a dictionnary having all the informations regarding each seed. 
+        &#34;&#34;&#34;
+        h, w = self.c3.shape
+        seeds = np.zeros((h, w))
+        prototype = {}
+        k = 1
+        d = self.minimum_size_window-1
+        m = self.minimum_size_window
+        c3_pad = self.zero_pad(self.c3, d, d, d, d)
+        S_pad = self.zero_pad(self.S, d, d, d, d)
+        V_pad = self.zero_pad(self.V, d, d, d, d)
+        mean_c3 = np.mean(self.c3)
+
+        for i in range(h):
+            for j in range(w):
+                candidate_seed = self.c3[i][j]
+                candidate_window_c3 = c3_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+                candidate_window_S = S_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+                candidate_window_V = V_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+                # condition a:
+                if not self.check_local_maximum(candidate_seed, candidate_window_c3):
+                    continue
+                # condition b:
+                elif not self.check_value_neighbourhood(candidate_window_c3, mean_c3, ratio=self.ratio):
+                    continue
+                # condition c:
+                elif not self.check_mean_V(candidate_window_V, threshold_v=self.threshold_v): # hyper-parameter
+                    continue
+                # condition d:
+                elif not self.check_mean_S(candidate_window_S, threshold_s=self.threshold_s): # hyper-parameter
+                    continue
+                # continue e
+                elif not self.check_window_already_seed(i, j, seeds, d, m):
+                    continue
+                else:
+                    # accept candidate and candidate window
+                    seeds[i-d:i+m, j-d:j+m] = k*np.ones((self.minimum_size_window*2-1, self.minimum_size_window*2-1))
+                    indices = []
+                    for u in range(i-d, i+m):
+                        for v in range(j-d, j+m):
+                            indices.append((u,v))
+                    prototype[k] = {&#39;indices&#39;:indices,
+                                    &#39;values&#39;:candidate_window_c3.ravel(),
+                                    &#39;mean&#39;: np.mean(candidate_window_c3),
+                                    &#39;sigma&#39;: np.std(candidate_window_c3)}
+                    k += 1
+        return seeds.astype(int), prototype
+    
+    @staticmethod
+    def check_pixel_in_shadow(prototype, i, j):
+        &#34;&#34;&#34;
+        Check if the pixel at `[i,j]` is already a shadow\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        for key, values in prototype.items():
+            if (i,j) in values[&#39;indices&#39;]:
+                return True
+        return False
+
+    @staticmethod
+    def check_pixel_neighbours_boundary_shadow(prototype, i, j):
+        &#34;&#34;&#34;
+        Check that the pixel at `[i,j]` is a neighbour of a shadow pixel.\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        neighbours = [(i-1,j), (i+1,j), (i-1,j-1), (i, j-1), (i,j+1), (i+1, j+1), (i+1, j-1), (i-1, j+1)]
+        for key, values in prototype.items():
+            indices = values[&#39;indices&#39;]
+            for neighbour in neighbours:
+                if neighbour in indices:
+                    return key
+        return 0
+    
+    @staticmethod
+    def check_mahalanobis_distance(pixel_c3, region_id, prototype, d_0 = 3):
+        &#34;&#34;&#34;
+        Check that the candidate pixel `pixel_c3` mahalanobis distance from the shadow region `region_id` is below `d_0`.\n
+        Returns a boolean
+        &#34;&#34;&#34;
+        mean_c3 = prototype[region_id][&#39;mean&#39;]
+        sigma_c3 = prototype[region_id][&#39;sigma&#39;]
+        if np.abs(pixel_c3 - mean_c3)/sigma_c3 &lt; d_0:
+            return True
+        else:
+            return False
+        
+    def region_growing(self, seeds, prototype):
+        &#34;&#34;&#34;
+        Apply the region growing algorithm from the `seeds`. \n
+        Returns the dictionnary `prototype` with all the different shadow regions. 
+        &#34;&#34;&#34;
+        n, p, c = self.image.shape
+
+        d = self.minimum_size_window-1
+        m = self.minimum_size_window
+        c3_pad = self.zero_pad(self.c3, d, d, d, d)
+        S_pad = self.zero_pad(self.S, d, d, d, d)
+        V_pad = self.zero_pad(self.V, d, d, d, d)
+
+        pixel_added = True
+        while pixel_added:
+            pixel_added = False
+            for i in range(n):
+                for j in range(p):
+                    # check if pixel already in shadow area
+                    if self.check_pixel_in_shadow(prototype, i, j):
+                        continue
+                    # check if pixel is a neighbours of a boundary pixel
+                    region_id = self.check_pixel_neighbours_boundary_shadow(prototype, i, j) 
+                    if region_id == 0:
+                        continue
+                    pixel_c3 = self.c3[i][j]
+                    if not self.check_mahalanobis_distance(pixel_c3, region_id, prototype, d_0=self.d_0): # d_0 hyper-parameter
+                        continue
+
+                    # The magnitude of the gradient of V &lt; T_e = 0.30 (not a shadow boundary pixel)
+                    # ???
+
+                    candidate_window_V = V_pad[i+d-d:i+d+m, j+d-d:j+d+m]    
+                    if not self.check_mean_V(candidate_window_V, threshold_v=self.threshold_v): # hyper-parameter
+                        continue
+                    candidate_window_S = S_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+                    # condition d:
+                    if not self.check_mean_S(candidate_window_S, threshold_s=self.threshold_s): # hyper-parameter
+                        continue
+
+                    # Add the pixel to the region region_id
+                    prototype[region_id][&#39;indices&#39;].append((i,j))
+                    prototype[region_id][&#39;values&#39;]  = np.append(prototype[region_id][&#39;values&#39;], pixel_c3)
+                    prototype[region_id][&#39;mean&#39;] = np.mean(prototype[region_id][&#39;values&#39;])
+                    prototype[region_id][&#39;sigma&#39;] = np.std(prototype[region_id][&#39;values&#39;])
+
+                    # TODO: Add region merging 
+
+        return prototype
+    
+    def get_shadow_mask(self, prototype):
+        mask_shadow = np.zeros(self.image.shape[:2])
+        for key,values in prototype.items():
+            indices = values[&#39;indices&#39;]
+            for indice in indices:
+                i = indice[0]
+                j = indice[1]
+                mask_shadow[i,j] = 1  
+        return mask_shadow
+    
+    @staticmethod
+    def postprocessing(mask_shadow, kernel_size=2):
+        kernel = np.ones((kernel_size, kernel_size))
+        mask_shadow_dilated = cv2.dilate(mask_shadow, kernel, iterations=1)
+        mask_shadow_dilated_eroded = cv2.erode(mask_shadow_dilated, kernel, iterations=1)
+        return mask_shadow_dilated_eroded
+    
+    def run(self, verbose=3):
+        &#34;&#34;&#34;
+        Run the entire shadow detection algorithm\n
+        `verbose=0`: no display \n
+        `verbose=1`: display image and seeds side by side \n
+        `verbose=2`: display image, seeds and shadows side by side\n
+        `verbose=3`: display image, seeds, shadows and postprocessed shadows
+        &#34;&#34;&#34;
+        seeds, prototype = self.seed_selection()
+        
+        prototype = self.region_growing(seeds, prototype)
+        
+        mask_shadow = self.get_shadow_mask(prototype)
+        mask_shadow_postprocessed = self.postprocessing(mask_shadow, kernel_size=2)
+        
+        if verbose == 1:
+            image_seed = self.mark_seeds_on_image(self.image, seeds)
+            self.display_two_image_side_by_side(self.image, image_seeds)
+        elif verbose == 2:
+            image_seed = self.mark_seeds_on_image(self.image, seeds)
+            image_shadow = self.mark_shadows_on_image(self.image, prototype)
+            self.display_three_image_side_by_side(self.image, image_seed, image_shadow)
+        elif verbose == 3:
+            image_seed = self.mark_seeds_on_image(self.image, seeds)
+            image_shadow = self.mark_shadows_on_image(self.image, prototype)
+            image_shadow_post = self.mark_seeds_on_image(self.image, mask_shadow_postprocessed)
+            self.display_four_image_side_by_side(self.image, image_seed, image_shadow, image_shadow_post)
+        
+        # TODO: Analyse the shadow to return true or false if it&#39;s an helipad or not
+    
+    @staticmethod
+    def mark_seeds_on_image(image, seeds):
+        &#34;&#34;&#34;
+        Marks the seeds on the image in blue\n
+        Returns the image with the seeds pixels in blue
+        &#34;&#34;&#34;
+        image_seed = image.copy()
+        for i in range(image.shape[0]):
+            for j in range(image.shape[1]):
+                if seeds[i][j] &gt; 1:
+                    image_seed[i,j,:] = [0,0,255]
+        return image_seed
+    
+    @staticmethod
+    def mark_shadows_on_image(image, prototype):
+        &#34;&#34;&#34;
+        Marks the shadow on the image in blue\n
+        Return the image with the shadow pixels in blue
+        &#34;&#34;&#34;
+        image_shadow = image.copy()
+        for key,values in prototype.items():
+            indices = values[&#39;indices&#39;]
+            for indice in indices:
+                i = indice[0]
+                j = indice[1]
+                image_shadow[i,j,:] = [0,0,255]  
+        return image_shadow
+    
+    @staticmethod
+    def display_two_image_side_by_side(image_1, image_2):
+        &#34;&#34;&#34;
+        Display `image_1` and `image_2` side by side
+        &#34;&#34;&#34;
+        fig, axes = plt.subplots(1, 2, figsize=(14, 6), sharex=True, sharey=True)
+        
+        axes[0].axis(&#39;off&#39;)
+        axes[0].imshow(image_1)
+        axes[0].set_title(&#39;Input image&#39;)
+
+        axes[1].axis(&#39;off&#39;)
+        axes[1].imshow(image_2)
+        axes[1].set_title(&#39;Shadow seeds&#39;)
+
+        plt.show()
+    
+    @staticmethod
+    def display_three_image_side_by_side(image_1, image_2, image_3):
+        &#34;&#34;&#34;
+        Display `image_1`, `image_2` and `image_3` side by side
+        &#34;&#34;&#34;
+        fig, axes = plt.subplots(1, 3, figsize=(14, 6), sharex=True, sharey=True)
+
+        axes[0].axis(&#39;off&#39;)
+        axes[0].imshow(image_1)
+        axes[0].set_title(&#39;Input image&#39;)
+
+        axes[1].axis(&#39;off&#39;)
+        axes[1].imshow(image_2)
+        axes[1].set_title(&#39;Shadow seeds&#39;)
+
+        axes[2].axis(&#39;off&#39;)
+        axes[2].imshow(image_3)
+        axes[2].set_title(&#39;Shadows&#39;)
+
+        plt.show()
+        
+    @staticmethod
+    def display_four_image_side_by_side(image_1, image_2, image_3, image_4):
+        &#34;&#34;&#34;
+        Display `image_1`, `image_2`, `image_3` and `image_4` side by side
+        &#34;&#34;&#34;
+        fig, axes = plt.subplots(1, 4, figsize=(14, 6), sharex=True, sharey=True)
+
+        axes[0].axis(&#39;off&#39;)
+        axes[0].imshow(image_1)
+        axes[0].set_title(&#39;Input image&#39;)
+
+        axes[1].axis(&#39;off&#39;)
+        axes[1].imshow(image_2)
+        axes[1].set_title(&#39;Shadow seeds&#39;)
+
+        axes[2].axis(&#39;off&#39;)
+        axes[2].imshow(image_3)
+        axes[2].set_title(&#39;Shadows&#39;)
+        
+        axes[3].axis(&#39;off&#39;)
+        axes[3].imshow(image_3)
+        axes[3].set_title(&#39;Shadows Postprocessed&#39;)
+
+        plt.show()</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.apply_average_kernel"><code class="name flex">
+<span>def <span class="ident">apply_average_kernel</span></span>(<span>img, kernel_size)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Apply an average kernel on the image</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def apply_average_kernel(img, kernel_size):
+    &#34;&#34;&#34;
+    Apply an average kernel on the image
+    &#34;&#34;&#34;
+    return cv2.blur(img,(kernel_size, kernel_size))</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_local_maximum"><code class="name flex">
+<span>def <span class="ident">check_local_maximum</span></span>(<span>candidate_seed, candidate_window)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check that the pixel is a local maximum</p>
+<p>Returns a boolean</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def check_local_maximum(candidate_seed, candidate_window):
+    &#34;&#34;&#34;
+    Check that the pixel is a local maximum\n
+    Returns a boolean
+    &#34;&#34;&#34;
+    if candidate_seed &gt;= np.max(candidate_window):
+        return True
+    else:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_mahalanobis_distance"><code class="name flex">
+<span>def <span class="ident">check_mahalanobis_distance</span></span>(<span>pixel_c3, region_id, prototype, d_0=3)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check that the candidate pixel <code>pixel_c3</code> mahalanobis distance from the shadow region <code>region_id</code> is below <code>d_0</code>.</p>
+<p>Returns a boolean</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def check_mahalanobis_distance(pixel_c3, region_id, prototype, d_0 = 3):
+    &#34;&#34;&#34;
+    Check that the candidate pixel `pixel_c3` mahalanobis distance from the shadow region `region_id` is below `d_0`.\n
+    Returns a boolean
+    &#34;&#34;&#34;
+    mean_c3 = prototype[region_id][&#39;mean&#39;]
+    sigma_c3 = prototype[region_id][&#39;sigma&#39;]
+    if np.abs(pixel_c3 - mean_c3)/sigma_c3 &lt; d_0:
+        return True
+    else:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_mean_S"><code class="name flex">
+<span>def <span class="ident">check_mean_S</span></span>(<span>S_window, threshold_s)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check that the mean of the values in S inside the window <code>S_window</code> are above the threshold <code>threshold_s</code>.</p>
+<p>Returns a boolean</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def check_mean_S(S_window, threshold_s):
+    &#34;&#34;&#34;
+    Check that the mean of the values in S inside the window `S_window` are above the threshold `threshold_s`.\n
+    Returns a boolean
+    &#34;&#34;&#34;
+    if np.mean(S_window/255.0) &gt; threshold_s:
+        return True
+    else:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_mean_V"><code class="name flex">
+<span>def <span class="ident">check_mean_V</span></span>(<span>V_window, threshold_v)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check that the mean of the values in V inside the window <code>V_window</code> are below the threshold <code>threshold_v</code>.</p>
+<p>Returns a boolean</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def check_mean_V(V_window, threshold_v):
+    &#34;&#34;&#34;
+    Check that the mean of the values in V inside the window `V_window` are below the threshold `threshold_v`.\n
+    Returns a boolean
+    &#34;&#34;&#34;
+    if np.mean(V_window/255.0) &lt; threshold_v:
+        return True
+    else:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_pixel_in_shadow"><code class="name flex">
+<span>def <span class="ident">check_pixel_in_shadow</span></span>(<span>prototype, i, j)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if the pixel at <code>[i,j]</code> is already a shadow</p>
+<p>Returns a boolean</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def check_pixel_in_shadow(prototype, i, j):
+    &#34;&#34;&#34;
+    Check if the pixel at `[i,j]` is already a shadow\n
+    Returns a boolean
+    &#34;&#34;&#34;
+    for key, values in prototype.items():
+        if (i,j) in values[&#39;indices&#39;]:
+            return True
+    return False</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_pixel_neighbours_boundary_shadow"><code class="name flex">
+<span>def <span class="ident">check_pixel_neighbours_boundary_shadow</span></span>(<span>prototype, i, j)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check that the pixel at <code>[i,j]</code> is a neighbour of a shadow pixel.</p>
+<p>Returns a boolean</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def check_pixel_neighbours_boundary_shadow(prototype, i, j):
+    &#34;&#34;&#34;
+    Check that the pixel at `[i,j]` is a neighbour of a shadow pixel.\n
+    Returns a boolean
+    &#34;&#34;&#34;
+    neighbours = [(i-1,j), (i+1,j), (i-1,j-1), (i, j-1), (i,j+1), (i+1, j+1), (i+1, j-1), (i-1, j+1)]
+    for key, values in prototype.items():
+        indices = values[&#39;indices&#39;]
+        for neighbour in neighbours:
+            if neighbour in indices:
+                return key
+    return 0</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_value_neighbourhood"><code class="name flex">
+<span>def <span class="ident">check_value_neighbourhood</span></span>(<span>candidate_window, mean_c3, ratio=0.5)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check that all the values of the pixel inside the <code>candidate_window</code> are above <code>mean_c3*ratio</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def check_value_neighbourhood(candidate_window, mean_c3, ratio=1/2):
+    &#34;&#34;&#34;
+    Check that all the values of the pixel inside the `candidate_window` are above `mean_c3*ratio`\n
+    &#34;&#34;&#34;
+    if np.min(candidate_window) &gt; mean_c3*ratio:  # should be &gt; mean_c3 according to the article but change to fit better
+        return True
+    else:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_window_already_seed"><code class="name flex">
+<span>def <span class="ident">check_window_already_seed</span></span>(<span>i, j, seeds, delay, minimum_size_window)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check that the pixel at <code>[i,j]</code> is not already a seed.</p>
+<p>Returns a boolean</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def check_window_already_seed(i, j, seeds, delay, minimum_size_window):
+    &#34;&#34;&#34;
+    Check that the pixel at `[i,j]` is not already a seed.\n
+    Returns a boolean
+    &#34;&#34;&#34;
+    d = delay
+    m = minimum_size_window
+    if np.max(seeds[i-d:i+m, j-d:j+m]) &gt; 0:
+        return False
+    else:
+        return True</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.compute_c3"><code class="name flex">
+<span>def <span class="ident">compute_c3</span></span>(<span>image)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Compute the c3 channel of the image</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def compute_c3(image):
+    &#34;&#34;&#34;
+    Compute the c3 channel of the image
+    &#34;&#34;&#34;
+    c3 = np.arctan(image[:,:,0]/np.maximum(image[:,:,1], image[:,:,2]))
+    return c3</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.compute_sobelx"><code class="name flex">
+<span>def <span class="ident">compute_sobelx</span></span>(<span>v, kernel_size)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Compute the gradient of the image using the SobelX algorithm</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def compute_sobelx(v, kernel_size):
+    &#34;&#34;&#34;
+    Compute the gradient of the image using the SobelX algorithm
+    &#34;&#34;&#34;
+    return cv2.Sobel(v,cv2.CV_64F,1,0,ksize=kernel_size)</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.display_four_image_side_by_side"><code class="name flex">
+<span>def <span class="ident">display_four_image_side_by_side</span></span>(<span>image_1, image_2, image_3, image_4)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Display <code>image_1</code>, <code>image_2</code>, <code>image_3</code> and <code>image_4</code> side by side</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def display_four_image_side_by_side(image_1, image_2, image_3, image_4):
+    &#34;&#34;&#34;
+    Display `image_1`, `image_2`, `image_3` and `image_4` side by side
+    &#34;&#34;&#34;
+    fig, axes = plt.subplots(1, 4, figsize=(14, 6), sharex=True, sharey=True)
+
+    axes[0].axis(&#39;off&#39;)
+    axes[0].imshow(image_1)
+    axes[0].set_title(&#39;Input image&#39;)
+
+    axes[1].axis(&#39;off&#39;)
+    axes[1].imshow(image_2)
+    axes[1].set_title(&#39;Shadow seeds&#39;)
+
+    axes[2].axis(&#39;off&#39;)
+    axes[2].imshow(image_3)
+    axes[2].set_title(&#39;Shadows&#39;)
+    
+    axes[3].axis(&#39;off&#39;)
+    axes[3].imshow(image_3)
+    axes[3].set_title(&#39;Shadows Postprocessed&#39;)
+
+    plt.show()</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.display_three_image_side_by_side"><code class="name flex">
+<span>def <span class="ident">display_three_image_side_by_side</span></span>(<span>image_1, image_2, image_3)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Display <code>image_1</code>, <code>image_2</code> and <code>image_3</code> side by side</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def display_three_image_side_by_side(image_1, image_2, image_3):
+    &#34;&#34;&#34;
+    Display `image_1`, `image_2` and `image_3` side by side
+    &#34;&#34;&#34;
+    fig, axes = plt.subplots(1, 3, figsize=(14, 6), sharex=True, sharey=True)
+
+    axes[0].axis(&#39;off&#39;)
+    axes[0].imshow(image_1)
+    axes[0].set_title(&#39;Input image&#39;)
+
+    axes[1].axis(&#39;off&#39;)
+    axes[1].imshow(image_2)
+    axes[1].set_title(&#39;Shadow seeds&#39;)
+
+    axes[2].axis(&#39;off&#39;)
+    axes[2].imshow(image_3)
+    axes[2].set_title(&#39;Shadows&#39;)
+
+    plt.show()</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.display_two_image_side_by_side"><code class="name flex">
+<span>def <span class="ident">display_two_image_side_by_side</span></span>(<span>image_1, image_2)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Display <code>image_1</code> and <code>image_2</code> side by side</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def display_two_image_side_by_side(image_1, image_2):
+    &#34;&#34;&#34;
+    Display `image_1` and `image_2` side by side
+    &#34;&#34;&#34;
+    fig, axes = plt.subplots(1, 2, figsize=(14, 6), sharex=True, sharey=True)
+    
+    axes[0].axis(&#39;off&#39;)
+    axes[0].imshow(image_1)
+    axes[0].set_title(&#39;Input image&#39;)
+
+    axes[1].axis(&#39;off&#39;)
+    axes[1].imshow(image_2)
+    axes[1].set_title(&#39;Shadow seeds&#39;)
+
+    plt.show()</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.get_hsv"><code class="name flex">
+<span>def <span class="ident">get_hsv</span></span>(<span>image)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the image in the HSV colorspace</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_hsv(image):
+    &#34;&#34;&#34;
+    Get the image in the HSV colorspace
+    &#34;&#34;&#34;
+    return cv2.cvtColor(image, cv2.COLOR_BGR2HSV)</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.mark_seeds_on_image"><code class="name flex">
+<span>def <span class="ident">mark_seeds_on_image</span></span>(<span>image, seeds)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Marks the seeds on the image in blue</p>
+<p>Returns the image with the seeds pixels in blue</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def mark_seeds_on_image(image, seeds):
+    &#34;&#34;&#34;
+    Marks the seeds on the image in blue\n
+    Returns the image with the seeds pixels in blue
+    &#34;&#34;&#34;
+    image_seed = image.copy()
+    for i in range(image.shape[0]):
+        for j in range(image.shape[1]):
+            if seeds[i][j] &gt; 1:
+                image_seed[i,j,:] = [0,0,255]
+    return image_seed</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.mark_shadows_on_image"><code class="name flex">
+<span>def <span class="ident">mark_shadows_on_image</span></span>(<span>image, prototype)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Marks the shadow on the image in blue</p>
+<p>Return the image with the shadow pixels in blue</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def mark_shadows_on_image(image, prototype):
+    &#34;&#34;&#34;
+    Marks the shadow on the image in blue\n
+    Return the image with the shadow pixels in blue
+    &#34;&#34;&#34;
+    image_shadow = image.copy()
+    for key,values in prototype.items():
+        indices = values[&#39;indices&#39;]
+        for indice in indices:
+            i = indice[0]
+            j = indice[1]
+            image_shadow[i,j,:] = [0,0,255]  
+    return image_shadow</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.postprocessing"><code class="name flex">
+<span>def <span class="ident">postprocessing</span></span>(<span>mask_shadow, kernel_size=2)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def postprocessing(mask_shadow, kernel_size=2):
+    kernel = np.ones((kernel_size, kernel_size))
+    mask_shadow_dilated = cv2.dilate(mask_shadow, kernel, iterations=1)
+    mask_shadow_dilated_eroded = cv2.erode(mask_shadow_dilated, kernel, iterations=1)
+    return mask_shadow_dilated_eroded</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.preprocessing"><code class="name flex">
+<span>def <span class="ident">preprocessing</span></span>(<span>image)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Preprocessing of the image</p>
+<p>Returns the channels <code>c3</code>, <code>S</code>, <code>V</code> and <code>edges</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def preprocessing(image):
+    &#34;&#34;&#34;
+    Preprocessing of the image\n
+    Returns the channels `c3`, `S`, `V` and `edges`
+    &#34;&#34;&#34;
+    c3 = ShadowDetection.compute_c3(image)
+    c3_smoothed = ShadowDetection.apply_average_kernel(c3, 3)
+    hsv = ShadowDetection.get_hsv(image)
+    edges = ShadowDetection.compute_sobelx(hsv[:,:,2], kernel_size=3)
+    return c3, hsv[:,:,1], hsv[:,:,2], edges</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.zero_pad"><code class="name flex">
+<span>def <span class="ident">zero_pad</span></span>(<span>matrix, pad_left, pad_right, pad_top, pad_bottom)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Apply zero padding on a matrix</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def zero_pad(matrix, pad_left, pad_right, pad_top, pad_bottom):
+    &#34;&#34;&#34;
+    Apply zero padding on a matrix
+    &#34;&#34;&#34;
+    h, w = matrix.shape
+    H, W = h+pad_top+pad_bottom, w+pad_left+pad_right
+    matrix_pad = np.zeros((H, W))
+    matrix_pad[pad_bottom:H-pad_top,pad_left:W-pad_right] = matrix
+    return matrix_pad</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.get_shadow_mask"><code class="name flex">
+<span>def <span class="ident">get_shadow_mask</span></span>(<span>self, prototype)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_shadow_mask(self, prototype):
+    mask_shadow = np.zeros(self.image.shape[:2])
+    for key,values in prototype.items():
+        indices = values[&#39;indices&#39;]
+        for indice in indices:
+            i = indice[0]
+            j = indice[1]
+            mask_shadow[i,j] = 1  
+    return mask_shadow</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.region_growing"><code class="name flex">
+<span>def <span class="ident">region_growing</span></span>(<span>self, seeds, prototype)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Apply the region growing algorithm from the <code>seeds</code>. </p>
+<p>Returns the dictionnary <code>prototype</code> with all the different shadow regions.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def region_growing(self, seeds, prototype):
+    &#34;&#34;&#34;
+    Apply the region growing algorithm from the `seeds`. \n
+    Returns the dictionnary `prototype` with all the different shadow regions. 
+    &#34;&#34;&#34;
+    n, p, c = self.image.shape
+
+    d = self.minimum_size_window-1
+    m = self.minimum_size_window
+    c3_pad = self.zero_pad(self.c3, d, d, d, d)
+    S_pad = self.zero_pad(self.S, d, d, d, d)
+    V_pad = self.zero_pad(self.V, d, d, d, d)
+
+    pixel_added = True
+    while pixel_added:
+        pixel_added = False
+        for i in range(n):
+            for j in range(p):
+                # check if pixel already in shadow area
+                if self.check_pixel_in_shadow(prototype, i, j):
+                    continue
+                # check if pixel is a neighbours of a boundary pixel
+                region_id = self.check_pixel_neighbours_boundary_shadow(prototype, i, j) 
+                if region_id == 0:
+                    continue
+                pixel_c3 = self.c3[i][j]
+                if not self.check_mahalanobis_distance(pixel_c3, region_id, prototype, d_0=self.d_0): # d_0 hyper-parameter
+                    continue
+
+                # The magnitude of the gradient of V &lt; T_e = 0.30 (not a shadow boundary pixel)
+                # ???
+
+                candidate_window_V = V_pad[i+d-d:i+d+m, j+d-d:j+d+m]    
+                if not self.check_mean_V(candidate_window_V, threshold_v=self.threshold_v): # hyper-parameter
+                    continue
+                candidate_window_S = S_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+                # condition d:
+                if not self.check_mean_S(candidate_window_S, threshold_s=self.threshold_s): # hyper-parameter
+                    continue
+
+                # Add the pixel to the region region_id
+                prototype[region_id][&#39;indices&#39;].append((i,j))
+                prototype[region_id][&#39;values&#39;]  = np.append(prototype[region_id][&#39;values&#39;], pixel_c3)
+                prototype[region_id][&#39;mean&#39;] = np.mean(prototype[region_id][&#39;values&#39;])
+                prototype[region_id][&#39;sigma&#39;] = np.std(prototype[region_id][&#39;values&#39;])
+
+                # TODO: Add region merging 
+
+    return prototype</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self, verbose=3)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Run the entire shadow detection algorithm</p>
+<p><code>verbose=0</code>: no display </p>
+<p><code>verbose=1</code>: display image and seeds side by side </p>
+<p><code>verbose=2</code>: display image, seeds and shadows side by side</p>
+<p><code>verbose=3</code>: display image, seeds, shadows and postprocessed shadows</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self, verbose=3):
+    &#34;&#34;&#34;
+    Run the entire shadow detection algorithm\n
+    `verbose=0`: no display \n
+    `verbose=1`: display image and seeds side by side \n
+    `verbose=2`: display image, seeds and shadows side by side\n
+    `verbose=3`: display image, seeds, shadows and postprocessed shadows
+    &#34;&#34;&#34;
+    seeds, prototype = self.seed_selection()
+    
+    prototype = self.region_growing(seeds, prototype)
+    
+    mask_shadow = self.get_shadow_mask(prototype)
+    mask_shadow_postprocessed = self.postprocessing(mask_shadow, kernel_size=2)
+    
+    if verbose == 1:
+        image_seed = self.mark_seeds_on_image(self.image, seeds)
+        self.display_two_image_side_by_side(self.image, image_seeds)
+    elif verbose == 2:
+        image_seed = self.mark_seeds_on_image(self.image, seeds)
+        image_shadow = self.mark_shadows_on_image(self.image, prototype)
+        self.display_three_image_side_by_side(self.image, image_seed, image_shadow)
+    elif verbose == 3:
+        image_seed = self.mark_seeds_on_image(self.image, seeds)
+        image_shadow = self.mark_shadows_on_image(self.image, prototype)
+        image_shadow_post = self.mark_seeds_on_image(self.image, mask_shadow_postprocessed)
+        self.display_four_image_side_by_side(self.image, image_seed, image_shadow, image_shadow_post)</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.seed_selection"><code class="name flex">
+<span>def <span class="ident">seed_selection</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Find all the shadows seeds inside the image.</p>
+<p>Returns:</p>
+<ul>
+<li>
+<p><code>seeds</code>: a mask of the same shape as the <code>image</code> with <code>1</code> where the pixels are seeds or <code>0</code> if not.</p>
+</li>
+<li>
+<p><code>prototype</code>:
+a dictionnary having all the informations regarding each seed.</p>
+</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def seed_selection(self):
+    &#34;&#34;&#34;
+    Find all the shadows seeds inside the image.\n
+    Returns:\n
+    - `seeds`: a mask of the same shape as the `image` with `1` where the pixels are seeds or `0` if not.\n
+    - `prototype`:  a dictionnary having all the informations regarding each seed. 
+    &#34;&#34;&#34;
+    h, w = self.c3.shape
+    seeds = np.zeros((h, w))
+    prototype = {}
+    k = 1
+    d = self.minimum_size_window-1
+    m = self.minimum_size_window
+    c3_pad = self.zero_pad(self.c3, d, d, d, d)
+    S_pad = self.zero_pad(self.S, d, d, d, d)
+    V_pad = self.zero_pad(self.V, d, d, d, d)
+    mean_c3 = np.mean(self.c3)
+
+    for i in range(h):
+        for j in range(w):
+            candidate_seed = self.c3[i][j]
+            candidate_window_c3 = c3_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+            candidate_window_S = S_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+            candidate_window_V = V_pad[i+d-d:i+d+m, j+d-d:j+d+m]
+            # condition a:
+            if not self.check_local_maximum(candidate_seed, candidate_window_c3):
+                continue
+            # condition b:
+            elif not self.check_value_neighbourhood(candidate_window_c3, mean_c3, ratio=self.ratio):
+                continue
+            # condition c:
+            elif not self.check_mean_V(candidate_window_V, threshold_v=self.threshold_v): # hyper-parameter
+                continue
+            # condition d:
+            elif not self.check_mean_S(candidate_window_S, threshold_s=self.threshold_s): # hyper-parameter
+                continue
+            # continue e
+            elif not self.check_window_already_seed(i, j, seeds, d, m):
+                continue
+            else:
+                # accept candidate and candidate window
+                seeds[i-d:i+m, j-d:j+m] = k*np.ones((self.minimum_size_window*2-1, self.minimum_size_window*2-1))
+                indices = []
+                for u in range(i-d, i+m):
+                    for v in range(j-d, j+m):
+                        indices.append((u,v))
+                prototype[k] = {&#39;indices&#39;:indices,
+                                &#39;values&#39;:candidate_window_c3.ravel(),
+                                &#39;mean&#39;: np.mean(candidate_window_c3),
+                                &#39;sigma&#39;: np.std(candidate_window_c3)}
+                k += 1
+    return seeds.astype(int), prototype</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="helipad_detection.src.bb_analysis" href="index.html">helipad_detection.src.bb_analysis</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection">ShadowDetection</a></code></h4>
+<ul class="">
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.apply_average_kernel" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.apply_average_kernel">apply_average_kernel</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_local_maximum" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_local_maximum">check_local_maximum</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_mahalanobis_distance" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_mahalanobis_distance">check_mahalanobis_distance</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_mean_S" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_mean_S">check_mean_S</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_mean_V" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_mean_V">check_mean_V</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_pixel_in_shadow" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_pixel_in_shadow">check_pixel_in_shadow</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_pixel_neighbours_boundary_shadow" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_pixel_neighbours_boundary_shadow">check_pixel_neighbours_boundary_shadow</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_value_neighbourhood" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_value_neighbourhood">check_value_neighbourhood</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_window_already_seed" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.check_window_already_seed">check_window_already_seed</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.compute_c3" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.compute_c3">compute_c3</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.compute_sobelx" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.compute_sobelx">compute_sobelx</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.display_four_image_side_by_side" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.display_four_image_side_by_side">display_four_image_side_by_side</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.display_three_image_side_by_side" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.display_three_image_side_by_side">display_three_image_side_by_side</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.display_two_image_side_by_side" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.display_two_image_side_by_side">display_two_image_side_by_side</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.get_hsv" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.get_hsv">get_hsv</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.get_shadow_mask" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.get_shadow_mask">get_shadow_mask</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.mark_seeds_on_image" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.mark_seeds_on_image">mark_seeds_on_image</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.mark_shadows_on_image" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.mark_shadows_on_image">mark_shadows_on_image</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.postprocessing" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.postprocessing">postprocessing</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.preprocessing" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.preprocessing">preprocessing</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.region_growing" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.region_growing">region_growing</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.run" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.run">run</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.seed_selection" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.seed_selection">seed_selection</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.zero_pad" href="#helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.zero_pad">zero_pad</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

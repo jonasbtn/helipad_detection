@@ -30,7 +30,7 @@ from shutil import copyfile
 
 class RestoreMeta:
     &#34;&#34;&#34;
-    Restore specific meta files from a backup folder to another meta folder.
+    Restore specific meta files from a backup folder to another meta folder. Since the number of meta files is very high, if there is a mistake into one file, having to copy everything from a backup folder is slow and painful. Instead, this script copy only selected meta files. 
     &#34;&#34;&#34;
     def __init__(self, meta_folder, save_folder, index_filename):
         &#34;&#34;&#34;
@@ -93,7 +93,7 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>meta_folder, save_folder, index_filename)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Restore specific meta files from a backup folder to another meta folder.</p>
+<div class="desc"><p>Restore specific meta files from a backup folder to another meta folder. Since the number of meta files is very high, if there is a mistake into one file, having to copy everything from a backup folder is slow and painful. Instead, this script copy only selected meta files. </p>
 <p><code>meta_folder</code>: the path to the meta folder </p>
 <p><code>save_folder</code>: the path to the save folder </p>
 <p><code>index_filename</code>: the path to the file containing the filenames of the meta files to restore</p></div>
@@ -103,7 +103,7 @@ if __name__ == &#34;__main__&#34;:
 </summary>
 <pre><code class="python">class RestoreMeta:
     &#34;&#34;&#34;
-    Restore specific meta files from a backup folder to another meta folder.
+    Restore specific meta files from a backup folder to another meta folder. Since the number of meta files is very high, if there is a mistake into one file, having to copy everything from a backup folder is slow and painful. Instead, this script copy only selected meta files. 
     &#34;&#34;&#34;
     def __init__(self, meta_folder, save_folder, index_filename):
         &#34;&#34;&#34;

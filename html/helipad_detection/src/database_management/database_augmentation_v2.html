@@ -286,7 +286,8 @@ class DatabaseAugmentationV2:
     @staticmethod
     def load_image_bboxes(image_path, meta_path):
         &#34;&#34;&#34;
-        Load the bounding boxes of the image from `image_path` and `meta_path`
+        Load the bounding boxes of the image from `image_path` and `meta_path`\n
+        Returns the image, its bounding boxes and its meta informatiosn
         &#34;&#34;&#34;
         image = cv2.imread(image_path)
         with open(meta_path, &#39;r&#39;) as f:
@@ -699,7 +700,8 @@ if __name__ == &#34;__main__&#34;:
     @staticmethod
     def load_image_bboxes(image_path, meta_path):
         &#34;&#34;&#34;
-        Load the bounding boxes of the image from `image_path` and `meta_path`
+        Load the bounding boxes of the image from `image_path` and `meta_path`\n
+        Returns the image, its bounding boxes and its meta informatiosn
         &#34;&#34;&#34;
         image = cv2.imread(image_path)
         with open(meta_path, &#39;r&#39;) as f:
@@ -970,7 +972,8 @@ def duplicate_categories(input_folder, meta_folder, repartition):
 <span>def <span class="ident">load_image_bboxes</span></span>(<span>image_path, meta_path)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Load the bounding boxes of the image from <code>image_path</code> and <code>meta_path</code></p></div>
+<div class="desc"><p>Load the bounding boxes of the image from <code>image_path</code> and <code>meta_path</code></p>
+<p>Returns the image, its bounding boxes and its meta informatiosn</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -978,7 +981,8 @@ def duplicate_categories(input_folder, meta_folder, repartition):
 <pre><code class="python">@staticmethod
 def load_image_bboxes(image_path, meta_path):
     &#34;&#34;&#34;
-    Load the bounding boxes of the image from `image_path` and `meta_path`
+    Load the bounding boxes of the image from `image_path` and `meta_path`\n
+    Returns the image, its bounding boxes and its meta informatiosn
     &#34;&#34;&#34;
     image = cv2.imread(image_path)
     with open(meta_path, &#39;r&#39;) as f:

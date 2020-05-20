@@ -48,7 +48,8 @@ from helipad_detection.src.utils.box_utils import *
 
 class DatabaseAugmentation:
     &#34;&#34;&#34;
-    Apply Augmentation on the dataset using Google&#39;s policy 
+    Apply Augmentation on the dataset using Google&#39;s policy. \n
+    The policy is editable inside the script file `helipad_detection.src.utils.autoaugment_utils` under the function `policy_v3`.
     &#34;&#34;&#34;
     def __init__(self, input_folder, meta_folder, root_folder, root_folder_meta,
                  balance_dataset=False, repartition=None, version_number=None, display=False):
@@ -430,7 +431,8 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>input_folder, meta_folder, root_folder, root_folder_meta, balance_dataset=False, repartition=None, version_number=None, display=False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Apply Augmentation on the dataset using Google's policy </p>
+<div class="desc"><p>Apply Augmentation on the dataset using Google's policy. </p>
+<p>The policy is editable inside the script file <code><a title="helipad_detection.src.utils.autoaugment_utils" href="../utils/autoaugment_utils.html">helipad_detection.src.utils.autoaugment_utils</a></code> under the function <code>policy_v3</code>.</p>
 <p><code>input_folder</code>: the folder containing the original images </p>
 <p><code>meta_folder</code>: the folder containing the meta of the original images </p>
 <p><code>root_folder</code>: the folder where to store the augmented images </p>
@@ -446,7 +448,8 @@ if __name__ == &#34;__main__&#34;:
 </summary>
 <pre><code class="python">class DatabaseAugmentation:
     &#34;&#34;&#34;
-    Apply Augmentation on the dataset using Google&#39;s policy 
+    Apply Augmentation on the dataset using Google&#39;s policy. \n
+    The policy is editable inside the script file `helipad_detection.src.utils.autoaugment_utils` under the function `policy_v3`.
     &#34;&#34;&#34;
     def __init__(self, input_folder, meta_folder, root_folder, root_folder_meta,
                  balance_dataset=False, repartition=None, version_number=None, display=False):

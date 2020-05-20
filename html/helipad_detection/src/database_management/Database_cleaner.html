@@ -31,9 +31,18 @@ import shutil
 
 
 class DatabaseCleaner:
-
-    def __init__(self, folder, true_folder, false_folder, unknown_folder, mode=1):
-
+    
+    &#34;&#34;&#34;
+    DataBase Cleaner is an interface to classifiy a dataset of images into 3 categories : true sample, false sample and unknown (if we can&#39;t say it is true or false). The files from the dataset folder are copied into 3 subfolders accordingly.
+    &#34;&#34;&#34;
+    
+    def __init__(self, folder, true_folder, false_folder, unknown_folder):
+        &#34;&#34;&#34;
+        `folder`: the dataset folder path. \n
+        `true_folder`: the folder path where to save the true examples. \n
+        `false_folder`: the folder path where to save the false examples. \n
+        `unknown_folder`: the folder path where to save the unknown examples. \n
+        &#34;&#34;&#34;
         if not os.path.isdir(true_folder):
             os.mkdir(true_folder)
         if not os.path.isdir(false_folder):
@@ -45,7 +54,6 @@ class DatabaseCleaner:
         self.true_folder = true_folder
         self.false_folder = false_folder
         self.unknown_folder = unknown_folder
-        self.mode = mode
 
         self.all_filepaths = self.load_all_filepaths(folder)
         self.true_filepath = self.load_all_filepaths(true_folder)
@@ -56,6 +64,10 @@ class DatabaseCleaner:
         print(len(self.all_filepaths))
 
     def load_all_filepaths(self, folder):
+        &#34;&#34;&#34;
+        Load of the filepaths present in a `folder`.\n
+        Returns a list of filepaths.
+        &#34;&#34;&#34;
         all_filepaths = []
         for subdir, dirs, files in os.walk(folder):
             for file in files:
@@ -65,6 +77,9 @@ class DatabaseCleaner:
 
     @staticmethod
     def copy_file(filename, source, directory, destination_database):
+        &#34;&#34;&#34;
+        Copy a file of name `filename` from `source` to `os.path.join(destination_database, directory)`
+        &#34;&#34;&#34;
         destination_folder = os.path.join(destination_database, directory)
         if not os.path.isdir(destination_folder):
             os.mkdir(destination_folder)
@@ -73,7 +88,13 @@ class DatabaseCleaner:
         print(&#34;Copied to : %s&#34; % destination_file)
 
     def groundtruth(self):
-
+        &#34;&#34;&#34;
+        Launch the annotation interface. \n
+        Press `y` for true\n
+        Press `n` for false\n
+        Press `u` for unknown\n
+        Press `backspace` to undo.
+        &#34;&#34;&#34;
         i = 0
         window_name = &#39;image&#39;
 
@@ -140,9 +161,10 @@ class DatabaseCleaner:
             print(&#34;{} more to go!&#34;.format(len(self.all_filepaths)-i))
 
     def run(self):
-
-        if self.mode == 1:
-            self.groundtruth()
+        &#34;&#34;&#34;
+        Run the interface database cleaner.
+        &#34;&#34;&#34;
+        self.groundtruth()
 
 
 if __name__ == &#34;__main__&#34;:
@@ -152,7 +174,7 @@ if __name__ == &#34;__main__&#34;:
     false_folder = os.path.join(&#39;C:\\&#39;, &#39;Users&#39;, &#39;jonas&#39;, &#39;Desktop&#39;, &#39;Helipad_DataBase_False&#39;)
     unknown_folder = os.path.join(&#39;C:\\&#39;, &#39;Users&#39;, &#39;jonas&#39;, &#39;Desktop&#39;, &#39;Helipad_DataBase_Junk&#39;)
 
-    database_cleaner = DatabaseCleaner(folder, true_folder, false_folder, unknown_folder, mode=1)
+    database_cleaner = DatabaseCleaner(folder, true_folder, false_folder, unknown_folder)
 
     database_cleaner.run()</code></pre>
 </details>
@@ -168,18 +190,31 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt id="helipad_detection.src.database_management.database_cleaner.DatabaseCleaner"><code class="flex name class">
 <span>class <span class="ident">DatabaseCleaner</span></span>
-<span>(</span><span>folder, true_folder, false_folder, unknown_folder, mode=1)</span>
+<span>(</span><span>folder, true_folder, false_folder, unknown_folder)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>DataBase Cleaner is an interface to classifiy a dataset of images into 3 categories : true sample, false sample and unknown (if we can't say it is true or false). The files from the dataset folder are copied into 3 subfolders accordingly.</p>
+<p><code>folder</code>: the dataset folder path. </p>
+<p><code>true_folder</code>: the folder path where to save the true examples. </p>
+<p><code>false_folder</code>: the folder path where to save the false examples. </p>
+<p><code>unknown_folder</code>: the folder path where to save the unknown examples.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class DatabaseCleaner:
-
-    def __init__(self, folder, true_folder, false_folder, unknown_folder, mode=1):
-
+    
+    &#34;&#34;&#34;
+    DataBase Cleaner is an interface to classifiy a dataset of images into 3 categories : true sample, false sample and unknown (if we can&#39;t say it is true or false). The files from the dataset folder are copied into 3 subfolders accordingly.
+    &#34;&#34;&#34;
+    
+    def __init__(self, folder, true_folder, false_folder, unknown_folder):
+        &#34;&#34;&#34;
+        `folder`: the dataset folder path. \n
+        `true_folder`: the folder path where to save the true examples. \n
+        `false_folder`: the folder path where to save the false examples. \n
+        `unknown_folder`: the folder path where to save the unknown examples. \n
+        &#34;&#34;&#34;
         if not os.path.isdir(true_folder):
             os.mkdir(true_folder)
         if not os.path.isdir(false_folder):
@@ -191,7 +226,6 @@ if __name__ == &#34;__main__&#34;:
         self.true_folder = true_folder
         self.false_folder = false_folder
         self.unknown_folder = unknown_folder
-        self.mode = mode
 
         self.all_filepaths = self.load_all_filepaths(folder)
         self.true_filepath = self.load_all_filepaths(true_folder)
@@ -202,6 +236,10 @@ if __name__ == &#34;__main__&#34;:
         print(len(self.all_filepaths))
 
     def load_all_filepaths(self, folder):
+        &#34;&#34;&#34;
+        Load of the filepaths present in a `folder`.\n
+        Returns a list of filepaths.
+        &#34;&#34;&#34;
         all_filepaths = []
         for subdir, dirs, files in os.walk(folder):
             for file in files:
@@ -211,6 +249,9 @@ if __name__ == &#34;__main__&#34;:
 
     @staticmethod
     def copy_file(filename, source, directory, destination_database):
+        &#34;&#34;&#34;
+        Copy a file of name `filename` from `source` to `os.path.join(destination_database, directory)`
+        &#34;&#34;&#34;
         destination_folder = os.path.join(destination_database, directory)
         if not os.path.isdir(destination_folder):
             os.mkdir(destination_folder)
@@ -219,7 +260,13 @@ if __name__ == &#34;__main__&#34;:
         print(&#34;Copied to : %s&#34; % destination_file)
 
     def groundtruth(self):
-
+        &#34;&#34;&#34;
+        Launch the annotation interface. \n
+        Press `y` for true\n
+        Press `n` for false\n
+        Press `u` for unknown\n
+        Press `backspace` to undo.
+        &#34;&#34;&#34;
         i = 0
         window_name = &#39;image&#39;
 
@@ -286,9 +333,10 @@ if __name__ == &#34;__main__&#34;:
             print(&#34;{} more to go!&#34;.format(len(self.all_filepaths)-i))
 
     def run(self):
-
-        if self.mode == 1:
-            self.groundtruth()</code></pre>
+        &#34;&#34;&#34;
+        Run the interface database cleaner.
+        &#34;&#34;&#34;
+        self.groundtruth()</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
@@ -296,13 +344,16 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">copy_file</span></span>(<span>filename, source, directory, destination_database)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Copy a file of name <code>filename</code> from <code>source</code> to <code>os.path.join(destination_database, directory)</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def copy_file(filename, source, directory, destination_database):
+    &#34;&#34;&#34;
+    Copy a file of name `filename` from `source` to `os.path.join(destination_database, directory)`
+    &#34;&#34;&#34;
     destination_folder = os.path.join(destination_database, directory)
     if not os.path.isdir(destination_folder):
         os.mkdir(destination_folder)
@@ -318,13 +369,23 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">groundtruth</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Launch the annotation interface. </p>
+<p>Press <code>y</code> for true</p>
+<p>Press <code>n</code> for false</p>
+<p>Press <code>u</code> for unknown</p>
+<p>Press <code>backspace</code> to undo.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def groundtruth(self):
-
+    &#34;&#34;&#34;
+    Launch the annotation interface. \n
+    Press `y` for true\n
+    Press `n` for false\n
+    Press `u` for unknown\n
+    Press `backspace` to undo.
+    &#34;&#34;&#34;
     i = 0
     window_name = &#39;image&#39;
 
@@ -395,12 +456,17 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">load_all_filepaths</span></span>(<span>self, folder)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load of the filepaths present in a <code>folder</code>.</p>
+<p>Returns a list of filepaths.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load_all_filepaths(self, folder):
+    &#34;&#34;&#34;
+    Load of the filepaths present in a `folder`.\n
+    Returns a list of filepaths.
+    &#34;&#34;&#34;
     all_filepaths = []
     for subdir, dirs, files in os.walk(folder):
         for file in files:
@@ -413,15 +479,16 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">run</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the interface database cleaner.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run(self):
-
-    if self.mode == 1:
-        self.groundtruth()</code></pre>
+    &#34;&#34;&#34;
+    Run the interface database cleaner.
+    &#34;&#34;&#34;
+    self.groundtruth()</code></pre>
 </details>
 </dd>
 </dl>

@@ -27,6 +27,7 @@
 <pre><code class="python">import os
 import json
 from tqdm import tqdm as tqdm
+import pathlib
 
 
 class BuildPlacemarks:
@@ -45,7 +46,7 @@ class BuildPlacemarks:
         self.model_name = model_name
         self.index_path = index_path
         self.model_validation_threshold = model_validation_threshold
-        self.output_name = os.path.join(&#34;detection&#34;, &#34;placemarks&#34;, &#34;{}placemarks_m{}_t{}_v{}_{}_t{}.kml&#34;.format(prefix, model_number, threshold, knn, model_name, model_validation_threshold))
+        self.output_name = os.path.join(pathlib.Path(__file__).parent.absolute(), &#34;placemarks&#34;, &#34;{}placemarks_m{}_t{}_v{}_{}_t{}.kml&#34;.format(prefix, model_number, threshold, knn, model_name, model_validation_threshold))
     
     @staticmethod
     def get_meta_info_from_line(line):
@@ -207,7 +208,7 @@ if __name__ == &#34;__main__&#34;:
         self.model_name = model_name
         self.index_path = index_path
         self.model_validation_threshold = model_validation_threshold
-        self.output_name = os.path.join(&#34;detection&#34;, &#34;placemarks&#34;, &#34;{}placemarks_m{}_t{}_v{}_{}_t{}.kml&#34;.format(prefix, model_number, threshold, knn, model_name, model_validation_threshold))
+        self.output_name = os.path.join(pathlib.Path(__file__).parent.absolute(), &#34;placemarks&#34;, &#34;{}placemarks_m{}_t{}_v{}_{}_t{}.kml&#34;.format(prefix, model_number, threshold, knn, model_name, model_validation_threshold))
     
     @staticmethod
     def get_meta_info_from_line(line):

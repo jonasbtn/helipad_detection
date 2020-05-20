@@ -278,16 +278,37 @@ class ShadowDetection:
 
         return prototype
     
-    def run(self, verbose=2):
+    def get_shadow_mask(self, prototype):
+        mask_shadow = np.zeros(self.image.shape[:2])
+        for key,values in prototype.items():
+            indices = values['indices']
+            for indice in indices:
+                i = indice[0]
+                j = indice[1]
+                mask_shadow[i,j] = 1  
+        return mask_shadow
+    
+    @staticmethod
+    def postprocessing(mask_shadow, kernel_size=2):
+        kernel = np.ones((kernel_size, kernel_size))
+        mask_shadow_dilated = cv2.dilate(mask_shadow, kernel, iterations=1)
+        mask_shadow_dilated_eroded = cv2.erode(mask_shadow_dilated, kernel, iterations=1)
+        return mask_shadow_dilated_eroded
+    
+    def run(self, verbose=3):
         """
         Run the entire shadow detection algorithm\n
         `verbose=0`: no display \n
         `verbose=1`: display image and seeds side by side \n
         `verbose=2`: display image, seeds and shadows side by side\n
+        `verbose=3`: display image, seeds, shadows and postprocessed shadows
         """
         seeds, prototype = self.seed_selection()
         
         prototype = self.region_growing(seeds, prototype)
+        
+        mask_shadow = self.get_shadow_mask(prototype)
+        mask_shadow_postprocessed = self.postprocessing(mask_shadow, kernel_size=2)
         
         if verbose == 1:
             image_seed = self.mark_seeds_on_image(self.image, seeds)
@@ -296,6 +317,11 @@ class ShadowDetection:
             image_seed = self.mark_seeds_on_image(self.image, seeds)
             image_shadow = self.mark_shadows_on_image(self.image, prototype)
             self.display_three_image_side_by_side(self.image, image_seed, image_shadow)
+        elif verbose == 3:
+            image_seed = self.mark_seeds_on_image(self.image, seeds)
+            image_shadow = self.mark_shadows_on_image(self.image, prototype)
+            image_shadow_post = self.mark_seeds_on_image(self.image, mask_shadow_postprocessed)
+            self.display_four_image_side_by_side(self.image, image_seed, image_shadow, image_shadow_post)
         
         # TODO: Analyse the shadow to return true or false if it's an helipad or not
     
@@ -324,7 +350,7 @@ class ShadowDetection:
             for indice in indices:
                 i = indice[0]
                 j = indice[1]
-                image_shadow[i,j,:] = [0,0,255]    
+                image_shadow[i,j,:] = [0,0,255]  
         return image_shadow
     
     @staticmethod
@@ -362,6 +388,31 @@ class ShadowDetection:
         axes[2].axis('off')
         axes[2].imshow(image_3)
         axes[2].set_title('Shadows')
+
+        plt.show()
+        
+    @staticmethod
+    def display_four_image_side_by_side(image_1, image_2, image_3, image_4):
+        """
+        Display `image_1`, `image_2`, `image_3` and `image_4` side by side
+        """
+        fig, axes = plt.subplots(1, 4, figsize=(14, 6), sharex=True, sharey=True)
+
+        axes[0].axis('off')
+        axes[0].imshow(image_1)
+        axes[0].set_title('Input image')
+
+        axes[1].axis('off')
+        axes[1].imshow(image_2)
+        axes[1].set_title('Shadow seeds')
+
+        axes[2].axis('off')
+        axes[2].imshow(image_3)
+        axes[2].set_title('Shadows')
+        
+        axes[3].axis('off')
+        axes[3].imshow(image_3)
+        axes[3].set_title('Shadows Postprocessed')
 
         plt.show()
 

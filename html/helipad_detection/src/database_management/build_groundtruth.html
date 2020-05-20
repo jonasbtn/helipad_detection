@@ -182,15 +182,6 @@ class GroundTruth:
 
             cv2.imshow(&#39;image&#39;, self.image)
 
-            # draw rectangle
-
-            # clic on the rectangle + e to remove it
-
-            # press s to save
-            # we will do the categories later
-
-            # press backspace to come back
-
             k = cv2.waitKey(0)
 
             if k == ord(&#34;s&#34;):
@@ -428,15 +419,6 @@ if __name__ == &#34;__main__&#34;:
 
             cv2.imshow(&#39;image&#39;, self.image)
 
-            # draw rectangle
-
-            # clic on the rectangle + e to remove it
-
-            # press s to save
-            # we will do the categories later
-
-            # press backspace to come back
-
             k = cv2.waitKey(0)
 
             if k == ord(&#34;s&#34;):
@@ -592,15 +574,6 @@ if __name__ == &#34;__main__&#34;:
             cv2.rectangle(self.image, (box[0], box[1]), (box[2], box[3]), (0, 0, 255), 2)
 
         cv2.imshow(&#39;image&#39;, self.image)
-
-        # draw rectangle
-
-        # clic on the rectangle + e to remove it
-
-        # press s to save
-        # we will do the categories later
-
-        # press backspace to come back
 
         k = cv2.waitKey(0)
 

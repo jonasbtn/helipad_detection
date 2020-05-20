@@ -34,7 +34,7 @@ import numpy as np
 class DatabaseCategories:
     
     &#34;&#34;&#34;
-    Interface to assign an helipad to a category
+    Interface to assign an helipad to a category. This version creates a new folder into which the images are copied from the dataset folder into subdirectories named after the category chosen.
     &#34;&#34;&#34;
 
     def __init__(self, true_folder, category_folder, nb_categories=12):
@@ -43,13 +43,6 @@ class DatabaseCategories:
         `category_folder`: the output root folder when to copy the helipad image. A subdirectory will be created for each category.\n
         `nb_categories`: the number of categories wanted.
         &#34;&#34;&#34;
-
-    # to change :
-    # fix 12 categories --&gt; DONE
-    # initiate to empty folder --&gt; DONE
-    # number 0-9 : 10 categories + d (divers) + u (unknown, can&#39;t classifiy) --&gt; DONE
-    # display a grid of 4x3 images --&gt; DONE
-    # if categories empty, display black image --&gt; DONE
 
         if not os.path.isdir(true_folder):
             os.mkdir(true_folder)
@@ -78,6 +71,10 @@ class DatabaseCategories:
         print(len(self.all_filepaths))
 
     def load_all_filepaths(self, folder):
+        &#34;&#34;&#34;
+        Load all the filepaths inside a folder.\n
+        Returns a list containing all the filepaths.
+        &#34;&#34;&#34;
         all_filepaths = []
         for subdir, dirs, files in os.walk(folder):
             for file in files:
@@ -86,6 +83,10 @@ class DatabaseCategories:
         return all_filepaths
 
     def load_categories_file(self, folder):
+        &#34;&#34;&#34;&#34;
+        `folder` is the root folder containing the subfolders of all the categories.\n
+        Return a dictionnary containing the categories as a key and the list of filepaths as values.
+        &#34;&#34;&#34;
         categories_file = {}
         for root, dirs, files in os.walk(folder, topdown=True):
             folder = os.path.basename(root)
@@ -106,12 +107,21 @@ class DatabaseCategories:
         return categories_file
 
     def add_file_to_category(self, target, file):
+        &#34;&#34;&#34;
+        Add a `file` path to a category `target`\n
+        `file` is a path. 
+        
+        &#34;&#34;&#34;
         if target not in self.categories_file:
             self.categories_file[target] = [file]
         else:
             self.categories_file[target].append(file)
 
     def load_first_image_per_category(self, folder):
+        &#34;&#34;&#34;
+        Load the first image per category\n
+        Returns an image containing a grid of images with each image belonging to a different category.
+        &#34;&#34;&#34;
         img_width = 640
         img_height = 640
         nb_row = 4
@@ -152,12 +162,19 @@ class DatabaseCategories:
         return final_img
 
     def add_to_category(self, category_number, filename):
+        &#34;&#34;&#34;
+        Add a `filename` to `category_number` inside the dictionnary `self.categories_file`.
+        &#34;&#34;&#34;
         if category_number not in self.categories_file:
             self.categories_file[category_number] = [filename]
         else:
             self.categories_file[category_number].append(filename)
 
     def load_filepath_first_image_categories(self):
+        &#34;&#34;&#34;
+        Load the filepath of the first image of each category.\n
+        Returns a list of filepath.
+        &#34;&#34;&#34;
         filepaths = []
         for category_number in self.categories_file.keys():
             folder = &#34;Helipad_category_{:02d}&#34;.format(category_number)
@@ -167,11 +184,17 @@ class DatabaseCategories:
         return filepaths
 
     def display_categories(self):
+        &#34;&#34;&#34;
+        Display all the categories
+        &#34;&#34;&#34;
         self.example_img = self.load_first_image_per_category(self.category_folder)
         cv2.imshow(&#39;Category&#39;, self.example_img)
 
     @staticmethod
     def copy_file(filename, source, directory, destination_database):
+        &#34;&#34;&#34;
+        Static method to copy a file `filename` from `source` to `os.path.join(destination_database, directory)`
+        &#34;&#34;&#34;
         destination_folder = os.path.join(destination_database, directory)
         if not os.path.isdir(destination_folder):
             os.mkdir(destination_folder)
@@ -180,7 +203,9 @@ class DatabaseCategories:
         print(&#34;Copied to : %s&#34; % destination_file)
 
     def build_categories(self):
-
+        &#34;&#34;&#34;
+        Launch the interface to annotate the categories.
+        &#34;&#34;&#34;
         i = 0
         window_name = &#39;image&#39;
 
@@ -278,7 +303,7 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>true_folder, category_folder, nb_categories=12)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Interface to assign an helipad to a category</p>
+<div class="desc"><p>Interface to assign an helipad to a category. This version creates a new folder into which the images are copied from the dataset folder into subdirectories named after the category chosen.</p>
 <p><code>true_folder</code>: the folder containing the helipad images</p>
 <p><code>category_folder</code>: the output root folder when to copy the helipad image. A subdirectory will be created for each category.</p>
 <p><code>nb_categories</code>: the number of categories wanted.</p></div>
@@ -289,7 +314,7 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">class DatabaseCategories:
     
     &#34;&#34;&#34;
-    Interface to assign an helipad to a category
+    Interface to assign an helipad to a category. This version creates a new folder into which the images are copied from the dataset folder into subdirectories named after the category chosen.
     &#34;&#34;&#34;
 
     def __init__(self, true_folder, category_folder, nb_categories=12):
@@ -298,13 +323,6 @@ if __name__ == &#34;__main__&#34;:
         `category_folder`: the output root folder when to copy the helipad image. A subdirectory will be created for each category.\n
         `nb_categories`: the number of categories wanted.
         &#34;&#34;&#34;
-
-    # to change :
-    # fix 12 categories --&gt; DONE
-    # initiate to empty folder --&gt; DONE
-    # number 0-9 : 10 categories + d (divers) + u (unknown, can&#39;t classifiy) --&gt; DONE
-    # display a grid of 4x3 images --&gt; DONE
-    # if categories empty, display black image --&gt; DONE
 
         if not os.path.isdir(true_folder):
             os.mkdir(true_folder)
@@ -333,6 +351,10 @@ if __name__ == &#34;__main__&#34;:
         print(len(self.all_filepaths))
 
     def load_all_filepaths(self, folder):
+        &#34;&#34;&#34;
+        Load all the filepaths inside a folder.\n
+        Returns a list containing all the filepaths.
+        &#34;&#34;&#34;
         all_filepaths = []
         for subdir, dirs, files in os.walk(folder):
             for file in files:
@@ -341,6 +363,10 @@ if __name__ == &#34;__main__&#34;:
         return all_filepaths
 
     def load_categories_file(self, folder):
+        &#34;&#34;&#34;&#34;
+        `folder` is the root folder containing the subfolders of all the categories.\n
+        Return a dictionnary containing the categories as a key and the list of filepaths as values.
+        &#34;&#34;&#34;
         categories_file = {}
         for root, dirs, files in os.walk(folder, topdown=True):
             folder = os.path.basename(root)
@@ -361,12 +387,21 @@ if __name__ == &#34;__main__&#34;:
         return categories_file
 
     def add_file_to_category(self, target, file):
+        &#34;&#34;&#34;
+        Add a `file` path to a category `target`\n
+        `file` is a path. 
+        
+        &#34;&#34;&#34;
         if target not in self.categories_file:
             self.categories_file[target] = [file]
         else:
             self.categories_file[target].append(file)
 
     def load_first_image_per_category(self, folder):
+        &#34;&#34;&#34;
+        Load the first image per category\n
+        Returns an image containing a grid of images with each image belonging to a different category.
+        &#34;&#34;&#34;
         img_width = 640
         img_height = 640
         nb_row = 4
@@ -407,12 +442,19 @@ if __name__ == &#34;__main__&#34;:
         return final_img
 
     def add_to_category(self, category_number, filename):
+        &#34;&#34;&#34;
+        Add a `filename` to `category_number` inside the dictionnary `self.categories_file`.
+        &#34;&#34;&#34;
         if category_number not in self.categories_file:
             self.categories_file[category_number] = [filename]
         else:
             self.categories_file[category_number].append(filename)
 
     def load_filepath_first_image_categories(self):
+        &#34;&#34;&#34;
+        Load the filepath of the first image of each category.\n
+        Returns a list of filepath.
+        &#34;&#34;&#34;
         filepaths = []
         for category_number in self.categories_file.keys():
             folder = &#34;Helipad_category_{:02d}&#34;.format(category_number)
@@ -422,11 +464,17 @@ if __name__ == &#34;__main__&#34;:
         return filepaths
 
     def display_categories(self):
+        &#34;&#34;&#34;
+        Display all the categories
+        &#34;&#34;&#34;
         self.example_img = self.load_first_image_per_category(self.category_folder)
         cv2.imshow(&#39;Category&#39;, self.example_img)
 
     @staticmethod
     def copy_file(filename, source, directory, destination_database):
+        &#34;&#34;&#34;
+        Static method to copy a file `filename` from `source` to `os.path.join(destination_database, directory)`
+        &#34;&#34;&#34;
         destination_folder = os.path.join(destination_database, directory)
         if not os.path.isdir(destination_folder):
             os.mkdir(destination_folder)
@@ -435,7 +483,9 @@ if __name__ == &#34;__main__&#34;:
         print(&#34;Copied to : %s&#34; % destination_file)
 
     def build_categories(self):
-
+        &#34;&#34;&#34;
+        Launch the interface to annotate the categories.
+        &#34;&#34;&#34;
         i = 0
         window_name = &#39;image&#39;
 
@@ -514,13 +564,16 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">copy_file</span></span>(<span>filename, source, directory, destination_database)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Static method to copy a file <code>filename</code> from <code>source</code> to <code>os.path.join(destination_database, directory)</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def copy_file(filename, source, directory, destination_database):
+    &#34;&#34;&#34;
+    Static method to copy a file `filename` from `source` to `os.path.join(destination_database, directory)`
+    &#34;&#34;&#34;
     destination_folder = os.path.join(destination_database, directory)
     if not os.path.isdir(destination_folder):
         os.mkdir(destination_folder)
@@ -536,12 +589,18 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">add_file_to_category</span></span>(<span>self, target, file)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add a <code>file</code> path to a category <code>target</code></p>
+<p><code>file</code> is a path.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_file_to_category(self, target, file):
+    &#34;&#34;&#34;
+    Add a `file` path to a category `target`\n
+    `file` is a path. 
+    
+    &#34;&#34;&#34;
     if target not in self.categories_file:
         self.categories_file[target] = [file]
     else:
@@ -552,12 +611,15 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">add_to_category</span></span>(<span>self, category_number, filename)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Add a <code>filename</code> to <code>category_number</code> inside the dictionnary <code>self.categories_file</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_to_category(self, category_number, filename):
+    &#34;&#34;&#34;
+    Add a `filename` to `category_number` inside the dictionnary `self.categories_file`.
+    &#34;&#34;&#34;
     if category_number not in self.categories_file:
         self.categories_file[category_number] = [filename]
     else:
@@ -568,13 +630,15 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">build_categories</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Launch the interface to annotate the categories.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_categories(self):
-
+    &#34;&#34;&#34;
+    Launch the interface to annotate the categories.
+    &#34;&#34;&#34;
     i = 0
     window_name = &#39;image&#39;
 
@@ -646,12 +710,15 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">display_categories</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Display all the categories</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def display_categories(self):
+    &#34;&#34;&#34;
+    Display all the categories
+    &#34;&#34;&#34;
     self.example_img = self.load_first_image_per_category(self.category_folder)
     cv2.imshow(&#39;Category&#39;, self.example_img)</code></pre>
 </details>
@@ -660,12 +727,17 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">load_all_filepaths</span></span>(<span>self, folder)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load all the filepaths inside a folder.</p>
+<p>Returns a list containing all the filepaths.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load_all_filepaths(self, folder):
+    &#34;&#34;&#34;
+    Load all the filepaths inside a folder.\n
+    Returns a list containing all the filepaths.
+    &#34;&#34;&#34;
     all_filepaths = []
     for subdir, dirs, files in os.walk(folder):
         for file in files:
@@ -678,12 +750,18 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">load_categories_file</span></span>(<span>self, folder)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>"
+<code>folder</code> is the root folder containing the subfolders of all the categories.</p>
+<p>Return a dictionnary containing the categories as a key and the list of filepaths as values.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load_categories_file(self, folder):
+    &#34;&#34;&#34;&#34;
+    `folder` is the root folder containing the subfolders of all the categories.\n
+    Return a dictionnary containing the categories as a key and the list of filepaths as values.
+    &#34;&#34;&#34;
     categories_file = {}
     for root, dirs, files in os.walk(folder, topdown=True):
         folder = os.path.basename(root)
@@ -708,12 +786,17 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">load_filepath_first_image_categories</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load the filepath of the first image of each category.</p>
+<p>Returns a list of filepath.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load_filepath_first_image_categories(self):
+    &#34;&#34;&#34;
+    Load the filepath of the first image of each category.\n
+    Returns a list of filepath.
+    &#34;&#34;&#34;
     filepaths = []
     for category_number in self.categories_file.keys():
         folder = &#34;Helipad_category_{:02d}&#34;.format(category_number)
@@ -727,12 +810,17 @@ def copy_file(filename, source, directory, destination_database):
 <span>def <span class="ident">load_first_image_per_category</span></span>(<span>self, folder)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load the first image per category</p>
+<p>Returns an image containing a grid of images with each image belonging to a different category.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load_first_image_per_category(self, folder):
+    &#34;&#34;&#34;
+    Load the first image per category\n
+    Returns an image containing a grid of images with each image belonging to a different category.
+    &#34;&#34;&#34;
     img_width = 640
     img_height = 640
     nb_row = 4
