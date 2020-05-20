@@ -7,12 +7,21 @@ import pathlib
 class BuildPlacemarks:
     
     """
-    Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area. 
+    Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area inside the software SAS Planet. The placemarks are saved into the folder "placemarks" inside the same folder as this script. 
     """
 
     def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None,
                  model_validation_threshold=None, prefix=""):
-
+        """
+        `meta_folder`: string, path to the folder containing the meta files\n
+        `model_number`: int, number of the model. The detection has to be run on the images by the model first.\n
+        `threshold`: float, score threshold, all the detected bounding boxes below this threshold won't be included. \n
+        `knn`: boolean, True to consider the second model validation of the bounding boxes\n
+        `index_path`: string, path of to an index created by `database_management.index_path_by_score` if existed, else None\n
+        `model_name`: string, validation model name (the according key inside the meta file)\n
+        `model_validation_threshold`: float, score threshold of the validating model\n
+        `prefix`: string, output file prefix (ie: `"Manilla_"`)\n
+        """
         self.meta_folder = meta_folder
         self.model_number = model_number
         self.threshold = threshold
@@ -24,6 +33,15 @@ class BuildPlacemarks:
     
     @staticmethod
     def get_meta_info_from_line(line):
+        """
+        Get the image location info from the meta filename\n
+        `line`: meta file name\n
+        Returns\n
+        `zoom`: Zoom level in the TMS coordinates\n
+        `xtile`: XTile in the TMS coordinates\n
+        `ytile`: YTile in the TMS coordinates\n
+        `meta_filename`: the meta filename\n
+        """
         if "\n" in line:
             meta_filename = line[:len(line) - 1]
         else:
@@ -35,6 +53,9 @@ class BuildPlacemarks:
         return zoom, xtile, ytile, meta_filename
     
     def build_target_file(self):
+        """
+        Build a list of meta file paths targeted for placemarks.
+        """
         target = []
         if self.index_path:
             with open(self.index_path, 'r') as f:
@@ -50,7 +71,9 @@ class BuildPlacemarks:
         return target
 
     def run(self):
-
+        """
+        Run the creation of the placemarks
+        """
         target_path = self.build_target_file()
 
         with open(self.output_name, 'w') as f:

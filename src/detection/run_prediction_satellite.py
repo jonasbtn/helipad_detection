@@ -28,6 +28,18 @@ class RunPredictionSatellite:
     def __init__(self, cache_tms_sat_folder, output_meta_folder, zoom_level,
                  model_folder, weights_filename, model_number, activate_filters=False,
                  redo_prediction=False):
+        
+        """
+        `cache_tms_sat_folder`: string, path to the image folder\n 
+        `output_meta_folder`:string, path to the folder where to store the meta files\n
+        `zoom_level`: int, only TMS images having a zoom equal to `zoom_level` are loaded\n
+        `model_folder`:string, path to the folder where the models weights are saved\n
+        `weights_filename`: string, file name of the model weights\n
+        `model_number`: int, number of the model\n
+        `activate_filters`: boolean, True to activate the bounding boxes filters\n
+        `redo_prediction`: boolean, True to re-run the prediction on images that were already predicted by model `model_number`\n
+        """
+        
         self.cache_tms_sat_folder = cache_tms_sat_folder
         self.output_meta_folder = output_meta_folder
         self.zoom_level = zoom_level
@@ -46,6 +58,9 @@ class RunPredictionSatellite:
         self.model_predict_setup()
 
     def build_target_files_path(self):
+        """
+        Build a list of tuple `(filepath, meta_filepath)` of the files to run the detection 
+        """
         target_files = []
         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
             for file in files:
@@ -60,11 +75,22 @@ class RunPredictionSatellite:
         return target_files
 
     def model_predict_setup(self):
+        """
+        Setup the model
+        """
         self.model_predict = MaskRCNN(mode='inference', model_dir=self.model_folder, config=self.config)
         self.model_predict.load_weights(os.path.join(self.model_folder, self.weights_filename),
                                         by_name=True)
 
     def get_coordinates_info(self, xtile, ytile, zoom_level):
+        """
+        Convert TMS coordinates to GPS coordinates
+        `xtile`: XTile in the TMS coordinates\n
+        `ytile`: YTile in the TMS coordinates\n
+        `zoom_level`: Zoom level in the TMS coordinates\n
+        Returns \n
+        `coordinates_info`: dict, dictionnary containing the latitude, longitudes, and bounds of the images.
+        """
         coordinates_info = dict()
         coordinates_info["zoom"] = zoom_level
         coordinates_info["xtile"] = xtile
@@ -80,6 +106,11 @@ class RunPredictionSatellite:
         return coordinates_info
 
     def predict_image(self, image):
+        """
+        Predict the `image`\n
+        Returns \n
+        `prediction`: a dictionnary containing the bounding boxes, class_ids and the confidence scores.
+        """
         scaled_image = mold_image(image, self.config)
         sample = expand_dims(scaled_image, 0)
         yhat = self.model_predict.detect(sample, verbose=0)
@@ -125,6 +156,20 @@ class RunPredictionSatellite:
         return prediction
 
     def convert_point_to_coordinate(self, x, y, minLat, minLon, maxLat, maxLon, image_shape, verbose=0):
+        """
+        Get the corresponding GPS coordinates of a pixel inside an image\n
+        `x`: int, pixel x point\n
+        `y`: int, pixel y point\n
+        `minLat`: float, minimum latitude of the image\n
+        `minLon`: float, minimum longitude of the image\n
+        `maxLat`: float, maximum latitude of the image\n
+        `maxLon`: float, maximum longitude of the image\n
+        `image_shape`: tuple, shape of the image\n
+        `verbose`: int, 1 to print the latitude and longitude\n
+        Returns\n
+        `lat`: float, the latitude of the point\n
+        `lon`: float, the longitude of the point\n
+        """
         tmp = x
         x = y
         y = tmp
@@ -134,22 +179,21 @@ class RunPredictionSatellite:
         lon = minLon + (abs(minLon - maxLon) * lon_factor)
 
         if verbose == 1:
-            # print(x)
-            # print(y)
-            # print(minLat)
-            # print(minLon)
-            # print(maxLat)
-            # print(maxLon)
-            # print(image_shape)
-            # print(lat_factor)
-            # print(lon_factor)
             print(lat)
             print(lon)
 
         return lat, lon
 
     def convert_bboxes_to_coordinates(self, bboxes, bounds_coordinates, image_shape):
-        # convert box to coordinates
+        """
+        Convert detected bounding boxes to GPS coordinates
+        `bboxes`: a list of bounding boxes\n
+        `bounds_coordinates`: a list containing the GPS coordinates of the four corners of the image\n
+        `image_shape`: a tuple, the shape of the image\n
+        Returns\n
+        `bboxes_center_coordinates`: a list of tuple (latitude, longitude) of the center of each bounding boxes\n
+        `bboxes_bounds_coordinates`: a list of four tuples (latitude, longitude) having the GPS coordinates of the four corners of the bounding boxes\n
+        """
 
         minLat, minLon = bounds_coordinates[0][0], bounds_coordinates[0][1]
         maxLat, maxLon = bounds_coordinates[3][0], bounds_coordinates[3][1]
@@ -188,6 +232,10 @@ class RunPredictionSatellite:
         return bboxes_center_coordinates, bboxes_bounds_coordinates
     
     def initiate_meta(self, meta_filename):
+        """
+        Initiate the meta file from the `meta_filename`\n
+        Returns a dictionnary `meta` with a key `coordinates` saving the location information of the image
+        """
         meta = dict()
         meta_coordinates = meta_filename.split('_')
         zoom_level = int(meta_coordinates[1])
@@ -199,7 +247,9 @@ class RunPredictionSatellite:
 
     
     def run(self):
-
+        """
+        Run the Prediction
+        """
         for i in tqdm(range(len(self.target_files))):
             target_file = self.target_files[i]
 

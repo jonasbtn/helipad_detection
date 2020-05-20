@@ -10,6 +10,13 @@ class ReviewPredictionSatellite:
     """
     
     def __init__(self, cache_tms_sat_folder, meta_folder, zoom_level, model_number, helipad_only=True):
+        """
+        `cache_tms_sat_folder`: string, path to the image folder\n 
+        `output_meta_folder`:string, path to the folder where to store the meta files\n
+        `zoom_level`: int, only TMS images having a zoom equal to `zoom_level` are loaded\n
+        `model_number`: int, number of the model\n
+        `helipad_only`: boolean, True to display only the image with at least one bounding box inside
+        """
         self.cache_tms_folder = cache_tms_sat_folder
         self.image_folder = os.path.join(self.cache_tms_folder, str(zoom_level))
         self.meta_folder = meta_folder
@@ -21,6 +28,12 @@ class ReviewPredictionSatellite:
         print("{} files loaded".format(str(len(self.target_files))))
 
     def build_target_files(self, helipad_only=True):
+        """
+        Build a list of tuples `(filepath, meta_filepath)` of the images to display\n
+        `helipad_only`: boolean, True to display only the image with at least one bounding box inside
+        Returns\n
+        `target_files`: a list of tuples
+        """
         target_files = []
         for subdir, dirs, files in os.walk(self.meta_folder):
             for file in files:
@@ -62,7 +75,9 @@ class ReviewPredictionSatellite:
         return target_files
 
     def review_prediction(self):
-
+        """
+        Run the review
+        """
         predict_color = (255, 0, 0)
 
         for target_path in self.target_files:
