@@ -19,7 +19,9 @@ class BBBuildDataset:
                  tms=False,
                  groundtruth_bb = True,
                  filter_categories=None,
-                 balance_categories=False):
+                 balance_categories=False,
+                 zoom_out=None,
+                 index_path=None):
         self.image_folder = image_folder
         self.meta_folder = meta_folder
         self.model_number = model_number
@@ -34,6 +36,8 @@ class BBBuildDataset:
         self.groundtruth_bb = groundtruth_bb
         self.filter_categories = filter_categories
         self.balance_categories = balance_categories
+        self.zoom_out = zoom_out
+        self.index_path = index_path
 
     def build_target_files(self):
         
@@ -41,6 +45,25 @@ class BBBuildDataset:
             target_files = DatabaseAugmentation.balance_categories(self.image_folder, 
                                                                   self.meta_folder, 
                                                                   repartition=None)
+        if self.index_path:
+            target_files = []
+            with open(self.index_path, 'r') as f:
+                lines = f.readlines()
+                for line in lines:
+                    if line[len(line)-1] == '\n':
+                        line = line[:len(line)-1]
+                    meta_filename = line
+                    image_info = line.split('.')[0].split('_')
+                    zoom = image_info[1]
+                    xtile = image_info[2]
+                    ytile = image_info[3]
+                    image_path = os.path.join(self.image_folder, 
+                                              xtile,
+                                              str(ytile)+".jpg")
+                    meta_path = os.path.join(self.meta_folder,
+                                             xtile,
+                                             meta_filename)
+                    target_files.append([image_path, meta_path])
         else:
             target_files = []
             for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
@@ -80,25 +103,28 @@ class BBBuildDataset:
         elif classe == "helipad":
             if folder_id > 48:
                 dataset = "test"
+        folder_basename = f'model_{self.model_number}_{self.score_threshold}'
+        if self.zoom_out:
+            folder_basename += "_zoomout{}".format(self.zoom_out)
         if not os.path.isdir(self.output_folder):
             os.mkdir(self.output_folder)
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}')):
+                                            folder_basename)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}'))
+                                            folder_basename))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            folder_basename,
                                             dataset)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            folder_basename,
                                             dataset))
 
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            folder_basename,
                                             dataset,
                                             classe)):
             os.mkdir(os.path.join(self.output_folder,
-                                  f'model_{self.model_number}_{self.score_threshold}',
+                                  folder_basename,
                                   dataset,
                                   classe))
         # elif not os.path.isdir(os.path.join(self.output_folder,
@@ -117,7 +143,7 @@ class BBBuildDataset:
         #                            folder_name,
         #                            image_name+"_"+str(box_id)+ext)
         output_path = os.path.join(self.output_folder,
-                                   f'model_{self.model_number}_{self.score_threshold}',
+                                   folder_basename,
                                    dataset,
                                    classe,
                                    image_name+"_"+str(box_id)+"_"+str(helipad_id)+ext)
@@ -134,39 +160,42 @@ class BBBuildDataset:
         ytile = os.path.splitext(os.path.basename(image_path))[0]
         xtile = os.path.basename(os.path.dirname(image_path))
         zoom = os.path.basename(os.path.dirname(os.path.dirname(image_path)))
+        folder_basename = f'model_{self.model_number}_{self.score_threshold}'
+        if self.zoom_out:
+            folder_basename += "_zoomout{}".format(self.zoom_out)
 
         if not os.path.isdir(self.output_folder):
             os.mkdir(self.output_folder)
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}')):
+                                            folder_basename)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}'))
+                                            folder_basename))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            folder_basename,
                                             "sat")):
             os.mkdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            folder_basename,
                                             "sat"))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            folder_basename,
                                             "sat",
                                             zoom)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            folder_basename,
                                             "sat",
                                             zoom))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            folder_basename,
                                             "sat",
                                             zoom,
                                             xtile)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f'model_{self.model_number}_{self.score_threshold}',
+                                            folder_basename,
                                             "sat",
                                             zoom,
                                             xtile))
         output_path = os.path.join(self.output_folder,
-                                   f'model_{self.model_number}_{self.score_threshold}',
+                                   folder_basename,
                                    "sat",
                                    zoom,
                                    xtile,
@@ -218,7 +247,24 @@ class BBBuildDataset:
             false_positive = True
 
         return false_positive, contains
-
+    
+    @staticmethod
+    def box_zoom_out(image, x_min, y_min, x_max, y_max, zoom_out):
+        x_min = x_min - zoom_out
+        if x_min < 0:
+            x_min = 0
+        y_min = y_min - zoom_out
+        if y_min < 0:
+            y_min = 0
+        x_max = x_max + zoom_out
+        if x_max > image.shape[1]:
+            x_max = image.shape[1]
+        if y_max > image.shape[0]:
+            y_max = image.shape[0]
+        y_max = y_max + zoom_out
+        image_box = image[y_min:y_max,x_min:x_max,:]
+        return image_box
+    
     def run(self):
 
         self.target_files = self.build_target_files()
@@ -283,6 +329,9 @@ class BBBuildDataset:
                                                                 image_path,
                                                                 box_id,
                                                                 i)
+                        
+                        if self.zoom_out:
+                            image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                         # save the file
                         self.save_image(image_box, output_path)
                         box_id += 1
@@ -309,6 +358,8 @@ class BBBuildDataset:
                 if self.tms:
                     #TODO: Add support for tms
                     output_path = self.get_output_file_name_tms(image_path, box_id)
+                    if self.zoom_out:
+                        image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                     self.save_image(image_box, output_path)
                     continue
 
@@ -323,6 +374,8 @@ class BBBuildDataset:
                                                                 image_path,
                                                                 box_id,
                                                                 i)
+                        if self.zoom_out:
+                            image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                         self.save_image(image_box, output_path)
                         box_id += 1
                 else:
@@ -338,6 +391,8 @@ class BBBuildDataset:
                                                             image_path,
                                                             box_id,
                                                             i)
+                    if self.zoom_out:
+                            image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                     self.save_image(image_box, output_path)
                     box_id += 1
 
@@ -352,6 +407,8 @@ if __name__ == "__main__":
     tms = False
     groundtruth_bb = True
     filter_categories = ["4", "7", "d", "u"]
+    balance_categories = False
+    zoom_out = None
 
     bb_build_dataset = BBBuildDataset(image_folder=image_folder,
                                       meta_folder=meta_folder,
@@ -361,7 +418,8 @@ if __name__ == "__main__":
                                       output_folder=output_folder,
                                       tms=tms,
                                       groundtruth_bb=groundtruth_bb,
-                                      filter_categories=filter_categories)
+                                      filter_categories=filter_categories,
+                                      zoom_out=zoom_out)
 
     bb_build_dataset.run()
     

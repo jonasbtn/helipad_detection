@@ -47,6 +47,19 @@ class RunBenchmark:
                  include_negative=True,
                  city_lat=None,
                  train_only=False):
+        
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `model_numbers`: list of int, list of the model numbers to benchmark\n
+        `test_only`: boolean, True to benchmark only on the test set\n
+        `tms_dataset`: boolean, True if the dataset follows the TMS format\n
+        `zoom_level`: int, zoom level of the dataset to benchmark in case of TMS\n
+        `include_category`: list of categories to include in the benchmark\n
+        `include_negative`: boolean, True to include False samples\n
+        `city_lat`: string, first digits of Xtile in case of TMS dataset to select a particular city\n
+        `train_only`: boolean, True to benchmark only the training set.
+        &#34;&#34;&#34;
 
         self.image_folder = image_folder
         self.meta_folder = meta_folder
@@ -70,6 +83,11 @@ class RunBenchmark:
                                                   train_only=train_only)
 
     def run(self, threshold_validation=None):
+        &#34;&#34;&#34;
+        Run the benchmark on a wide range of score thresholds\n
+        `threshold_validation`: float or None, float to filter the bounding boxes having a `cnn_validation` score below `threshold_validation`, None to not consider the second model.\n
+        Saves the results in a csv file located in the folder `benchmark_results` at the same level as this script.
+        &#34;&#34;&#34;
         aucs = []
         for model_number in self.model_numbers:
 
@@ -119,6 +137,10 @@ class RunBenchmark:
                     filename = &#34;benchmark_model_{}_c{}_n{}_test{}_train{}.csv&#34;.format(model_number, &#34;&#34;.join(self.include_category), self.include_negative, self.test_only, self.train_only)
                 else:
                     filename = &#34;benchmark_model_{}_{}.csv&#34;.format(model_number, self.test_only)
+            
+            if not os.path.isdir(os.path.join(pathlib.Path(__file__).parent.absolute(), &#34;benchmark_results&#34;)):
+                os.mkdir(os.path.join(pathlib.Path(__file__).parent.absolute(), &#34;benchmark_results&#34;))
+            
             df.to_csv(os.path.join(pathlib.Path(__file__).parent.absolute(), &#34;benchmark_results&#34;, filename))
 
         df_auc = pd.DataFrame(data=aucs, columns=[&#34;Model Number&#34;, &#34;AUC&#34;])
@@ -196,7 +218,17 @@ if __name__ == &#34;__main__&#34;:
 </code></dt>
 <dd>
 <div class="desc"><p>Run a multiple benchmarks on a specific dataset with wide range of score threshold. </p>
-<p>The results are saved in a csv file. The user can then find the optimal score threshold that fit best the dataset.</p></div>
+<p>The results are saved in a csv file. The user can then find the optimal score threshold that fit best the dataset. </p>
+<p><code>image_folder</code>: string, path to the image folder</p>
+<p><code>meta_folder</code>: string, path to the meta folder</p>
+<p><code>model_numbers</code>: list of int, list of the model numbers to benchmark</p>
+<p><code>test_only</code>: boolean, True to benchmark only on the test set</p>
+<p><code>tms_dataset</code>: boolean, True if the dataset follows the TMS format</p>
+<p><code>zoom_level</code>: int, zoom level of the dataset to benchmark in case of TMS</p>
+<p><code>include_category</code>: list of categories to include in the benchmark</p>
+<p><code>include_negative</code>: boolean, True to include False samples</p>
+<p><code>city_lat</code>: string, first digits of Xtile in case of TMS dataset to select a particular city</p>
+<p><code>train_only</code>: boolean, True to benchmark only the training set.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -214,6 +246,19 @@ if __name__ == &#34;__main__&#34;:
                  include_negative=True,
                  city_lat=None,
                  train_only=False):
+        
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `model_numbers`: list of int, list of the model numbers to benchmark\n
+        `test_only`: boolean, True to benchmark only on the test set\n
+        `tms_dataset`: boolean, True if the dataset follows the TMS format\n
+        `zoom_level`: int, zoom level of the dataset to benchmark in case of TMS\n
+        `include_category`: list of categories to include in the benchmark\n
+        `include_negative`: boolean, True to include False samples\n
+        `city_lat`: string, first digits of Xtile in case of TMS dataset to select a particular city\n
+        `train_only`: boolean, True to benchmark only the training set.
+        &#34;&#34;&#34;
 
         self.image_folder = image_folder
         self.meta_folder = meta_folder
@@ -237,6 +282,11 @@ if __name__ == &#34;__main__&#34;:
                                                   train_only=train_only)
 
     def run(self, threshold_validation=None):
+        &#34;&#34;&#34;
+        Run the benchmark on a wide range of score thresholds\n
+        `threshold_validation`: float or None, float to filter the bounding boxes having a `cnn_validation` score below `threshold_validation`, None to not consider the second model.\n
+        Saves the results in a csv file located in the folder `benchmark_results` at the same level as this script.
+        &#34;&#34;&#34;
         aucs = []
         for model_number in self.model_numbers:
 
@@ -286,6 +336,10 @@ if __name__ == &#34;__main__&#34;:
                     filename = &#34;benchmark_model_{}_c{}_n{}_test{}_train{}.csv&#34;.format(model_number, &#34;&#34;.join(self.include_category), self.include_negative, self.test_only, self.train_only)
                 else:
                     filename = &#34;benchmark_model_{}_{}.csv&#34;.format(model_number, self.test_only)
+            
+            if not os.path.isdir(os.path.join(pathlib.Path(__file__).parent.absolute(), &#34;benchmark_results&#34;)):
+                os.mkdir(os.path.join(pathlib.Path(__file__).parent.absolute(), &#34;benchmark_results&#34;))
+            
             df.to_csv(os.path.join(pathlib.Path(__file__).parent.absolute(), &#34;benchmark_results&#34;, filename))
 
         df_auc = pd.DataFrame(data=aucs, columns=[&#34;Model Number&#34;, &#34;AUC&#34;])
@@ -298,12 +352,19 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">run</span></span>(<span>self, threshold_validation=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the benchmark on a wide range of score thresholds</p>
+<p><code>threshold_validation</code>: float or None, float to filter the bounding boxes having a <code>cnn_validation</code> score below <code>threshold_validation</code>, None to not consider the second model.</p>
+<p>Saves the results in a csv file located in the folder <code>benchmark_results</code> at the same level as this script.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run(self, threshold_validation=None):
+    &#34;&#34;&#34;
+    Run the benchmark on a wide range of score thresholds\n
+    `threshold_validation`: float or None, float to filter the bounding boxes having a `cnn_validation` score below `threshold_validation`, None to not consider the second model.\n
+    Saves the results in a csv file located in the folder `benchmark_results` at the same level as this script.
+    &#34;&#34;&#34;
     aucs = []
     for model_number in self.model_numbers:
 
@@ -353,6 +414,10 @@ if __name__ == &#34;__main__&#34;:
                 filename = &#34;benchmark_model_{}_c{}_n{}_test{}_train{}.csv&#34;.format(model_number, &#34;&#34;.join(self.include_category), self.include_negative, self.test_only, self.train_only)
             else:
                 filename = &#34;benchmark_model_{}_{}.csv&#34;.format(model_number, self.test_only)
+        
+        if not os.path.isdir(os.path.join(pathlib.Path(__file__).parent.absolute(), &#34;benchmark_results&#34;)):
+            os.mkdir(os.path.join(pathlib.Path(__file__).parent.absolute(), &#34;benchmark_results&#34;))
+        
         df.to_csv(os.path.join(pathlib.Path(__file__).parent.absolute(), &#34;benchmark_results&#34;, filename))
 
     df_auc = pd.DataFrame(data=aucs, columns=[&#34;Model Number&#34;, &#34;AUC&#34;])

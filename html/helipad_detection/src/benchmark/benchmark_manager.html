@@ -52,6 +52,18 @@ class BenchmarkManager:
                  include_negative=True,
                  city_lat=None,
                  train_only=False):
+        
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `test_only`: boolean, True to benchmark only on the test set\n
+        `tms_dataset`: boolean, True if the dataset follows the TMS format\n
+        `zoom_level`: int, zoom level of the dataset to benchmark in case of TMS\n
+        `include_category`: list of categories to include in the benchmark\n
+        `include_negative`: boolean, True to include False samples\n
+        `city_lat`: string, first digits of Xtile in case of TMS dataset to select a particular city\n
+        `train_only`: boolean, True to benchmark only the training set.
+        &#34;&#34;&#34;
 
         self.image_folder = image_folder
         self.meta_folder = meta_folder
@@ -69,6 +81,9 @@ class BenchmarkManager:
         print(&#34;{} files loaded!&#34;.format(len(self.target_files)))
 
     def reinitialize_metrics(self):
+        &#34;&#34;&#34;
+        Reinitialize the metrics to zeros.
+        &#34;&#34;&#34;
         self.TP = 0
         self.TN = 0
         self.FP = 0
@@ -82,6 +97,15 @@ class BenchmarkManager:
 
     @staticmethod
     def check_false_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+        &#34;&#34;&#34;
+        Look for False positives inside the predicted bounding boxes\n
+        `groundtruth`: dictionnary containing the groundtruth of the samples with the bounding boxes as values of the key `box`\n
+        `predicted`: dictionnary containing the prediction of the samples with the bounding boxes as values of the key `box`\n
+        `threshold_iou`: float, the bounding boxes with an IOU inferior than `threshold_iou` are considered false positive\n
+        `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+        Returns\n
+        `nb_FP`: int, the number of false positives
+        &#34;&#34;&#34;
         # if no box detected
         if &#34;box&#34; not in predicted:
             return 0
@@ -126,6 +150,15 @@ class BenchmarkManager:
 
     @staticmethod
     def check_true_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+        &#34;&#34;&#34;
+        Look for True positives inside the predicted bounding boxes\n
+        `groundtruth`: dictionnary containing the groundtruth of the samples with the bounding boxes as values of the key `box`\n
+        `predicted`: dictionnary containing the prediction of the samples with the bounding boxes as values of the key `box`\n
+        `threshold_iou`: float, the bounding boxes with an IOU superior than `threshold_iou` are considered true positive\n
+        `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+        Returns\n
+        `nb_TP`: int, the number of True positives
+        &#34;&#34;&#34;
         # if no box detected
         if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
             return 0
@@ -169,6 +202,16 @@ class BenchmarkManager:
 
     @staticmethod
     def filter_predicted(predicted, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+        &#34;&#34;&#34;
+        Filter bounding boxes by scores and by IOU threshold\n
+        `predicted`: dictionnary containing the prediction of the samples with the bounding boxes as values of the key `box`\n
+        `threshold_iou`: float, the bounding boxes with an IOU superior than `threshold_iou` are considered true positive\n
+        `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+        `threshold_validation`: boolean to activate the score filtering using the second model validation of the bounding box\n
+        Returns\n
+        `predicted`: dictionnary containing the prediction of the samples with the filtered bounding boxes as values of the key `box`\n
+        &#34;&#34;&#34;
+        
         if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
             return predicted
         bboxes = predicted[&#34;box&#34;]
@@ -204,6 +247,16 @@ class BenchmarkManager:
         return predicted
 
     def run(self, model_number, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+        &#34;&#34;&#34;
+        Run the benchmark with the following parameters:\n
+        `model_number`: int, number of the model to benchmark\n
+        `threshold_score`: float, all the bounding boxes having a score lower than `threshold_scores` are discarded\n
+        `threshold_iou`: float, the bounding boxes with an IOU superior than `threshold_iou` are considered true positive\n
+        `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+        `threshold_validation`: boolean to activate the score filtering using the second model validation of the bounding box\n
+        Returns\n
+        `data`: a list containing the benchmarks parameters and the results metrics
+        &#34;&#34;&#34;
 
         self.model_number = model_number
 
@@ -260,11 +313,6 @@ class BenchmarkManager:
                 self.FN += len(groundtruth[&#34;box&#34;])
                 if &#34;category&#34; in groundtruth:
                     self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;FN&#39;] += len(groundtruth[&#34;box&#34;])
-
-        # print(self.TP)
-        # print(self.TN)
-        # print(self.FP)
-        # print(self.FN)
 
         self.accuracy = (self.TP + self.TN) / (self.TP + self.TN + self.FP + self.FN)
         self.error = (self.FP+self.FN) / (self.TP + self.TN + self.FP + self.FN)
@@ -352,7 +400,16 @@ if __name__ == &#34;__main__&#34;:
 </code></dt>
 <dd>
 <div class="desc"><p>Manager to setup a benchmark on different part of the dataset.</p>
-<p>The benchmark computes all the metrics (Accuracy, Error, Precision, Recall).</p></div>
+<p>The benchmark computes all the metrics (Accuracy, Error, Precision, Recall).</p>
+<p><code>image_folder</code>: string, path to the image folder</p>
+<p><code>meta_folder</code>: string, path to the meta folder</p>
+<p><code>test_only</code>: boolean, True to benchmark only on the test set</p>
+<p><code>tms_dataset</code>: boolean, True if the dataset follows the TMS format</p>
+<p><code>zoom_level</code>: int, zoom level of the dataset to benchmark in case of TMS</p>
+<p><code>include_category</code>: list of categories to include in the benchmark</p>
+<p><code>include_negative</code>: boolean, True to include False samples</p>
+<p><code>city_lat</code>: string, first digits of Xtile in case of TMS dataset to select a particular city</p>
+<p><code>train_only</code>: boolean, True to benchmark only the training set.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -369,6 +426,18 @@ if __name__ == &#34;__main__&#34;:
                  include_negative=True,
                  city_lat=None,
                  train_only=False):
+        
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `test_only`: boolean, True to benchmark only on the test set\n
+        `tms_dataset`: boolean, True if the dataset follows the TMS format\n
+        `zoom_level`: int, zoom level of the dataset to benchmark in case of TMS\n
+        `include_category`: list of categories to include in the benchmark\n
+        `include_negative`: boolean, True to include False samples\n
+        `city_lat`: string, first digits of Xtile in case of TMS dataset to select a particular city\n
+        `train_only`: boolean, True to benchmark only the training set.
+        &#34;&#34;&#34;
 
         self.image_folder = image_folder
         self.meta_folder = meta_folder
@@ -386,6 +455,9 @@ if __name__ == &#34;__main__&#34;:
         print(&#34;{} files loaded!&#34;.format(len(self.target_files)))
 
     def reinitialize_metrics(self):
+        &#34;&#34;&#34;
+        Reinitialize the metrics to zeros.
+        &#34;&#34;&#34;
         self.TP = 0
         self.TN = 0
         self.FP = 0
@@ -399,6 +471,15 @@ if __name__ == &#34;__main__&#34;:
 
     @staticmethod
     def check_false_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+        &#34;&#34;&#34;
+        Look for False positives inside the predicted bounding boxes\n
+        `groundtruth`: dictionnary containing the groundtruth of the samples with the bounding boxes as values of the key `box`\n
+        `predicted`: dictionnary containing the prediction of the samples with the bounding boxes as values of the key `box`\n
+        `threshold_iou`: float, the bounding boxes with an IOU inferior than `threshold_iou` are considered false positive\n
+        `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+        Returns\n
+        `nb_FP`: int, the number of false positives
+        &#34;&#34;&#34;
         # if no box detected
         if &#34;box&#34; not in predicted:
             return 0
@@ -443,6 +524,15 @@ if __name__ == &#34;__main__&#34;:
 
     @staticmethod
     def check_true_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+        &#34;&#34;&#34;
+        Look for True positives inside the predicted bounding boxes\n
+        `groundtruth`: dictionnary containing the groundtruth of the samples with the bounding boxes as values of the key `box`\n
+        `predicted`: dictionnary containing the prediction of the samples with the bounding boxes as values of the key `box`\n
+        `threshold_iou`: float, the bounding boxes with an IOU superior than `threshold_iou` are considered true positive\n
+        `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+        Returns\n
+        `nb_TP`: int, the number of True positives
+        &#34;&#34;&#34;
         # if no box detected
         if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
             return 0
@@ -486,6 +576,16 @@ if __name__ == &#34;__main__&#34;:
 
     @staticmethod
     def filter_predicted(predicted, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+        &#34;&#34;&#34;
+        Filter bounding boxes by scores and by IOU threshold\n
+        `predicted`: dictionnary containing the prediction of the samples with the bounding boxes as values of the key `box`\n
+        `threshold_iou`: float, the bounding boxes with an IOU superior than `threshold_iou` are considered true positive\n
+        `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+        `threshold_validation`: boolean to activate the score filtering using the second model validation of the bounding box\n
+        Returns\n
+        `predicted`: dictionnary containing the prediction of the samples with the filtered bounding boxes as values of the key `box`\n
+        &#34;&#34;&#34;
+        
         if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
             return predicted
         bboxes = predicted[&#34;box&#34;]
@@ -521,6 +621,16 @@ if __name__ == &#34;__main__&#34;:
         return predicted
 
     def run(self, model_number, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+        &#34;&#34;&#34;
+        Run the benchmark with the following parameters:\n
+        `model_number`: int, number of the model to benchmark\n
+        `threshold_score`: float, all the bounding boxes having a score lower than `threshold_scores` are discarded\n
+        `threshold_iou`: float, the bounding boxes with an IOU superior than `threshold_iou` are considered true positive\n
+        `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+        `threshold_validation`: boolean to activate the score filtering using the second model validation of the bounding box\n
+        Returns\n
+        `data`: a list containing the benchmarks parameters and the results metrics
+        &#34;&#34;&#34;
 
         self.model_number = model_number
 
@@ -578,11 +688,6 @@ if __name__ == &#34;__main__&#34;:
                 if &#34;category&#34; in groundtruth:
                     self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;FN&#39;] += len(groundtruth[&#34;box&#34;])
 
-        # print(self.TP)
-        # print(self.TN)
-        # print(self.FP)
-        # print(self.FN)
-
         self.accuracy = (self.TP + self.TN) / (self.TP + self.TN + self.FP + self.FN)
         self.error = (self.FP+self.FN) / (self.TP + self.TN + self.FP + self.FN)
         if (self.TP + self.FP)&gt;0:
@@ -633,13 +738,28 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">check_false_positive</span></span>(<span>groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Look for False positives inside the predicted bounding boxes</p>
+<p><code>groundtruth</code>: dictionnary containing the groundtruth of the samples with the bounding boxes as values of the key <code>box</code></p>
+<p><code>predicted</code>: dictionnary containing the prediction of the samples with the bounding boxes as values of the key <code>box</code></p>
+<p><code>threshold_iou</code>: float, the bounding boxes with an IOU inferior than <code>threshold_iou</code> are considered false positive</p>
+<p><code>threshold_area</code>: float, the bounding boxes with an intersection superior than <code>area*threshold_area</code> are considered as a box contained into another.</p>
+<p>Returns</p>
+<p><code>nb_FP</code>: int, the number of false positives</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def check_false_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+    &#34;&#34;&#34;
+    Look for False positives inside the predicted bounding boxes\n
+    `groundtruth`: dictionnary containing the groundtruth of the samples with the bounding boxes as values of the key `box`\n
+    `predicted`: dictionnary containing the prediction of the samples with the bounding boxes as values of the key `box`\n
+    `threshold_iou`: float, the bounding boxes with an IOU inferior than `threshold_iou` are considered false positive\n
+    `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+    Returns\n
+    `nb_FP`: int, the number of false positives
+    &#34;&#34;&#34;
     # if no box detected
     if &#34;box&#34; not in predicted:
         return 0
@@ -687,13 +807,28 @@ def check_false_positive(groundtruth, predicted, threshold_iou=0.5, threshold_ar
 <span>def <span class="ident">check_true_positive</span></span>(<span>groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Look for True positives inside the predicted bounding boxes</p>
+<p><code>groundtruth</code>: dictionnary containing the groundtruth of the samples with the bounding boxes as values of the key <code>box</code></p>
+<p><code>predicted</code>: dictionnary containing the prediction of the samples with the bounding boxes as values of the key <code>box</code></p>
+<p><code>threshold_iou</code>: float, the bounding boxes with an IOU superior than <code>threshold_iou</code> are considered true positive</p>
+<p><code>threshold_area</code>: float, the bounding boxes with an intersection superior than <code>area*threshold_area</code> are considered as a box contained into another.</p>
+<p>Returns</p>
+<p><code>nb_TP</code>: int, the number of True positives</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def check_true_positive(groundtruth, predicted, threshold_iou=0.5, threshold_area=0.8):
+    &#34;&#34;&#34;
+    Look for True positives inside the predicted bounding boxes\n
+    `groundtruth`: dictionnary containing the groundtruth of the samples with the bounding boxes as values of the key `box`\n
+    `predicted`: dictionnary containing the prediction of the samples with the bounding boxes as values of the key `box`\n
+    `threshold_iou`: float, the bounding boxes with an IOU superior than `threshold_iou` are considered true positive\n
+    `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+    Returns\n
+    `nb_TP`: int, the number of True positives
+    &#34;&#34;&#34;
     # if no box detected
     if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
         return 0
@@ -740,13 +875,29 @@ def check_true_positive(groundtruth, predicted, threshold_iou=0.5, threshold_are
 <span>def <span class="ident">filter_predicted</span></span>(<span>predicted, threshold_score, threshold_iou, threshold_area, threshold_validation=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Filter bounding boxes by scores and by IOU threshold</p>
+<p><code>predicted</code>: dictionnary containing the prediction of the samples with the bounding boxes as values of the key <code>box</code></p>
+<p><code>threshold_iou</code>: float, the bounding boxes with an IOU superior than <code>threshold_iou</code> are considered true positive</p>
+<p><code>threshold_area</code>: float, the bounding boxes with an intersection superior than <code>area*threshold_area</code> are considered as a box contained into another.</p>
+<p><code>threshold_validation</code>: boolean to activate the score filtering using the second model validation of the bounding box</p>
+<p>Returns</p>
+<p><code>predicted</code>: dictionnary containing the prediction of the samples with the filtered bounding boxes as values of the key <code>box</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def filter_predicted(predicted, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+    &#34;&#34;&#34;
+    Filter bounding boxes by scores and by IOU threshold\n
+    `predicted`: dictionnary containing the prediction of the samples with the bounding boxes as values of the key `box`\n
+    `threshold_iou`: float, the bounding boxes with an IOU superior than `threshold_iou` are considered true positive\n
+    `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+    `threshold_validation`: boolean to activate the score filtering using the second model validation of the bounding box\n
+    Returns\n
+    `predicted`: dictionnary containing the prediction of the samples with the filtered bounding boxes as values of the key `box`\n
+    &#34;&#34;&#34;
+    
     if &#34;box&#34; not in predicted or len(predicted[&#34;box&#34;]) == 0:
         return predicted
     bboxes = predicted[&#34;box&#34;]
@@ -804,12 +955,15 @@ def filter_predicted(predicted, threshold_score, threshold_iou, threshold_area, 
 <span>def <span class="ident">reinitialize_metrics</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Reinitialize the metrics to zeros.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def reinitialize_metrics(self):
+    &#34;&#34;&#34;
+    Reinitialize the metrics to zeros.
+    &#34;&#34;&#34;
     self.TP = 0
     self.TN = 0
     self.FP = 0
@@ -826,12 +980,29 @@ def filter_predicted(predicted, threshold_score, threshold_iou, threshold_area, 
 <span>def <span class="ident">run</span></span>(<span>self, model_number, threshold_score, threshold_iou, threshold_area, threshold_validation=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the benchmark with the following parameters:</p>
+<p><code>model_number</code>: int, number of the model to benchmark</p>
+<p><code>threshold_score</code>: float, all the bounding boxes having a score lower than <code>threshold_scores</code> are discarded</p>
+<p><code>threshold_iou</code>: float, the bounding boxes with an IOU superior than <code>threshold_iou</code> are considered true positive</p>
+<p><code>threshold_area</code>: float, the bounding boxes with an intersection superior than <code>area*threshold_area</code> are considered as a box contained into another.</p>
+<p><code>threshold_validation</code>: boolean to activate the score filtering using the second model validation of the bounding box</p>
+<p>Returns</p>
+<p><code>data</code>: a list containing the benchmarks parameters and the results metrics</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run(self, model_number, threshold_score, threshold_iou, threshold_area, threshold_validation=None):
+    &#34;&#34;&#34;
+    Run the benchmark with the following parameters:\n
+    `model_number`: int, number of the model to benchmark\n
+    `threshold_score`: float, all the bounding boxes having a score lower than `threshold_scores` are discarded\n
+    `threshold_iou`: float, the bounding boxes with an IOU superior than `threshold_iou` are considered true positive\n
+    `threshold_area`: float, the bounding boxes with an intersection superior than `area*threshold_area` are considered as a box contained into another.\n
+    `threshold_validation`: boolean to activate the score filtering using the second model validation of the bounding box\n
+    Returns\n
+    `data`: a list containing the benchmarks parameters and the results metrics
+    &#34;&#34;&#34;
 
     self.model_number = model_number
 
@@ -888,11 +1059,6 @@ def filter_predicted(predicted, threshold_score, threshold_iou, threshold_area, 
             self.FN += len(groundtruth[&#34;box&#34;])
             if &#34;category&#34; in groundtruth:
                 self.metrics_per_categories[groundtruth[&#34;category&#34;]][&#39;FN&#39;] += len(groundtruth[&#34;box&#34;])
-
-    # print(self.TP)
-    # print(self.TN)
-    # print(self.FP)
-    # print(self.FN)
 
     self.accuracy = (self.TP + self.TN) / (self.TP + self.TN + self.FP + self.FN)
     self.error = (self.FP+self.FN) / (self.TP + self.TN + self.FP + self.FN)

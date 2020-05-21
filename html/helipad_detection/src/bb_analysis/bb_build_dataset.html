@@ -45,7 +45,9 @@ class BBBuildDataset:
                  tms=False,
                  groundtruth_bb = True,
                  filter_categories=None,
-                 balance_categories=False):
+                 balance_categories=False,
+                 zoom_out=None,
+                 index_path=None):
         self.image_folder = image_folder
         self.meta_folder = meta_folder
         self.model_number = model_number
@@ -60,6 +62,8 @@ class BBBuildDataset:
         self.groundtruth_bb = groundtruth_bb
         self.filter_categories = filter_categories
         self.balance_categories = balance_categories
+        self.zoom_out = zoom_out
+        self.index_path = index_path
 
     def build_target_files(self):
         
@@ -67,6 +71,25 @@ class BBBuildDataset:
             target_files = DatabaseAugmentation.balance_categories(self.image_folder, 
                                                                   self.meta_folder, 
                                                                   repartition=None)
+        if self.index_path:
+            target_files = []
+            with open(self.index_path, &#39;r&#39;) as f:
+                lines = f.readlines()
+                for line in lines:
+                    if line[len(line)-1] == &#39;\n&#39;:
+                        line = line[:len(line)-1]
+                    meta_filename = line
+                    image_info = line.split(&#39;.&#39;)[0].split(&#39;_&#39;)
+                    zoom = image_info[1]
+                    xtile = image_info[2]
+                    ytile = image_info[3]
+                    image_path = os.path.join(self.image_folder, 
+                                              xtile,
+                                              str(ytile)+&#34;.jpg&#34;)
+                    meta_path = os.path.join(self.meta_folder,
+                                             xtile,
+                                             meta_filename)
+                    target_files.append([image_path, meta_path])
         else:
             target_files = []
             for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
@@ -106,25 +129,28 @@ class BBBuildDataset:
         elif classe == &#34;helipad&#34;:
             if folder_id &gt; 48:
                 dataset = &#34;test&#34;
+        folder_basename = f&#39;model_{self.model_number}_{self.score_threshold}&#39;
+        if self.zoom_out:
+            folder_basename += &#34;_zoomout{}&#34;.format(self.zoom_out)
         if not os.path.isdir(self.output_folder):
             os.mkdir(self.output_folder)
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+                                            folder_basename)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+                                            folder_basename))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             dataset)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             dataset))
 
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             dataset,
                                             classe)):
             os.mkdir(os.path.join(self.output_folder,
-                                  f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                  folder_basename,
                                   dataset,
                                   classe))
         # elif not os.path.isdir(os.path.join(self.output_folder,
@@ -143,7 +169,7 @@ class BBBuildDataset:
         #                            folder_name,
         #                            image_name+&#34;_&#34;+str(box_id)+ext)
         output_path = os.path.join(self.output_folder,
-                                   f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                   folder_basename,
                                    dataset,
                                    classe,
                                    image_name+&#34;_&#34;+str(box_id)+&#34;_&#34;+str(helipad_id)+ext)
@@ -160,39 +186,42 @@ class BBBuildDataset:
         ytile = os.path.splitext(os.path.basename(image_path))[0]
         xtile = os.path.basename(os.path.dirname(image_path))
         zoom = os.path.basename(os.path.dirname(os.path.dirname(image_path)))
+        folder_basename = f&#39;model_{self.model_number}_{self.score_threshold}&#39;
+        if self.zoom_out:
+            folder_basename += &#34;_zoomout{}&#34;.format(self.zoom_out)
 
         if not os.path.isdir(self.output_folder):
             os.mkdir(self.output_folder)
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+                                            folder_basename)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+                                            folder_basename))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;,
                                             zoom)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;,
                                             zoom))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;,
                                             zoom,
                                             xtile)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;,
                                             zoom,
                                             xtile))
         output_path = os.path.join(self.output_folder,
-                                   f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                   folder_basename,
                                    &#34;sat&#34;,
                                    zoom,
                                    xtile,
@@ -244,7 +273,24 @@ class BBBuildDataset:
             false_positive = True
 
         return false_positive, contains
-
+    
+    @staticmethod
+    def box_zoom_out(image, x_min, y_min, x_max, y_max, zoom_out):
+        x_min = x_min - zoom_out
+        if x_min &lt; 0:
+            x_min = 0
+        y_min = y_min - zoom_out
+        if y_min &lt; 0:
+            y_min = 0
+        x_max = x_max + zoom_out
+        if x_max &gt; image.shape[1]:
+            x_max = image.shape[1]
+        if y_max &gt; image.shape[0]:
+            y_max = image.shape[0]
+        y_max = y_max + zoom_out
+        image_box = image[y_min:y_max,x_min:x_max,:]
+        return image_box
+    
     def run(self):
 
         self.target_files = self.build_target_files()
@@ -309,6 +355,9 @@ class BBBuildDataset:
                                                                 image_path,
                                                                 box_id,
                                                                 i)
+                        
+                        if self.zoom_out:
+                            image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                         # save the file
                         self.save_image(image_box, output_path)
                         box_id += 1
@@ -335,6 +384,8 @@ class BBBuildDataset:
                 if self.tms:
                     #TODO: Add support for tms
                     output_path = self.get_output_file_name_tms(image_path, box_id)
+                    if self.zoom_out:
+                        image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                     self.save_image(image_box, output_path)
                     continue
 
@@ -349,6 +400,8 @@ class BBBuildDataset:
                                                                 image_path,
                                                                 box_id,
                                                                 i)
+                        if self.zoom_out:
+                            image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                         self.save_image(image_box, output_path)
                         box_id += 1
                 else:
@@ -364,6 +417,8 @@ class BBBuildDataset:
                                                             image_path,
                                                             box_id,
                                                             i)
+                    if self.zoom_out:
+                            image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                     self.save_image(image_box, output_path)
                     box_id += 1
 
@@ -378,6 +433,8 @@ if __name__ == &#34;__main__&#34;:
     tms = False
     groundtruth_bb = True
     filter_categories = [&#34;4&#34;, &#34;7&#34;, &#34;d&#34;, &#34;u&#34;]
+    balance_categories = False
+    zoom_out = None
 
     bb_build_dataset = BBBuildDataset(image_folder=image_folder,
                                       meta_folder=meta_folder,
@@ -387,7 +444,8 @@ if __name__ == &#34;__main__&#34;:
                                       output_folder=output_folder,
                                       tms=tms,
                                       groundtruth_bb=groundtruth_bb,
-                                      filter_categories=filter_categories)
+                                      filter_categories=filter_categories,
+                                      zoom_out=zoom_out)
 
     bb_build_dataset.run()
     
@@ -425,7 +483,7 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt id="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset"><code class="flex name class">
 <span>class <span class="ident">BBBuildDataset</span></span>
-<span>(</span><span>image_folder, meta_folder, model_number, score_threshold, iou_threshold, output_folder, tms=False, groundtruth_bb=True, filter_categories=None, balance_categories=False)</span>
+<span>(</span><span>image_folder, meta_folder, model_number, score_threshold, iou_threshold, output_folder, tms=False, groundtruth_bb=True, filter_categories=None, balance_categories=False, zoom_out=None, index_path=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Build a dataset of bounding boxes detected by a model or by the groundtruth.</p></div>
@@ -445,7 +503,9 @@ if __name__ == &#34;__main__&#34;:
                  tms=False,
                  groundtruth_bb = True,
                  filter_categories=None,
-                 balance_categories=False):
+                 balance_categories=False,
+                 zoom_out=None,
+                 index_path=None):
         self.image_folder = image_folder
         self.meta_folder = meta_folder
         self.model_number = model_number
@@ -460,6 +520,8 @@ if __name__ == &#34;__main__&#34;:
         self.groundtruth_bb = groundtruth_bb
         self.filter_categories = filter_categories
         self.balance_categories = balance_categories
+        self.zoom_out = zoom_out
+        self.index_path = index_path
 
     def build_target_files(self):
         
@@ -467,6 +529,25 @@ if __name__ == &#34;__main__&#34;:
             target_files = DatabaseAugmentation.balance_categories(self.image_folder, 
                                                                   self.meta_folder, 
                                                                   repartition=None)
+        if self.index_path:
+            target_files = []
+            with open(self.index_path, &#39;r&#39;) as f:
+                lines = f.readlines()
+                for line in lines:
+                    if line[len(line)-1] == &#39;\n&#39;:
+                        line = line[:len(line)-1]
+                    meta_filename = line
+                    image_info = line.split(&#39;.&#39;)[0].split(&#39;_&#39;)
+                    zoom = image_info[1]
+                    xtile = image_info[2]
+                    ytile = image_info[3]
+                    image_path = os.path.join(self.image_folder, 
+                                              xtile,
+                                              str(ytile)+&#34;.jpg&#34;)
+                    meta_path = os.path.join(self.meta_folder,
+                                             xtile,
+                                             meta_filename)
+                    target_files.append([image_path, meta_path])
         else:
             target_files = []
             for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
@@ -506,25 +587,28 @@ if __name__ == &#34;__main__&#34;:
         elif classe == &#34;helipad&#34;:
             if folder_id &gt; 48:
                 dataset = &#34;test&#34;
+        folder_basename = f&#39;model_{self.model_number}_{self.score_threshold}&#39;
+        if self.zoom_out:
+            folder_basename += &#34;_zoomout{}&#34;.format(self.zoom_out)
         if not os.path.isdir(self.output_folder):
             os.mkdir(self.output_folder)
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+                                            folder_basename)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+                                            folder_basename))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             dataset)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             dataset))
 
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             dataset,
                                             classe)):
             os.mkdir(os.path.join(self.output_folder,
-                                  f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                  folder_basename,
                                   dataset,
                                   classe))
         # elif not os.path.isdir(os.path.join(self.output_folder,
@@ -543,7 +627,7 @@ if __name__ == &#34;__main__&#34;:
         #                            folder_name,
         #                            image_name+&#34;_&#34;+str(box_id)+ext)
         output_path = os.path.join(self.output_folder,
-                                   f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                   folder_basename,
                                    dataset,
                                    classe,
                                    image_name+&#34;_&#34;+str(box_id)+&#34;_&#34;+str(helipad_id)+ext)
@@ -560,39 +644,42 @@ if __name__ == &#34;__main__&#34;:
         ytile = os.path.splitext(os.path.basename(image_path))[0]
         xtile = os.path.basename(os.path.dirname(image_path))
         zoom = os.path.basename(os.path.dirname(os.path.dirname(image_path)))
+        folder_basename = f&#39;model_{self.model_number}_{self.score_threshold}&#39;
+        if self.zoom_out:
+            folder_basename += &#34;_zoomout{}&#34;.format(self.zoom_out)
 
         if not os.path.isdir(self.output_folder):
             os.mkdir(self.output_folder)
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+                                            folder_basename)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+                                            folder_basename))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;,
                                             zoom)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;,
                                             zoom))
         elif not os.path.isdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;,
                                             zoom,
                                             xtile)):
             os.mkdir(os.path.join(self.output_folder,
-                                            f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                            folder_basename,
                                             &#34;sat&#34;,
                                             zoom,
                                             xtile))
         output_path = os.path.join(self.output_folder,
-                                   f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                   folder_basename,
                                    &#34;sat&#34;,
                                    zoom,
                                    xtile,
@@ -644,7 +731,24 @@ if __name__ == &#34;__main__&#34;:
             false_positive = True
 
         return false_positive, contains
-
+    
+    @staticmethod
+    def box_zoom_out(image, x_min, y_min, x_max, y_max, zoom_out):
+        x_min = x_min - zoom_out
+        if x_min &lt; 0:
+            x_min = 0
+        y_min = y_min - zoom_out
+        if y_min &lt; 0:
+            y_min = 0
+        x_max = x_max + zoom_out
+        if x_max &gt; image.shape[1]:
+            x_max = image.shape[1]
+        if y_max &gt; image.shape[0]:
+            y_max = image.shape[0]
+        y_max = y_max + zoom_out
+        image_box = image[y_min:y_max,x_min:x_max,:]
+        return image_box
+    
     def run(self):
 
         self.target_files = self.build_target_files()
@@ -709,6 +813,9 @@ if __name__ == &#34;__main__&#34;:
                                                                 image_path,
                                                                 box_id,
                                                                 i)
+                        
+                        if self.zoom_out:
+                            image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                         # save the file
                         self.save_image(image_box, output_path)
                         box_id += 1
@@ -735,6 +842,8 @@ if __name__ == &#34;__main__&#34;:
                 if self.tms:
                     #TODO: Add support for tms
                     output_path = self.get_output_file_name_tms(image_path, box_id)
+                    if self.zoom_out:
+                        image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                     self.save_image(image_box, output_path)
                     continue
 
@@ -749,6 +858,8 @@ if __name__ == &#34;__main__&#34;:
                                                                 image_path,
                                                                 box_id,
                                                                 i)
+                        if self.zoom_out:
+                            image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                         self.save_image(image_box, output_path)
                         box_id += 1
                 else:
@@ -764,9 +875,41 @@ if __name__ == &#34;__main__&#34;:
                                                             image_path,
                                                             box_id,
                                                             i)
+                    if self.zoom_out:
+                            image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                     self.save_image(image_box, output_path)
                     box_id += 1</code></pre>
 </details>
+<h3>Static methods</h3>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.box_zoom_out"><code class="name flex">
+<span>def <span class="ident">box_zoom_out</span></span>(<span>image, x_min, y_min, x_max, y_max, zoom_out)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def box_zoom_out(image, x_min, y_min, x_max, y_max, zoom_out):
+    x_min = x_min - zoom_out
+    if x_min &lt; 0:
+        x_min = 0
+    y_min = y_min - zoom_out
+    if y_min &lt; 0:
+        y_min = 0
+    x_max = x_max + zoom_out
+    if x_max &gt; image.shape[1]:
+        x_max = image.shape[1]
+    if y_max &gt; image.shape[0]:
+        y_max = image.shape[0]
+    y_max = y_max + zoom_out
+    image_box = image[y_min:y_max,x_min:x_max,:]
+    return image_box</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.build_target_files"><code class="name flex">
@@ -784,6 +927,25 @@ if __name__ == &#34;__main__&#34;:
         target_files = DatabaseAugmentation.balance_categories(self.image_folder, 
                                                               self.meta_folder, 
                                                               repartition=None)
+    if self.index_path:
+        target_files = []
+        with open(self.index_path, &#39;r&#39;) as f:
+            lines = f.readlines()
+            for line in lines:
+                if line[len(line)-1] == &#39;\n&#39;:
+                    line = line[:len(line)-1]
+                meta_filename = line
+                image_info = line.split(&#39;.&#39;)[0].split(&#39;_&#39;)
+                zoom = image_info[1]
+                xtile = image_info[2]
+                ytile = image_info[3]
+                image_path = os.path.join(self.image_folder, 
+                                          xtile,
+                                          str(ytile)+&#34;.jpg&#34;)
+                meta_path = os.path.join(self.meta_folder,
+                                         xtile,
+                                         meta_filename)
+                target_files.append([image_path, meta_path])
     else:
         target_files = []
         for subdir, dirs, files in os.walk(self.meta_folder, topdown=True):
@@ -889,25 +1051,28 @@ TODO: Support TMS Dataset (use meta_path)
     elif classe == &#34;helipad&#34;:
         if folder_id &gt; 48:
             dataset = &#34;test&#34;
+    folder_basename = f&#39;model_{self.model_number}_{self.score_threshold}&#39;
+    if self.zoom_out:
+        folder_basename += &#34;_zoomout{}&#34;.format(self.zoom_out)
     if not os.path.isdir(self.output_folder):
         os.mkdir(self.output_folder)
     elif not os.path.isdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+                                        folder_basename)):
         os.mkdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+                                        folder_basename))
     elif not os.path.isdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        folder_basename,
                                         dataset)):
         os.mkdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        folder_basename,
                                         dataset))
 
     elif not os.path.isdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        folder_basename,
                                         dataset,
                                         classe)):
         os.mkdir(os.path.join(self.output_folder,
-                              f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                              folder_basename,
                               dataset,
                               classe))
     # elif not os.path.isdir(os.path.join(self.output_folder,
@@ -926,7 +1091,7 @@ TODO: Support TMS Dataset (use meta_path)
     #                            folder_name,
     #                            image_name+&#34;_&#34;+str(box_id)+ext)
     output_path = os.path.join(self.output_folder,
-                               f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                               folder_basename,
                                dataset,
                                classe,
                                image_name+&#34;_&#34;+str(box_id)+&#34;_&#34;+str(helipad_id)+ext)
@@ -957,39 +1122,42 @@ TODO: Support TMS Dataset (use meta_path)
     ytile = os.path.splitext(os.path.basename(image_path))[0]
     xtile = os.path.basename(os.path.dirname(image_path))
     zoom = os.path.basename(os.path.dirname(os.path.dirname(image_path)))
+    folder_basename = f&#39;model_{self.model_number}_{self.score_threshold}&#39;
+    if self.zoom_out:
+        folder_basename += &#34;_zoomout{}&#34;.format(self.zoom_out)
 
     if not os.path.isdir(self.output_folder):
         os.mkdir(self.output_folder)
     elif not os.path.isdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;)):
+                                        folder_basename)):
         os.mkdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;))
+                                        folder_basename))
     elif not os.path.isdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        folder_basename,
                                         &#34;sat&#34;)):
         os.mkdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        folder_basename,
                                         &#34;sat&#34;))
     elif not os.path.isdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        folder_basename,
                                         &#34;sat&#34;,
                                         zoom)):
         os.mkdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        folder_basename,
                                         &#34;sat&#34;,
                                         zoom))
     elif not os.path.isdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        folder_basename,
                                         &#34;sat&#34;,
                                         zoom,
                                         xtile)):
         os.mkdir(os.path.join(self.output_folder,
-                                        f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                                        folder_basename,
                                         &#34;sat&#34;,
                                         zoom,
                                         xtile))
     output_path = os.path.join(self.output_folder,
-                               f&#39;model_{self.model_number}_{self.score_threshold}&#39;,
+                               folder_basename,
                                &#34;sat&#34;,
                                zoom,
                                xtile,
@@ -1070,6 +1238,9 @@ TODO: Support TMS Dataset (use meta_path)
                                                             image_path,
                                                             box_id,
                                                             i)
+                    
+                    if self.zoom_out:
+                        image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                     # save the file
                     self.save_image(image_box, output_path)
                     box_id += 1
@@ -1096,6 +1267,8 @@ TODO: Support TMS Dataset (use meta_path)
             if self.tms:
                 #TODO: Add support for tms
                 output_path = self.get_output_file_name_tms(image_path, box_id)
+                if self.zoom_out:
+                    image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                 self.save_image(image_box, output_path)
                 continue
 
@@ -1110,6 +1283,8 @@ TODO: Support TMS Dataset (use meta_path)
                                                             image_path,
                                                             box_id,
                                                             i)
+                    if self.zoom_out:
+                        image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                     self.save_image(image_box, output_path)
                     box_id += 1
             else:
@@ -1125,6 +1300,8 @@ TODO: Support TMS Dataset (use meta_path)
                                                         image_path,
                                                         box_id,
                                                         i)
+                if self.zoom_out:
+                        image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                 self.save_image(image_box, output_path)
                 box_id += 1</code></pre>
 </details>
@@ -1165,6 +1342,7 @@ TODO: Support TMS Dataset (use meta_path)
 <li>
 <h4><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset">BBBuildDataset</a></code></h4>
 <ul class="">
+<li><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.box_zoom_out" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.box_zoom_out">box_zoom_out</a></code></li>
 <li><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.build_target_files" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.build_target_files">build_target_files</a></code></li>
 <li><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.detect_false_postive" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.detect_false_postive">detect_false_postive</a></code></li>
 <li><code><a title="helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.get_output_file_name" href="#helipad_detection.src.bb_analysis.bb_build_dataset.BBBuildDataset.get_output_file_name">get_output_file_name</a></code></li>

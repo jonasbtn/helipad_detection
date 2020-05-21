@@ -21,6 +21,19 @@ class RunBenchmark:
                  include_negative=True,
                  city_lat=None,
                  train_only=False):
+        
+        """
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `model_numbers`: list of int, list of the model numbers to benchmark\n
+        `test_only`: boolean, True to benchmark only on the test set\n
+        `tms_dataset`: boolean, True if the dataset follows the TMS format\n
+        `zoom_level`: int, zoom level of the dataset to benchmark in case of TMS\n
+        `include_category`: list of categories to include in the benchmark\n
+        `include_negative`: boolean, True to include False samples\n
+        `city_lat`: string, first digits of Xtile in case of TMS dataset to select a particular city\n
+        `train_only`: boolean, True to benchmark only the training set.
+        """
 
         self.image_folder = image_folder
         self.meta_folder = meta_folder
@@ -44,6 +57,11 @@ class RunBenchmark:
                                                   train_only=train_only)
 
     def run(self, threshold_validation=None):
+        """
+        Run the benchmark on a wide range of score thresholds\n
+        `threshold_validation`: float or None, float to filter the bounding boxes having a `cnn_validation` score below `threshold_validation`, None to not consider the second model.\n
+        Saves the results in a csv file located in the folder `benchmark_results` at the same level as this script.
+        """
         aucs = []
         for model_number in self.model_numbers:
 
@@ -93,6 +111,10 @@ class RunBenchmark:
                     filename = "benchmark_model_{}_c{}_n{}_test{}_train{}.csv".format(model_number, "".join(self.include_category), self.include_negative, self.test_only, self.train_only)
                 else:
                     filename = "benchmark_model_{}_{}.csv".format(model_number, self.test_only)
+            
+            if not os.path.isdir(os.path.join(pathlib.Path(__file__).parent.absolute(), "benchmark_results")):
+                os.mkdir(os.path.join(pathlib.Path(__file__).parent.absolute(), "benchmark_results"))
+            
             df.to_csv(os.path.join(pathlib.Path(__file__).parent.absolute(), "benchmark_results", filename))
 
         df_auc = pd.DataFrame(data=aucs, columns=["Model Number", "AUC"])
