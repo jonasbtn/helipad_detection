@@ -20,8 +20,8 @@ class BBDatasetGroundtruthTMS:
         """
         'image folder' contains 2 folders : 'helipad' and 'false_positive'
         `output_folder`: string, path to where to dataset has to be stored\n
-        `start_index`: int, index to where to start the verification.
-        `source_from`: string, path to a previously made groundtruth for the same model
+        `start_index`: int, index to where to start the verification.\n
+        `source_from`: string, path to a previously made groundtruth for the same model\n
         """
         self.image_folder = image_folder
         self.output_folder = output_folder
