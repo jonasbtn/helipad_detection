@@ -1,5 +1,9 @@
 import os
 import json
+import cv2
+from tqdm import tqdm as tqdm
+
+from math import radians, sin, atan2, atan, cos, sqrt
 
 # TODO : Add a run example in the main below
 
@@ -138,9 +142,9 @@ class BBComputeAreaTMS:
             elif len(meta["predicted"]["model_{}".format(self.model_number)]["box"]) == 0:
                 continue
             
-            bounds = meta["predicted"]["model_{}".format(model_number)]["coordinates"]["bounds"]
+            bounds = meta["predicted"]["model_{}".format(self.model_number)]["coordinates"]["bounds"]
             
-            area = []
+            areas = []
             
             for j in range(len(bounds)):
                 bound = bounds[j]
@@ -150,14 +154,26 @@ class BBComputeAreaTMS:
                 areas.append(area)
                 
             # save the results
-            meta["predicted"]["model_{}".format(model_number)]["coordinates"]["area"] = areas
+            meta["predicted"]["model_{}".format(self.model_number)]["coordinates"]["area"] = areas
             
             with open(meta_path, 'w') as f:
                 json.dump(meta, f, sort_keys=True, indent=4)
             f.close()
 
     
-if __name__ == "__main__:
+if __name__ == "__main__":
+
+    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\"
+    model_number = 10
+    index_path = "helipad_path_over_0_m10.txt"
+
+    bb_compute_area_tms = BBComputeAreaTMS(image_folder=image_folder,
+                                           meta_folder=meta_folder,
+                                           model_number=model_number,
+                                           index_path=index_path)
+
+    bb_compute_area_tms.run()
     
             
     

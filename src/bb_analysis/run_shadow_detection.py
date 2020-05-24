@@ -3,7 +3,7 @@ import json
 from tqdm import tqdm as tqdm
 import cv2
 
-from shadow_detection import ShadowDetection
+from helipad_detection.src.bb_analysis.shadow_detection import ShadowDetection
 
 
 class RunShadowDetection:
@@ -195,19 +195,19 @@ class RunShadowDetection:
             
 
 if __name__ == "__main__":
-    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
-    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
-    model_number = 7
-    groundtruth_only = True
-    tms = False 
+    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\"
+    model_number = 10
+    groundtruth_only = False
+    tms = True
     zoom_out = 5
-    index_path = None
-    minimum_size_window=3
-    threshold_v=0.35
-    threshold_s=0.02
-    ratio=1
-    d_0=3
-    
+    index_path = "C:\\Users\\AISG\\Documents\\Jonas\\helipad_detection\\src\\helipad_path_over_0_m10.txt"
+    minimum_size_window = 3
+    threshold_v = 0.35
+    threshold_s = 0.02
+    ratio = 1
+    d_0 = 3
+
     run_shadow_detection = RunShadowDetection(image_folder=image_folder, 
                                               meta_folder=meta_folder,
                                               model_number=model_number, 
@@ -220,5 +220,5 @@ if __name__ == "__main__":
                                               threshold_s=threshold_s, 
                                               ratio=ratio, 
                                               d_0=d_0)
-    
+
     run_shadow_detection.run()

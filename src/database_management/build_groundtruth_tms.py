@@ -25,6 +25,7 @@ class BuildGroundtruthTMS:
         """
         
         self.image_folder = image_folder
+        self.meta_folder = meta_folder
         self.model_number = model_number
         self.index_path = index_path
         self.source_from = source_from
@@ -110,15 +111,15 @@ class BuildGroundtruthTMS:
         elif bb_filename in fp_filenames:
             return False
         else:
-            return None
+            return False
         
     def run(self):
         """
         Run the interface
         """
-        print(f'{len(target_files)} files loaded!')
+        print(f'{len(self.target_files)} files loaded!')
         
-        l = len(target_files)
+        l = len(self.target_files)
         i = self.start_index
         
         while i<l:
@@ -148,9 +149,11 @@ class BuildGroundtruthTMS:
                 if self.source_from:
                     # get annotation from the source from folder with box id j
                     bb_groundtruth = self.build_image_groundtruth_from_other_folder(os.path.basename(meta_path), j)
-                    if bb_groundtruth is not None:
-                        bboxes_groundtruth.append(bb_groundtruth)
+                    
+                    if bb_groundtruth is None:
                         continue
+                    bboxes_groundtruth.append(bb_groundtruth)
+                    continue
                     
                 box = bboxes[j]
 
@@ -158,9 +161,9 @@ class BuildGroundtruthTMS:
                 y_min = min(box[1], box[3])
                 x_max = min(box[0], box[2])
                 y_max = min(box[1], box[3])
-
+                
                 image_box = image[y_min:y_max,x_min:x_max,:]
-
+                
                 plt.imshow(image_box)
                 plt.show()
 
@@ -192,5 +195,19 @@ class BuildGroundtruthTMS:
 
 if __name__ == "__main__":
     
-            
+    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\"
+    model_number = 10
+    index_path = "C:\\Users\\AISG\\Documents\\Jonas\\helipad_detection\\src\\helipad_path_over_0_m10.txt"
+    source_from = "C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Real_World_Detected_Boxes\\model_10_0.0_groundtruth\\"
+    start_index = 0
+
+    build_groundtruth_tms = BuildGroundtruthTMS(image_folder=image_folder,
+                                                meta_folder=meta_folder,
+                                                model_number=model_number,
+                                                index_path=index_path,
+                                                source_from=source_from,
+                                                start_index=start_index)
+
+    build_groundtruth_tms.run()
                     

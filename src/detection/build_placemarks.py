@@ -133,7 +133,6 @@ class BuildPlacemarks:
                 key = "model_{}".format(self.model_number)
                 if key not in meta["predicted"]:
                     continue
-
                 lat_long_centers = meta["predicted"][key]["coordinates"]["center"]
                 
                 for k in range(len(lat_long_centers)):
@@ -148,7 +147,7 @@ class BuildPlacemarks:
                                     zoom_out = self.filters_config['shadow']['zoom_out']
                                 else:
                                     zoom_out = 0
-                                shadow = meta["predicted"][key]['shadow'][k]
+                                shadow = meta["predicted"][key]['shadow']['zoom_out_{}'.format(zoom_out)][k]
                                 if shadow:
                                     continue
                                 else:
@@ -167,12 +166,12 @@ class BuildPlacemarks:
                                 else:
                                     higher = 2000
                                 
-                                area = meta["predicted"][key]['area'][k]
+                                area = meta["predicted"][key]['coordinates']['area'][k]
                                 if area > lower and area < higher:
                                     placemark_name += "_a{}".format(area)
                                 else:
                                     continue
-                                    
+                    
                     # filter by score
                     if 'score' in self.filters_config:
                         if 'activate' in self.filters_config['score']:
@@ -195,9 +194,9 @@ class BuildPlacemarks:
                                         continue
                                     else:
                                         placemark_name += "_{}".format(str(score)[2:5])
-                        
+                   
                     f.write('\t\t\t<Placemark>\n')
-                    f.write('\t\t\t\t<name>{}</name>\n'.format(placemark_name)
+                    f.write('\t\t\t\t<name>{}</name>\n'.format(placemark_name))
                     f.write('\t\t\t\t<description>1/7/2020 2:18:10 PM</description>\n')
                     f.write('\t\t\t\t<Style>\n')
                     f.write('\t\t\t\t\t<LabelStyle>\n')
