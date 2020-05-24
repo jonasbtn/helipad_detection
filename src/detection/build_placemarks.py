@@ -10,27 +10,58 @@ class BuildPlacemarks:
     Build a placemarks file containing the coordinates of all the bounding boxe detected. This allows to visualize faster all the detection over an entire area inside the software SAS Planet. The placemarks are saved into the folder "placemarks" inside the same folder as this script. 
     """
 
-    def __init__(self, meta_folder, model_number, threshold, knn=True, index_path=None, model_name=None,
-                 model_validation_threshold=None, prefix=""):
+    def __init__(self, meta_folder, model_number, index_path=None, filters_config=None, prefix=""):
         """
         `meta_folder`: string, path to the folder containing the meta files\n
         `model_number`: int, number of the model. The detection has to be run on the images by the model first.\n
-        `threshold`: float, score threshold, all the detected bounding boxes below this threshold won't be included. \n
-        `knn`: boolean, True to consider the second model validation of the bounding boxes\n
-        `index_path`: string, path of to an index created by `database_management.index_path_by_score` if existed, else None\n
         `model_name`: string, validation model name (the according key inside the meta file)\n
-        `model_validation_threshold`: float, score threshold of the validating model\n
+        `filters_config`: json dict, filters configuration to activate. See example inside the main below\n
         `prefix`: string, output file prefix (ie: `"Manilla_"`)\n
         """
         self.meta_folder = meta_folder
         self.model_number = model_number
-        self.threshold = threshold
-        self.knn = knn
-        self.model_name = model_name
         self.index_path = index_path
-        self.model_validation_threshold = model_validation_threshold
-        self.output_name = os.path.join(pathlib.Path(__file__).parent.absolute(), "placemarks", "{}placemarks_m{}_t{}_v{}_{}_t{}.kml".format(prefix, model_number, threshold, knn, model_name, model_validation_threshold))
+        self.filters_config = filters_config
+        self.prefix = prefix
+        self.output_name = self.get_output_filename()
     
+    def get_output_filename(self):
+        output_dir = os.path.join(pathlib.Path(__file__).parent.absolute(), "placemarks")
+        output_filename = "{}placemarks_m{}".format(self.prefix, self.model_number)
+        if 'score' in self.filters_config:
+            if 'activate' in self.filters_config['score']:
+                if self.filters_config['score']['activate']:
+                    score_threshold = self.filters_config['score']['threshold']
+                    output_filename += "t_{}".format(score_threshold)
+        if 'shadow' in self.filters_config:
+            if 'activate' in self.filters_config['shadow']:
+                if self.filters_config['shadow']['activate']:
+                    if 'zoom_out' in self.filters_config['shadow']:
+                        zoom_out = self.filters_config['shadow']['zoom_out']
+                    else:
+                        zoom_out = 0
+                    output_filename += "s_zo{}".format(zoom_out)
+        if 'area' in self.filters_config:
+            if 'activate' in self.filters_config['area']:
+                if self.filters_config['area']['activate']:
+                    if 'lower' in self.filters_config['area']:
+                        lower = self.filters_config['area']['lower']
+                    else:
+                        lower = 0
+                    if 'higher' in self.filters_config['area']:
+                        higher = self.filters_config['area']['higher']
+                    else:
+                        higher = 2000
+                    output_filename += "a_l{}_h{}".format(lower, higher)
+        if 'cnn_validation' in self.filters_config:
+            if 'activate' in self.filters_config['cnn_validation']:
+                if self.filters_config['cnn_validation']['activate']:
+                    score_threshold = self.filters_config['cnn_validation']['threshold']
+                    output_filename += "cnnv_t{}".format(score_threshold)
+        output_filename += ".kml"
+        output_filepath = os.path.join(output_dir, output_filename)
+        return output_filepath
+        
     @staticmethod
     def get_meta_info_from_line(line):
         """
@@ -93,6 +124,7 @@ class BuildPlacemarks:
             i = 0
 
             for i in tqdm(range(len(target_path))):
+                
                 filepath = target_path[i]
                 with open(filepath, 'r') as j:
                     meta = json.load(j)
@@ -103,45 +135,88 @@ class BuildPlacemarks:
                     continue
 
                 lat_long_centers = meta["predicted"][key]["coordinates"]["center"]
-                scores = meta["predicted"][key]["score"]
-
+                
                 for k in range(len(lat_long_centers)):
-                    lat_long = lat_long_centers[k]
-                    if scores[k] > self.threshold:
-                        if self.knn:
-                            if self.model_name in meta["predicted"][key]:
-                                knn = meta["predicted"][key][self.model_name]
-                                if self.model_validation_threshold:
-                                    if knn[k] < self.model_validation_threshold:
-                                        continue
-                                elif knn[k] == 0:
+                    
+                    placemark_name = "Placemark_{}".format(i)
+                    
+                    # filter first by shadows
+                    if 'shadow' in self.filters_config:
+                        if 'activate' in self.filters_config['shadow']:
+                            if self.filters_config['shadow']['activate']:
+                                if 'zoom_out' in self.filters_config['shadow']:
+                                    zoom_out = self.filters_config['shadow']['zoom_out']
+                                else:
+                                    zoom_out = 0
+                                shadow = meta["predicted"][key]['shadow'][k]
+                                if shadow:
                                     continue
-                            else:
-                                continue
-                        f.write('\t\t\t<Placemark>\n')
-                        if self.knn:
-                            f.write('\t\t\t\t<name>Placemark {}-{}-{}</name>\n'.format(i, str(scores[k])[:5], str(knn[k])[2:5]))
-                        else:
-                            f.write('\t\t\t\t<name>Placemark {}-{}</name>\n'.format(i, str(scores[k])[2:5]))
-                        f.write('\t\t\t\t<description>1/7/2020 2:18:10 PM</description>\n')
-                        f.write('\t\t\t\t<Style>\n')
-                        f.write('\t\t\t\t\t<LabelStyle>\n')
-                        f.write('\t\t\t\t\t\t<color>A600FFFF</color>\n')
-                        f.write('\t\t\t\t\t\t<scale>1</scale>\n')
-                        f.write('\t\t\t\t\t</LabelStyle>\n')
-                        f.write('\t\t\t\t\t<IconStyle>\n')
-                        f.write('\t\t\t\t\t\t<scale>0.5</scale>\n')
-                        f.write('\t\t\t\t\t\t<Icon>\n')
-                        f.write('\t\t\t\t\t\t\t<href>files/1.png</href>\n')
-                        f.write('\t\t\t\t\t\t</Icon>\n')
-                        f.write('\t\t\t\t\t\t<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>\n')
-                        f.write('\t\t\t\t\t</IconStyle>\n')
-                        f.write('\t\t\t\t</Style>\n')
-                        f.write('\t\t\t\t<Point>\n')
-                        f.write('\t\t\t\t\t<extrude>1</extrude>\n')
-                        f.write('\t\t\t\t\t<coordinates>{},{},0 </coordinates>\n'.format(lat_long[1], lat_long[0]))
-                        f.write('\t\t\t\t</Point>\n')
-                        f.write('\t\t\t</Placemark>\n')
+                                else:
+                                    placemark_name += "_s{}".format(shadow)
+                    
+                    # filter then by areas
+                    if 'area' in self.filters_config:
+                        if 'activate' in self.filters_config['area']:
+                            if self.filters_config['area']['activate']:
+                                if 'lower' in self.filters_config['area']:
+                                    lower = self.filters_config['area']['lower']
+                                else:
+                                    lower = 0
+                                if 'higher' in self.filters_config['area']:
+                                    higher = self.filters_config['area']['higher']
+                                else:
+                                    higher = 2000
+                                
+                                area = meta["predicted"][key]['area'][k]
+                                if area > lower and area < higher:
+                                    placemark_name += "_a{}".format(area)
+                                else:
+                                    continue
+                                    
+                    # filter by score
+                    if 'score' in self.filters_config:
+                        if 'activate' in self.filters_config['score']:
+                            if self.filters_config['score']['activate']:
+                                score_threshold = self.filters_config['score']['threshold']
+                                score =  meta["predicted"][key]["score"][k]
+                                if score < score_threshold:
+                                    continue
+                                else:
+                                    placemark_name += "_{}".format(str(score)[2:5])
+                    
+                    # filter by cnn validation score
+                    if 'cnn_validation' in self.filters_config:
+                        if 'activate' in self.filters_config['cnn_validation']:
+                            if self.filters_config['cnn_validation']['activate']:
+                                score_threshold = self.filters_config['cnn_validation']['threshold']
+                                if "cnn_validation" in meta["predicted"]["key"]:
+                                    score = meta["predicted"]["key"]["cnn_validation"][k]
+                                    if  score < score_threshold:
+                                        continue
+                                    else:
+                                        placemark_name += "_{}".format(str(score)[2:5])
+                        
+                    f.write('\t\t\t<Placemark>\n')
+                    f.write('\t\t\t\t<name>{}</name>\n'.format(placemark_name)
+                    f.write('\t\t\t\t<description>1/7/2020 2:18:10 PM</description>\n')
+                    f.write('\t\t\t\t<Style>\n')
+                    f.write('\t\t\t\t\t<LabelStyle>\n')
+                    f.write('\t\t\t\t\t\t<color>A600FFFF</color>\n')
+                    f.write('\t\t\t\t\t\t<scale>1</scale>\n')
+                    f.write('\t\t\t\t\t</LabelStyle>\n')
+                    f.write('\t\t\t\t\t<IconStyle>\n')
+                    f.write('\t\t\t\t\t\t<scale>0.5</scale>\n')
+                    f.write('\t\t\t\t\t\t<Icon>\n')
+                    f.write('\t\t\t\t\t\t\t<href>files/1.png</href>\n')
+                    f.write('\t\t\t\t\t\t</Icon>\n')
+                    f.write('\t\t\t\t\t\t<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>\n')
+                    f.write('\t\t\t\t\t</IconStyle>\n')
+                    f.write('\t\t\t\t</Style>\n')
+                    f.write('\t\t\t\t<Point>\n')
+                    f.write('\t\t\t\t\t<extrude>1</extrude>\n')
+                    f.write('\t\t\t\t\t<coordinates>{},{},0 </coordinates>\n'.format(lat_long[1], lat_long[0]))
+                    f.write('\t\t\t\t</Point>\n')
+                    f.write('\t\t\t</Placemark>\n')
 
                     i += 1
 
@@ -156,15 +231,34 @@ if __name__ == "__main__":
 
     meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta_save_2\\Real_World_Dataset_TMS_meta\\sat\\"
     model_number = 7
-    threshold = 0
     index_path = "../database_management/helipad_path_over_0.txt"
+    
+    filters_config = { 
+                  'shadow': {
+                      'activate': True,
+                      'zoom_out': 5
+                    },
+                   'area' : {
+                       'activate': True,
+                       'lower': 200,
+                       'higher': 600,
+                   },
+                    'score': {
+                        'activate': True,
+                        'threshold': 0.99
+                    },
+                    'cnn_validation': {
+                        'activate': False,
+                        'threshold': 0
+                    }
+                }
+                            
+    prefix = "Manilla_"
 
-    build_placemarks = BuildPlacemarks(meta_folder,
-                                       model_number,
-                                       threshold,
-                                       knn=True,
-                                       model_name="cnn_validation",
-                                       model_validation_threshold=0,
-                                       index_path=index_path)
+    build_placemarks = BuildPlacemarks(meta_folder=meta_folder,
+                                       model_number=model_number,
+                                       index_path=index_path,
+                                       filters_config=filters_config,
+                                       prefix=prefix)
 
     build_placemarks.run()
