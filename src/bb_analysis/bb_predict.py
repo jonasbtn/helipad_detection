@@ -11,19 +11,25 @@ class BBPredict:
     
     """
     Run the prediction on the detected bounding boxes using the trained CNN from `BBTrainingManager`. \n
-    The results are saved in the meta files as `cnn_validation`.
+    The results are saved in the meta files of the original image as `cnn_validation` inside the prediction of the corresponding model.
     """ 
     
     def __init__(self, image_folder, meta_folder, model_number, model_path, tms=True,
-                 extract_bounding_boxes=False, index_path=None):
-
+                 index_path=None):
+        """
+        `image_folder`: string, path to the folder containing the images\n
+        `meta_folder`: string, path to the folder containing the meta files \n
+        `model_number`: int, number of the model which prediction has to be validated by the second CNN\n
+        `model_path`: string, path to the model saved weights\n
+        `tms`: boolean, True to indicate that the image folder follow TMS' structure\n
+        `index_path`: string, path to the index files containing the names of the images that have bounding boxes inside them\n
+        """
         self.image_folder = image_folder
         self.model_path = model_path
         self.meta_folder = meta_folder
         self.model_number = model_number
         self.model = load_model(model_path)
         self.tms = tms
-        self.extract_bounding_boxes = extract_bounding_boxes
         self.index_path = index_path
         if self.index_path:
             self.target_files = self.convert_meta_filename_to_path(image_folder, meta_folder, index_path)
@@ -31,6 +37,10 @@ class BBPredict:
             self.target_files = self.load_target_files()
         
     def load_target_files(self):
+        """
+        Load the target files.\n
+        Returns a list of tuple (`image_path`, `meta_path`) 
+        """
         target_files = []
         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
             for file in files:
@@ -49,6 +59,12 @@ class BBPredict:
     
     @staticmethod
     def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+        """
+        From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+        `image_folder`: string, path to the root of the image folder\n
+        `meta_folder`: string, path to the root of the meta_folder\n
+        `index_path`: string, path to the index file
+        """
         image_meta_path = []
         with open(index_path, 'r') as f:
             for meta_filename in f:
@@ -71,6 +87,10 @@ class BBPredict:
         return image_meta_path
 
     def load_image(self, filename):
+        """
+        Load an image from `filename` and resize it to 64x64\n
+        Returns the image
+        """
         image = load_img(filename, target_size=(64, 64))
         image = img_to_array(image)
         image = image.astype('float32')
@@ -79,13 +99,19 @@ class BBPredict:
         return image
 
     def preprocess_image_box(self, image_box):
+        """
+        Preprocess the image bounding box by resizing it to 64x64\n
+        Returns the image box resized.
+        """
         image_box = cv2.resize(image_box, (64,64))
         image_box = img_to_array(image_box).astype('float32').reshape((1,64,64,3))
         image_box = image_box*1.0/255.0
         return image_box
 
     def run(self):
-        
+        """
+        Run the prediction and save the results in the meta files.
+        """
         for i in tqdm(range(len(self.target_files))):
             
             image_path = self.target_files[i][0]
@@ -145,21 +171,20 @@ if __name__ == "__main__":
     # model_number = 7
     # model_path = "final_model.h5"
     # tms = True
-    # extract_bounding_boxes = False
 
     image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original"
     meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original"
     model_number = 7
     model_path = "final_model.h5"
     tms = False
-    extract_bounding_boxes = True
+    index_path = None
 
     bbpredict = BBPredict(image_folder=image_folder,
                           meta_folder=meta_folder,
                           model_number=model_number,
                           model_path=model_path,
                           tms=tms,
-                          extract_bounding_boxes=extract_bounding_boxes)
+                          index_path=index_path)
 
     bbpredict.run()
 

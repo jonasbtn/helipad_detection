@@ -18,11 +18,13 @@ class BBTrainingManager:
     
     """
     Train a CNN model to distinguish between a true positive and a false positive. \n
-    The dataset used has to be created first with `BBBuildDataset`. 
+    The dataset used has to be created first with `BBBuildDataset`, then cleaned optionnally by `BBDatasetCleaner` and splitted between train and test set using `BBDatasetGroundtruthSplitTestTrain`. 
     """
     
     def __init__(self, image_folder):
-
+        """
+        `image_folder`: the dataset folder created by `BBBuildDataset`
+        """
         self.image_folder = image_folder
 
         self.datagen = ImageDataGenerator(rescale=1.0/255.0)
@@ -35,6 +37,9 @@ class BBTrainingManager:
         self.model = self.define_model()
 
     def define_model(self):
+        """
+        Define the CNN model
+        """
         model = Sequential()
         model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same',
                          input_shape=(64, 64, 3)))
@@ -57,6 +62,9 @@ class BBTrainingManager:
         return model
 
     def run(self):
+        """
+        Run the training
+        """
         # callbacks
         model_checkpoint_callback = ModelCheckpoint(filepath="./checkpoint_manilla/weights.{epoch:02d}-{loss:.2f}-{acc:.2f}-{val_loss:.2f}-{val_acc:.2f}.h5",
                                                     save_weights_only=False,
@@ -81,11 +89,17 @@ class BBTrainingManager:
                                       epochs=500, verbose=1, callbacks=[model_checkpoint_callback, early_stopping, reduce_lr_on_plateau])
 
     def evaluate(self):
+        """
+        Evaluate the accuracy of the model on the test set
+        """
         # evaluate model
         _, acc = self.model.evaluate_generator(self.test_it, steps=len(self.test_it))
         print('> %.3f' % (acc * 100.0))
 
     def plot(self):
+        """
+        Plot the metrics curves
+        """
         # plot diagnostic learning curves
         def summarize_diagnostics(history):
             # plot loss
@@ -112,6 +126,9 @@ class BBTrainingManager:
         summarize_diagnostics(self.history)
 
     def save(self, filename):
+        """
+        Save the model to `filename`.
+        """
         # save model
         self.model.save(filename)
 

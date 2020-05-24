@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 
+# TODO: Add an example to run below in a main
+
 
 class ShadowDetection:
     

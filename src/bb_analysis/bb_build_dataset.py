@@ -7,6 +7,7 @@ import numpy as np
 from helipad_detection.src.training.filter_manager import FilterManager
 from helipad_detection.src.database_management.database_augmentation import DatabaseAugmentation
 
+
 class BBBuildDataset:
     
     """
@@ -22,6 +23,20 @@ class BBBuildDataset:
                  balance_categories=False,
                  zoom_out=None,
                  index_path=None):
+        """
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `model_number`: int, number of the model\n
+        `score_threshold`: float, all the bounding boxes with a confidence score below `score_threshold` are discarded\n
+        `iou_threshold`: float, the bounding boxes with an IOU inferior than `threshold_iou` are considered false positive\n
+        `output_folder`: string, path to where to dataset has to be stored\n
+        `tms`: boolean, True if the dataset follows the TMS format\n
+        `groundtruth_bb`: boolean, indicates wheter the dataset keeps the groundtruth\n
+        `filter_categories`: list of categories to exclude\n
+        `balance_categories`: boolean, True to balance the number of images between categories by duplicating the small categories\n
+        `zoom_out`: int or None, if int, the bounding boxes are increased by `zoom_out` pixels in each sides.\n
+        `index_path`: string or None, path to the index file that stores where are the bounding boxes so faster the creation.\n
+        """
         self.image_folder = image_folder
         self.meta_folder = meta_folder
         self.model_number = model_number
@@ -40,7 +55,9 @@ class BBBuildDataset:
         self.index_path = index_path
 
     def build_target_files(self):
-        
+        """
+        Build a list of tuples (`image_path`, `meta_path`).
+        """
         if not self.tms and self.balance_categories:
             target_files = DatabaseAugmentation.balance_categories(self.image_folder, 
                                                                   self.meta_folder, 
@@ -86,12 +103,13 @@ class BBBuildDataset:
 
     def get_output_file_name(self, classe, image_path, box_id, helipad_id):
         """
-        output_folder/model_{number}_{score}/classes/folder_id/image_name_{}
-        TODO: Support TMS Dataset (use meta_path)
-        :param classe:
-        :param image_path:
-        :param box_id:
-        :return:
+        Set the output file name \n
+        `classe`: "helipad" or "true_positive" the detected or groundtruth class\n
+        `image_path`: string, path to the original image\n
+        `box_id`: int, index of the bounding box in the image\n
+        `helipad_id`: int, id of the helipad in the original dataset
+        Returns :\n
+        `output_folder/model_{number}_{score}/classes/folder_id/image_name_{}`
         """
         image_name, ext = os.path.splitext(os.path.basename(image_path))
         folder_name = os.path.basename(os.path.dirname(image_path))
@@ -150,13 +168,15 @@ class BBBuildDataset:
         return output_path
 
     def get_output_file_name_tms(self, image_path, box_id):
+        
         """
+        Set the output file name \n
+        `image_path`: string, path to the original image\n
+        `box_id`: int, index of the bounding box in the image\n
+        Returns :\n
         output_folder/model_{number}_{score}/tms/xtile/Satellite_{zoom}_{xtile}_{ytile}_{box_id}.jpg
-        :param classe:
-        :param image_path:
-        :param box_id:
-        :return:
         """
+
         ytile = os.path.splitext(os.path.basename(image_path))[0]
         xtile = os.path.basename(os.path.dirname(image_path))
         zoom = os.path.basename(os.path.dirname(os.path.dirname(image_path)))
@@ -203,11 +223,22 @@ class BBBuildDataset:
         return output_path
 
     def save_image(self, image_box, output_path):
+        """
+        Save the image\n
+        `image_box`: bounding box image\n
+        `output_path`: string, output path of the image bounding box 
+        """
         # print(output_path)
         # print(image_box)
         cv2.imwrite(output_path, image_box)
 
     def detect_false_postive(self, box_predicted, bboxes_groundtruth):
+        """
+        Detect if `box_predicted` is a false positive by comparing it to the `bboxes_groundtruth` the groundtruth bounding boxes. \n
+        Returns\n
+        `false_positive`: boolean, True if false positive\n
+        `contains`: boolean, True if `box_predicted` is contained inside `bboxes_groundtruth`.
+        """
         false_positive = False
         contains = False
         # detect if box is a true positive or a false positive
@@ -250,6 +281,11 @@ class BBBuildDataset:
     
     @staticmethod
     def box_zoom_out(image, x_min, y_min, x_max, y_max, zoom_out):
+        """
+        Increase the size of the bounding box by `zoom_out` pixels.\n
+        Returns \n
+        `image_box`: the image bounding box
+        """
         x_min = x_min - zoom_out
         if x_min < 0:
             x_min = 0
@@ -266,7 +302,9 @@ class BBBuildDataset:
         return image_box
     
     def run(self):
-
+        """
+        Run the dataset creation
+        """
         self.target_files = self.build_target_files()
         
         print(f'{len(self.target_files)} files loaded!')
