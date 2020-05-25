@@ -17,7 +17,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 class BenchmarkManager:
     
     """
-    Manager to setup a benchmark on different part of the dataset.\n
+    Manager to setup and ru a benchmark on different part of the dataset.\n
     The benchmark computes all the metrics (Accuracy, Error, Precision, Recall).
     """
     def __init__(self, image_folder, meta_folder,

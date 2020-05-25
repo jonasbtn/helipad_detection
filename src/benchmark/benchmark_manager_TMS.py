@@ -4,7 +4,18 @@ import json
 
 class BenchmarkManagerTMS:
     
+    """
+    Manager to setup and run a benchmark on different part of the dataset.\n
+    The benchmark computes all the metrics (Accuracy, Error, Precision, Recall).
+    """
+    
     def __init__(self, image_folder, meta_folder, model_number, index_path=None):
+        """
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `model_number`: int, number of the model that predicted to bounding boxes\n
+        `index_path`: string or None, path to the index files containing the names of the files with a bounding box inside\n
+        """
         self.image_folder = image_folder
         self.meta_folder = meta_folder
         self.model_number = model_number
@@ -84,7 +95,11 @@ class BenchmarkManagerTMS:
         self.FN = 0
     
     def run(self, filters_config):
-        
+        """
+        Run the benchmark by taking into account the filters with configuration `filters_config` (see example in the `main` below)\n
+        Returns :\n
+        `filters_config`: json dict, the filters config and the benchmark results
+        """
         self.filters_config = filters_config
         self.reinitialize_metrics()
         
@@ -175,3 +190,40 @@ class BenchmarkManagerTMS:
         self.filters_config['result_benchmark'] = res
         
         return self.filters_config
+    
+
+if __name__ == "__main__:
+
+    image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\"
+    meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\"
+    model_number = 10
+    index_path = "C:\\Users\\AISG\\Documents\\Jonas\\helipad_detection\\src\\helipad_path_over_0_m10.txt"
+
+    filters_config = { 
+                  'shadow': {
+                      'activate': True,
+                      'zoom_out': 5
+                    },
+                   'area' : {
+                       'activate': True,
+                       'lower': 164,
+                       'higher': 547,
+                   },
+                    'score': {
+                        'activate': True,
+                        'threshold': 0.99
+                    },
+                    'cnn_validation': {
+                        'activate': False,
+                        'threshold': 0
+                    }
+                }
+
+    benchmark_manager_tms = BenchmarkManagerTMS(image_folder=image_folder,
+                                                meta_folder=meta_folder,
+                                                model_number=model_number,
+                                                index_path=index_path)
+
+    results = benchmark_manager_tms.run(filters_config)
+
+    print(results)
