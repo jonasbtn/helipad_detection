@@ -165,10 +165,15 @@ class RunShadowDetection:
             for j in range(len(bboxes)):
                 box = bboxes[j]
                 
-                x_min = min(box[0], box[2])
-                y_min = min(box[1], box[3])
-                x_max = min(box[0], box[2])
-                y_max = min(box[1], box[3])
+#                 x_min = min(box[0], box[2])
+#                 y_min = min(box[1], box[3])
+#                 x_max = max(box[0], box[2])
+#                 y_max = max(box[1], box[3])
+                
+                x_min = box[0]
+                y_min = box[1]
+                x_max = box[2]
+                y_max = box[3]
                 
                 image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
                 

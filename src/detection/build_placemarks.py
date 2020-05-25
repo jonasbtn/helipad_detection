@@ -32,7 +32,7 @@ class BuildPlacemarks:
             if 'activate' in self.filters_config['score']:
                 if self.filters_config['score']['activate']:
                     score_threshold = self.filters_config['score']['threshold']
-                    output_filename += "t_{}".format(score_threshold)
+                    output_filename += "_t_{}".format(score_threshold)
         if 'shadow' in self.filters_config:
             if 'activate' in self.filters_config['shadow']:
                 if self.filters_config['shadow']['activate']:
@@ -40,7 +40,7 @@ class BuildPlacemarks:
                         zoom_out = self.filters_config['shadow']['zoom_out']
                     else:
                         zoom_out = 0
-                    output_filename += "s_zo{}".format(zoom_out)
+                    output_filename += "_s_zo{}".format(zoom_out)
         if 'area' in self.filters_config:
             if 'activate' in self.filters_config['area']:
                 if self.filters_config['area']['activate']:
@@ -52,12 +52,12 @@ class BuildPlacemarks:
                         higher = self.filters_config['area']['higher']
                     else:
                         higher = 2000
-                    output_filename += "a_l{}_h{}".format(lower, higher)
+                    output_filename += "_a_l{}_h{}".format(lower, higher)
         if 'cnn_validation' in self.filters_config:
             if 'activate' in self.filters_config['cnn_validation']:
                 if self.filters_config['cnn_validation']['activate']:
                     score_threshold = self.filters_config['cnn_validation']['threshold']
-                    output_filename += "cnnv_t{}".format(score_threshold)
+                    output_filename += "_cnnv_t{}".format(score_threshold)
         output_filename += ".kml"
         output_filepath = os.path.join(output_dir, output_filename)
         return output_filepath
@@ -137,7 +137,7 @@ class BuildPlacemarks:
                 
                 for k in range(len(lat_long_centers)):
                     
-                    placemark_name = "Placemark_{}".format(i)
+                    placemark_name = "Placemark_".format(i)
                     
                     # filter first by shadows
                     if 'shadow' in self.filters_config:
@@ -151,7 +151,7 @@ class BuildPlacemarks:
                                 if shadow:
                                     continue
                                 else:
-                                    placemark_name += "_s{}".format(shadow)
+                                    placemark_name += "_s{}".format(str(shadow)[0])
                     
                     # filter then by areas
                     if 'area' in self.filters_config:
@@ -168,7 +168,7 @@ class BuildPlacemarks:
                                 
                                 area = meta["predicted"][key]['coordinates']['area'][k]
                                 if area > lower and area < higher:
-                                    placemark_name += "_a{}".format(area)
+                                    placemark_name += "_a{}".format(int(area))
                                 else:
                                     continue
                     
@@ -194,7 +194,9 @@ class BuildPlacemarks:
                                         continue
                                     else:
                                         placemark_name += "_{}".format(str(score)[2:5])
-                   
+                    
+                    lat_long = lat_long_centers[k]
+                    
                     f.write('\t\t\t<Placemark>\n')
                     f.write('\t\t\t\t<name>{}</name>\n'.format(placemark_name))
                     f.write('\t\t\t\t<description>1/7/2020 2:18:10 PM</description>\n')

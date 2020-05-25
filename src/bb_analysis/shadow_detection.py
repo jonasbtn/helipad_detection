@@ -330,10 +330,10 @@ class ShadowDetection:
         # TODO: Analyse the shadow to return true or false if it's an helipad or not
         
         # Rules : If no seeds, then no shadows means the surface is flat. Hence, it is probably an helipad
-        if np.max(seeds) < 2:
-            return True
+        if np.max(seeds) < 3:
+            return False # there are no shadows
         else:
-            return False
+            return True # there are some shadows
     
     @staticmethod
     def mark_seeds_on_image(image, seeds):
