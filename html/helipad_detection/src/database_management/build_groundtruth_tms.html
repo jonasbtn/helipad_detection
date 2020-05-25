@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>helipad_detection.src.database_management.build_groundtruth_tms API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>helipad_detection.src.database_management.build_groundtruth_tms</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import os
+import json
+import cv2
+import matplotlib.pyplot as plt
+from IPython.display import clear_output
+
+
+class BuildGroundtruthTMS:
+    
+    &#34;&#34;&#34;
+    Build the groundtruth by annotating `True` or `False` on bounding boxes from satellite images that were previously predicted by a model.\n
+    Save the manual validation inside the meta files under the key:\n
+    `meta[&#34;predicted&#34;][f&#34;model_{model_number}&#34;][&#34;groundtruth&#34;] = [True/False]`\n
+    If a dataset of bounding boxes has already been created inside a folder using `BBBuildDataset` and annotated using `BBDatasetGroundtruthTMS`, it is possible to automatically save the annotation inside the meta file by specifying such a folder. 
+    &#34;&#34;&#34;
+    
+    def __init__(self, image_folder, meta_folder, model_number, index_path=None, source_from=None, start_index=0):
+        &#34;&#34;&#34;
+        &#39;image folder&#39; contains 2 folders : &#39;helipad&#39; and &#39;false_positive&#39;
+        `meta_folder`: string, path to the meta folder\n
+        `model_number`: int, number of the model that predicted to bounding boxes\n
+        `index_path`: string or None, path to the index files containing the names of the files with a bounding box inside\n
+        `source_from`: string, path to a previously made groundtruth for the same model\n
+        `start_index`: int, index to where to start the verification.\n
+        &#34;&#34;&#34;
+        
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+        self.model_number = model_number
+        self.index_path = index_path
+        self.source_from = source_from
+        self.start_index = start_index
+        self.tms = True
+        if self.index_path and self.tms:
+            self.target_files = self.convert_meta_filename_to_path(self.image_folder, self.meta_folder, self.index_path)
+        else:
+            self.target_files = self.load_target_files()
+    
+    def load_target_files(self):
+        &#34;&#34;&#34;
+        Load the target files.\n
+        Returns a list of tuple (`image_path`, `meta_path`) 
+        &#34;&#34;&#34;
+        target_files = []
+        for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+            for file in files:
+                image_path = os.path.join(subdir, file)
+                if self.tms:
+                    ytile = os.path.splitext(file)[0]
+                    xtile = os.path.basename(subdir)
+                    zoom = os.path.basename(os.path.dirname(subdir))
+                    meta_path = os.path.join(self.meta_folder,
+                                             zoom,
+                                             xtile,
+                                             &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                              xtile,
+                                                                              ytile))
+                else:
+                    folder_id = os.path.basename(subdir)
+                    filename = os.path.splitext(file)[0]
+                    meta_path = os.path.join(self.meta_folder,
+                                             self.folder_id,
+                                             filename+&#39;.meta&#39;)
+                target_files.append([image_path, meta_path])
+        return target_files
+    
+    @staticmethod
+    def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+        &#34;&#34;&#34;
+        From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+        `image_folder`: string, path to the root of the image folder\n
+        `meta_folder`: string, path to the root of the meta_folder\n
+        `index_path`: string, path to the index file
+        &#34;&#34;&#34;
+        image_meta_path = []
+        with open(index_path, &#39;r&#39;) as f:
+            for meta_filename in f:
+                info = meta_filename.split(&#39;_&#39;)
+                ytile = info[3].split(&#39;.&#39;)[0]
+                xtile = info[2]
+                zoom = info[1]
+                meta_path = os.path.join(meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+                image_path = os.path.join(image_folder,
+                                          zoom,
+                                          xtile, 
+                                          ytile+&#34;.jpg&#34;)
+                image_meta_path.append([image_path, meta_path])
+        f.close()
+        return image_meta_path
+    
+    def build_image_groundtruth_from_other_folder(self, meta_filename, box_id):
+        &#34;&#34;&#34;
+        Build the groundtruth from a previously made groundtruth\n
+        `meta_filename`: string, the basename of the image\n
+        `box_id`: int, the id of the bounding box\n
+        &#34;&#34;&#34;
+        
+        filename = os.path.splitext(meta_filename)[0]
+        bb_filename = filename + f&#39;_{box_id}.jpg&#39; 
+        
+        helipad_filenames = os.listdir(os.path.join(self.source_from, &#39;helipad&#39;))
+        fp_filenames = os.listdir(os.path.join(self.source_from, &#39;false_positive&#39;))
+        
+        if bb_filename in helipad_filenames:
+            return True
+        elif bb_filename in fp_filenames:
+            return False
+        else:
+            return False
+        
+    def run(self):
+        &#34;&#34;&#34;
+        Run the interface
+        &#34;&#34;&#34;
+        print(f&#39;{len(self.target_files)} files loaded!&#39;)
+        
+        l = len(self.target_files)
+        i = self.start_index
+        
+        while i&lt;l:
+            
+            image_meta_path = self.target_files[i]
+            image_path = image_meta_path[0]
+            meta_path = image_meta_path[1]
+            
+            image = cv2.imread(image_path)
+            
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+            
+            if &#34;predicted&#34; not in meta:
+                continue
+            elif f&#39;model_{self.model_number}&#39; not in meta[&#34;predicted&#34;]:
+                continue
+            elif len(meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;][&#34;box&#34;]) == 0:
+                continue
+            
+            bboxes = meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;][&#34;box&#34;]
+            bboxes_groundtruth = []
+            
+            for j in range(len(bboxes)):
+                
+                if self.source_from:
+                    # get annotation from the source from folder with box id j
+                    bb_groundtruth = self.build_image_groundtruth_from_other_folder(os.path.basename(meta_path), j)
+                    
+                    if bb_groundtruth is None:
+                        continue
+                    bboxes_groundtruth.append(bb_groundtruth)
+                    continue
+                    
+                box = bboxes[j]
+
+                x_min = min(box[0], box[2])
+                y_min = min(box[1], box[3])
+                x_max = min(box[0], box[2])
+                y_max = min(box[1], box[3])
+                
+                image_box = image[y_min:y_max,x_min:x_max,:]
+                
+                plt.imshow(image_box)
+                plt.show()
+
+                key = input()
+
+                while key != &#39;y&#39; and key != &#39;n&#39; and key != &#39;p&#39;:
+                    key = input()
+
+                print(key)
+
+                if key == &#39;p&#39;:
+                    i = i-1
+                    continue
+                if key == &#39;y&#39;:
+                    bboxes_groundtruth.append(True)
+                elif key == &#39;n&#39;:
+                    bboxes_groudntruth.append(False)
+
+                clear_output()
+
+            meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;][&#34;groundtruth&#34;] = bboxes_groundtruth
+            
+            with open(meta_path, &#39;w&#39;) as f:
+                json.dump(meta, f, sort_keys=True, indent=4)
+            f.close()
+            
+            i += 1
+
+
+if __name__ == &#34;__main__&#34;:
+    
+    image_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\&#34;
+    meta_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\&#34;
+    model_number = 10
+    index_path = &#34;C:\\Users\\AISG\\Documents\\Jonas\\helipad_detection\\src\\helipad_path_over_0_m10.txt&#34;
+    source_from = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Real_World_Detected_Boxes\\model_10_0.0_groundtruth\\&#34;
+    start_index = 0
+
+    build_groundtruth_tms = BuildGroundtruthTMS(image_folder=image_folder,
+                                                meta_folder=meta_folder,
+                                                model_number=model_number,
+                                                index_path=index_path,
+                                                source_from=source_from,
+                                                start_index=start_index)
+
+    build_groundtruth_tms.run()
+                    </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS"><code class="flex name class">
+<span>class <span class="ident">BuildGroundtruthTMS</span></span>
+<span>(</span><span>image_folder, meta_folder, model_number, index_path=None, source_from=None, start_index=0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Build the groundtruth by annotating <code>True</code> or <code>False</code> on bounding boxes from satellite images that were previously predicted by a model.</p>
+<p>Save the manual validation inside the meta files under the key:</p>
+<p><code>meta["predicted"][f"model_{model_number}"]["groundtruth"] = [True/False]</code></p>
+<p>If a dataset of bounding boxes has already been created inside a folder using <code>BBBuildDataset</code> and annotated using <code>BBDatasetGroundtruthTMS</code>, it is possible to automatically save the annotation inside the meta file by specifying such a folder. </p>
+<p>'image folder' contains 2 folders : 'helipad' and 'false_positive'
+<code>meta_folder</code>: string, path to the meta folder</p>
+<p><code>model_number</code>: int, number of the model that predicted to bounding boxes</p>
+<p><code>index_path</code>: string or None, path to the index files containing the names of the files with a bounding box inside</p>
+<p><code>source_from</code>: string, path to a previously made groundtruth for the same model</p>
+<p><code>start_index</code>: int, index to where to start the verification.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BuildGroundtruthTMS:
+    
+    &#34;&#34;&#34;
+    Build the groundtruth by annotating `True` or `False` on bounding boxes from satellite images that were previously predicted by a model.\n
+    Save the manual validation inside the meta files under the key:\n
+    `meta[&#34;predicted&#34;][f&#34;model_{model_number}&#34;][&#34;groundtruth&#34;] = [True/False]`\n
+    If a dataset of bounding boxes has already been created inside a folder using `BBBuildDataset` and annotated using `BBDatasetGroundtruthTMS`, it is possible to automatically save the annotation inside the meta file by specifying such a folder. 
+    &#34;&#34;&#34;
+    
+    def __init__(self, image_folder, meta_folder, model_number, index_path=None, source_from=None, start_index=0):
+        &#34;&#34;&#34;
+        &#39;image folder&#39; contains 2 folders : &#39;helipad&#39; and &#39;false_positive&#39;
+        `meta_folder`: string, path to the meta folder\n
+        `model_number`: int, number of the model that predicted to bounding boxes\n
+        `index_path`: string or None, path to the index files containing the names of the files with a bounding box inside\n
+        `source_from`: string, path to a previously made groundtruth for the same model\n
+        `start_index`: int, index to where to start the verification.\n
+        &#34;&#34;&#34;
+        
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+        self.model_number = model_number
+        self.index_path = index_path
+        self.source_from = source_from
+        self.start_index = start_index
+        self.tms = True
+        if self.index_path and self.tms:
+            self.target_files = self.convert_meta_filename_to_path(self.image_folder, self.meta_folder, self.index_path)
+        else:
+            self.target_files = self.load_target_files()
+    
+    def load_target_files(self):
+        &#34;&#34;&#34;
+        Load the target files.\n
+        Returns a list of tuple (`image_path`, `meta_path`) 
+        &#34;&#34;&#34;
+        target_files = []
+        for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+            for file in files:
+                image_path = os.path.join(subdir, file)
+                if self.tms:
+                    ytile = os.path.splitext(file)[0]
+                    xtile = os.path.basename(subdir)
+                    zoom = os.path.basename(os.path.dirname(subdir))
+                    meta_path = os.path.join(self.meta_folder,
+                                             zoom,
+                                             xtile,
+                                             &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                              xtile,
+                                                                              ytile))
+                else:
+                    folder_id = os.path.basename(subdir)
+                    filename = os.path.splitext(file)[0]
+                    meta_path = os.path.join(self.meta_folder,
+                                             self.folder_id,
+                                             filename+&#39;.meta&#39;)
+                target_files.append([image_path, meta_path])
+        return target_files
+    
+    @staticmethod
+    def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+        &#34;&#34;&#34;
+        From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+        `image_folder`: string, path to the root of the image folder\n
+        `meta_folder`: string, path to the root of the meta_folder\n
+        `index_path`: string, path to the index file
+        &#34;&#34;&#34;
+        image_meta_path = []
+        with open(index_path, &#39;r&#39;) as f:
+            for meta_filename in f:
+                info = meta_filename.split(&#39;_&#39;)
+                ytile = info[3].split(&#39;.&#39;)[0]
+                xtile = info[2]
+                zoom = info[1]
+                meta_path = os.path.join(meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+                image_path = os.path.join(image_folder,
+                                          zoom,
+                                          xtile, 
+                                          ytile+&#34;.jpg&#34;)
+                image_meta_path.append([image_path, meta_path])
+        f.close()
+        return image_meta_path
+    
+    def build_image_groundtruth_from_other_folder(self, meta_filename, box_id):
+        &#34;&#34;&#34;
+        Build the groundtruth from a previously made groundtruth\n
+        `meta_filename`: string, the basename of the image\n
+        `box_id`: int, the id of the bounding box\n
+        &#34;&#34;&#34;
+        
+        filename = os.path.splitext(meta_filename)[0]
+        bb_filename = filename + f&#39;_{box_id}.jpg&#39; 
+        
+        helipad_filenames = os.listdir(os.path.join(self.source_from, &#39;helipad&#39;))
+        fp_filenames = os.listdir(os.path.join(self.source_from, &#39;false_positive&#39;))
+        
+        if bb_filename in helipad_filenames:
+            return True
+        elif bb_filename in fp_filenames:
+            return False
+        else:
+            return False
+        
+    def run(self):
+        &#34;&#34;&#34;
+        Run the interface
+        &#34;&#34;&#34;
+        print(f&#39;{len(self.target_files)} files loaded!&#39;)
+        
+        l = len(self.target_files)
+        i = self.start_index
+        
+        while i&lt;l:
+            
+            image_meta_path = self.target_files[i]
+            image_path = image_meta_path[0]
+            meta_path = image_meta_path[1]
+            
+            image = cv2.imread(image_path)
+            
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+            
+            if &#34;predicted&#34; not in meta:
+                continue
+            elif f&#39;model_{self.model_number}&#39; not in meta[&#34;predicted&#34;]:
+                continue
+            elif len(meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;][&#34;box&#34;]) == 0:
+                continue
+            
+            bboxes = meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;][&#34;box&#34;]
+            bboxes_groundtruth = []
+            
+            for j in range(len(bboxes)):
+                
+                if self.source_from:
+                    # get annotation from the source from folder with box id j
+                    bb_groundtruth = self.build_image_groundtruth_from_other_folder(os.path.basename(meta_path), j)
+                    
+                    if bb_groundtruth is None:
+                        continue
+                    bboxes_groundtruth.append(bb_groundtruth)
+                    continue
+                    
+                box = bboxes[j]
+
+                x_min = min(box[0], box[2])
+                y_min = min(box[1], box[3])
+                x_max = min(box[0], box[2])
+                y_max = min(box[1], box[3])
+                
+                image_box = image[y_min:y_max,x_min:x_max,:]
+                
+                plt.imshow(image_box)
+                plt.show()
+
+                key = input()
+
+                while key != &#39;y&#39; and key != &#39;n&#39; and key != &#39;p&#39;:
+                    key = input()
+
+                print(key)
+
+                if key == &#39;p&#39;:
+                    i = i-1
+                    continue
+                if key == &#39;y&#39;:
+                    bboxes_groundtruth.append(True)
+                elif key == &#39;n&#39;:
+                    bboxes_groudntruth.append(False)
+
+                clear_output()
+
+            meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;][&#34;groundtruth&#34;] = bboxes_groundtruth
+            
+            with open(meta_path, &#39;w&#39;) as f:
+                json.dump(meta, f, sort_keys=True, indent=4)
+            f.close()
+            
+            i += 1</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.convert_meta_filename_to_path"><code class="name flex">
+<span>def <span class="ident">convert_meta_filename_to_path</span></span>(<span>image_folder, meta_folder, index_path)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>From the index file, convert each
+meta filename to a tuple (<code>image_path</code>, <code>meta_path</code>)</p>
+<p><code>image_folder</code>: string, path to the root of the image folder</p>
+<p><code>meta_folder</code>: string, path to the root of the meta_folder</p>
+<p><code>index_path</code>: string, path to the index file</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+    &#34;&#34;&#34;
+    From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+    `image_folder`: string, path to the root of the image folder\n
+    `meta_folder`: string, path to the root of the meta_folder\n
+    `index_path`: string, path to the index file
+    &#34;&#34;&#34;
+    image_meta_path = []
+    with open(index_path, &#39;r&#39;) as f:
+        for meta_filename in f:
+            info = meta_filename.split(&#39;_&#39;)
+            ytile = info[3].split(&#39;.&#39;)[0]
+            xtile = info[2]
+            zoom = info[1]
+            meta_path = os.path.join(meta_folder,
+                                     zoom,
+                                     xtile,
+                                     &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                      xtile,
+                                                                      ytile))
+            image_path = os.path.join(image_folder,
+                                      zoom,
+                                      xtile, 
+                                      ytile+&#34;.jpg&#34;)
+            image_meta_path.append([image_path, meta_path])
+    f.close()
+    return image_meta_path</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.build_image_groundtruth_from_other_folder"><code class="name flex">
+<span>def <span class="ident">build_image_groundtruth_from_other_folder</span></span>(<span>self, meta_filename, box_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Build the groundtruth from a previously made groundtruth</p>
+<p><code>meta_filename</code>: string, the basename of the image</p>
+<p><code>box_id</code>: int, the id of the bounding box</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def build_image_groundtruth_from_other_folder(self, meta_filename, box_id):
+    &#34;&#34;&#34;
+    Build the groundtruth from a previously made groundtruth\n
+    `meta_filename`: string, the basename of the image\n
+    `box_id`: int, the id of the bounding box\n
+    &#34;&#34;&#34;
+    
+    filename = os.path.splitext(meta_filename)[0]
+    bb_filename = filename + f&#39;_{box_id}.jpg&#39; 
+    
+    helipad_filenames = os.listdir(os.path.join(self.source_from, &#39;helipad&#39;))
+    fp_filenames = os.listdir(os.path.join(self.source_from, &#39;false_positive&#39;))
+    
+    if bb_filename in helipad_filenames:
+        return True
+    elif bb_filename in fp_filenames:
+        return False
+    else:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.load_target_files"><code class="name flex">
+<span>def <span class="ident">load_target_files</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load the target files.</p>
+<p>Returns a list of tuple (<code>image_path</code>, <code>meta_path</code>)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_target_files(self):
+    &#34;&#34;&#34;
+    Load the target files.\n
+    Returns a list of tuple (`image_path`, `meta_path`) 
+    &#34;&#34;&#34;
+    target_files = []
+    for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+        for file in files:
+            image_path = os.path.join(subdir, file)
+            if self.tms:
+                ytile = os.path.splitext(file)[0]
+                xtile = os.path.basename(subdir)
+                zoom = os.path.basename(os.path.dirname(subdir))
+                meta_path = os.path.join(self.meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+            else:
+                folder_id = os.path.basename(subdir)
+                filename = os.path.splitext(file)[0]
+                meta_path = os.path.join(self.meta_folder,
+                                         self.folder_id,
+                                         filename+&#39;.meta&#39;)
+            target_files.append([image_path, meta_path])
+    return target_files</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Run the interface</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self):
+    &#34;&#34;&#34;
+    Run the interface
+    &#34;&#34;&#34;
+    print(f&#39;{len(self.target_files)} files loaded!&#39;)
+    
+    l = len(self.target_files)
+    i = self.start_index
+    
+    while i&lt;l:
+        
+        image_meta_path = self.target_files[i]
+        image_path = image_meta_path[0]
+        meta_path = image_meta_path[1]
+        
+        image = cv2.imread(image_path)
+        
+        with open(meta_path, &#39;r&#39;) as f:
+            meta = json.load(f)
+        f.close()
+        
+        if &#34;predicted&#34; not in meta:
+            continue
+        elif f&#39;model_{self.model_number}&#39; not in meta[&#34;predicted&#34;]:
+            continue
+        elif len(meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;][&#34;box&#34;]) == 0:
+            continue
+        
+        bboxes = meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;][&#34;box&#34;]
+        bboxes_groundtruth = []
+        
+        for j in range(len(bboxes)):
+            
+            if self.source_from:
+                # get annotation from the source from folder with box id j
+                bb_groundtruth = self.build_image_groundtruth_from_other_folder(os.path.basename(meta_path), j)
+                
+                if bb_groundtruth is None:
+                    continue
+                bboxes_groundtruth.append(bb_groundtruth)
+                continue
+                
+            box = bboxes[j]
+
+            x_min = min(box[0], box[2])
+            y_min = min(box[1], box[3])
+            x_max = min(box[0], box[2])
+            y_max = min(box[1], box[3])
+            
+            image_box = image[y_min:y_max,x_min:x_max,:]
+            
+            plt.imshow(image_box)
+            plt.show()
+
+            key = input()
+
+            while key != &#39;y&#39; and key != &#39;n&#39; and key != &#39;p&#39;:
+                key = input()
+
+            print(key)
+
+            if key == &#39;p&#39;:
+                i = i-1
+                continue
+            if key == &#39;y&#39;:
+                bboxes_groundtruth.append(True)
+            elif key == &#39;n&#39;:
+                bboxes_groudntruth.append(False)
+
+            clear_output()
+
+        meta[&#34;predicted&#34;][f&#39;model_{self.model_number}&#39;][&#34;groundtruth&#34;] = bboxes_groundtruth
+        
+        with open(meta_path, &#39;w&#39;) as f:
+            json.dump(meta, f, sort_keys=True, indent=4)
+        f.close()
+        
+        i += 1</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="helipad_detection.src.database_management" href="index.html">helipad_detection.src.database_management</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS" href="#helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS">BuildGroundtruthTMS</a></code></h4>
+<ul class="">
+<li><code><a title="helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.build_image_groundtruth_from_other_folder" href="#helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.build_image_groundtruth_from_other_folder">build_image_groundtruth_from_other_folder</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.convert_meta_filename_to_path" href="#helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.convert_meta_filename_to_path">convert_meta_filename_to_path</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.load_target_files" href="#helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.load_target_files">load_target_files</a></code></li>
+<li><code><a title="helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.run" href="#helipad_detection.src.database_management.build_groundtruth_tms.BuildGroundtruthTMS.run">run</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -192,7 +192,7 @@ class BenchmarkManagerTMS:
         return self.filters_config
     
 
-if __name__ == "__main__:
+if __name__ == "__main__":
 
     image_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\"
     meta_folder = "C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\"

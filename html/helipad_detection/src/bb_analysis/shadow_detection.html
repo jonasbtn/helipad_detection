@@ -29,6 +29,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 
+# TODO: Add an example to run below in a main
+
 
 class ShadowDetection:
     
@@ -354,10 +356,10 @@ class ShadowDetection:
         # TODO: Analyse the shadow to return true or false if it&#39;s an helipad or not
         
         # Rules : If no seeds, then no shadows means the surface is flat. Hence, it is probably an helipad
-        if np.max(seeds) &lt; 2:
-            return True
+        if np.max(seeds) &lt; 3:
+            return False # there are no shadows
         else:
-            return False
+            return True # there are some shadows
     
     @staticmethod
     def mark_seeds_on_image(image, seeds):
@@ -802,10 +804,10 @@ class ShadowDetection:
         # TODO: Analyse the shadow to return true or false if it&#39;s an helipad or not
         
         # Rules : If no seeds, then no shadows means the surface is flat. Hence, it is probably an helipad
-        if np.max(seeds) &lt; 2:
-            return True
+        if np.max(seeds) &lt; 3:
+            return False # there are no shadows
         else:
-            return False
+            return True # there are some shadows
     
     @staticmethod
     def mark_seeds_on_image(image, seeds):
@@ -1485,10 +1487,10 @@ def zero_pad(matrix, pad_left, pad_right, pad_top, pad_bottom):
     # TODO: Analyse the shadow to return true or false if it&#39;s an helipad or not
     
     # Rules : If no seeds, then no shadows means the surface is flat. Hence, it is probably an helipad
-    if np.max(seeds) &lt; 2:
-        return True
+    if np.max(seeds) &lt; 3:
+        return False # there are no shadows
     else:
-        return False</code></pre>
+        return True # there are some shadows</code></pre>
 </details>
 </dd>
 <dt id="helipad_detection.src.bb_analysis.shadow_detection.ShadowDetection.seed_selection"><code class="name flex">

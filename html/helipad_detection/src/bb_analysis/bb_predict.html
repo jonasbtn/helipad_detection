@@ -37,19 +37,25 @@ class BBPredict:
     
     &#34;&#34;&#34;
     Run the prediction on the detected bounding boxes using the trained CNN from `BBTrainingManager`. \n
-    The results are saved in the meta files as `cnn_validation`.
+    The results are saved in the meta files of the original image as `cnn_validation` inside the prediction of the corresponding model.
     &#34;&#34;&#34; 
     
     def __init__(self, image_folder, meta_folder, model_number, model_path, tms=True,
-                 extract_bounding_boxes=False, index_path=None):
-
+                 index_path=None):
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the folder containing the images\n
+        `meta_folder`: string, path to the folder containing the meta files \n
+        `model_number`: int, number of the model which prediction has to be validated by the second CNN\n
+        `model_path`: string, path to the model saved weights\n
+        `tms`: boolean, True to indicate that the image folder follow TMS&#39; structure\n
+        `index_path`: string, path to the index files containing the names of the images that have bounding boxes inside them\n
+        &#34;&#34;&#34;
         self.image_folder = image_folder
         self.model_path = model_path
         self.meta_folder = meta_folder
         self.model_number = model_number
         self.model = load_model(model_path)
         self.tms = tms
-        self.extract_bounding_boxes = extract_bounding_boxes
         self.index_path = index_path
         if self.index_path:
             self.target_files = self.convert_meta_filename_to_path(image_folder, meta_folder, index_path)
@@ -57,6 +63,10 @@ class BBPredict:
             self.target_files = self.load_target_files()
         
     def load_target_files(self):
+        &#34;&#34;&#34;
+        Load the target files.\n
+        Returns a list of tuple (`image_path`, `meta_path`) 
+        &#34;&#34;&#34;
         target_files = []
         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
             for file in files:
@@ -75,6 +85,12 @@ class BBPredict:
     
     @staticmethod
     def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+        &#34;&#34;&#34;
+        From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+        `image_folder`: string, path to the root of the image folder\n
+        `meta_folder`: string, path to the root of the meta_folder\n
+        `index_path`: string, path to the index file
+        &#34;&#34;&#34;
         image_meta_path = []
         with open(index_path, &#39;r&#39;) as f:
             for meta_filename in f:
@@ -97,6 +113,10 @@ class BBPredict:
         return image_meta_path
 
     def load_image(self, filename):
+        &#34;&#34;&#34;
+        Load an image from `filename` and resize it to 64x64\n
+        Returns the image
+        &#34;&#34;&#34;
         image = load_img(filename, target_size=(64, 64))
         image = img_to_array(image)
         image = image.astype(&#39;float32&#39;)
@@ -105,13 +125,19 @@ class BBPredict:
         return image
 
     def preprocess_image_box(self, image_box):
+        &#34;&#34;&#34;
+        Preprocess the image bounding box by resizing it to 64x64\n
+        Returns the image box resized.
+        &#34;&#34;&#34;
         image_box = cv2.resize(image_box, (64,64))
         image_box = img_to_array(image_box).astype(&#39;float32&#39;).reshape((1,64,64,3))
         image_box = image_box*1.0/255.0
         return image_box
 
     def run(self):
-        
+        &#34;&#34;&#34;
+        Run the prediction and save the results in the meta files.
+        &#34;&#34;&#34;
         for i in tqdm(range(len(self.target_files))):
             
             image_path = self.target_files[i][0]
@@ -171,21 +197,20 @@ if __name__ == &#34;__main__&#34;:
     # model_number = 7
     # model_path = &#34;final_model.h5&#34;
     # tms = True
-    # extract_bounding_boxes = False
 
     image_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Helipad_DataBase\\Helipad_DataBase_original&#34;
     meta_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Helipad\\Helipad_DataBase_meta\\Helipad_DataBase_meta_original&#34;
     model_number = 7
     model_path = &#34;final_model.h5&#34;
     tms = False
-    extract_bounding_boxes = True
+    index_path = None
 
     bbpredict = BBPredict(image_folder=image_folder,
                           meta_folder=meta_folder,
                           model_number=model_number,
                           model_path=model_path,
                           tms=tms,
-                          extract_bounding_boxes=extract_bounding_boxes)
+                          index_path=index_path)
 
     bbpredict.run()</code></pre>
 </details>
@@ -201,11 +226,17 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt id="helipad_detection.src.bb_analysis.bb_predict.BBPredict"><code class="flex name class">
 <span>class <span class="ident">BBPredict</span></span>
-<span>(</span><span>image_folder, meta_folder, model_number, model_path, tms=True, extract_bounding_boxes=False, index_path=None)</span>
+<span>(</span><span>image_folder, meta_folder, model_number, model_path, tms=True, index_path=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Run the prediction on the detected bounding boxes using the trained CNN from <code>BBTrainingManager</code>. </p>
-<p>The results are saved in the meta files as <code>cnn_validation</code>.</p></div>
+<p>The results are saved in the meta files of the original image as <code>cnn_validation</code> inside the prediction of the corresponding model.</p>
+<p><code>image_folder</code>: string, path to the folder containing the images</p>
+<p><code>meta_folder</code>: string, path to the folder containing the meta files </p>
+<p><code>model_number</code>: int, number of the model which prediction has to be validated by the second CNN</p>
+<p><code>model_path</code>: string, path to the model saved weights</p>
+<p><code>tms</code>: boolean, True to indicate that the image folder follow TMS' structure</p>
+<p><code>index_path</code>: string, path to the index files containing the names of the images that have bounding boxes inside them</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -214,19 +245,25 @@ if __name__ == &#34;__main__&#34;:
     
     &#34;&#34;&#34;
     Run the prediction on the detected bounding boxes using the trained CNN from `BBTrainingManager`. \n
-    The results are saved in the meta files as `cnn_validation`.
+    The results are saved in the meta files of the original image as `cnn_validation` inside the prediction of the corresponding model.
     &#34;&#34;&#34; 
     
     def __init__(self, image_folder, meta_folder, model_number, model_path, tms=True,
-                 extract_bounding_boxes=False, index_path=None):
-
+                 index_path=None):
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the folder containing the images\n
+        `meta_folder`: string, path to the folder containing the meta files \n
+        `model_number`: int, number of the model which prediction has to be validated by the second CNN\n
+        `model_path`: string, path to the model saved weights\n
+        `tms`: boolean, True to indicate that the image folder follow TMS&#39; structure\n
+        `index_path`: string, path to the index files containing the names of the images that have bounding boxes inside them\n
+        &#34;&#34;&#34;
         self.image_folder = image_folder
         self.model_path = model_path
         self.meta_folder = meta_folder
         self.model_number = model_number
         self.model = load_model(model_path)
         self.tms = tms
-        self.extract_bounding_boxes = extract_bounding_boxes
         self.index_path = index_path
         if self.index_path:
             self.target_files = self.convert_meta_filename_to_path(image_folder, meta_folder, index_path)
@@ -234,6 +271,10 @@ if __name__ == &#34;__main__&#34;:
             self.target_files = self.load_target_files()
         
     def load_target_files(self):
+        &#34;&#34;&#34;
+        Load the target files.\n
+        Returns a list of tuple (`image_path`, `meta_path`) 
+        &#34;&#34;&#34;
         target_files = []
         for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
             for file in files:
@@ -252,6 +293,12 @@ if __name__ == &#34;__main__&#34;:
     
     @staticmethod
     def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+        &#34;&#34;&#34;
+        From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+        `image_folder`: string, path to the root of the image folder\n
+        `meta_folder`: string, path to the root of the meta_folder\n
+        `index_path`: string, path to the index file
+        &#34;&#34;&#34;
         image_meta_path = []
         with open(index_path, &#39;r&#39;) as f:
             for meta_filename in f:
@@ -274,6 +321,10 @@ if __name__ == &#34;__main__&#34;:
         return image_meta_path
 
     def load_image(self, filename):
+        &#34;&#34;&#34;
+        Load an image from `filename` and resize it to 64x64\n
+        Returns the image
+        &#34;&#34;&#34;
         image = load_img(filename, target_size=(64, 64))
         image = img_to_array(image)
         image = image.astype(&#39;float32&#39;)
@@ -282,13 +333,19 @@ if __name__ == &#34;__main__&#34;:
         return image
 
     def preprocess_image_box(self, image_box):
+        &#34;&#34;&#34;
+        Preprocess the image bounding box by resizing it to 64x64\n
+        Returns the image box resized.
+        &#34;&#34;&#34;
         image_box = cv2.resize(image_box, (64,64))
         image_box = img_to_array(image_box).astype(&#39;float32&#39;).reshape((1,64,64,3))
         image_box = image_box*1.0/255.0
         return image_box
 
     def run(self):
-        
+        &#34;&#34;&#34;
+        Run the prediction and save the results in the meta files.
+        &#34;&#34;&#34;
         for i in tqdm(range(len(self.target_files))):
             
             image_path = self.target_files[i][0]
@@ -346,13 +403,23 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">convert_meta_filename_to_path</span></span>(<span>image_folder, meta_folder, index_path)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>From the index file, convert each
+meta filename to a tuple (<code>image_path</code>, <code>meta_path</code>)</p>
+<p><code>image_folder</code>: string, path to the root of the image folder</p>
+<p><code>meta_folder</code>: string, path to the root of the meta_folder</p>
+<p><code>index_path</code>: string, path to the index file</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+    &#34;&#34;&#34;
+    From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+    `image_folder`: string, path to the root of the image folder\n
+    `meta_folder`: string, path to the root of the meta_folder\n
+    `index_path`: string, path to the index file
+    &#34;&#34;&#34;
     image_meta_path = []
     with open(index_path, &#39;r&#39;) as f:
         for meta_filename in f:
@@ -382,12 +449,17 @@ def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
 <span>def <span class="ident">load_image</span></span>(<span>self, filename)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load an image from <code>filename</code> and resize it to 64x64</p>
+<p>Returns the image</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load_image(self, filename):
+    &#34;&#34;&#34;
+    Load an image from `filename` and resize it to 64x64\n
+    Returns the image
+    &#34;&#34;&#34;
     image = load_img(filename, target_size=(64, 64))
     image = img_to_array(image)
     image = image.astype(&#39;float32&#39;)
@@ -400,12 +472,17 @@ def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
 <span>def <span class="ident">load_target_files</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load the target files.</p>
+<p>Returns a list of tuple (<code>image_path</code>, <code>meta_path</code>)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load_target_files(self):
+    &#34;&#34;&#34;
+    Load the target files.\n
+    Returns a list of tuple (`image_path`, `meta_path`) 
+    &#34;&#34;&#34;
     target_files = []
     for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
         for file in files:
@@ -427,12 +504,17 @@ def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
 <span>def <span class="ident">preprocess_image_box</span></span>(<span>self, image_box)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Preprocess the image bounding box by resizing it to 64x64</p>
+<p>Returns the image box resized.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def preprocess_image_box(self, image_box):
+    &#34;&#34;&#34;
+    Preprocess the image bounding box by resizing it to 64x64\n
+    Returns the image box resized.
+    &#34;&#34;&#34;
     image_box = cv2.resize(image_box, (64,64))
     image_box = img_to_array(image_box).astype(&#39;float32&#39;).reshape((1,64,64,3))
     image_box = image_box*1.0/255.0
@@ -443,13 +525,15 @@ def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
 <span>def <span class="ident">run</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the prediction and save the results in the meta files.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run(self):
-    
+    &#34;&#34;&#34;
+    Run the prediction and save the results in the meta files.
+    &#34;&#34;&#34;
     for i in tqdm(range(len(self.target_files))):
         
         image_path = self.target_files[i][0]

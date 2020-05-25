@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>helipad_detection.src.benchmark.benchmark_manager_TMS API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>helipad_detection.src.benchmark.benchmark_manager_TMS</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import os
+import json
+
+
+class BenchmarkManagerTMS:
+    
+    &#34;&#34;&#34;
+    Manager to setup and run a benchmark on different part of the dataset.\n
+    The benchmark computes all the metrics (Accuracy, Error, Precision, Recall).
+    &#34;&#34;&#34;
+    
+    def __init__(self, image_folder, meta_folder, model_number, index_path=None):
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `model_number`: int, number of the model that predicted to bounding boxes\n
+        `index_path`: string or None, path to the index files containing the names of the files with a bounding box inside\n
+        &#34;&#34;&#34;
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+        self.model_number = model_number
+        self.index_path = index_path
+        self.tms = True
+        print(&#34;Loading Files&#34;)
+        if self.index_path:
+            self.target_files = self.convert_meta_filename_to_path(self.image_folder, self.meta_folder, self.index_path)
+        else:
+            self.target_files = self.load_target_files()
+        print(&#34;{} files loaded!&#34;.format(len(self.target_files)))
+
+    def load_target_files(self):
+        &#34;&#34;&#34;
+        Load the target files.\n
+        Returns a list of tuple (`image_path`, `meta_path`) 
+        &#34;&#34;&#34;
+        target_files = []
+        for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+            for file in files:
+                image_path = os.path.join(subdir, file)
+                if self.tms:
+                    ytile = os.path.splitext(file)[0]
+                    xtile = os.path.basename(subdir)
+                    zoom = os.path.basename(os.path.dirname(subdir))
+                    meta_path = os.path.join(self.meta_folder,
+                                             zoom,
+                                             xtile,
+                                             &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                              xtile,
+                                                                              ytile))
+                else:
+                    folder_id = os.path.basename(subdir)
+                    filename = os.path.splitext(file)[0]
+                    meta_path = os.path.join(self.meta_folder,
+                                             self.folder_id,
+                                             filename+&#39;.meta&#39;)
+                target_files.append([image_path, meta_path])
+        return target_files
+    
+    @staticmethod
+    def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+        &#34;&#34;&#34;
+        From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+        `image_folder`: string, path to the root of the image folder\n
+        `meta_folder`: string, path to the root of the meta_folder\n
+        `index_path`: string, path to the index file
+        &#34;&#34;&#34;
+        image_meta_path = []
+        with open(index_path, &#39;r&#39;) as f:
+            for meta_filename in f:
+                info = meta_filename.split(&#39;_&#39;)
+                ytile = info[3].split(&#39;.&#39;)[0]
+                xtile = info[2]
+                zoom = info[1]
+                meta_path = os.path.join(meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+                image_path = os.path.join(image_folder,
+                                          zoom,
+                                          xtile, 
+                                          ytile+&#34;.jpg&#34;)
+                image_meta_path.append([image_path, meta_path])
+        f.close()
+        return image_meta_path
+    
+    def reinitialize_metrics(self):
+        &#34;&#34;&#34;
+        Reinitialize the metrics to zeros.
+        &#34;&#34;&#34;
+        self.TP = 0
+        self.TN = 0
+        self.FP = 0
+        self.FN = 0
+    
+    def run(self, filters_config):
+        &#34;&#34;&#34;
+        Run the benchmark by taking into account the filters with configuration `filters_config` (see example in the `main` below)\n
+        Returns :\n
+        `filters_config`: json dict, the filters config and the benchmark results
+        &#34;&#34;&#34;
+        self.filters_config = filters_config
+        self.reinitialize_metrics()
+        
+        for i in range(len(self.target_files)):
+            image_meta_path = self.target_files[i]
+            image_path = image_meta_path[0]
+            meta_path = image_meta_path[1]
+            
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+            
+            model_pred = meta[&#39;predicted&#39;][f&#39;model_{self.model_number}&#39;]
+            
+            res_after_filters = []
+            
+            for k in range(len(model_pred[&#39;box&#39;])):
+                
+                res = True
+                
+                # filter first by shadows
+                if &#39;shadow&#39; in self.filters_config:
+                        if &#39;activate&#39; in self.filters_config[&#39;shadow&#39;]:
+                            if self.filters_config[&#39;shadow&#39;][&#39;activate&#39;]:
+                                if &#39;zoom_out&#39; in self.filters_config[&#39;shadow&#39;]:
+                                    zoom_out = self.filters_config[&#39;shadow&#39;][&#39;zoom_out&#39;]
+                                else:
+                                    zoom_out = 0
+                                shadow = model_pred[&#39;shadow&#39;][&#39;zoom_out_{}&#39;.format(zoom_out)][k]
+                                if shadow:
+                                    res = False
+                
+                # filter then by areas
+                if &#39;area&#39; in self.filters_config:
+                        if &#39;activate&#39; in self.filters_config[&#39;area&#39;]:
+                            if self.filters_config[&#39;area&#39;][&#39;activate&#39;]:
+                                if &#39;lower&#39; in self.filters_config[&#39;area&#39;]:
+                                    lower = self.filters_config[&#39;area&#39;][&#39;lower&#39;]
+                                else:
+                                    lower = 0
+                                if &#39;higher&#39; in self.filters_config[&#39;area&#39;]:
+                                    higher = self.filters_config[&#39;area&#39;][&#39;higher&#39;]
+                                else:
+                                    higher = 2000
+                                
+                                area = model_pred[&#39;coordinates&#39;][&#39;area&#39;][k]
+                                if area &lt; lower or area &gt; higher:
+                                    res = False
+                
+                # filter by score
+                if &#39;score&#39; in self.filters_config:
+                    if &#39;activate&#39; in self.filters_config[&#39;score&#39;]:
+                        if self.filters_config[&#39;score&#39;][&#39;activate&#39;]:
+                            score_threshold = self.filters_config[&#39;score&#39;][&#39;threshold&#39;]
+                            score = model_pred[&#34;score&#34;][k]
+                            if score &lt; score_threshold:
+                                res = False
+                
+                res_after_filters.append(res)
+        
+            for k in range(len(res_after_filters)):
+                res = res_after_filters[k]
+                groundtruth = model_pred[&#39;groundtruth&#39;][k]
+                
+                if res and groundtruth:
+                    self.TP += 1
+                elif res and not groundtruth:
+                    self.FP += 1
+                elif not res and groundtruth:
+                    self.FN += 1
+                elif not res and not groundtruth:
+                    self.TN += 1
+        
+        res = {&#39;TP&#39;: self.TP, 
+               &#39;TN&#39;: self.TN,
+               &#39;FP&#39;: self.FP,
+               &#39;FN&#39;: self.FN}
+
+        accuracy = (res[&#39;TP&#39;]+res[&#39;TN&#39;])/(res[&#39;TP&#39;]+res[&#39;TN&#39;]+res[&#39;FP&#39;]+res[&#39;FN&#39;])
+        error = (res[&#39;FP&#39;]+res[&#39;FN&#39;])/(res[&#39;TP&#39;]+res[&#39;TN&#39;]+res[&#39;FP&#39;]+res[&#39;FN&#39;])
+        precision = res[&#39;TP&#39;]/(res[&#39;TP&#39;]+res[&#39;FP&#39;])
+        recall = res[&#39;FP&#39;]/(res[&#39;TN&#39;]+res[&#39;FP&#39;])
+        res[&#39;accuracy&#39;] = accuracy
+        res[&#39;error&#39;] = error
+        res[&#39;precision&#39;] = precision
+        res[&#39;recall&#39;] = recall
+        
+        self.filters_config[&#39;result_benchmark&#39;] = res
+        
+        return self.filters_config
+    
+
+if __name__ == &#34;__main__&#34;:
+
+    image_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\&#34;
+    meta_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\&#34;
+    model_number = 10
+    index_path = &#34;C:\\Users\\AISG\\Documents\\Jonas\\helipad_detection\\src\\helipad_path_over_0_m10.txt&#34;
+
+    filters_config = { 
+                  &#39;shadow&#39;: {
+                      &#39;activate&#39;: True,
+                      &#39;zoom_out&#39;: 5
+                    },
+                   &#39;area&#39; : {
+                       &#39;activate&#39;: True,
+                       &#39;lower&#39;: 164,
+                       &#39;higher&#39;: 547,
+                   },
+                    &#39;score&#39;: {
+                        &#39;activate&#39;: True,
+                        &#39;threshold&#39;: 0.99
+                    },
+                    &#39;cnn_validation&#39;: {
+                        &#39;activate&#39;: False,
+                        &#39;threshold&#39;: 0
+                    }
+                }
+
+    benchmark_manager_tms = BenchmarkManagerTMS(image_folder=image_folder,
+                                                meta_folder=meta_folder,
+                                                model_number=model_number,
+                                                index_path=index_path)
+
+    results = benchmark_manager_tms.run(filters_config)
+
+    print(results)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS"><code class="flex name class">
+<span>class <span class="ident">BenchmarkManagerTMS</span></span>
+<span>(</span><span>image_folder, meta_folder, model_number, index_path=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Manager to setup and run a benchmark on different part of the dataset.</p>
+<p>The benchmark computes all the metrics (Accuracy, Error, Precision, Recall).</p>
+<p><code>image_folder</code>: string, path to the image folder</p>
+<p><code>meta_folder</code>: string, path to the meta folder</p>
+<p><code>model_number</code>: int, number of the model that predicted to bounding boxes</p>
+<p><code>index_path</code>: string or None, path to the index files containing the names of the files with a bounding box inside</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BenchmarkManagerTMS:
+    
+    &#34;&#34;&#34;
+    Manager to setup and run a benchmark on different part of the dataset.\n
+    The benchmark computes all the metrics (Accuracy, Error, Precision, Recall).
+    &#34;&#34;&#34;
+    
+    def __init__(self, image_folder, meta_folder, model_number, index_path=None):
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `model_number`: int, number of the model that predicted to bounding boxes\n
+        `index_path`: string or None, path to the index files containing the names of the files with a bounding box inside\n
+        &#34;&#34;&#34;
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+        self.model_number = model_number
+        self.index_path = index_path
+        self.tms = True
+        print(&#34;Loading Files&#34;)
+        if self.index_path:
+            self.target_files = self.convert_meta_filename_to_path(self.image_folder, self.meta_folder, self.index_path)
+        else:
+            self.target_files = self.load_target_files()
+        print(&#34;{} files loaded!&#34;.format(len(self.target_files)))
+
+    def load_target_files(self):
+        &#34;&#34;&#34;
+        Load the target files.\n
+        Returns a list of tuple (`image_path`, `meta_path`) 
+        &#34;&#34;&#34;
+        target_files = []
+        for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+            for file in files:
+                image_path = os.path.join(subdir, file)
+                if self.tms:
+                    ytile = os.path.splitext(file)[0]
+                    xtile = os.path.basename(subdir)
+                    zoom = os.path.basename(os.path.dirname(subdir))
+                    meta_path = os.path.join(self.meta_folder,
+                                             zoom,
+                                             xtile,
+                                             &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                              xtile,
+                                                                              ytile))
+                else:
+                    folder_id = os.path.basename(subdir)
+                    filename = os.path.splitext(file)[0]
+                    meta_path = os.path.join(self.meta_folder,
+                                             self.folder_id,
+                                             filename+&#39;.meta&#39;)
+                target_files.append([image_path, meta_path])
+        return target_files
+    
+    @staticmethod
+    def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+        &#34;&#34;&#34;
+        From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+        `image_folder`: string, path to the root of the image folder\n
+        `meta_folder`: string, path to the root of the meta_folder\n
+        `index_path`: string, path to the index file
+        &#34;&#34;&#34;
+        image_meta_path = []
+        with open(index_path, &#39;r&#39;) as f:
+            for meta_filename in f:
+                info = meta_filename.split(&#39;_&#39;)
+                ytile = info[3].split(&#39;.&#39;)[0]
+                xtile = info[2]
+                zoom = info[1]
+                meta_path = os.path.join(meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+                image_path = os.path.join(image_folder,
+                                          zoom,
+                                          xtile, 
+                                          ytile+&#34;.jpg&#34;)
+                image_meta_path.append([image_path, meta_path])
+        f.close()
+        return image_meta_path
+    
+    def reinitialize_metrics(self):
+        &#34;&#34;&#34;
+        Reinitialize the metrics to zeros.
+        &#34;&#34;&#34;
+        self.TP = 0
+        self.TN = 0
+        self.FP = 0
+        self.FN = 0
+    
+    def run(self, filters_config):
+        &#34;&#34;&#34;
+        Run the benchmark by taking into account the filters with configuration `filters_config` (see example in the `main` below)\n
+        Returns :\n
+        `filters_config`: json dict, the filters config and the benchmark results
+        &#34;&#34;&#34;
+        self.filters_config = filters_config
+        self.reinitialize_metrics()
+        
+        for i in range(len(self.target_files)):
+            image_meta_path = self.target_files[i]
+            image_path = image_meta_path[0]
+            meta_path = image_meta_path[1]
+            
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+            
+            model_pred = meta[&#39;predicted&#39;][f&#39;model_{self.model_number}&#39;]
+            
+            res_after_filters = []
+            
+            for k in range(len(model_pred[&#39;box&#39;])):
+                
+                res = True
+                
+                # filter first by shadows
+                if &#39;shadow&#39; in self.filters_config:
+                        if &#39;activate&#39; in self.filters_config[&#39;shadow&#39;]:
+                            if self.filters_config[&#39;shadow&#39;][&#39;activate&#39;]:
+                                if &#39;zoom_out&#39; in self.filters_config[&#39;shadow&#39;]:
+                                    zoom_out = self.filters_config[&#39;shadow&#39;][&#39;zoom_out&#39;]
+                                else:
+                                    zoom_out = 0
+                                shadow = model_pred[&#39;shadow&#39;][&#39;zoom_out_{}&#39;.format(zoom_out)][k]
+                                if shadow:
+                                    res = False
+                
+                # filter then by areas
+                if &#39;area&#39; in self.filters_config:
+                        if &#39;activate&#39; in self.filters_config[&#39;area&#39;]:
+                            if self.filters_config[&#39;area&#39;][&#39;activate&#39;]:
+                                if &#39;lower&#39; in self.filters_config[&#39;area&#39;]:
+                                    lower = self.filters_config[&#39;area&#39;][&#39;lower&#39;]
+                                else:
+                                    lower = 0
+                                if &#39;higher&#39; in self.filters_config[&#39;area&#39;]:
+                                    higher = self.filters_config[&#39;area&#39;][&#39;higher&#39;]
+                                else:
+                                    higher = 2000
+                                
+                                area = model_pred[&#39;coordinates&#39;][&#39;area&#39;][k]
+                                if area &lt; lower or area &gt; higher:
+                                    res = False
+                
+                # filter by score
+                if &#39;score&#39; in self.filters_config:
+                    if &#39;activate&#39; in self.filters_config[&#39;score&#39;]:
+                        if self.filters_config[&#39;score&#39;][&#39;activate&#39;]:
+                            score_threshold = self.filters_config[&#39;score&#39;][&#39;threshold&#39;]
+                            score = model_pred[&#34;score&#34;][k]
+                            if score &lt; score_threshold:
+                                res = False
+                
+                res_after_filters.append(res)
+        
+            for k in range(len(res_after_filters)):
+                res = res_after_filters[k]
+                groundtruth = model_pred[&#39;groundtruth&#39;][k]
+                
+                if res and groundtruth:
+                    self.TP += 1
+                elif res and not groundtruth:
+                    self.FP += 1
+                elif not res and groundtruth:
+                    self.FN += 1
+                elif not res and not groundtruth:
+                    self.TN += 1
+        
+        res = {&#39;TP&#39;: self.TP, 
+               &#39;TN&#39;: self.TN,
+               &#39;FP&#39;: self.FP,
+               &#39;FN&#39;: self.FN}
+
+        accuracy = (res[&#39;TP&#39;]+res[&#39;TN&#39;])/(res[&#39;TP&#39;]+res[&#39;TN&#39;]+res[&#39;FP&#39;]+res[&#39;FN&#39;])
+        error = (res[&#39;FP&#39;]+res[&#39;FN&#39;])/(res[&#39;TP&#39;]+res[&#39;TN&#39;]+res[&#39;FP&#39;]+res[&#39;FN&#39;])
+        precision = res[&#39;TP&#39;]/(res[&#39;TP&#39;]+res[&#39;FP&#39;])
+        recall = res[&#39;FP&#39;]/(res[&#39;TN&#39;]+res[&#39;FP&#39;])
+        res[&#39;accuracy&#39;] = accuracy
+        res[&#39;error&#39;] = error
+        res[&#39;precision&#39;] = precision
+        res[&#39;recall&#39;] = recall
+        
+        self.filters_config[&#39;result_benchmark&#39;] = res
+        
+        return self.filters_config</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.convert_meta_filename_to_path"><code class="name flex">
+<span>def <span class="ident">convert_meta_filename_to_path</span></span>(<span>image_folder, meta_folder, index_path)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>From the index file, convert each
+meta filename to a tuple (<code>image_path</code>, <code>meta_path</code>)</p>
+<p><code>image_folder</code>: string, path to the root of the image folder</p>
+<p><code>meta_folder</code>: string, path to the root of the meta_folder</p>
+<p><code>index_path</code>: string, path to the index file</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+    &#34;&#34;&#34;
+    From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+    `image_folder`: string, path to the root of the image folder\n
+    `meta_folder`: string, path to the root of the meta_folder\n
+    `index_path`: string, path to the index file
+    &#34;&#34;&#34;
+    image_meta_path = []
+    with open(index_path, &#39;r&#39;) as f:
+        for meta_filename in f:
+            info = meta_filename.split(&#39;_&#39;)
+            ytile = info[3].split(&#39;.&#39;)[0]
+            xtile = info[2]
+            zoom = info[1]
+            meta_path = os.path.join(meta_folder,
+                                     zoom,
+                                     xtile,
+                                     &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                      xtile,
+                                                                      ytile))
+            image_path = os.path.join(image_folder,
+                                      zoom,
+                                      xtile, 
+                                      ytile+&#34;.jpg&#34;)
+            image_meta_path.append([image_path, meta_path])
+    f.close()
+    return image_meta_path</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.load_target_files"><code class="name flex">
+<span>def <span class="ident">load_target_files</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load the target files.</p>
+<p>Returns a list of tuple (<code>image_path</code>, <code>meta_path</code>)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_target_files(self):
+    &#34;&#34;&#34;
+    Load the target files.\n
+    Returns a list of tuple (`image_path`, `meta_path`) 
+    &#34;&#34;&#34;
+    target_files = []
+    for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+        for file in files:
+            image_path = os.path.join(subdir, file)
+            if self.tms:
+                ytile = os.path.splitext(file)[0]
+                xtile = os.path.basename(subdir)
+                zoom = os.path.basename(os.path.dirname(subdir))
+                meta_path = os.path.join(self.meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+            else:
+                folder_id = os.path.basename(subdir)
+                filename = os.path.splitext(file)[0]
+                meta_path = os.path.join(self.meta_folder,
+                                         self.folder_id,
+                                         filename+&#39;.meta&#39;)
+            target_files.append([image_path, meta_path])
+    return target_files</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.reinitialize_metrics"><code class="name flex">
+<span>def <span class="ident">reinitialize_metrics</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reinitialize the metrics to zeros.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reinitialize_metrics(self):
+    &#34;&#34;&#34;
+    Reinitialize the metrics to zeros.
+    &#34;&#34;&#34;
+    self.TP = 0
+    self.TN = 0
+    self.FP = 0
+    self.FN = 0</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self, filters_config)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Run the benchmark by taking into account the filters with configuration <code>filters_config</code> (see example in the <code>main</code> below)</p>
+<p>Returns :</p>
+<p><code>filters_config</code>: json dict, the filters config and the benchmark results</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self, filters_config):
+    &#34;&#34;&#34;
+    Run the benchmark by taking into account the filters with configuration `filters_config` (see example in the `main` below)\n
+    Returns :\n
+    `filters_config`: json dict, the filters config and the benchmark results
+    &#34;&#34;&#34;
+    self.filters_config = filters_config
+    self.reinitialize_metrics()
+    
+    for i in range(len(self.target_files)):
+        image_meta_path = self.target_files[i]
+        image_path = image_meta_path[0]
+        meta_path = image_meta_path[1]
+        
+        with open(meta_path, &#39;r&#39;) as f:
+            meta = json.load(f)
+        f.close()
+        
+        model_pred = meta[&#39;predicted&#39;][f&#39;model_{self.model_number}&#39;]
+        
+        res_after_filters = []
+        
+        for k in range(len(model_pred[&#39;box&#39;])):
+            
+            res = True
+            
+            # filter first by shadows
+            if &#39;shadow&#39; in self.filters_config:
+                    if &#39;activate&#39; in self.filters_config[&#39;shadow&#39;]:
+                        if self.filters_config[&#39;shadow&#39;][&#39;activate&#39;]:
+                            if &#39;zoom_out&#39; in self.filters_config[&#39;shadow&#39;]:
+                                zoom_out = self.filters_config[&#39;shadow&#39;][&#39;zoom_out&#39;]
+                            else:
+                                zoom_out = 0
+                            shadow = model_pred[&#39;shadow&#39;][&#39;zoom_out_{}&#39;.format(zoom_out)][k]
+                            if shadow:
+                                res = False
+            
+            # filter then by areas
+            if &#39;area&#39; in self.filters_config:
+                    if &#39;activate&#39; in self.filters_config[&#39;area&#39;]:
+                        if self.filters_config[&#39;area&#39;][&#39;activate&#39;]:
+                            if &#39;lower&#39; in self.filters_config[&#39;area&#39;]:
+                                lower = self.filters_config[&#39;area&#39;][&#39;lower&#39;]
+                            else:
+                                lower = 0
+                            if &#39;higher&#39; in self.filters_config[&#39;area&#39;]:
+                                higher = self.filters_config[&#39;area&#39;][&#39;higher&#39;]
+                            else:
+                                higher = 2000
+                            
+                            area = model_pred[&#39;coordinates&#39;][&#39;area&#39;][k]
+                            if area &lt; lower or area &gt; higher:
+                                res = False
+            
+            # filter by score
+            if &#39;score&#39; in self.filters_config:
+                if &#39;activate&#39; in self.filters_config[&#39;score&#39;]:
+                    if self.filters_config[&#39;score&#39;][&#39;activate&#39;]:
+                        score_threshold = self.filters_config[&#39;score&#39;][&#39;threshold&#39;]
+                        score = model_pred[&#34;score&#34;][k]
+                        if score &lt; score_threshold:
+                            res = False
+            
+            res_after_filters.append(res)
+    
+        for k in range(len(res_after_filters)):
+            res = res_after_filters[k]
+            groundtruth = model_pred[&#39;groundtruth&#39;][k]
+            
+            if res and groundtruth:
+                self.TP += 1
+            elif res and not groundtruth:
+                self.FP += 1
+            elif not res and groundtruth:
+                self.FN += 1
+            elif not res and not groundtruth:
+                self.TN += 1
+    
+    res = {&#39;TP&#39;: self.TP, 
+           &#39;TN&#39;: self.TN,
+           &#39;FP&#39;: self.FP,
+           &#39;FN&#39;: self.FN}
+
+    accuracy = (res[&#39;TP&#39;]+res[&#39;TN&#39;])/(res[&#39;TP&#39;]+res[&#39;TN&#39;]+res[&#39;FP&#39;]+res[&#39;FN&#39;])
+    error = (res[&#39;FP&#39;]+res[&#39;FN&#39;])/(res[&#39;TP&#39;]+res[&#39;TN&#39;]+res[&#39;FP&#39;]+res[&#39;FN&#39;])
+    precision = res[&#39;TP&#39;]/(res[&#39;TP&#39;]+res[&#39;FP&#39;])
+    recall = res[&#39;FP&#39;]/(res[&#39;TN&#39;]+res[&#39;FP&#39;])
+    res[&#39;accuracy&#39;] = accuracy
+    res[&#39;error&#39;] = error
+    res[&#39;precision&#39;] = precision
+    res[&#39;recall&#39;] = recall
+    
+    self.filters_config[&#39;result_benchmark&#39;] = res
+    
+    return self.filters_config</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="helipad_detection.src.benchmark" href="index.html">helipad_detection.src.benchmark</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS" href="#helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS">BenchmarkManagerTMS</a></code></h4>
+<ul class="">
+<li><code><a title="helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.convert_meta_filename_to_path" href="#helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.convert_meta_filename_to_path">convert_meta_filename_to_path</a></code></li>
+<li><code><a title="helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.load_target_files" href="#helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.load_target_files">load_target_files</a></code></li>
+<li><code><a title="helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.reinitialize_metrics" href="#helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.reinitialize_metrics">reinitialize_metrics</a></code></li>
+<li><code><a title="helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.run" href="#helipad_detection.src.benchmark.benchmark_manager_TMS.BenchmarkManagerTMS.run">run</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

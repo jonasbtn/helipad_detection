@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>helipad_detection.src.bb_analysis.run_shadow_detection API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>helipad_detection.src.bb_analysis.run_shadow_detection</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import os
+import json
+from tqdm import tqdm as tqdm
+import cv2
+
+from helipad_detection.src.bb_analysis.shadow_detection import ShadowDetection
+
+
+class RunShadowDetection:
+    
+    &#34;&#34;&#34;
+    Run the shadow detection on image inside an image folder and saves the results inside the according meta file under the following key:\n
+    `meta[&#34;groundtruth&#34;][&#34;shadow&#34;][&#39;zoom_out_{}&#39;.format(self.zoom_out)]`\n
+    or\n
+    `meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)][&#34;shadow&#34;][&#39;zoom_out_{}&#39;.format(self.zoom_out)]`\n
+    &#34;&#34;&#34;
+    
+    def __init__(self, image_folder, meta_folder, model_number, groundtruth_only=False, tms=True, zoom_out=0, index_path=None,
+                minimum_size_window=3, threshold_v=0.35, threshold_s=0.02, ratio=1, d_0=3):
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `model_number`: int, number of the model that predicted to bounding boxes\n
+        `groundtruth_only`: boolean, True to run the shadow detection on the groundtruth bounding boxes only\n
+        `tms`: boolean, True if the `image_folder` follows the TMS&#39;s directory structure\n
+        `zoom_out`: int, increase size of the bounding boxes in pixels in every direction\n
+        `index_path`: string or None, path to the index files containing the names of the files with a bounding box inside\n
+        `minimum_size_window`: the minimum size of a shadow is defined by a square of side `(minimum_size_window*2-1)`\n
+        `threshold_v`: the mean of the window in V must be inferior than `threshold_v` to be accepted.\n
+        `threshold_s`: the mean of the window in S must be superior than `threshold_s` to be accepted.\n
+        `ratio`: all the values of the window in `c3` must be superior than `mean(c3)*ratio`.\n
+        `d_0`: the candidate pixel to be added to the region shadow must be below a Mahalanobis distance `d_0` from the `mean(c3[region])`.
+        &#34;&#34;&#34;
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+        self.model_number = model_number
+        self.groundtruth_only = groundtruth_only
+        self.tms = tms
+        self.zoom_out = zoom_out
+        self.index_path = index_path
+        self.minimum_size_window = minimum_size_window
+        self.threshold_v = threshold_v
+        self.threshold_s = threshold_s
+        self.ratio = ratio
+        self.d_0 = d_0
+        if self.index_path and self.tms:
+            self.target_files = self.convert_meta_filename_to_path(self.image_folder, self.meta_folder, self.index_path)
+        else:
+            self.target_files = self.load_target_files()
+    
+    def load_target_files(self):
+        &#34;&#34;&#34;
+        Load the target files.\n
+        Returns a list of tuple (`image_path`, `meta_path`) 
+        &#34;&#34;&#34;
+        target_files = []
+        for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+            for file in files:
+                image_path = os.path.join(subdir, file)
+                if self.tms:
+                    ytile = os.path.splitext(file)[0]
+                    xtile = os.path.basename(subdir)
+                    zoom = os.path.basename(os.path.dirname(subdir))
+                    meta_path = os.path.join(self.meta_folder,
+                                             zoom,
+                                             xtile,
+                                             &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                              xtile,
+                                                                              ytile))
+                else:
+                    folder_id = os.path.basename(subdir)
+                    filename = os.path.splitext(file)[0]
+                    meta_path = os.path.join(self.meta_folder,
+                                             self.folder_id,
+                                             filename+&#39;.meta&#39;)
+                target_files.append([image_path, meta_path])
+        return target_files
+    
+    @staticmethod
+    def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+        &#34;&#34;&#34;
+        From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+        `image_folder`: string, path to the root of the image folder\n
+        `meta_folder`: string, path to the root of the meta_folder\n
+        `index_path`: string, path to the index file
+        &#34;&#34;&#34;
+        image_meta_path = []
+        with open(index_path, &#39;r&#39;) as f:
+            for meta_filename in f:
+                info = meta_filename.split(&#39;_&#39;)
+                ytile = info[3].split(&#39;.&#39;)[0]
+                xtile = info[2]
+                zoom = info[1]
+                meta_path = os.path.join(meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+                image_path = os.path.join(image_folder,
+                                          zoom,
+                                          xtile, 
+                                          ytile+&#34;.jpg&#34;)
+                image_meta_path.append([image_path, meta_path])
+        f.close()
+        return image_meta_path
+    
+    @staticmethod
+    def box_zoom_out(image, x_min, y_min, x_max, y_max, zoom_out):
+        &#34;&#34;&#34;
+        Increase the size of the bounding box by `zoom_out` pixels.\n
+        Returns \n
+        `image_box`: the image bounding box
+        &#34;&#34;&#34;
+        x_min = x_min - zoom_out
+        if x_min &lt; 0:
+            x_min = 0
+        y_min = y_min - zoom_out
+        if y_min &lt; 0:
+            y_min = 0
+        x_max = x_max + zoom_out
+        if x_max &gt; image.shape[1]:
+            x_max = image.shape[1]
+        if y_max &gt; image.shape[0]:
+            y_max = image.shape[0]
+        y_max = y_max + zoom_out
+        image_box = image[y_min:y_max,x_min:x_max,:]
+        return image_box
+    
+    def run(self):
+        &#34;&#34;&#34;
+        Run the shadow detection
+        &#34;&#34;&#34;
+        for i in tqdm(range(len(self.target_files))):
+            
+            image_meta_path = self.target_files[i]
+            image_path = image_meta_path[0]
+            meta_path = image_meta_path[1]
+            
+            image = cv2.imread(image_path)
+            
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+            
+            bboxes = None
+            
+            if self.groundtruth_only:
+                if &#34;groundtruth&#34; not in meta:
+                    continue
+                else:
+                    bboxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+            elif &#34;predicted&#34; not in meta:
+                continue
+            elif &#34;model_{}&#34;.format(self.model_number) not in meta[&#34;predicted&#34;]:
+                continue
+            else:
+                bboxes = meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)][&#34;box&#34;]
+            
+            if not bboxes or len(bboxes) == 0:
+                continue
+            
+            res_shadow = []
+            
+            for j in range(len(bboxes)):
+                box = bboxes[j]
+                
+#                 x_min = min(box[0], box[2])
+#                 y_min = min(box[1], box[3])
+#                 x_max = max(box[0], box[2])
+#                 y_max = max(box[1], box[3])
+                
+                x_min = box[0]
+                y_min = box[1]
+                x_max = box[2]
+                y_max = box[3]
+                
+                image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
+                
+                shadow_detection = ShadowDetection(image_box,
+                                                   minimum_size_window=self.minimum_size_window,
+                                                   threshold_v=self.threshold_v,
+                                                   threshold_s=self.threshold_s,
+                                                   ratio=self.ratio,
+                                                   d_0=self.d_0)
+                res = shadow_detection.run(seed_only=True, verbose=0)
+                res_shadow.append(res)
+                
+            # save the results inside the right key
+            if self.groundtruth_only:
+                meta[&#34;groundtruth&#34;][&#34;shadow&#34;] = {}
+                meta[&#34;groundtruth&#34;][&#34;shadow&#34;][&#39;zoom_out_{}&#39;.format(self.zoom_out)] = res_shadow
+            else:
+                meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)][&#34;shadow&#34;] = {}
+                meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)][&#34;shadow&#34;][&#39;zoom_out_{}&#39;.format(self.zoom_out)] = res_shadow
+            
+            with open(meta_path, &#39;w&#39;) as f:
+                json.dump(meta, f, sort_keys=True, indent=4)
+            f.close()
+            
+
+if __name__ == &#34;__main__&#34;:
+    image_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS\\sat\\&#34;
+    meta_folder = &#34;C:\\Users\\AISG\\Documents\\Jonas\\Real_World_Dataset_TMS_meta\\sat\\&#34;
+    model_number = 10
+    groundtruth_only = False
+    tms = True
+    zoom_out = 5
+    index_path = &#34;C:\\Users\\AISG\\Documents\\Jonas\\helipad_detection\\src\\helipad_path_over_0_m10.txt&#34;
+    minimum_size_window = 3
+    threshold_v = 0.35
+    threshold_s = 0.02
+    ratio = 1
+    d_0 = 3
+
+    run_shadow_detection = RunShadowDetection(image_folder=image_folder, 
+                                              meta_folder=meta_folder,
+                                              model_number=model_number, 
+                                              groundtruth_only=groundtruth_only, 
+                                              tms=tms, 
+                                              zoom_out=zoom_out, 
+                                              index_path=index_path,
+                                              minimum_size_window=minimum_size_window, 
+                                              threshold_v=threshold_v, 
+                                              threshold_s=threshold_s, 
+                                              ratio=ratio, 
+                                              d_0=d_0)
+
+    run_shadow_detection.run()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection"><code class="flex name class">
+<span>class <span class="ident">RunShadowDetection</span></span>
+<span>(</span><span>image_folder, meta_folder, model_number, groundtruth_only=False, tms=True, zoom_out=0, index_path=None, minimum_size_window=3, threshold_v=0.35, threshold_s=0.02, ratio=1, d_0=3)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Run the shadow detection on image inside an image folder and saves the results inside the according meta file under the following key:</p>
+<p><code>meta["groundtruth"]["shadow"]['zoom_out_{}'.format(self.zoom_out)]</code></p>
+<p>or</p>
+<p><code>meta["predicted"]["model_{}".format(self.model_number)]["shadow"]['zoom_out_{}'.format(self.zoom_out)]</code></p>
+<p><code>image_folder</code>: string, path to the image folder</p>
+<p><code>meta_folder</code>: string, path to the meta folder</p>
+<p><code>model_number</code>: int, number of the model that predicted to bounding boxes</p>
+<p><code>groundtruth_only</code>: boolean, True to run the shadow detection on the groundtruth bounding boxes only</p>
+<p><code>tms</code>: boolean, True if the <code>image_folder</code> follows the TMS's directory structure</p>
+<p><code>zoom_out</code>: int, increase size of the bounding boxes in pixels in every direction</p>
+<p><code>index_path</code>: string or None, path to the index files containing the names of the files with a bounding box inside</p>
+<p><code>minimum_size_window</code>: the minimum size of a shadow is defined by a square of side <code>(minimum_size_window*2-1)</code></p>
+<p><code>threshold_v</code>: the mean of the window in V must be inferior than <code>threshold_v</code> to be accepted.</p>
+<p><code>threshold_s</code>: the mean of the window in S must be superior than <code>threshold_s</code> to be accepted.</p>
+<p><code>ratio</code>: all the values of the window in <code>c3</code> must be superior than <code>mean(c3)*ratio</code>.</p>
+<p><code>d_0</code>: the candidate pixel to be added to the region shadow must be below a Mahalanobis distance <code>d_0</code> from the <code>mean(c3[region])</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RunShadowDetection:
+    
+    &#34;&#34;&#34;
+    Run the shadow detection on image inside an image folder and saves the results inside the according meta file under the following key:\n
+    `meta[&#34;groundtruth&#34;][&#34;shadow&#34;][&#39;zoom_out_{}&#39;.format(self.zoom_out)]`\n
+    or\n
+    `meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)][&#34;shadow&#34;][&#39;zoom_out_{}&#39;.format(self.zoom_out)]`\n
+    &#34;&#34;&#34;
+    
+    def __init__(self, image_folder, meta_folder, model_number, groundtruth_only=False, tms=True, zoom_out=0, index_path=None,
+                minimum_size_window=3, threshold_v=0.35, threshold_s=0.02, ratio=1, d_0=3):
+        &#34;&#34;&#34;
+        `image_folder`: string, path to the image folder\n
+        `meta_folder`: string, path to the meta folder\n
+        `model_number`: int, number of the model that predicted to bounding boxes\n
+        `groundtruth_only`: boolean, True to run the shadow detection on the groundtruth bounding boxes only\n
+        `tms`: boolean, True if the `image_folder` follows the TMS&#39;s directory structure\n
+        `zoom_out`: int, increase size of the bounding boxes in pixels in every direction\n
+        `index_path`: string or None, path to the index files containing the names of the files with a bounding box inside\n
+        `minimum_size_window`: the minimum size of a shadow is defined by a square of side `(minimum_size_window*2-1)`\n
+        `threshold_v`: the mean of the window in V must be inferior than `threshold_v` to be accepted.\n
+        `threshold_s`: the mean of the window in S must be superior than `threshold_s` to be accepted.\n
+        `ratio`: all the values of the window in `c3` must be superior than `mean(c3)*ratio`.\n
+        `d_0`: the candidate pixel to be added to the region shadow must be below a Mahalanobis distance `d_0` from the `mean(c3[region])`.
+        &#34;&#34;&#34;
+        self.image_folder = image_folder
+        self.meta_folder = meta_folder
+        self.model_number = model_number
+        self.groundtruth_only = groundtruth_only
+        self.tms = tms
+        self.zoom_out = zoom_out
+        self.index_path = index_path
+        self.minimum_size_window = minimum_size_window
+        self.threshold_v = threshold_v
+        self.threshold_s = threshold_s
+        self.ratio = ratio
+        self.d_0 = d_0
+        if self.index_path and self.tms:
+            self.target_files = self.convert_meta_filename_to_path(self.image_folder, self.meta_folder, self.index_path)
+        else:
+            self.target_files = self.load_target_files()
+    
+    def load_target_files(self):
+        &#34;&#34;&#34;
+        Load the target files.\n
+        Returns a list of tuple (`image_path`, `meta_path`) 
+        &#34;&#34;&#34;
+        target_files = []
+        for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+            for file in files:
+                image_path = os.path.join(subdir, file)
+                if self.tms:
+                    ytile = os.path.splitext(file)[0]
+                    xtile = os.path.basename(subdir)
+                    zoom = os.path.basename(os.path.dirname(subdir))
+                    meta_path = os.path.join(self.meta_folder,
+                                             zoom,
+                                             xtile,
+                                             &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                              xtile,
+                                                                              ytile))
+                else:
+                    folder_id = os.path.basename(subdir)
+                    filename = os.path.splitext(file)[0]
+                    meta_path = os.path.join(self.meta_folder,
+                                             self.folder_id,
+                                             filename+&#39;.meta&#39;)
+                target_files.append([image_path, meta_path])
+        return target_files
+    
+    @staticmethod
+    def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+        &#34;&#34;&#34;
+        From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+        `image_folder`: string, path to the root of the image folder\n
+        `meta_folder`: string, path to the root of the meta_folder\n
+        `index_path`: string, path to the index file
+        &#34;&#34;&#34;
+        image_meta_path = []
+        with open(index_path, &#39;r&#39;) as f:
+            for meta_filename in f:
+                info = meta_filename.split(&#39;_&#39;)
+                ytile = info[3].split(&#39;.&#39;)[0]
+                xtile = info[2]
+                zoom = info[1]
+                meta_path = os.path.join(meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+                image_path = os.path.join(image_folder,
+                                          zoom,
+                                          xtile, 
+                                          ytile+&#34;.jpg&#34;)
+                image_meta_path.append([image_path, meta_path])
+        f.close()
+        return image_meta_path
+    
+    @staticmethod
+    def box_zoom_out(image, x_min, y_min, x_max, y_max, zoom_out):
+        &#34;&#34;&#34;
+        Increase the size of the bounding box by `zoom_out` pixels.\n
+        Returns \n
+        `image_box`: the image bounding box
+        &#34;&#34;&#34;
+        x_min = x_min - zoom_out
+        if x_min &lt; 0:
+            x_min = 0
+        y_min = y_min - zoom_out
+        if y_min &lt; 0:
+            y_min = 0
+        x_max = x_max + zoom_out
+        if x_max &gt; image.shape[1]:
+            x_max = image.shape[1]
+        if y_max &gt; image.shape[0]:
+            y_max = image.shape[0]
+        y_max = y_max + zoom_out
+        image_box = image[y_min:y_max,x_min:x_max,:]
+        return image_box
+    
+    def run(self):
+        &#34;&#34;&#34;
+        Run the shadow detection
+        &#34;&#34;&#34;
+        for i in tqdm(range(len(self.target_files))):
+            
+            image_meta_path = self.target_files[i]
+            image_path = image_meta_path[0]
+            meta_path = image_meta_path[1]
+            
+            image = cv2.imread(image_path)
+            
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+            
+            bboxes = None
+            
+            if self.groundtruth_only:
+                if &#34;groundtruth&#34; not in meta:
+                    continue
+                else:
+                    bboxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+            elif &#34;predicted&#34; not in meta:
+                continue
+            elif &#34;model_{}&#34;.format(self.model_number) not in meta[&#34;predicted&#34;]:
+                continue
+            else:
+                bboxes = meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)][&#34;box&#34;]
+            
+            if not bboxes or len(bboxes) == 0:
+                continue
+            
+            res_shadow = []
+            
+            for j in range(len(bboxes)):
+                box = bboxes[j]
+                
+#                 x_min = min(box[0], box[2])
+#                 y_min = min(box[1], box[3])
+#                 x_max = max(box[0], box[2])
+#                 y_max = max(box[1], box[3])
+                
+                x_min = box[0]
+                y_min = box[1]
+                x_max = box[2]
+                y_max = box[3]
+                
+                image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
+                
+                shadow_detection = ShadowDetection(image_box,
+                                                   minimum_size_window=self.minimum_size_window,
+                                                   threshold_v=self.threshold_v,
+                                                   threshold_s=self.threshold_s,
+                                                   ratio=self.ratio,
+                                                   d_0=self.d_0)
+                res = shadow_detection.run(seed_only=True, verbose=0)
+                res_shadow.append(res)
+                
+            # save the results inside the right key
+            if self.groundtruth_only:
+                meta[&#34;groundtruth&#34;][&#34;shadow&#34;] = {}
+                meta[&#34;groundtruth&#34;][&#34;shadow&#34;][&#39;zoom_out_{}&#39;.format(self.zoom_out)] = res_shadow
+            else:
+                meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)][&#34;shadow&#34;] = {}
+                meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)][&#34;shadow&#34;][&#39;zoom_out_{}&#39;.format(self.zoom_out)] = res_shadow
+            
+            with open(meta_path, &#39;w&#39;) as f:
+                json.dump(meta, f, sort_keys=True, indent=4)
+            f.close()</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.box_zoom_out"><code class="name flex">
+<span>def <span class="ident">box_zoom_out</span></span>(<span>image, x_min, y_min, x_max, y_max, zoom_out)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Increase the size of the bounding box by <code>zoom_out</code> pixels.</p>
+<p>Returns </p>
+<p><code>image_box</code>: the image bounding box</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def box_zoom_out(image, x_min, y_min, x_max, y_max, zoom_out):
+    &#34;&#34;&#34;
+    Increase the size of the bounding box by `zoom_out` pixels.\n
+    Returns \n
+    `image_box`: the image bounding box
+    &#34;&#34;&#34;
+    x_min = x_min - zoom_out
+    if x_min &lt; 0:
+        x_min = 0
+    y_min = y_min - zoom_out
+    if y_min &lt; 0:
+        y_min = 0
+    x_max = x_max + zoom_out
+    if x_max &gt; image.shape[1]:
+        x_max = image.shape[1]
+    if y_max &gt; image.shape[0]:
+        y_max = image.shape[0]
+    y_max = y_max + zoom_out
+    image_box = image[y_min:y_max,x_min:x_max,:]
+    return image_box</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.convert_meta_filename_to_path"><code class="name flex">
+<span>def <span class="ident">convert_meta_filename_to_path</span></span>(<span>image_folder, meta_folder, index_path)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>From the index file, convert each
+meta filename to a tuple (<code>image_path</code>, <code>meta_path</code>)</p>
+<p><code>image_folder</code>: string, path to the root of the image folder</p>
+<p><code>meta_folder</code>: string, path to the root of the meta_folder</p>
+<p><code>index_path</code>: string, path to the index file</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def convert_meta_filename_to_path(image_folder, meta_folder, index_path):
+    &#34;&#34;&#34;
+    From the index file, convert each  meta filename to a tuple (`image_path`, `meta_path`)\n
+    `image_folder`: string, path to the root of the image folder\n
+    `meta_folder`: string, path to the root of the meta_folder\n
+    `index_path`: string, path to the index file
+    &#34;&#34;&#34;
+    image_meta_path = []
+    with open(index_path, &#39;r&#39;) as f:
+        for meta_filename in f:
+            info = meta_filename.split(&#39;_&#39;)
+            ytile = info[3].split(&#39;.&#39;)[0]
+            xtile = info[2]
+            zoom = info[1]
+            meta_path = os.path.join(meta_folder,
+                                     zoom,
+                                     xtile,
+                                     &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                      xtile,
+                                                                      ytile))
+            image_path = os.path.join(image_folder,
+                                      zoom,
+                                      xtile, 
+                                      ytile+&#34;.jpg&#34;)
+            image_meta_path.append([image_path, meta_path])
+    f.close()
+    return image_meta_path</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.load_target_files"><code class="name flex">
+<span>def <span class="ident">load_target_files</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load the target files.</p>
+<p>Returns a list of tuple (<code>image_path</code>, <code>meta_path</code>)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_target_files(self):
+    &#34;&#34;&#34;
+    Load the target files.\n
+    Returns a list of tuple (`image_path`, `meta_path`) 
+    &#34;&#34;&#34;
+    target_files = []
+    for subdir, dirs, files in os.walk(self.image_folder, topdown=True):
+        for file in files:
+            image_path = os.path.join(subdir, file)
+            if self.tms:
+                ytile = os.path.splitext(file)[0]
+                xtile = os.path.basename(subdir)
+                zoom = os.path.basename(os.path.dirname(subdir))
+                meta_path = os.path.join(self.meta_folder,
+                                         zoom,
+                                         xtile,
+                                         &#34;Satellite_{}_{}_{}.meta&#34;.format(zoom,
+                                                                          xtile,
+                                                                          ytile))
+            else:
+                folder_id = os.path.basename(subdir)
+                filename = os.path.splitext(file)[0]
+                meta_path = os.path.join(self.meta_folder,
+                                         self.folder_id,
+                                         filename+&#39;.meta&#39;)
+            target_files.append([image_path, meta_path])
+    return target_files</code></pre>
+</details>
+</dd>
+<dt id="helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Run the shadow detection</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    def run(self):
+        &#34;&#34;&#34;
+        Run the shadow detection
+        &#34;&#34;&#34;
+        for i in tqdm(range(len(self.target_files))):
+            
+            image_meta_path = self.target_files[i]
+            image_path = image_meta_path[0]
+            meta_path = image_meta_path[1]
+            
+            image = cv2.imread(image_path)
+            
+            with open(meta_path, &#39;r&#39;) as f:
+                meta = json.load(f)
+            f.close()
+            
+            bboxes = None
+            
+            if self.groundtruth_only:
+                if &#34;groundtruth&#34; not in meta:
+                    continue
+                else:
+                    bboxes = meta[&#34;groundtruth&#34;][&#34;box&#34;]
+            elif &#34;predicted&#34; not in meta:
+                continue
+            elif &#34;model_{}&#34;.format(self.model_number) not in meta[&#34;predicted&#34;]:
+                continue
+            else:
+                bboxes = meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)][&#34;box&#34;]
+            
+            if not bboxes or len(bboxes) == 0:
+                continue
+            
+            res_shadow = []
+            
+            for j in range(len(bboxes)):
+                box = bboxes[j]
+                
+#                 x_min = min(box[0], box[2])
+#                 y_min = min(box[1], box[3])
+#                 x_max = max(box[0], box[2])
+#                 y_max = max(box[1], box[3])
+                
+                x_min = box[0]
+                y_min = box[1]
+                x_max = box[2]
+                y_max = box[3]
+                
+                image_box = self.box_zoom_out(image, x_min, y_min, x_max, y_max, self.zoom_out)
+                
+                shadow_detection = ShadowDetection(image_box,
+                                                   minimum_size_window=self.minimum_size_window,
+                                                   threshold_v=self.threshold_v,
+                                                   threshold_s=self.threshold_s,
+                                                   ratio=self.ratio,
+                                                   d_0=self.d_0)
+                res = shadow_detection.run(seed_only=True, verbose=0)
+                res_shadow.append(res)
+                
+            # save the results inside the right key
+            if self.groundtruth_only:
+                meta[&#34;groundtruth&#34;][&#34;shadow&#34;] = {}
+                meta[&#34;groundtruth&#34;][&#34;shadow&#34;][&#39;zoom_out_{}&#39;.format(self.zoom_out)] = res_shadow
+            else:
+                meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)][&#34;shadow&#34;] = {}
+                meta[&#34;predicted&#34;][&#34;model_{}&#34;.format(self.model_number)][&#34;shadow&#34;][&#39;zoom_out_{}&#39;.format(self.zoom_out)] = res_shadow
+            
+            with open(meta_path, &#39;w&#39;) as f:
+                json.dump(meta, f, sort_keys=True, indent=4)
+            f.close()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="helipad_detection.src.bb_analysis" href="index.html">helipad_detection.src.bb_analysis</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection" href="#helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection">RunShadowDetection</a></code></h4>
+<ul class="">
+<li><code><a title="helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.box_zoom_out" href="#helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.box_zoom_out">box_zoom_out</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.convert_meta_filename_to_path" href="#helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.convert_meta_filename_to_path">convert_meta_filename_to_path</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.load_target_files" href="#helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.load_target_files">load_target_files</a></code></li>
+<li><code><a title="helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.run" href="#helipad_detection.src.bb_analysis.run_shadow_detection.RunShadowDetection.run">run</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

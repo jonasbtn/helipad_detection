@@ -44,11 +44,13 @@ class BBTrainingManager:
     
     &#34;&#34;&#34;
     Train a CNN model to distinguish between a true positive and a false positive. \n
-    The dataset used has to be created first with `BBBuildDataset`. 
+    The dataset used has to be created first with `BBBuildDataset`, then cleaned optionnally by `BBDatasetCleaner` and splitted between train and test set using `BBDatasetGroundtruthSplitTestTrain`. 
     &#34;&#34;&#34;
     
     def __init__(self, image_folder):
-
+        &#34;&#34;&#34;
+        `image_folder`: the dataset folder created by `BBBuildDataset`
+        &#34;&#34;&#34;
         self.image_folder = image_folder
 
         self.datagen = ImageDataGenerator(rescale=1.0/255.0)
@@ -61,6 +63,9 @@ class BBTrainingManager:
         self.model = self.define_model()
 
     def define_model(self):
+        &#34;&#34;&#34;
+        Define the CNN model
+        &#34;&#34;&#34;
         model = Sequential()
         model.add(Conv2D(32, (3, 3), activation=&#39;relu&#39;, kernel_initializer=&#39;he_uniform&#39;, padding=&#39;same&#39;,
                          input_shape=(64, 64, 3)))
@@ -83,6 +88,9 @@ class BBTrainingManager:
         return model
 
     def run(self):
+        &#34;&#34;&#34;
+        Run the training
+        &#34;&#34;&#34;
         # callbacks
         model_checkpoint_callback = ModelCheckpoint(filepath=&#34;./checkpoint_manilla/weights.{epoch:02d}-{loss:.2f}-{acc:.2f}-{val_loss:.2f}-{val_acc:.2f}.h5&#34;,
                                                     save_weights_only=False,
@@ -107,11 +115,17 @@ class BBTrainingManager:
                                       epochs=500, verbose=1, callbacks=[model_checkpoint_callback, early_stopping, reduce_lr_on_plateau])
 
     def evaluate(self):
+        &#34;&#34;&#34;
+        Evaluate the accuracy of the model on the test set
+        &#34;&#34;&#34;
         # evaluate model
         _, acc = self.model.evaluate_generator(self.test_it, steps=len(self.test_it))
         print(&#39;&gt; %.3f&#39; % (acc * 100.0))
 
     def plot(self):
+        &#34;&#34;&#34;
+        Plot the metrics curves
+        &#34;&#34;&#34;
         # plot diagnostic learning curves
         def summarize_diagnostics(history):
             # plot loss
@@ -138,6 +152,9 @@ class BBTrainingManager:
         summarize_diagnostics(self.history)
 
     def save(self, filename):
+        &#34;&#34;&#34;
+        Save the model to `filename`.
+        &#34;&#34;&#34;
         # save model
         self.model.save(filename)
 
@@ -174,7 +191,8 @@ if __name__ == &#34;__main__&#34;:
 </code></dt>
 <dd>
 <div class="desc"><p>Train a CNN model to distinguish between a true positive and a false positive. </p>
-<p>The dataset used has to be created first with <code>BBBuildDataset</code>.</p></div>
+<p>The dataset used has to be created first with <code>BBBuildDataset</code>, then cleaned optionnally by <code>BBDatasetCleaner</code> and splitted between train and test set using <code>BBDatasetGroundtruthSplitTestTrain</code>. </p>
+<p><code>image_folder</code>: the dataset folder created by <code>BBBuildDataset</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -183,11 +201,13 @@ if __name__ == &#34;__main__&#34;:
     
     &#34;&#34;&#34;
     Train a CNN model to distinguish between a true positive and a false positive. \n
-    The dataset used has to be created first with `BBBuildDataset`. 
+    The dataset used has to be created first with `BBBuildDataset`, then cleaned optionnally by `BBDatasetCleaner` and splitted between train and test set using `BBDatasetGroundtruthSplitTestTrain`. 
     &#34;&#34;&#34;
     
     def __init__(self, image_folder):
-
+        &#34;&#34;&#34;
+        `image_folder`: the dataset folder created by `BBBuildDataset`
+        &#34;&#34;&#34;
         self.image_folder = image_folder
 
         self.datagen = ImageDataGenerator(rescale=1.0/255.0)
@@ -200,6 +220,9 @@ if __name__ == &#34;__main__&#34;:
         self.model = self.define_model()
 
     def define_model(self):
+        &#34;&#34;&#34;
+        Define the CNN model
+        &#34;&#34;&#34;
         model = Sequential()
         model.add(Conv2D(32, (3, 3), activation=&#39;relu&#39;, kernel_initializer=&#39;he_uniform&#39;, padding=&#39;same&#39;,
                          input_shape=(64, 64, 3)))
@@ -222,6 +245,9 @@ if __name__ == &#34;__main__&#34;:
         return model
 
     def run(self):
+        &#34;&#34;&#34;
+        Run the training
+        &#34;&#34;&#34;
         # callbacks
         model_checkpoint_callback = ModelCheckpoint(filepath=&#34;./checkpoint_manilla/weights.{epoch:02d}-{loss:.2f}-{acc:.2f}-{val_loss:.2f}-{val_acc:.2f}.h5&#34;,
                                                     save_weights_only=False,
@@ -246,11 +272,17 @@ if __name__ == &#34;__main__&#34;:
                                       epochs=500, verbose=1, callbacks=[model_checkpoint_callback, early_stopping, reduce_lr_on_plateau])
 
     def evaluate(self):
+        &#34;&#34;&#34;
+        Evaluate the accuracy of the model on the test set
+        &#34;&#34;&#34;
         # evaluate model
         _, acc = self.model.evaluate_generator(self.test_it, steps=len(self.test_it))
         print(&#39;&gt; %.3f&#39; % (acc * 100.0))
 
     def plot(self):
+        &#34;&#34;&#34;
+        Plot the metrics curves
+        &#34;&#34;&#34;
         # plot diagnostic learning curves
         def summarize_diagnostics(history):
             # plot loss
@@ -277,6 +309,9 @@ if __name__ == &#34;__main__&#34;:
         summarize_diagnostics(self.history)
 
     def save(self, filename):
+        &#34;&#34;&#34;
+        Save the model to `filename`.
+        &#34;&#34;&#34;
         # save model
         self.model.save(filename)</code></pre>
 </details>
@@ -286,12 +321,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">define_model</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Define the CNN model</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    def define_model(self):
+        &#34;&#34;&#34;
+        Define the CNN model
+        &#34;&#34;&#34;
         model = Sequential()
         model.add(Conv2D(32, (3, 3), activation=&#39;relu&#39;, kernel_initializer=&#39;he_uniform&#39;, padding=&#39;same&#39;,
                          input_shape=(64, 64, 3)))
@@ -318,12 +356,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">evaluate</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Evaluate the accuracy of the model on the test set</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def evaluate(self):
+    &#34;&#34;&#34;
+    Evaluate the accuracy of the model on the test set
+    &#34;&#34;&#34;
     # evaluate model
     _, acc = self.model.evaluate_generator(self.test_it, steps=len(self.test_it))
     print(&#39;&gt; %.3f&#39; % (acc * 100.0))</code></pre>
@@ -333,12 +374,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">plot</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Plot the metrics curves</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def plot(self):
+    &#34;&#34;&#34;
+    Plot the metrics curves
+    &#34;&#34;&#34;
     # plot diagnostic learning curves
     def summarize_diagnostics(history):
         # plot loss
@@ -369,12 +413,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">run</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Run the training</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run(self):
+    &#34;&#34;&#34;
+    Run the training
+    &#34;&#34;&#34;
     # callbacks
     model_checkpoint_callback = ModelCheckpoint(filepath=&#34;./checkpoint_manilla/weights.{epoch:02d}-{loss:.2f}-{acc:.2f}-{val_loss:.2f}-{val_acc:.2f}.h5&#34;,
                                                 save_weights_only=False,
@@ -403,12 +450,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">save</span></span>(<span>self, filename)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Save the model to <code>filename</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def save(self, filename):
+    &#34;&#34;&#34;
+    Save the model to `filename`.
+    &#34;&#34;&#34;
     # save model
     self.model.save(filename)</code></pre>
 </details>
