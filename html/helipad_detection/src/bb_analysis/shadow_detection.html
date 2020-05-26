@@ -356,7 +356,7 @@ class ShadowDetection:
         # TODO: Analyse the shadow to return true or false if it&#39;s an helipad or not
         
         # Rules : If no seeds, then no shadows means the surface is flat. Hence, it is probably an helipad
-        if np.max(seeds) &lt; 3:
+        if np.max(seeds) &lt; 4:
             return False # there are no shadows
         else:
             return True # there are some shadows
@@ -804,7 +804,7 @@ class ShadowDetection:
         # TODO: Analyse the shadow to return true or false if it&#39;s an helipad or not
         
         # Rules : If no seeds, then no shadows means the surface is flat. Hence, it is probably an helipad
-        if np.max(seeds) &lt; 3:
+        if np.max(seeds) &lt; 4:
             return False # there are no shadows
         else:
             return True # there are some shadows
@@ -1487,7 +1487,7 @@ def zero_pad(matrix, pad_left, pad_right, pad_top, pad_bottom):
     # TODO: Analyse the shadow to return true or false if it&#39;s an helipad or not
     
     # Rules : If no seeds, then no shadows means the surface is flat. Hence, it is probably an helipad
-    if np.max(seeds) &lt; 3:
+    if np.max(seeds) &lt; 4:
         return False # there are no shadows
     else:
         return True # there are some shadows</code></pre>
