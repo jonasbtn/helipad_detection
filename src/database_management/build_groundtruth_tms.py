@@ -156,11 +156,11 @@ class BuildGroundtruthTMS:
                     continue
                     
                 box = bboxes[j]
-
+                
                 x_min = min(box[0], box[2])
                 y_min = min(box[1], box[3])
-                x_max = min(box[0], box[2])
-                y_max = min(box[1], box[3])
+                x_max = max(box[0], box[2])
+                y_max = max(box[1], box[3])
                 
                 image_box = image[y_min:y_max,x_min:x_max,:]
                 
@@ -175,12 +175,12 @@ class BuildGroundtruthTMS:
                 print(key)
 
                 if key == 'p':
-                    i = i-1
+                    i = i-2
                     continue
                 if key == 'y':
                     bboxes_groundtruth.append(True)
                 elif key == 'n':
-                    bboxes_groudntruth.append(False)
+                    bboxes_groundtruth.append(False)
 
                 clear_output()
 
