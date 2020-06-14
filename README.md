@@ -61,7 +61,7 @@ The bounding boxes are saved into meta files.
 
 ## 10. Build index path by score on Satellite Images
 
-When the area to scan is big, the number of images to feed into the network is high. After the detection, since the number of helipads is very low compared to the number of images, a text file is created, serving as an index file, having in each line the location of the meta file with a bounding box inside. 
+When the area to scan is big, the number of images to feed into the network is high. After the detection, since the number of helipads is very low compared to the number of images, a text file is created, serving as an index file, having in each line the location of the meta file with a bounding box inside. The object `src.database_management.index_path_by_score` allows such indexation.
 
 ## 11. Optional Step : Train a KNN model to serve as a validation model
 
@@ -90,3 +90,5 @@ After step 15, it is then possible to compute the benchmark on additional data w
 ## 17. Build Placemarks
 
 This final step of our method creates a placemarks file in order to visualize the detection on the map. Each center of the bounding boxes are pin points on the map of the world. The object used is `src.detection.build_placemarks`. 
+
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/HelipadDetected_1.PNG?raw=true) ! ![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/HelipadDetected_2.PNG?raw=true)
