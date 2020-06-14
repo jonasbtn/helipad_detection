@@ -24,6 +24,8 @@ Once the dataset created, we can start the next step.
 Annotate each image by drawing a bounding boxes around the helipads in the images.
 This step has already been done.
 
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/HelipadGroundtruthExample.PNG?raw=true)
+
 ## 3. Assign Categories
 
 Assign a pattern category to each helipad. This step has already been done.
