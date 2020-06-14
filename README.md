@@ -15,6 +15,8 @@ The dataset includes nearly 6,000 images with 12 different categories.
 In the `data` folder is a csv file containing the dataset. The object `src.databse_management.csv_to_meta`
 creates the annotated dataset and downloads the images from Google Maps.
 
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/HelipadExample.PNG?raw=true)
+
 Once the dataset created, we can start the next step.
 
 ## 2. Build Groundtruth
