@@ -28,6 +28,8 @@ This step has already been done.
 
 Assign a pattern category to each helipad. This step has already been done.
 
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/HelipadCategories.PNG?raw=true)
+
 ## 4. Dataset Augmentation
 
 Apply Image augmentation on the images using Google's policy (`src.database_management.Database_augmentation`) or custom made policy with ImgAug (`src.database_management.database_augmentation_v2`)
