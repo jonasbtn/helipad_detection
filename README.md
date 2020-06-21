@@ -42,6 +42,12 @@ Apply Image augmentation on the images using Google's policy (`src.database_mana
 
 Run a training with `src.training.run_training` by specifying the dataset root folder, the model folder, tha augmented version, the train and test categories and the starting model weights.
 
+The training framework MRCNN has to be installed. See : <https://github.com/matterport/Mask_RCNN>
+
+Once the training has started, it is possible to keep track of the evolution of the metrics with Tensorboard. Simply launch Tensorboard with the command : `tensorboard --logdir model_dir_path --port 8890`.
+
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/loss_model4.PNG?raw=true)
+
 ## 6. Evaluate mAP on the original dataset
 
 This step compute the mAP on the original dataset to get a first metric on the performances of the newly trained model.
