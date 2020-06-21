@@ -89,7 +89,7 @@ Our first custom filter computes the ground area of the bounding boxes in meter 
 
 ## 14. Apply Shadow Detection
 
-Our second custom filter looks for the presence of shadow inside the bounding boxes. The object used is `src.bb_analysis.run_shadow_detection`. The results are saved into the meta files. 
+Our second custom filter looks for the presence of shadow inside the bounding boxes. The object used is `src.bb_analysis.run_shadow_detection`. The results are saved into the meta files. Below are examples of the shadow detections on helipads and on false positives : 
 
 ![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/ShadowIllustration.PNG?raw=true)
 
@@ -100,6 +100,8 @@ This step allows the user to manually annotated the groundtruth of the detected 
 ## 16. Benchmark on Satellite images annotated
 
 After step 15, it is then possible to compute the benchmark on additional data with the object `src.benchmark.benchmark_manager_TMS`. The user can configure the parameters of our three custom filters (shadow, area and score). 
+
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/Benchmark_filteres_example.PNG?raw=true)
 
 ## 17. Build Placemarks
 
