@@ -36,6 +36,8 @@ Assign a pattern category to each helipad. This step has already been done.
 
 Apply Image augmentation on the images using Google's policy (`src.database_management.Database_augmentation`) or custom made policy with ImgAug (`src.database_management.database_augmentation_v2`)
 
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/Aug_Illustration.PNG?raw=true)
+
 ## 5. Run Training
 
 Run a training with `src.training.run_training` by specifying the dataset root folder, the model folder, tha augmented version, the train and test categories and the starting model weights.
