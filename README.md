@@ -61,7 +61,9 @@ are saved inside the meta files. It is then possible to compare the model predic
 
 ## 8. Run Benchmark
 
-Once the bounding boxes have been saved, the accuracy, error, precision and recall are computed with `src.benchmark.run_benchmark`. A csv file is created inside the folder `src/benchmark/benchmark_results/` containing the results for a wide range of score threshold. 
+Once the bounding boxes have been saved, the accuracy, error, precision and recall are computed with `src.benchmark.run_benchmark`. A csv file is created inside the folder `src/benchmark/benchmark_results/` containing the results for a wide range of score threshold. Below is an example of benchmark with different score threshold : 
+
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/Benchmark_example.PNG?raw=true)
 
 ## 9. Run Prediction on Satellite Images
 
