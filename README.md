@@ -50,12 +50,14 @@ Once the training has started, it is possible to keep track of the evolution of 
 
 ## 6. Evaluate mAP on the original dataset
 
-This step compute the mAP on the original dataset to get a first metric on the performances of the newly trained model.
+This step compute the mAP on the original dataset to get a first metric on the performances of the newly trained model. The object used is the same as in the previous step. The method to execute is : `RunTraining.run_predict()`. 
 
 ## 7. Run Detection on Original Dataset to save bounding boxes
 
 Here, with `src.detection.run_detection`, the images are feeded into the network and the bounding boxes 
-are saved inside the meta files.
+are saved inside the meta files. It is then possible to compare the model prediction with the groundtruth on the dataset :
+
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/Prediction_illustration.PNG?raw=true)
 
 ## 8. Run Benchmark
 
