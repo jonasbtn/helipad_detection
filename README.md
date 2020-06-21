@@ -105,6 +105,17 @@ After step 15, it is then possible to compute the benchmark on additional data w
 
 ## 17. Build Placemarks
 
-This final step of our method creates a placemarks file in order to visualize the detection on the map. Each center of the bounding boxes are pin points on the map of the world. The object used is `src.detection.build_placemarks`. 
+This final step of our method creates a placemarks file in order to visualize the detection on the map. Each center of the bounding boxes are pin points on the map of the world, as shown below. The object used is `src.detection.build_placemarks`. 
+
+
+Unfiltered Detection of Model F:
+
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/Placemarks_Model_7.PNG?raw=true)
+
+Filtered Detection of Model F:
+
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/Placemarks_Model_7_filtered.PNG?raw=true)
+
+Closer look at the placemarks:
 
 <img src="https://github.com/jonasbtn/helipad_detection/blob/master/data/HelipadDetected_1.PNG?raw=true" width="425"/> <img src="https://github.com/jonasbtn/helipad_detection/blob/master/data/HelipadDetected_2.PNG?raw=true" width="425"/>
