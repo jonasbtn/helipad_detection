@@ -69,7 +69,7 @@ Once the bounding boxes have been saved, the accuracy, error, precision and reca
 
 In this step, with `src.detection.run_prediction_satellite`, additional unseen data are feeded into the network to detect helipads in any area of the world. 
 First, the additional images have to be downloaded with SAS Planet software and store into a cache folder following the TMS file structure, preferably with a zoom of 19. 
-The bounding boxes are saved into meta files. 
+The bounding boxes are saved into meta files. The predictions will be vizualised on the map after our custom filtering. 
 
 ## 10. Build index path by score on Satellite Images
 
@@ -90,6 +90,8 @@ Our first custom filter computes the ground area of the bounding boxes in meter 
 ## 14. Apply Shadow Detection
 
 Our second custom filter looks for the presence of shadow inside the bounding boxes. The object used is `src.bb_analysis.run_shadow_detection`. The results are saved into the meta files. 
+
+![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/ShadowIllustration.PNG?raw=true)
 
 ## 15. Optional Step : Build groundtruth on Satellite Images
 
