@@ -21,14 +21,13 @@ Once the dataset created, we can start the next step.
 
 ## 2. Build Groundtruth
 
-Annotate each image by drawing a bounding boxes around the helipads in the images.
-This step has already been done.
+Annotate each image by drawing a bounding boxes around the helipads in the images. This information is already inside the csv files.
 
 ![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/HelipadGroundtruthExample.PNG?raw=true)
 
 ## 3. Assign Categories
 
-Assign a pattern category to each helipad. This step has already been done.
+Assign a pattern category to each helipad. This information is already inside the csv files.
 
 ![alt text](https://github.com/jonasbtn/helipad_detection/blob/master/data/HelipadCategories.PNG?raw=true)
 
