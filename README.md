@@ -1,7 +1,7 @@
 # HELIPADCAT: CATEGORISED HELIPAD IMAGE DATASET AND DETECTION METHOD
 
 We present HelipadCat, a dataset of aerial images of helipads, together with a method to identify and locate such helipads from the air.
-Please cite the following paper if you use the data or code:
+Please cite the following paper if you use our data or code:
 
 >	J. Bitoun, S. Winkler. "HelipadCat: Categorised helipad image dataset and detection method." 
 > In Proc. IEEE Region 10 International Conference (TENCON), Osaka, Japan, Nov. 16-19, 2020.
