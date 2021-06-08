@@ -12,4 +12,4 @@ subcommand==0.1
 tensorflow==2.1.0
 tqdm==4.45.0
 traitlets==4.3.3
-zope==4.4
+zope==5.2.1

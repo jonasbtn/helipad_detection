@@ -13,4 +13,4 @@ pytest==2.5.2
 subcommand==0.1
 tqdm==4.45.0
 traitlets==4.3.3
-zope==4.4
+zope==5.2.1
