@@ -1,7 +1,7 @@
 numpy==1.17.4
 imgaug==0.3.0
 pandas==0.25.3
-pywin32==227
+pywin32==301
 six==1.13.0
 tensorflow_gpu==1.13.2
 Keras==2.1.3
