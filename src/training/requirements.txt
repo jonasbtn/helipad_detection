@@ -9,7 +9,7 @@ objgraph==3.4.1
 pytest==5.4.1
 servicemanager==1.8.1
 subcommand==0.1
-tensorflow==2.1.0
+tensorflow==2.5.1
 tqdm==4.45.0
 traitlets==4.3.3
 zope==4.4
