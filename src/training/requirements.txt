@@ -1,5 +1,5 @@
 mock==4.0.2
-tensorflow_gpu==1.13.2
+tensorflow_gpu==2.5.3
 cffi==1.14.0
 coverage==5.0.4
 imgaug==0.4.0
