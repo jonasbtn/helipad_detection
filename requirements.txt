@@ -14,4 +14,4 @@ ipython==7.14.0
 mrcnn==0.2
 scikit_learn==0.23.1
 servicemanager==1.8.1
-tensorflow==2.2.0
+tensorflow==2.7.2
